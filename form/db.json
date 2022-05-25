@@ -1,0 +1,22 @@
+{
+  "form": [
+    {
+      "klantnaam": "",
+      "klantnr": "",
+      "bedrag": "",
+      "omschijving": "",
+      "merk": "",
+      "datum": "",
+      "id": 1
+    },
+    {
+      "klantnaam": "CEVA  KITTING  ",
+      "klantnr": "5026924",
+      "bedrag": 111,
+      "omschijving": "b",
+      "merk": "DEWALT/LENOX",
+      "datum": "2022-05-18T22:00:00.000Z",
+      "id": 2
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MaterialModule } from './material/material.module';
 import { AutocompleteFilterExampleComponent } from './autocomplete-filter-example/autocomplete-filter-example.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +20,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     MaterialModule,
     NgbModule,
-    
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

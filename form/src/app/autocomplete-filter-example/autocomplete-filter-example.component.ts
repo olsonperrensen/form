@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, NgForm} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import { SendFormsService } from '../send-forms.service';
 
 @Component({
   selector: 'app-autocomplete-filter-example',
@@ -1204,6 +1205,9 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   filteredOptions!: Observable<string[]>;
   filteredOptions2!: Observable<string[]>;
   filteredOptions3!: Observable<string[]>;
+
+  constructor(private sendForms:SendFormsService){}
+
   ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
@@ -1241,14 +1245,27 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   u_omschrijving = ''
   u_merk = ''
   u_datum = ''
+
+  myJSONForm = {
+}
+
   onSubmit(f:NgForm)
   {
-    console.log(this.u_klantnaam)
-    console.log(this.u_bedrag)
-    console.log(this.u_datum)
-    console.log(this.u_klantnr)
-    console.log(this.u_merk)
-    console.log(this.u_omschrijving)
+    this.myJSONForm = {    klantnaam:this.u_klantnaam,
+      klantnr:this.u_klantnr,
+      bedrag:this.u_bedrag,
+      omschijving:this.u_omschrijving,
+      merk:this.u_merk,
+      datum:this.u_datum}
+    this.sendForms.sendForm(this.myJSONForm).subscribe(
+      (res)=>{alert("Success!")},(err)=>{alert("Something went wrong: "+err)}
+    )
+    // console.log(this.u_klantnaam)
+    // console.log(this.u_bedrag)
+    // console.log(this.u_datum)
+    // console.log(this.u_klantnr)
+    // console.log(this.u_merk)
+    // console.log(this.u_omschrijving)
   }
 
 }
