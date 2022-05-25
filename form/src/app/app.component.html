@@ -1,9 +1,13 @@
 <form #f="ngForm" (ngSubmit)="onSubmit()">
-  <label for="">Label</label>
-  <input type="text">
+  <label for="">Klant Nr.</label>
+  <select name="" id="">
+    <option *ngFor="let klant of klanten" [value]="klant">{{klant}}</option>
+  </select>
   <br>
-  <label for="">Label</label>
-  <input type="text">
+  <label for="">Klant Naam</label>
+  <select name="" id="">
+    <option *ngFor="let klant of klanten_naam" [value]="klant">{{klant}}</option>
+  </select>
   <br>
   <label for="">Label</label>
   <input type="text">
