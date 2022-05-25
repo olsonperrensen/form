@@ -1,0 +1,67 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <form class="example-form">
+                <h1 class="lead">Form</h1>
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Klant Naam</mat-label>
+                    <input type="text"
+                           placeholder="Pick one"
+                           aria-label="Number"
+                           matInput
+                           [formControl]="myControl2"
+                           [matAutocomplete]="auto2">
+                    <mat-autocomplete #auto2="matAutocomplete">
+                      <mat-option *ngFor="let klant of filteredOptions2 | async" [value]="klant">
+                        {{klant}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Klant Nummer</mat-label>
+                  <input type="text"
+                         placeholder="Pick one"
+                         aria-label="Number"
+                         matInput
+                         [formControl]="myControl"
+                         [matAutocomplete]="auto">
+                  <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let klant of filteredOptions | async" [value]="klant">
+                      {{klant}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Bedrag excl btw (€)</mat-label>
+                    <input type="number"
+                           placeholder="Write here"
+                           aria-label="Number"
+                           matInput>
+                   
+                  </mat-form-field>
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Omschrijving</mat-label>
+                    <input type="text"
+                           placeholder="Write here"
+                           aria-label="Number"
+                           matInput>
+                  </mat-form-field>
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Merk</mat-label>
+                    <input type="text"
+                           placeholder="Pick one"
+                           aria-label="Number"
+                           matInput
+                           [formControl]="myControl3"
+                           [matAutocomplete]="auto3">
+                    <mat-autocomplete #auto3="matAutocomplete">
+                      <mat-option *ngFor="let klant of filteredOptions3 | async" [value]="klant">
+                        {{klant}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+              </form>
+              
+        </div>
+    </div>
+</div>
