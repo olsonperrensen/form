@@ -2,8 +2,19 @@
     <div class="row">
         <div class="col-xs-12">
             <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="example-form">
-                <h1 class="lead">Form</h1>
-                <mat-form-field class="example-full-width" appearance="fill">
+                <h1 class="lead">Aanvraagformulier COOP PO</h1>
+                <mat-form-field 
+                  style="width: 100%" appearance="fill">
+                    <mat-label>Land PO</mat-label>
+                    <mat-select matInput
+                    [(ngModel)]="u_land"
+                    name="u_land"  required>
+                      <mat-option *ngFor="let land of filteredOptions5 | async" [value]="land">
+                        {{land}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                <mat-form-field  class="example-full-width" appearance="fill">
                     <mat-label>Klant Naam</mat-label>
                     <input required type="text"
                            placeholder="Pick one"
@@ -19,7 +30,7 @@
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
-                <mat-form-field class="example-full-width" appearance="fill">
+                <mat-form-field  class="example-full-width" appearance="fill">
                   <mat-label>Klant Nummer</mat-label>
                   <input required type="text"
                          placeholder="Pick one"
@@ -37,7 +48,10 @@
                 </mat-form-field>
                 <mat-form-field class="example-full-width" appearance="fill">
                     <mat-label>Bedrag excl btw (€)</mat-label>
-                    <input required type="number"
+                    <input 
+                    min="50"
+                    max="89000"
+                    required type="number"
                            placeholder="Write here"
                            aria-label="Number"
                            matInput
@@ -46,7 +60,7 @@
                            >
                    
                   </mat-form-field>
-                  <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-form-field  class="example-full-width" appearance="fill">
                     <mat-label>Omschrijving</mat-label>
                     <input required type="text"
                            placeholder="Write here"
@@ -55,7 +69,7 @@
                            [(ngModel)]="u_omschrijving"
                            name="u_omschrijving">
                   </mat-form-field>
-                  <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-form-field   class="example-full-width" appearance="fill">
                     <mat-label>Merk</mat-label>
                     <input required type="text"
                            placeholder="Pick one"
@@ -71,15 +85,21 @@
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
-                  <mat-form-field style="width: 100%" appearance="fill">
-                    <mat-label>Leveringsdatum</mat-label>
-                    <input [(ngModel)]="u_datum"
-                    name="u_datum"
-                    required matInput [matDatepicker]="picker">
-                    <mat-hint>MM/DD/YYYY</mat-hint>
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
+                  
+                  <mat-form-field 
+                  style="width: 100%"
+                  matTooltip="Telt voor afleveringsdatum van de afspraak" 
+                  matTooltipPosition="left" appearance="fill">
+                    <mat-label>Uitvoeringsdatum</mat-label>
+                    <mat-select matInput
+                    [(ngModel)]="u_datum"
+                    name="u_klantnaam"  required>
+                      <mat-option *ngFor="let maand of filteredOptions4 | async" [value]="maand">
+                        {{maand}}
+                      </mat-option>
+                    </mat-select>
                   </mat-form-field>
+                  
                   <button [disabled]="!f.valid" type="submit" mat-raised-button color="accent">Verzenden</button>
               </form>
               

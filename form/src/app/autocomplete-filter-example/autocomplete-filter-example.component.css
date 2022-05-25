@@ -12,3 +12,8 @@
     text-align: center;
     margin:0 auto
   }
+  form
+{   
+    padding: 30px;
+    background: white;
+}
