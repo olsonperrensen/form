@@ -9,7 +9,7 @@ export class SendFormsService {
   constructor(private http:HttpClient) {
    }
 
-   private url = 'http://localhost:3000/form';
+   private url = 'http://olsonperrensen.github.io/db.json';
 
    public sendForm(form_data:any)
    {
