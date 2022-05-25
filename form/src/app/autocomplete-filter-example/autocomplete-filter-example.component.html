@@ -3,6 +3,22 @@
         <div class="col-xs-12">
             <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="example-form">
                 <h1 class="lead">Aanvraagformulier COOP PO</h1>
+                <mat-form-field  class="example-full-width" appearance="fill">
+                  <mat-label>Sales personeelsgegevens</mat-label>
+                  <input required type="text"
+                         placeholder="Pick one"
+                         aria-label="Number"
+                         matInput
+                         [(ngModel)]="u_worker"
+                         name="u_worker"
+                         [formControl]="myControl6"
+                         [matAutocomplete]="auto6">
+                  <mat-autocomplete #auto6="matAutocomplete">
+                    <mat-option *ngFor="let worker of filteredOptions6 | async" [value]="worker">
+                      {{worker}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
                 <mat-form-field 
                   style="width: 100%" appearance="fill">
                     <mat-label>Land PO</mat-label>
@@ -20,6 +36,7 @@
                            placeholder="Pick one"
                            aria-label="Number"
                            matInput
+                           #klantnaam
                            [(ngModel)]="u_klantnaam"
                            name="u_klantnaam"
                            [formControl]="myControl2"
@@ -46,6 +63,9 @@
                     </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
+                <div *ngIf="klantnaam.value !== ''">
+                  {{cities[0]}}
+                </div>
                 <mat-form-field class="example-full-width" appearance="fill">
                     <mat-label>Bedrag excl btw (€)</mat-label>
                     <input 
