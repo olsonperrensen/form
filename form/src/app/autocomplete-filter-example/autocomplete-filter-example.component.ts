@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {FormControl, NgForm} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 
@@ -1233,6 +1233,22 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     const filterValue = value.toLowerCase();
 
     return this.options3.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  u_klantnaam = ''
+  u_klantnr = ''
+  u_bedrag = ''
+  u_omschrijving = ''
+  u_merk = ''
+  u_datum = ''
+  onSubmit(f:NgForm)
+  {
+    console.log(this.u_klantnaam)
+    console.log(this.u_bedrag)
+    console.log(this.u_datum)
+    console.log(this.u_klantnr)
+    console.log(this.u_merk)
+    console.log(this.u_omschrijving)
   }
 
 }

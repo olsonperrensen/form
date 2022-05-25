@@ -1,14 +1,16 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
-            <form class="example-form">
+            <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="example-form">
                 <h1 class="lead">Form</h1>
                 <mat-form-field class="example-full-width" appearance="fill">
                     <mat-label>Klant Naam</mat-label>
-                    <input type="text"
+                    <input required type="text"
                            placeholder="Pick one"
                            aria-label="Number"
                            matInput
+                           [(ngModel)]="u_klantnaam"
+                           name="u_klantnaam"
                            [formControl]="myControl2"
                            [matAutocomplete]="auto2">
                     <mat-autocomplete #auto2="matAutocomplete">
@@ -19,11 +21,13 @@
                   </mat-form-field>
                 <mat-form-field class="example-full-width" appearance="fill">
                   <mat-label>Klant Nummer</mat-label>
-                  <input type="text"
+                  <input required type="text"
                          placeholder="Pick one"
                          aria-label="Number"
                          matInput
                          [formControl]="myControl"
+                         [(ngModel)]="u_klantnr"
+                         name="u_klantnr"
                          [matAutocomplete]="auto">
                   <mat-autocomplete #auto="matAutocomplete">
                     <mat-option *ngFor="let klant of filteredOptions | async" [value]="klant">
@@ -33,33 +37,50 @@
                 </mat-form-field>
                 <mat-form-field class="example-full-width" appearance="fill">
                     <mat-label>Bedrag excl btw (€)</mat-label>
-                    <input type="number"
+                    <input required type="number"
                            placeholder="Write here"
                            aria-label="Number"
-                           matInput>
+                           matInput
+                           [(ngModel)]="u_bedrag"
+                           name="u_bedrag"
+                           >
                    
                   </mat-form-field>
                   <mat-form-field class="example-full-width" appearance="fill">
                     <mat-label>Omschrijving</mat-label>
-                    <input type="text"
+                    <input required type="text"
                            placeholder="Write here"
                            aria-label="Number"
-                           matInput>
+                           matInput
+                           [(ngModel)]="u_omschrijving"
+                           name="u_omschrijving">
                   </mat-form-field>
                   <mat-form-field class="example-full-width" appearance="fill">
                     <mat-label>Merk</mat-label>
-                    <input type="text"
+                    <input required type="text"
                            placeholder="Pick one"
                            aria-label="Number"
                            matInput
                            [formControl]="myControl3"
-                           [matAutocomplete]="auto3">
+                           [matAutocomplete]="auto3"
+                           [(ngModel)]="u_merk"
+                           name="u_merk">
                     <mat-autocomplete #auto3="matAutocomplete">
                       <mat-option *ngFor="let klant of filteredOptions3 | async" [value]="klant">
                         {{klant}}
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
+                  <mat-form-field style="width: 100%" appearance="fill">
+                    <mat-label>Leveringsdatum</mat-label>
+                    <input [(ngModel)]="u_datum"
+                    name="u_datum"
+                    required matInput [matDatepicker]="picker">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                  <button [disabled]="!f.valid" type="submit" mat-raised-button color="accent">Verzenden</button>
               </form>
               
         </div>
