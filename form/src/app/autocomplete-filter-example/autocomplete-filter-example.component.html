@@ -3,7 +3,8 @@
         <div class="col-xs-12">
             <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="example-form">
                 <h1 class="lead">Aanvraagformulier COOP PO</h1>
-                <mat-form-field  class="example-full-width" appearance="fill">
+                <div class="container"> <p>Sending with IP Address : {{ipAddress}}</p> </div>  
+                <mat-form-field class="example-full-width" appearance="fill">
                   <mat-label>Sales personeelsgegevens</mat-label>
                   <input required type="text"
                          placeholder="Pick one"
@@ -64,7 +65,7 @@
                   </mat-autocomplete>
                 </mat-form-field>
                 <div *ngIf="klantnaam.value !== ''">
-                  <mat-card><ul>Additional information:</ul>
+                  <mat-card style="font-size:xx-small"><ul>Additional information:</ul>
                   <li>City: test</li><li>Postal Code: test</li>
                   <li>Street: test</li><li>Vendor: test</li>
                   </mat-card>
