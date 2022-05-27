@@ -64,7 +64,11 @@
                   </mat-autocomplete>
                 </mat-form-field>
                 <div *ngIf="klantnaam.value !== ''">
-                  {{cities[0]}}
+                  <mat-card><ul>Additional information:</ul>
+                  <li>City: test</li><li>Postal Code: test</li>
+                  <li>Street: test</li><li>Vendor: test</li>
+                  </mat-card>
+
                 </div>
                 <mat-form-field class="example-full-width" appearance="fill">
                     <mat-label>Bedrag excl btw (€)</mat-label>
