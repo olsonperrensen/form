@@ -1210,7 +1210,30 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   options4: string[] = ["Januari","Februari","Maart","April","Mei","Juni",
 "Juli","Augustus","September","Oktober","Novermber","December"];
 options5: string[] = ["Belgie","Nederland"];
-options6: string[] = ["John Smith","Sara Beth","Mark Thompson","Peter Jan","Sven Berens","Gustaf Kimahov","Peter Walters","Diana Smeetjens","Tom Van der Berg","Dwayne Smith","Samantha Johnson"];
+options6: string[] = [
+  // DeWALT
+  "Marcel VandenBerge",
+  "Jeroen VanBerkel",
+  "Cindy Eekels",
+  "Bob Vandenberghen",
+  "Nicolas Dedobbeleer",
+  "Bram Hennebert",
+  "Steve Oris",
+  "Christian Darmont",
+  "Frank Mentens",
+  "Etienne Delvosalle",
+  "Jeroen Decherf",
+  "Carlos DeBruijn",
+  "Michiel Vliek",
+  "Wouter Rook",
+  "Arnold Wever",
+  "Oscar Laureijs",
+  "Kevin Markestein","David Goubert - KAM","Gunther Mergan - KAM","Jurgen De Leeuw - KAM","Thomas Molendijk - KAM","Marcelino Papperse - KAM","Andor De Vries - KAM","Ivo Schouten - Sales Manager DW NL",
+  // Facom
+  "Patrick Diepenbach", 
+  "Piet Verstraete","Vincent Broertjes","Jean-Christophe Pintiaux","Kim Maris","Mario Reverse","Peter Schaekers","Robin Roels","Stefan Sack","Vincent Lenain","Vincent Pireyn","Yves De Waal","Adriaan Arkeraats","Arno De Jager","Duncan DeWith",
+// Stanley
+"Ken Leysen (Sales Manager BE & NL) ","Martin Van Werkhoven","Paul Kerkhoven","Cedric Bicque","Christian Fonteyn","Klaas Jan Bosgraaf","Ammaar Basnoe","Robert Van Straten","Sven Pieters","Niek Nijland"];
   filteredOptions!: Observable<string[]>;
   filteredOptions2!: Observable<string[]>;
   filteredOptions3!: Observable<string[]>;
