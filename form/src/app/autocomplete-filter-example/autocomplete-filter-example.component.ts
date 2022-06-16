@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormControl, NgForm} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
@@ -12,6 +12,10 @@ import { IpServiceService } from '../ip-service.service';
   styleUrls: ['./autocomplete-filter-example.component.css']
 })
 export class AutocompleteFilterExampleComponent implements OnInit {
+
+  sent = false;
+  exit = false;
+
   myControl = new FormControl();
   myControl2 = new FormControl();
   myControl3 = new FormControl();
@@ -1266,7 +1270,6 @@ options7: string[] = ["Pro","Consumer"];
     });
 
 
-
     console.log(this.full_company_details);
 
     this.filteredOptions = this.myControl.valueChanges.pipe(
@@ -1364,16 +1367,16 @@ options7: string[] = ["Pro","Consumer"];
       console.log(    this.options2.includes(this.u_klantnaam));
 
     this.sendForms.sendForm(this.myJSONForm).subscribe(
-      (res)=>{alert(`U heeft met succes een aanvraag naar de verantwoordelijke gestuurd.
+      (res)=>{
+        alert(`U heeft met succes een aanvraag naar de verantwoordelijke gestuurd.
 
-      Controleer uw e-mail voor het PO-nummer`)},(err)=>{alert(`Er is iets fout gegaan. Probeer het opnieuw.`)}
-    )
-    // console.log(this.u_klantnaam)
-    // console.log(this.u_bedrag)
-    // console.log(this.u_datum)
-    // console.log(this.u_klantnr)
-    // console.log(this.u_merk)
-    // console.log(this.u_omschrijving)
+      Controleer uw e-mail voor het PO-nummer`);
+      this.exit = true;},(err)=>{alert(`Er is iets fout gegaan. Probeer het opnieuw.`)}
+    );
+
+    setTimeout(() => {
+      this.sent = true;
+    }, 500);
   }
   getIP()  
   {  
