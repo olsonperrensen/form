@@ -16,6 +16,8 @@ yarn-error.log
 .idea/
 .project
 .classpath
+.env
+EMAIL/.env
 .c9/
 *.launch
 .settings/

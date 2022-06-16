@@ -1309,7 +1309,6 @@ options7: string[] = ["Pro","Consumer"];
   }
   private _filter2(value: string): string[] {
     const filterValue = value.toLowerCase();
-
     return this.options2.filter(option => option.toLowerCase().includes(filterValue));
   }
   private _filter3(value: string): string[] {

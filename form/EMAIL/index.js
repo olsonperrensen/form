@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
+require('dotenv').config()
 
 // create a new Express application instance
 const app = express();
@@ -87,7 +88,7 @@ app.post("/sendmail", (req, res) => {
         },
         auth: {
             user: 'olsonperrensen@outlook.com',
-            pass: 'Kul214#!#'
+            pass: `${process.env.S3_BUCKET}`
         }
     });
     transporter.sendMail(mailOptions, callback);
