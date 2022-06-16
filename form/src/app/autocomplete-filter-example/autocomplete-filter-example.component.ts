@@ -1349,7 +1349,9 @@ options6: string[] = [
       console.log(    this.options2.includes(this.u_klantnaam));
 
     this.sendForms.sendForm(this.myJSONForm).subscribe(
-      (res)=>{alert("Success!")},(err)=>{alert("Something went wrong: "+err)}
+      (res)=>{alert(`U heeft met succes een verzoek naar de verantwoordelijke gestuurd.
+
+      Controleer uw e-mail voor het PO-nummer`)},(err)=>{alert(`Er is iets fout gegaan. Probeer het opnieuw.`)}
     )
     // console.log(this.u_klantnaam)
     // console.log(this.u_bedrag)
