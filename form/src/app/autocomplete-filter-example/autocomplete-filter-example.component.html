@@ -3,23 +3,7 @@
         <div class="col-xs-12">
             <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="example-form">
                 <h1 class="lead">Aanvraagformulier COOP PO</h1>
-                <div class="container"> <p>Sending from IP Address : {{ipAddress}}</p> </div>  
-                <mat-form-field   class="example-full-width" appearance="fill">
-                  <mat-label>Merk</mat-label>
-                  <input required type="text"
-                         placeholder="Pick one"
-                         aria-label="Number"
-                         matInput
-                         [formControl]="myControl3"
-                         [matAutocomplete]="auto3"
-                         [(ngModel)]="u_merk"
-                         name="u_merk">
-                  <mat-autocomplete #auto3="matAutocomplete">
-                    <mat-option *ngFor="let klant of filteredOptions3 | async" [value]="klant">
-                      {{klant}}
-                    </mat-option>
-                  </mat-autocomplete>
-                </mat-form-field>
+                <div class="container"> <p><em style="font-size:xx-small;">Caution! Your actions are being recorded. Sending from IP Address : {{ipAddress}}</em></p></div>  
                 <mat-form-field class="example-full-width" appearance="fill">
                   <mat-label>Sales personeelsgegevens</mat-label>
                   <input required type="text"
@@ -33,6 +17,33 @@
                   <mat-autocomplete #auto6="matAutocomplete">
                     <mat-option *ngFor="let worker of filteredOptions6 | async" [value]="worker">
                       {{worker}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+                <mat-form-field 
+                  style="width: 100%" appearance="fill">
+                    <mat-label>Pro/Consumer</mat-label>
+                    <mat-select matInput
+                    [(ngModel)]="u_potype"
+                    name="u_potype"  required>
+                      <mat-option *ngFor="let potype of filteredOptions7 | async" [value]="potype">
+                        {{potype}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                <mat-form-field   class="example-full-width" appearance="fill">
+                  <mat-label>Merk</mat-label>
+                  <input required type="text"
+                         placeholder="Pick one"
+                         aria-label="Number"
+                         matInput
+                         [formControl]="myControl3"
+                         [matAutocomplete]="auto3"
+                         [(ngModel)]="u_merk"
+                         name="u_merk">
+                  <mat-autocomplete #auto3="matAutocomplete">
+                    <mat-option *ngFor="let klant of filteredOptions3 | async" [value]="klant">
+                      {{klant}}
                     </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
