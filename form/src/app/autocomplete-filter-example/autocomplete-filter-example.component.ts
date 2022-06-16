@@ -1364,7 +1364,7 @@ options7: string[] = ["Pro","Consumer"];
       console.log(    this.options2.includes(this.u_klantnaam));
 
     this.sendForms.sendForm(this.myJSONForm).subscribe(
-      (res)=>{alert(`U heeft met succes een verzoek naar de verantwoordelijke gestuurd.
+      (res)=>{alert(`U heeft met succes een aanvraag naar de verantwoordelijke gestuurd.
 
       Controleer uw e-mail voor het PO-nummer`)},(err)=>{alert(`Er is iets fout gegaan. Probeer het opnieuw.`)}
     )

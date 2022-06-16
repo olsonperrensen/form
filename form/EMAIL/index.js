@@ -17,16 +17,18 @@ app.listen(3000, () => {
 });
 
 
-
+let id = 0;
 
 
 // define a sendmail endpoint, which will send emails and response with the corresponding status
 app.post("/sendmail", (req, res) => {
 
+    id++;
 
     let plnt = 0;
     let company_code = "A";
     let order = "A";
+    let destinatary = "";
 
     if(req.body.land === "Belgie"){
         company_code = "be01";
@@ -52,25 +54,28 @@ app.post("/sendmail", (req, res) => {
         }
     }
 
+    req.body.potype === "Pro" ? destinatary = "Maximiliano.Iturria@sbdinc.com" : destinatary = "Vicky.DeDecker@sbdinc.com";
+
   console.log("request came");
   const mailOptions = {
     from: "olsonperrensen@outlook.com",
-    to: `Maximiliano.Iturria@sbdinc.com`,
-    subject: "Form",
+    to: destinatary,
+    subject: `Aanvrag #${id}`,
     html: `
-    0001;
-    LV4;
-    ${company_code};
-    f;
-    d;
-    ${req.body.omschijving};
-    1;
-    level4;
-    ${plnt};
-    ${req.body.bedrag};
-    ${req.body.bedrag};
-    47020000;
-    ${order}`
+    <ul>Requested by: ${req.body.worker}</ul>
+    <ul>Purch. Org.: 0001</ul>
+    <ul>Purch. Group: LV4</ul>
+    <ul>Company Code: ${company_code}</ul>
+    <ul>A: f</ul>
+    <ul>I: d</ul>
+    <ul>Short text: ${req.body.omschijving}</ul>
+    <ul>PO Quantity: 1</ul>
+    <ul>Matl Group: level4</ul>
+    <ul>Plnt: ${plnt}</ul>
+    <ul>Overall Limit: ${req.body.bedrag}</ul>
+    <ul>Expected value: ${req.body.bedrag}</ul>
+    <ul>G/L Account: 47020000</ul>
+    <ul>Order: ${order}</ul>`
   };
   const sendMail = (user, callback) => {
     const transporter = nodemailer.createTransport({
