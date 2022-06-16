@@ -20,6 +20,7 @@ app.listen(process.env.PORT || 3000, () => {
 
 let id = 0;
 
+app.get('/',(req,res) => res.send("Hello world!"));
 
 // define a sendmail endpoint, which will send emails and response with the corresponding status
 app.post("/sendmail", (req, res) => {
