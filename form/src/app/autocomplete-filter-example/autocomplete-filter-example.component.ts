@@ -1335,6 +1335,7 @@ options6: string[] = [
 
   onSubmit(f:NgForm)
   {
+
     this.myJSONForm = {    
       land:this.u_land,
       klantnaam:this.u_klantnaam,
@@ -1342,8 +1343,11 @@ options6: string[] = [
       bedrag:this.u_bedrag,
       omschijving:this.u_omschrijving,
       merk:this.u_merk,
-      datum:this.u_datum};
+      datum:this.u_datum
+    };
+    
       console.log(    this.options2.includes(this.u_klantnaam));
+
     this.sendForms.sendForm(this.myJSONForm).subscribe(
       (res)=>{alert("Success!")},(err)=>{alert("Something went wrong: "+err)}
     )
