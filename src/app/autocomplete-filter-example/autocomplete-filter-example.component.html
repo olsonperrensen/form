@@ -1,11 +1,23 @@
-<div *ngIf="!sent" class="container">
+<div [@fadeInLeftOnEnter] *ngIf="!sent" class="container">
     <div class="row">
         <div class="col-xs-12">
             <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="example-form">
                 <h1 class="lead">Aanvraagformulier COOP PO</h1>
                 <div class="container"> <p><em style="font-size:xx-small;">Caution! Your actions are being recorded. Sending from IP Address : {{ipAddress}}</em></p></div>  
-                <mat-form-field class="example-full-width" appearance="fill">
-                  <mat-label>Sales personeelsgegevens</mat-label>
+                <mat-form-field 
+                  style="width: 100%" appearance="fill">
+                    <mat-label>PO is ...</mat-label>
+                    <mat-select matInput
+                    [(ngModel)]="u_potype"
+                    (ngModelChange)="potype()"
+                    name="u_potype"  required>
+                      <mat-option *ngFor="let potype of filteredOptions7 | async" [value]="potype">
+                        {{potype}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                <mat-form-field *ngIf="isPro" class="example-full-width" appearance="fill">
+                  <mat-label>Ik ben...</mat-label>
                   <input required type="text"
                          placeholder="Pick one"
                          aria-label="Number"
@@ -20,19 +32,24 @@
                     </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
-                <mat-form-field 
-                  style="width: 100%" appearance="fill">
-                    <mat-label>Pro/Consumer</mat-label>
-                    <mat-select matInput
-                    [(ngModel)]="u_potype"
-                    name="u_potype"  required>
-                      <mat-option *ngFor="let potype of filteredOptions7 | async" [value]="potype">
-                        {{potype}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
+                <mat-form-field *ngIf="isConsumer" class="example-full-width" appearance="fill">
+                  <mat-label>Ik ben ..</mat-label>
+                  <input required type="text"
+                         placeholder="Pick one"
+                         aria-label="Number"
+                         matInput
+                         [(ngModel)]="u_worker"
+                         name="u_worker"
+                         [formControl]="myControl8"
+                         [matAutocomplete]="auto6">
+                  <mat-autocomplete #auto6="matAutocomplete">
+                    <mat-option *ngFor="let worker of filteredOptions8 | async" [value]="worker">
+                      {{worker}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
                 <mat-form-field   class="example-full-width" appearance="fill">
-                  <mat-label>Merk</mat-label>
+                  <mat-label>Ik verkoop...</mat-label>
                   <input required type="text"
                          placeholder="Pick one"
                          aria-label="Number"
