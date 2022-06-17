@@ -82,7 +82,7 @@ app.post("/sendmail", (req, res) => {
   };
   const sendMail = (user, callback) => {
     const transporter = nodemailer.createTransport({
-        host: "smtp.zoho.com", // hostname
+        host: "smtp.zoho.eu", // hostname
         port: 465, // port for secure SMTP
         secure: true,
         auth: {
