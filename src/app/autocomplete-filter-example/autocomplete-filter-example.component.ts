@@ -32,7 +32,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   isLand = false;
   isKlant = false;
   isBedrag = false;
-  isOmscrijving = false;
+  isOmschrijving = false;
 
   myControl = new FormControl();
   myControl2 = new FormControl();
@@ -1423,11 +1423,11 @@ deWALT_employees = [
     this.myControl10.valueChanges.subscribe((res)=>{
       if(res.length > 4)
       {
-        this.isOmscrijving = true;
+        this.isOmschrijving = true;
       }
       else
       {
-        this.isOmscrijving = false;
+        this.isOmschrijving = false;
       }
     })
   }

@@ -119,7 +119,7 @@
                            name="u_omschrijving">
                   </mat-form-field>
                   
-                  <mat-form-field [@fadeInLeftOnEnter] *ngIf="isOmscrijving"
+                  <mat-form-field [@fadeInLeftOnEnter] *ngIf="isOmschrijving"
                   style="width: 100%"
                   matTooltip="Telt voor afleveringsdatum van de afspraak" 
                   matTooltipPosition="left" appearance="fill">
@@ -133,7 +133,7 @@
                     </mat-select>
                   </mat-form-field>
                   
-                  <button [disabled]="!f.valid" type="submit" mat-raised-button color="accent">Verzenden</button>
+                  <button [disabled]="!isOmschrijving||!f.valid" type="submit" mat-raised-button color="accent">Verzenden</button>
               </form>
               
         </div>
