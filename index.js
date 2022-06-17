@@ -66,6 +66,7 @@ app.post("/sendmail", (req, res) => {
     subject: `Aanvrag #${id}`,
     html: `
     <ul>Requested by: ${req.body.worker}</ul>
+    <ul>Company: ${req.body.klantnaam}</ul>
     <ul>Purch. Org.: 0001</ul>
     <ul>Purch. Group: LV4</ul>
     <ul>Company Code: ${company_code}</ul>
