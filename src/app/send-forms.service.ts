@@ -9,7 +9,7 @@ export class SendFormsService {
   constructor(private http:HttpClient) {
    }
 
-   private url = 'http://localhost:3000/sendmail';
+   private url = 'https://formemail.herokuapp.com/sendmail';
 
    public sendForm(form_data:any)
    {
