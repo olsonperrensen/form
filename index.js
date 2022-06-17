@@ -61,7 +61,7 @@ app.post("/sendmail", (req, res) => {
 
   console.log("request came");
   const mailOptions = {
-    from: "olsonperrensen@outlook.com",
+    from: "olsonperrensen@zohomail.eu",
     to: destinatary,
     subject: `Aanvrag #${id}`,
     html: `
@@ -89,7 +89,7 @@ app.post("/sendmail", (req, res) => {
            ciphers:'SSLv3'
         },
         auth: {
-            user: 'olsonperrensen@outlook.com',
+            user: 'olsonperrensen@zohomail.eu',
             pass: `${process.env.S3_BUCKET}`
         }
     });
