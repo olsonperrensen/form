@@ -77,7 +77,7 @@
                     </mat-select>
                   </mat-form-field>
                 <mat-form-field [@fadeInLeftOnEnter] *ngIf="isLand"  class="example-full-width" appearance="fill">
-                    <mat-label>Klant Naam</mat-label>
+                    <mat-label>Klant</mat-label>
                     <input required type="text"
                            placeholder="Pick one"
                            aria-label="Number"
@@ -93,32 +93,6 @@
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
-                <mat-form-field [@fadeInLeftOnEnter]  class="example-full-width" appearance="fill">
-                  <mat-label>Klant Nummer</mat-label>
-                  <input required type="text"
-                         placeholder="Pick one"
-                         aria-label="Number"
-                         matInput
-                         [formControl]="myControl"
-                         [(ngModel)]="u_klantnr"
-                         name="u_klantnr"
-                         [matAutocomplete]="auto">
-                  <mat-autocomplete #auto="matAutocomplete">
-                    <mat-option *ngFor="let klant of filteredOptions | async" [value]="klant">
-                      {{klant}}
-                    </mat-option>
-                  </mat-autocomplete>
-                </mat-form-field>
-                <div *ngIf="u_klantnaam !== ''">
-                  <mat-card style="font-size:xx-small"><ul>Controleer of klant juist is:</ul>
-                    <li>Street: {{full_company_details[0].company_street}} {{full_company_details[0].company_number}}</li>
-                    <li>City: {{full_company_details[0].company_city}}</li>
-                  <li>Postal Code: {{full_company_details[0].company_zip}}</li>
-                  <li>Country: {{full_company_details[0].company_country}}</li>
-                  <li>Vendor: {{full_company_details[0].company_vendor_id}}</li>
-                  </mat-card>
-
-                </div>
                 <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
                     <mat-label>Bedrag excl btw (€)</mat-label>
                     <input 
