@@ -21,8 +21,14 @@ export class AutocompleteFilterExampleComponent implements OnInit {
 
   sent = false;
   exit = false;
+
   isPro = false;
   isConsumer = false;
+
+  isWorker = false;
+  isVerkoper = false;
+
+  isLand = false;
 
   myControl = new FormControl();
   myControl2 = new FormControl();
@@ -1223,7 +1229,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   options3: string[] = ["DEWALT/LENOX","STANLEY","FACOM","BOSTITCH"];
   options4: string[] = ["Januari","Februari","Maart","April","Mei","Juni",
 "Juli","Augustus","September","Oktober","Novermber","December"];
-options5: string[] = ["Belgie","Nederland"];
+options5: string[] = ["België","Nederland"];
 options6: string[] = [
   // DeWALT
   "Marcel VandenBerge",
@@ -1345,22 +1351,48 @@ deWALT_employees = [
     this.myControl6.valueChanges.subscribe((res)=>{
       if(this.deWALT_employees.find((obj) => {return obj.toLowerCase() === res.toLowerCase();}))
       {
-        this.u_merk = "DEWALT/LENOX"
-      }
-      else if(this.facom_employees.find((obj) => {return obj.toLowerCase() === res.toLowerCase();}))
-      {
-        this.u_merk = "FACOM"
+        this.u_merk = this.options3[0];
+        this.isWorker = true;
       }
       else if(this.stanley_employees.find((obj) => {return obj.toLowerCase() === res.toLowerCase();}))
       {
-        this.u_merk = "STANLEY"
+        this.u_merk = this.options3[1];
+        this.isWorker = true;
+      }
+      else if(this.facom_employees.find((obj) => {return obj.toLowerCase() === res.toLowerCase();}))
+      {
+        this.u_merk = this.options3[2];
+        this.isWorker = true;
       }
       else
       {
-        this.u_merk = ""
+        this.u_merk = "";
+        this.isWorker = false;
       }
     });
-    
+    this.myControl3.valueChanges.subscribe((res)=>{
+      switch(res.toLowerCase()) {
+        case this.options3[0].toLowerCase():
+          this.isVerkoper = true;
+          // code block
+          break;
+        case this.options3[1].toLowerCase():
+          this.isVerkoper = true;
+          // code block
+          break;
+          case this.options3[2].toLowerCase():
+            this.isVerkoper = true;
+          // code block
+          break;
+          case this.options3[3].toLowerCase():
+            this.isVerkoper = true;
+            // code block
+            break;
+        default:
+          this.isVerkoper = false;
+          // code block
+      }
+    })
   }
 
   potype()
@@ -1375,6 +1407,10 @@ deWALT_employees = [
       this.isConsumer = true;
       this.isPro = false;
     }
+  }
+  landtype()
+  {
+    this.isLand = true;
   }
 
   private _filter(value: string): string[] {

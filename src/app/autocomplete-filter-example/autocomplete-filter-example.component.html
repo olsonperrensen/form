@@ -4,7 +4,7 @@
             <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="example-form">
                 <h1 class="lead">Aanvraagformulier COOP PO</h1>
                 <div class="container"> <p><em style="font-size:xx-small;">Caution! Your actions are being recorded. Sending from IP Address : {{ipAddress}}</em></p></div>  
-                <mat-form-field 
+                <mat-form-field [@fadeInLeftOnEnter] 
                   style="width: 100%" appearance="fill">
                     <mat-label>PO is ...</mat-label>
                     <mat-select matInput
@@ -16,7 +16,7 @@
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
-                <mat-form-field *ngIf="isPro" class="example-full-width" appearance="fill">
+                <mat-form-field [@fadeInLeftOnEnter] *ngIf="isPro" class="example-full-width" appearance="fill">
                   <mat-label>Ik ben...</mat-label>
                   <input required type="text"
                          placeholder="Pick one"
@@ -32,7 +32,7 @@
                     </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
-                <mat-form-field *ngIf="isConsumer" class="example-full-width" appearance="fill">
+                <mat-form-field [@fadeInLeftOnEnter] *ngIf="isConsumer" class="example-full-width" appearance="fill">
                   <mat-label>Ik ben ..</mat-label>
                   <input required type="text"
                          placeholder="Pick one"
@@ -48,7 +48,7 @@
                     </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
-                <mat-form-field   class="example-full-width" appearance="fill">
+                <mat-form-field [@fadeInLeftOnEnter] *ngIf="isWorker"   class="example-full-width" appearance="fill">
                   <mat-label>Ik verkoop...</mat-label>
                   <input required type="text"
                          placeholder="Pick one"
@@ -64,18 +64,19 @@
                     </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
-                <mat-form-field 
+                <mat-form-field [@fadeInLeftOnEnter] *ngIf="isVerkoper"
                   style="width: 100%" appearance="fill">
                     <mat-label>Land PO</mat-label>
                     <mat-select matInput
                     [(ngModel)]="u_land"
+                    (ngModelChange)="landtype()"
                     name="u_land"  required>
                       <mat-option *ngFor="let land of filteredOptions5 | async" [value]="land">
                         {{land}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
-                <mat-form-field  class="example-full-width" appearance="fill">
+                <mat-form-field [@fadeInLeftOnEnter] *ngIf="isLand"  class="example-full-width" appearance="fill">
                     <mat-label>Klant Naam</mat-label>
                     <input required type="text"
                            placeholder="Pick one"
@@ -92,7 +93,7 @@
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
-                <mat-form-field  class="example-full-width" appearance="fill">
+                <mat-form-field [@fadeInLeftOnEnter]  class="example-full-width" appearance="fill">
                   <mat-label>Klant Nummer</mat-label>
                   <input required type="text"
                          placeholder="Pick one"
@@ -108,7 +109,7 @@
                     </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
-                <div *ngIf="klantnaam.value !== ''">
+                <div *ngIf="u_klantnaam !== ''">
                   <mat-card style="font-size:xx-small"><ul>Controleer of klant juist is:</ul>
                     <li>Street: {{full_company_details[0].company_street}} {{full_company_details[0].company_number}}</li>
                     <li>City: {{full_company_details[0].company_city}}</li>
@@ -118,7 +119,7 @@
                   </mat-card>
 
                 </div>
-                <mat-form-field class="example-full-width" appearance="fill">
+                <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
                     <mat-label>Bedrag excl btw (€)</mat-label>
                     <input 
                     min="50"
@@ -132,7 +133,7 @@
                            >
                    
                   </mat-form-field>
-                  <mat-form-field  class="example-full-width" appearance="fill">
+                  <mat-form-field [@fadeInLeftOnEnter]  class="example-full-width" appearance="fill">
                     <mat-label>Omschrijving</mat-label>
                     <input required type="text"
                            placeholder="Write here"
@@ -142,7 +143,7 @@
                            name="u_omschrijving">
                   </mat-form-field>
                   
-                  <mat-form-field 
+                  <mat-form-field [@fadeInLeftOnEnter] 
                   style="width: 100%"
                   matTooltip="Telt voor afleveringsdatum van de afspraak" 
                   matTooltipPosition="left" appearance="fill">
