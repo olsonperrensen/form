@@ -93,7 +93,7 @@
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
-                <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+                <mat-form-field *ngIf="isKlant" [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
                     <mat-label>Bedrag excl btw (€)</mat-label>
                     <input 
                     min="50"
@@ -103,21 +103,23 @@
                            aria-label="Number"
                            matInput
                            [(ngModel)]="u_bedrag"
+                           [formControl]="myControl9"
                            name="u_bedrag"
                            >
                    
                   </mat-form-field>
-                  <mat-form-field [@fadeInLeftOnEnter]  class="example-full-width" appearance="fill">
+                  <mat-form-field *ngIf="isBedrag" [@fadeInLeftOnEnter]  class="example-full-width" appearance="fill">
                     <mat-label>Omschrijving</mat-label>
                     <input required type="text"
                            placeholder="Write here"
                            aria-label="Number"
                            matInput
                            [(ngModel)]="u_omschrijving"
+                           [formControl]="myControl10"
                            name="u_omschrijving">
                   </mat-form-field>
                   
-                  <mat-form-field [@fadeInLeftOnEnter] 
+                  <mat-form-field [@fadeInLeftOnEnter] *ngIf="isOmscrijving"
                   style="width: 100%"
                   matTooltip="Telt voor afleveringsdatum van de afspraak" 
                   matTooltipPosition="left" appearance="fill">
