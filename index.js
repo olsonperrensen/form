@@ -3,7 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
-require('dotenv').config()
+require('dotenv').config();
+const clients = require('./clients.json');
 
 // create a new Express application instance
 const app = express();
@@ -21,6 +22,9 @@ app.listen(process.env.PORT || 3000, () => {
 let id = 0;
 
 app.get('/',(req,res) => res.send("Hello world!"));
+app.get('/clients',(req,res)=>{res.send(clients)});
+
+
 app.get('/sendmail',(req,res) => res.send("Send me a JSON object via POST. (Works with Zoho now."));
 
 // define a sendmail endpoint, which will send emails and response with the corresponding status
