@@ -246,7 +246,7 @@ deWALT_employees = [
   }
   klant()
   {
-    if(this.u_klantnaam.includes("B/"))
+    if(this.u_klantnaam.includes("B/")||this.u_klantnaam.toUpperCase().includes('INACTIVE'))
     {
       this.isOutdatedVendor = true;
     }
@@ -323,7 +323,8 @@ deWALT_employees = [
   onSubmit(f:NgForm)
   {
 
-    this.myJSONForm = {    
+    this.myJSONForm = {
+      timestamp: new Date().toISOString(),    
       land:this.u_land,
       klantnaam:this.u_klantnaam,
       klantnr:this.u_klantnr,

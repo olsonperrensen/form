@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class GetdataService {
 
-  url = 'http://localhost:3000/clients';
+  url = 'https://formemail.herokuapp.com/clients';
 
   getClients()
   {
