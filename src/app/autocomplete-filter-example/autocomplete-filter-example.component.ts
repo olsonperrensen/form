@@ -35,6 +35,8 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   isBedrag = false;
   isOmschrijving = false;
 
+  isNewVendor = false;
+
   myControl = new FormControl();
   myControl2 = new FormControl();
   myControl3 = new FormControl();
@@ -1404,7 +1406,9 @@ deWALT_employees = [
       }
     });
     this.myControl2.valueChanges.subscribe((res)=>{
-      if(this.options2.find((obj) => {return obj.toLowerCase() === res.toLowerCase();}))
+      // Exact match full klant 
+      if(this.options2.find((obj) => {return obj.toLowerCase() === res.toLowerCase();})
+      &&!this.isNewVendor)
       {
         this.isKlant = true;
       }
@@ -1414,7 +1418,7 @@ deWALT_employees = [
       }
     });
     this.myControl9.valueChanges.subscribe((res)=>{
-      if(res >= 50 && res <= 89000)
+      if(res >= 50 && res <= 89000 && this.isKlant)
       {
         this.isBedrag = true;
       }
@@ -1424,7 +1428,7 @@ deWALT_employees = [
       }
     });
     this.myControl10.valueChanges.subscribe((res)=>{
-      if(res.length > 4)
+      if(res.length > 4 && this.isBedrag)
       {
         this.isOmschrijving = true;
       }
@@ -1446,6 +1450,17 @@ deWALT_employees = [
     {
       this.isConsumer = true;
       this.isPro = false;
+    }
+  }
+  klant()
+  {
+    if(!this.options2.includes(this.u_klantnaam) && this.u_klantnaam.length > 3)
+    {
+      this.isNewVendor = true;
+    }
+    else
+    {
+      this.isNewVendor = false;
     }
   }
   landtype()

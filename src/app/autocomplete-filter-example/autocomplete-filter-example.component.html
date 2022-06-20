@@ -84,6 +84,7 @@
                            matInput
                            #klantnaam
                            [(ngModel)]="u_klantnaam"
+                           (ngModelChange)="klant()"
                            name="u_klantnaam"
                            [formControl]="myControl2"
                            [matAutocomplete]="auto2">
@@ -93,6 +94,7 @@
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
+                  <pre style="color: red; font-weight:bold" *ngIf="isNewVendor">"{{u_klantnaam}}" <br> is een nieuwe klant. Ga eerst naar de <a routerLink="/vendor">vendoraanvraag</a>. </pre>
                 <mat-form-field *ngIf="isKlant" [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
                     <mat-label>Bedrag excl btw (€)</mat-label>
                     <input 
@@ -133,7 +135,7 @@
                     </mat-select>
                   </mat-form-field>
                   
-                  <button [disabled]="!isOmschrijving||!f.valid" type="submit" mat-raised-button color="accent">Verzenden</button>
+                  <button [disabled]="!isWorker||!isVerkoper||!isLand||!isKlant||!isBedrag||!isOmschrijving||!f.valid" type="submit" mat-raised-button color="accent">Verzenden</button>
               </form>
               
         </div>
