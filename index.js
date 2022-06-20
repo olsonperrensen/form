@@ -70,7 +70,7 @@ app.post("/sendmail", (req, res) => {
     subject: `Aanvrag #${id}`,
     html: `
     <ul>Requested by: ${req.body.worker}</ul>
-    <ul>Timestamp:${req.body.timestamp}</ul>
+    <ul>Timestamp: ${req.body.timestamp}</ul>
     <ul>Company: ${req.body.klantnaam}</ul>
     <ul>Purch. Org.: 0001</ul>
     <ul>Purch. Group: LV4</ul>
