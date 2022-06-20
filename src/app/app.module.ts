@@ -8,10 +8,17 @@ import { MaterialModule } from './material/material.module';
 import { AutocompleteFilterExampleComponent } from './autocomplete-filter-example/autocomplete-filter-example.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
+import { HomepageComponent } from './homepage/homepage.component';
+import { AppRoutingModule } from './app-routing.module';
+import { VendorComponent } from './vendor/vendor.component';
+import { LoginComponent } from './login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
-    AutocompleteFilterExampleComponent
+    AutocompleteFilterExampleComponent,
+    HomepageComponent,
+    VendorComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -20,7 +27,8 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     MaterialModule,
     NgbModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
