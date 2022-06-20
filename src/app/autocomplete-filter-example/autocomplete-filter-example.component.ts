@@ -36,6 +36,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   isOmschrijving = false;
 
   isNewVendor = false;
+  isOutdatedVendor = false;
 
   myControl = new FormControl();
   myControl2 = new FormControl();
@@ -1408,7 +1409,7 @@ deWALT_employees = [
     this.myControl2.valueChanges.subscribe((res)=>{
       // Exact match full klant 
       if(this.options2.find((obj) => {return obj.toLowerCase() === res.toLowerCase();})
-      &&!this.isNewVendor)
+      &&!this.isNewVendor&&this.isLand)
       {
         this.isKlant = true;
       }
@@ -1454,6 +1455,14 @@ deWALT_employees = [
   }
   klant()
   {
+    if(this.u_klantnaam.includes("B/"))
+    {
+      this.isOutdatedVendor = true;
+    }
+    else
+    {
+      this.isOutdatedVendor = false;
+    }
     if(!this.options2.includes(this.u_klantnaam) && this.u_klantnaam.length > 3)
     {
       this.isNewVendor = true;
@@ -1465,7 +1474,10 @@ deWALT_employees = [
   }
   landtype()
   {
-    this.isLand = true;
+    if(this.isVerkoper)
+    {
+      this.isLand = true;
+    }
   }
 
   private _filter(value: string): string[] {
