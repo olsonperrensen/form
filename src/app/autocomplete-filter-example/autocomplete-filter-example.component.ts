@@ -53,7 +53,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   options3: string[] = ["DEWALT/LENOX","STANLEY","FACOM","BOSTITCH"];
   options4: string[] = ["Januari","Februari","Maart","April","Mei","Juni",
 "Juli","Augustus","September","Oktober","Novermber","December"];
-options5: string[] = ["België","Nederland"];
+options5: string[] = ["België / Belgique","Nederland / Pays Bas"];
 options6: string[] = [
   // DeWALT
   "Marcel VandenBerge",
