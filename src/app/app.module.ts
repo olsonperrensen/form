@@ -7,18 +7,28 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MaterialModule } from './material/material.module';
 import { AutocompleteFilterExampleComponent } from './autocomplete-filter-example/autocomplete-filter-example.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HomepageComponent } from './homepage/homepage.component';
 import { AppRoutingModule } from './app-routing.module';
 import { VendorComponent } from './vendor/vendor.component';
 import { LoginComponent } from './login/login.component';
+import { HeaderComponent } from './header/header.component';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+
+export function HttpLoaderFactory(http:HttpClient)
+{
+  return new TranslateHttpLoader(http,'./assets/i18n/','.json');
+}
+
 @NgModule({
   declarations: [
     AppComponent,
     AutocompleteFilterExampleComponent,
     HomepageComponent,
     VendorComponent,
-    LoginComponent
+    LoginComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -29,6 +39,14 @@ import { LoginComponent } from './login/login.component';
     NgbModule,
     HttpClientModule,
     AppRoutingModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'nl-NL',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

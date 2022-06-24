@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-xs-12">
             <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="example-form">
-                <h1 class="lead">Aanvraagformulier COOP PO</h1>
+                <h1 class="lead">{{'titleKey'|translate}}</h1>
                 <div class="container"> <p><em style="font-size:xx-small;">Caution! Your actions are being recorded. Sending from IP Address : {{ipAddress}}</em></p></div>  
                 <mat-form-field [@fadeInLeftOnEnter] 
                   style="width: 100%" appearance="fill">
@@ -33,7 +33,7 @@
                   </mat-autocomplete>
                 </mat-form-field>
                 <mat-form-field [@fadeInLeftOnEnter] *ngIf="isConsumer" class="example-full-width" appearance="fill">
-                  <mat-label>Ik ben ..</mat-label>
+                  <mat-label>Ik ben ...</mat-label>
                   <input required type="text"
                          placeholder="Pick one"
                          aria-label="Number"
@@ -95,7 +95,7 @@
                     </mat-autocomplete>
                   </mat-form-field>
                   <pre style="color: red; font-weight:bold" *ngIf="isNewVendor&&isLand&&isVerkoper&&isWorker">"{{u_klantnaam}}" <br> is een nieuwe klant. Ga eerst naar de <a routerLink="/vendor">vendoraanvraag</a>. </pre>
-                  <pre style="color: red;" *ngIf="isOutdatedVendor&&isLand&&isVerkoper&&isWorker">Pas op! Je hebt een verouderde klant gekozen.</pre>
+                  <pre style="color: red;" *ngIf="isOutdatedVendor&&isLand&&isVerkoper&&isWorker">Wees voorzichtig, je hebt een geblokkeerde klant gekozen!</pre>
                 <mat-form-field *ngIf="isKlant&&isLand&&isVerkoper&&isWorker" [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
                     <mat-label>Bedrag excl btw (€)</mat-label>
                     <input 

@@ -342,8 +342,10 @@ deWALT_employees = [
       (res)=>{
         alert(`U heeft met succes een aanvraag naar de verantwoordelijke gestuurd.
 
-      Controleer uw e-mail voor het PO-nummer`);
-      this.exit = true;},(err)=>{alert(`Er is iets fout gegaan. Probeer het opnieuw.`)}
+      Controleer uw e-mail voor het PO-nummer / Vous avez envoyé avec succès une demande à la personne responsable.
+
+      Veuillez vérifier votre e-mail pour le numéro de PO`);
+      this.exit = true;},(err)=>{alert(`Er is iets fout gegaan. Probeer het opnieuw. / Quelque chose s'est mal passé. Réessayer.`)}
     );
 
     setTimeout(() => {
