@@ -1,0 +1,20 @@
+{
+    "w1":"Demande de bon de commande",
+    "w2":"Pour les bons de commande COOP",
+    "w3":"Demander un fournisseur",
+    "w4":"Ajouter un client",
+    "titleKey":"Formulaire de demande de bon de commande COOP",
+    "subtitleKey":"Attention ! Vos actions sont enregistrées. Envoi depuis l'adresse IP :",
+    "q1":"Le bon de commande est...",
+    "q2":"Je suis...",
+    "q3":"Je vends..",
+    "q4":"Pays PO",
+    "q5":"Client",
+    "q6":"Montant hors TVA",
+    "q7":"Description",
+    "q8":"Date d'exécution",
+    "q9":"Envoyer",
+    "h1":"est un nouveau client. Veuillez vous rendre sur",
+    "h2":"demande fournisseur",
+    "h3":"Attention, vous avez choisi un client bloqué !"
+}
