@@ -124,7 +124,23 @@ deWALT_employees = [
 
   ngOnInit() { 
     this.getIP(); 
-    this.getData.getClients().subscribe((res:any)=>this.options2 = res.sort())
+    this.getData.getClients().subscribe((res:any)=>
+    {
+      this.options2 = res.sort()
+      if(this.options2.length < 1)
+      {
+        setTimeout(() => {
+          this.isBackendDown = true;
+        }, 3800);
+        setTimeout(() => {
+          this.isBackendDown = false;
+        }, 6300);
+      }
+      else
+      {
+        console.log("BackEnd is up! All good!");
+      }
+    })
     
     this.filteredOptions2 = this.myControl2.valueChanges.pipe(
       startWith(''),
@@ -220,12 +236,6 @@ deWALT_employees = [
 
     this.myControl2.valueChanges.subscribe((res)=>{
       // Exact match full klant 
-      setTimeout(() => {
-        this.isBackendDown = true;
-      }, 3800);
-      setTimeout(() => {
-        this.isBackendDown = false;
-      }, 6300);
       if(this.options2.find((obj) => {return obj.toLowerCase() === res.toLowerCase();})
       &&!this.isNewVendor&&this.isLand)
       {
