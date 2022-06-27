@@ -31,4 +31,14 @@ export class VendorComponent implements OnInit {
   {
     
   }
+  onCancel(f:NgForm)
+  {
+    this.v_klant = ""
+    this.v_adres = ""
+    this.v_email = ""
+    this.v_gsm = ""
+    this.v_vat = ""
+    this.v_contact = ""
+    this.v_klantnr = ""
+  }
 }
