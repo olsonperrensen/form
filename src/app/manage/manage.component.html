@@ -21,6 +21,12 @@
                           </mat-option>
                         </mat-autocomplete>
                       </mat-form-field>
+                      <div *ngIf="isKlant">
+                        <h3>Wat wil je doen?</h3>
+                        <button [disabled]="!f.valid" type="button" mat-raised-button color="accent">Aanpassen</button>
+                        <button [disabled]="!f.valid" type="button" mat-raised-button 
+                        color="warn">Verwijderen</button>
+                      </div>
                 </div>
             </form>
         </div>

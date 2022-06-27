@@ -19,6 +19,7 @@ export class ManageComponent implements OnInit {
   options2 !: string[]
   u_klantnaam = ''
   isBackendDown = false;
+  isKlant = false;
   
   constructor(private getData:GetdataService, private sendForms:SendFormsService) { }
 
@@ -46,6 +47,17 @@ export class ManageComponent implements OnInit {
       startWith(''),
       map(value => this._filter2(value)),
     );
+    this.myControl2.valueChanges.subscribe((res)=>{
+      // Exact match full klant 
+      if(this.options2.find((obj) => {return obj.toLowerCase() === res.toLowerCase();}))
+      {
+        this.isKlant = true;
+      }
+      else
+      {
+        this.isKlant = false;
+      }
+    });
 
   }
   private _filter2(value: string): string[] {
