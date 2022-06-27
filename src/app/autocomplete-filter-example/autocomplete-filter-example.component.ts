@@ -7,6 +7,7 @@ import {TooltipPosition} from '@angular/material/tooltip';
 import { IpServiceService } from '../ip-service.service';
 import * as a from 'angular-animations';
 import { GetdataService } from '../getdata.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-autocomplete-filter-example',
@@ -120,7 +121,7 @@ deWALT_employees = [
   ipAddress = ''; 
 
   constructor(private sendForms:SendFormsService,private ip:IpServiceService,
-    private getData:GetdataService){}
+    private getData:GetdataService, private router:Router){}
 
   ngOnInit() { 
     this.getIP(); 
@@ -402,6 +403,10 @@ deWALT_employees = [
     this.u_omschrijving = ''
     this.u_potype = ''
     this.u_worker = ''
+
+    setTimeout(() => {
+      this.router.navigate(['/']);
+    }, 2000);
   }
 
   getIP()  

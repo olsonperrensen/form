@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import * as a from 'angular-animations';
 
 @Component({
@@ -19,7 +20,7 @@ export class VendorComponent implements OnInit {
   v_contact = ""
   v_klantnr = ""
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit(): void {
   }
@@ -40,5 +41,8 @@ export class VendorComponent implements OnInit {
     this.v_vat = ""
     this.v_contact = ""
     this.v_klantnr = ""
+    setTimeout(() => {
+      this.router.navigate(['/']);
+    }, 2000);
   }
 }
