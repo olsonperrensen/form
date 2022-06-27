@@ -152,6 +152,21 @@ deWALT_employees = [
     );
 
     // Own Observables
+
+    // Consumer
+    this.myControl8.valueChanges.subscribe((res)=>{
+      if(this.options8.find((obj) => {return obj.toLowerCase() === res.toLowerCase();}))
+      {
+        this.u_merk = this.options3[1];
+        this.isWorker = true;
+      }
+      else
+      {
+        this.u_merk = "";
+        this.isWorker = false;
+      }
+    });
+    // Pro
     this.myControl6.valueChanges.subscribe((res)=>{
       if(this.deWALT_employees.find((obj) => {return obj.toLowerCase() === res.toLowerCase();}))
       {
@@ -174,6 +189,7 @@ deWALT_employees = [
         this.isWorker = false;
       }
     });
+
     this.myControl3.valueChanges.subscribe((res)=>{
       switch(res.toLowerCase()) {
         case this.options3[0].toLowerCase():
@@ -197,6 +213,7 @@ deWALT_employees = [
           // code block
       }
     });
+
     this.myControl2.valueChanges.subscribe((res)=>{
       // Exact match full klant 
       if(this.options2.find((obj) => {return obj.toLowerCase() === res.toLowerCase();})
@@ -219,6 +236,7 @@ deWALT_employees = [
         this.isBedrag = false;
       }
     });
+
     this.myControl10.valueChanges.subscribe((res)=>{
       if(res.length > 4 && this.isBedrag)
       {
