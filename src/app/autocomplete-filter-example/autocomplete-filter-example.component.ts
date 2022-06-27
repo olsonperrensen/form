@@ -352,6 +352,20 @@ deWALT_employees = [
       this.sent = true;
     }, 500);
   }
+
+  onCancel(f:NgForm)
+  {
+    this.u_bedrag = ''
+    this.u_datum = ''
+    this.u_klantnaam = ''
+    this.u_klantnr = ''
+    this.u_land = ''
+    this.u_merk = ''
+    this.u_omschrijving = ''
+    this.u_potype = ''
+    this.u_worker = ''
+  }
+
   getIP()  
   {  
     this.ip.getIPAddress().subscribe((res:any)=>{  

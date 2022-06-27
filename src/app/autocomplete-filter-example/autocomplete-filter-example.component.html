@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-xs-12">
             <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="example-form">
-                <h1 class="lead">{{'titleKey'|translate}}</h1>
+                  <h1 class="lead">{{'titleKey'|translate}}</h1>
                 <div class="container"> <p><em style="font-size:xx-small;">{{'subtitleKey'|translate}}{{ipAddress}}</em></p></div>  
                 <mat-form-field [@fadeInLeftOnEnter] 
                   style="width: 100%" appearance="fill">
@@ -137,6 +137,13 @@
                   </mat-form-field>
                   
                   <button [disabled]="!isWorker||!isVerkoper||!isLand||!isKlant||!isBedrag||!isOmschrijving||!f.valid" type="submit" mat-raised-button color="accent">{{'q9'|translate}}</button>
+                  <button 
+                  style="margin-left:9px" 
+                  [disabled]="!isWorker" 
+                  type="button" 
+                  mat-stroked-button 
+                  color="warn"
+                  (click)="onCancel(f)">{{'q10'|translate}}</button>
               </form>
               
         </div>

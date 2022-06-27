@@ -4,7 +4,7 @@
     "w3":"Aanvraag Vendor",
     "w4":"Voeg een klant toe",
     "titleKey":"Aanvraagformulier COOP PO",
-    "subtitleKey":"Voorzichtigheid! Je acties worden geregistreerd. Verzenden vanaf IP-adres : ",
+    "subtitleKey":"Voorzichtig! Je acties worden geregistreerd. Verzenden vanaf IP-adres : ",
     "q1":"PO is ...",
     "q2":"Ik ben...",
     "q3":"Ik verkoop..",
@@ -14,6 +14,7 @@
     "q7":"Omschrijving",
     "q8":"Uitvoeringsdatum",
     "q9":"Verzenden",
+    "q10":"Annuleren",
     "h1":"is een nieuwe klant. Ga eerst naar de",
     "h2":"vendoraanvraag",
     "h3":"Wees voorzichtig, je hebt een geblokkeerde klant gekozen!"
