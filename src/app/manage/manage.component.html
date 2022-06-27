@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <form #f="ngForm" (ngSubmit)="1" class="example-form">
+                <h1 class="lead">Manage Clients</h1>
+                <div class="container">
+                    <mat-form-field [@fadeInLeftOnEnter] *ngIf="1"  class="example-full-width" appearance="fill">
+                        <mat-label>{{'q5'|translate}}</mat-label>
+                        <input required type="text"
+                               placeholder="Pick one"
+                               aria-label="Number"
+                               matInput
+                               #klantnaam
+                               [(ngModel)]="u_klantnaam"
+                               name="u_klantnaam"
+                               [formControl]="myControl2"
+                               [matAutocomplete]="auto2">
+                        <mat-autocomplete #auto2="matAutocomplete">
+                          <mat-option *ngFor="let klant of filteredOptions2 | async" [value]="klant">
+                            {{klant}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

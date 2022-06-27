@@ -15,6 +15,7 @@ import { LoginComponent } from './login/login.component';
 import { HeaderComponent } from './header/header.component';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { ManageComponent } from './manage/manage.component';
 
 export function HttpLoaderFactory(http:HttpClient)
 {
@@ -28,7 +29,8 @@ export function HttpLoaderFactory(http:HttpClient)
     HomepageComponent,
     VendorComponent,
     LoginComponent,
-    HeaderComponent
+    HeaderComponent,
+    ManageComponent
   ],
   imports: [
     BrowserModule,
