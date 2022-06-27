@@ -94,6 +94,7 @@
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
+                  <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBackendDown" style="color: red">Krijg je niks? Laad de pagina opnieuw... (F5)</pre>
                   <pre style="color: red; font-weight:bold" *ngIf="isNewVendor&&isLand&&isVerkoper&&isWorker">"{{u_klantnaam}}" <br> {{'h1'|translate}} <a routerLink="/vendor">{{'h2'|translate}}</a>. </pre>
                   <pre style="color: red;" *ngIf="isOutdatedVendor&&isLand&&isVerkoper&&isWorker">{{'h3'|translate}}</pre>
                 <mat-form-field *ngIf="isKlant&&isLand&&isVerkoper&&isWorker" [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">

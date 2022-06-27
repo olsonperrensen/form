@@ -15,7 +15,9 @@ import { GetdataService } from '../getdata.service';
   animations:[
     a.fadeInLeftOnEnterAnimation(),
     a.fadeInOnEnterAnimation(),
-    a.fadeInRightOnEnterAnimation()
+    a.fadeInRightOnEnterAnimation(),
+    a.bounceOnEnterAnimation(),
+    a.bounceOutOnLeaveAnimation()
   ]
 })
 export class AutocompleteFilterExampleComponent implements OnInit {
@@ -37,6 +39,8 @@ export class AutocompleteFilterExampleComponent implements OnInit {
 
   isNewVendor = false;
   isOutdatedVendor = false;
+
+  isBackendDown = false;
 
   myControl = new FormControl();
   myControl2 = new FormControl();
@@ -216,6 +220,12 @@ deWALT_employees = [
 
     this.myControl2.valueChanges.subscribe((res)=>{
       // Exact match full klant 
+      setTimeout(() => {
+        this.isBackendDown = true;
+      }, 3800);
+      setTimeout(() => {
+        this.isBackendDown = false;
+      }, 6300);
       if(this.options2.find((obj) => {return obj.toLowerCase() === res.toLowerCase();})
       &&!this.isNewVendor&&this.isLand)
       {
