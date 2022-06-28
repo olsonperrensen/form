@@ -21,6 +21,7 @@ app.listen(process.env.PORT || 3000, () => {
 
 
 let id = 0;
+let del_pos = 0;
 
 app.get('/',(req,res) => res.send("Hello world!"));
 app.get('/clients',(req,res)=>{res.send(clients)});
@@ -179,6 +180,35 @@ app.post('/clients',(req,res) => {
   }
   else if(req.body.reason === "DELETE")
   {
-    console.log(req.body.old_client)
+    console.log(`${req.body.old_client} requested to delete.`)
+    clients.forEach((client, i)=>{
+      if(client === req.body.old_client)
+      {
+        del_pos = i
+        deleted_list_of_clients = clients
+        deleted_list_of_clients.splice(i, 1);
+        fs.writeFile("clients2.json", `["${req.body.old_client}"]`, (err) => {
+          if (err)
+            console.log(err);
+          else {
+            console.log("File written successfully\n");
+            console.log("The dummy file has the following deleted client:");
+            console.log(fs.readFileSync("clients2.json", "utf8"));
+          }
+        });
+        fs.writeFile("clients.json", JSON.stringify(deleted_list_of_clients), (err) => {
+          if (err) {
+            console.log(err);
+            res.send(JSON.stringify("ERROR_WHILE_DELETING"))
+          }
+          else {
+            console.log(`Client "${req.body.old_client}" deleted successfully\n`);  
+            res.send(JSON.stringify(deleted_list_of_clients));        
+          }
+        });
+      }
+    }
+    )
+    console.log(`Item found at pos: ${del_pos} and deleted successfully.`)
   }
 })
