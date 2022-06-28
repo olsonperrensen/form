@@ -22,6 +22,7 @@ app.listen(process.env.PORT || 3000, () => {
 
 let id = 0;
 let del_pos = 0;
+let sales_per = []
 
 app.get('/',(req,res) => res.send("Hello world!"));
 app.get('/clients',(req,res)=>{res.send(clients)});
@@ -37,7 +38,7 @@ app.post("/sendmail", (req, res) => {
     let plnt = 0;
     let company_code = "A";
     let order = "A";
-    let destinatary = "";
+    let destinataries = [];
 
     if(req.body.land === "Belgie"){
         company_code = "be01";
@@ -63,12 +64,13 @@ app.post("/sendmail", (req, res) => {
         }
     }
 
-    req.body.potype === "Pro" ? destinatary = "Maximiliano.Iturria@sbdinc.com" : destinatary = "Vicky.DeDecker@sbdinc.com";
+    sales_per = req.body.worker.split(' ')
+    req.body.potype === "Pro" ? destinataries = [`Maximiliano.Iturria@sbdinc.com`, `${sales_per[0]}.${sales_per[1]}@sbdinc.com`] : destinataries = "Vicky.DeDecker@sbdinc.com";
 
   console.log("request came");
   const mailOptions = {
     from: "olsonperrensen@zohomail.eu",
-    to: destinatary,
+    to: destinataries,
     subject: `Aanvrag #${id}`,
     html: `
     <ul>Requested by: ${req.body.worker}</ul>
