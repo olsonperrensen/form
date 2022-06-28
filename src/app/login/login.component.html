@@ -36,7 +36,8 @@
                 <button 
                 class="btn btn-dark w-100"
                 [disabled]="!f.valid">Login</button>
-                <p [@fadeInOnEnter] *ngIf="isLoggedIn" class="ffs">Logged in. <em>Redirecting...</em></p> 
+                <p [@fadeInOnEnter] *ngIf="isLoggedIn" class="ffs">Logged in. <em>Redirecting...</em></p>
+                <p [@fadeInOnEnter] *ngIf="isInvalid" class="ffs">You do not have access. <em>Redirecting...</em></p>
             </div>
         </form>
       </div>

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import * as CryptoJS from 'crypto-js';  
 import * as a from 'angular-animations';
+import { Route, Router } from '@angular/router';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -16,18 +18,34 @@ import * as a from 'angular-animations';
 export class LoginComponent implements OnInit {
 
   isLoggedIn:boolean=false;
+  isInvalid = false;
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit(): void {
   }
   onSubmit(f:NgForm)
   {
     const secret = CryptoJS.AES.encrypt(JSON.stringify(f.value),'nghimax').toString();
-    console.log(secret);
-    // console.log(CryptoJS.AES.decrypt(secret,'nghimax').toString(CryptoJS.enc.Utf8));
+    const credentials = CryptoJS.AES.decrypt(secret, 'nghimax').toString(CryptoJS.enc.Utf8);
+    if(credentials === `{"username":"steve.langbeen@sbdinc.com","password":"sbdinc"}`)
+    {
+      this.isLoggedIn=true;
+
+      setTimeout(() => {
+        this.router.navigate(['/','manage'])
+      }, 2000);
+    }
+    else
+    {
+      this.isLoggedIn=false;
+      this.isInvalid = true;
+      setTimeout(() => {
+        this.router.navigate(['/'])
+      }, 2000);
+    }
     
 
-    this.isLoggedIn=true;
+    
   }
 }
