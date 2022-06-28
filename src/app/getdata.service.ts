@@ -11,12 +11,12 @@ export class GetdataService {
 
   getClients()
   {
-    return this.http.get(this.local_url);
+    return this.http.get(this.url);
   }
 
   postClient(req:any)
   {
-    return this.http.post(this.local_url,req);
+    return this.http.post(this.url,req);
   }
 
   constructor(private http:HttpClient) { }
