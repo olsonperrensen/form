@@ -130,12 +130,15 @@ app.post('/clients',(req,res) => {
   });
   new_list_of_clients = clients.concat(req.body.new_client);
   fs.writeFile("clients.json", JSON.stringify(new_list_of_clients), (err) => {
-    if (err)
+    if (err) {
       console.log(err);
+      res.send(JSON.stringify("ERROR_WHILE_ADDING"));
+    }
     else {
       console.log("File written successfully\n");
       console.log("The OG file has the following NEW content:");
       console.log(fs.readFileSync("clients.json", "utf8"));
+      res.send(JSON.stringify(new_list_of_clients));
     }
   });
   console.log(clients)
@@ -147,15 +150,27 @@ app.post('/clients',(req,res) => {
     clients.forEach((client, i)=>{
       if(client === req.body.old_client)
       {
+        fs.writeFile("clients2.json", `["${req.body.new_client}"]`, (err) => {
+    if (err)
+      console.log(err);
+    else {
+      console.log("File written successfully\n");
+      console.log("The dummy file has the following new client:");
+      console.log(fs.readFileSync("clients2.json", "utf8"));
+    }
+  });
         edited_list_of_clients = clients
         edited_list_of_clients[i] = req.body.new_client
         fs.writeFile("clients.json", JSON.stringify(edited_list_of_clients), (err) => {
-          if (err)
+          if (err) {
             console.log(err);
+            res.send(JSON.stringify("ERROR_WHILE_EDITING"))
+          }
           else {
             console.log("File written successfully\n");
             console.log("The OG file has the following EDITED content:");
             console.log(fs.readFileSync("clients.json", "utf8"));
+            res.send(JSON.stringify(edited_list_of_clients));
           }
         });
         console.log(clients)
