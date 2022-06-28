@@ -29,7 +29,8 @@ export class LoginComponent implements OnInit {
   {
     const secret = CryptoJS.AES.encrypt(JSON.stringify(f.value),'nghimax').toString();
     const credentials = CryptoJS.AES.decrypt(secret, 'nghimax').toString(CryptoJS.enc.Utf8);
-    if(credentials === `{"username":"steve.langbeen@sbdinc.com","password":"sbdinc"}`)
+    if(credentials === `{"username":"steve.langbeen@sbdinc.com","password":"sbdinc.2023"}` 
+    || credentials === `{"username":"danielle.penninckx@sbdinc.com","password":"sbdinc2023."}`)
     {
       this.onLogin()
       this.isLoggedIn=true;
