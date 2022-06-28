@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import * as CryptoJS from 'crypto-js';  
 import * as a from 'angular-animations';
 import { Route, Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit {
   isLoggedIn:boolean=false;
   isInvalid = false;
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, private authService: AuthService) { }
 
   ngOnInit(): void {
   }
@@ -30,6 +31,7 @@ export class LoginComponent implements OnInit {
     const credentials = CryptoJS.AES.decrypt(secret, 'nghimax').toString(CryptoJS.enc.Utf8);
     if(credentials === `{"username":"steve.langbeen@sbdinc.com","password":"sbdinc"}`)
     {
+      this.onLogin()
       this.isLoggedIn=true;
 
       setTimeout(() => {
@@ -38,6 +40,7 @@ export class LoginComponent implements OnInit {
     }
     else
     {
+      this.onLogout()
       this.isLoggedIn=false;
       this.isInvalid = true;
       setTimeout(() => {
@@ -48,4 +51,14 @@ export class LoginComponent implements OnInit {
 
     
   }
+
+  onLogin()
+  {
+    this.authService.login()
+  }
+  onLogout()
+  {
+    this.authService.logout()
+  }
+
 }

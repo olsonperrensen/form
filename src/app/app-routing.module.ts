@@ -6,13 +6,14 @@ import { AutocompleteFilterExampleComponent } from './autocomplete-filter-exampl
 import { VendorComponent } from './vendor/vendor.component';
 import { LoginComponent } from './login/login.component';
 import { ManageComponent } from './manage/manage.component';
+import { AuthGuardService } from './auth-guard.service';
 
 const routes: Routes = [
   {path:'',component:HomepageComponent},
   {path:'po',component:AutocompleteFilterExampleComponent},
   {path:'vendor',component:VendorComponent},
   {path:'login',component:LoginComponent},
-  {path:'manage',component:ManageComponent}
+  {path:'manage',component:ManageComponent, canActivate:[AuthGuardService]}
 ];
 
 @NgModule({

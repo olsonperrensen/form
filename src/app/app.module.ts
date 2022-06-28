@@ -16,6 +16,8 @@ import { HeaderComponent } from './header/header.component';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { ManageComponent } from './manage/manage.component';
+import { AuthService } from './auth.service';
+import { AuthGuardService } from './auth-guard.service';
 
 export function HttpLoaderFactory(http:HttpClient)
 {
@@ -50,7 +52,7 @@ export function HttpLoaderFactory(http:HttpClient)
       }
     })
   ],
-  providers: [],
+  providers: [AuthService,AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
