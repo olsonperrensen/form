@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, NgModule, OnInit } from '@angular/core';
+import { FormControl, NgModel } from '@angular/forms';
 import { Observable } from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { GetdataService } from '../getdata.service';
@@ -18,8 +18,10 @@ export class ManageComponent implements OnInit {
   filteredOptions2!: Observable<string[]>;
   options2 !: string[]
   u_klantnaam = ''
+  u_new_klantnaam = ''
   isBackendDown = false;
   isKlant = false;
+  isEditing = false;
   
   constructor(private getData:GetdataService, private sendForms:SendFormsService) { }
 
@@ -49,7 +51,7 @@ export class ManageComponent implements OnInit {
     );
     this.myControl2.valueChanges.subscribe((res)=>{
       // Exact match full klant 
-      if(this.options2.find((obj) => {return obj.toLowerCase() === res.toLowerCase();}))
+      if(this.options2.find((obj) => {this.u_new_klantnaam = obj; return obj.toLowerCase() === res.toLowerCase();}))
       {
         this.isKlant = true;
       }
@@ -63,6 +65,23 @@ export class ManageComponent implements OnInit {
   private _filter2(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.options2.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  onUserClick()
+  {
+    this.isEditing = true;
+  }
+
+  onUserEditClick()
+  {
+    this.getData.postClient({old_client:`${this.u_klantnaam}`,new_client:`${this.u_new_klantnaam}`}).subscribe((res)=>{
+      if(res !== "")
+      {
+        alert("Edit successfully placed!")
+      }
+    },(err)=>{
+      alert("Something went wrong... Try again.")
+    })
   }
 
 }

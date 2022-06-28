@@ -23,7 +23,22 @@
                       </mat-form-field>
                       <div *ngIf="isKlant">
                         <h3>Wat wil je doen?</h3>
-                        <button [disabled]="!f.valid" type="button" mat-raised-button color="accent">Aanpassen</button>
+                        <div *ngIf="isEditing">
+                        <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+                          <mat-label>Nieuwe gegevens Klant</mat-label>
+                          <input required type="text"
+                                 placeholder="Pick one"
+                                 aria-label="Number"
+                                 matInput
+                                 #edit_klantnaam="ngModel"
+                                 [(ngModel)]="u_new_klantnaam"
+                                 name="u_edit_klantnaam"
+                                >
+                        </mat-form-field>
+                        <button (click)="onUserEditClick()" [disabled]="!f.valid" type="button" mat-raised-button 
+                        color="primary">Verzenden</button>
+                      </div>
+                        <button (click)="onUserClick()" [disabled]="!f.valid" type="button" mat-raised-button color="accent">Aanpassen</button>
                         <button [disabled]="!f.valid" type="button" mat-raised-button 
                         color="warn">Verwijderen</button>
                       </div>
