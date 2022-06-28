@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 require('dotenv').config();
 const clients = require('./clients.json');
+const fs = require('fs');
 
 // create a new Express application instance
 const app = express();
@@ -115,6 +116,50 @@ app.post("/sendmail", (req, res) => {
 });
 
 app.post('/clients',(req,res) => {
-  console.log(`New client edit came: "${req.body.old_client}" being replaced for "${req.body.new_client}"`)
-  
+  // Add a client
+  if(req.body.reason === "ADD") {
+    console.log(`New client came: "${req.body.new_client}"`)
+  fs.writeFile("clients2.json", `["${req.body.new_client}"]`, (err) => {
+    if (err)
+      console.log(err);
+    else {
+      console.log("File written successfully\n");
+      console.log("The dummy file has the following new client:");
+      console.log(fs.readFileSync("clients2.json", "utf8"));
+    }
+  });
+  new_list_of_clients = clients.concat(req.body.new_client);
+  fs.writeFile("clients.json", JSON.stringify(new_list_of_clients), (err) => {
+    if (err)
+      console.log(err);
+    else {
+      console.log("File written successfully\n");
+      console.log("The OG file has the following NEW content:");
+      console.log(fs.readFileSync("clients.json", "utf8"));
+    }
+  });
+  console.log(clients)
+  }
+  // Edit a client's content
+  else if (req.body.reason === "EDIT")
+  {
+    console.log(`New client edit came: "${req.body.old_client}" being replaced for "${req.body.new_client}"`)
+    clients.forEach((client, i)=>{
+      if(client === req.body.old_client)
+      {
+        edited_list_of_clients = clients
+        edited_list_of_clients[i] = req.body.new_client
+        fs.writeFile("clients.json", JSON.stringify(edited_list_of_clients), (err) => {
+          if (err)
+            console.log(err);
+          else {
+            console.log("File written successfully\n");
+            console.log("The OG file has the following EDITED content:");
+            console.log(fs.readFileSync("clients.json", "utf8"));
+          }
+        });
+        console.log(clients)
+      }
+    })
+  }
 })
