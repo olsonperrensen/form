@@ -3,8 +3,30 @@
         <div class="col-xs-12">
             <form #f="ngForm" (ngSubmit)="1" class="example-form">
                 <h1 class="lead">Manage Clients</h1>
+                <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBackendDown" style="color: red">Krijg je niks? Laad de pagina opnieuw... (F5)</pre>
                 <div class="container">
-                    <mat-form-field [@fadeInLeftOnEnter] *ngIf="1"  class="example-full-width" appearance="fill">
+                  <div *ngIf="!wantsToEdit&&!wantsToAdd">
+                    <button (click)="onUserWantsToEdit()" type="button" mat-raised-button 
+                  color="accent">Een klant aanpassen/verwijderen</button>
+                  <button (click)="onUserWantsToAdd()" type="button" mat-raised-button 
+                  color="accent">Een nieuwe klant toevoegen</button>
+                  </div>
+                  <div *ngIf="wantsToAdd" >
+                    <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+                      <mat-label>Nieuwe gegevens Klant</mat-label>
+                      <input required type="text"
+                             placeholder="Pick one"
+                             aria-label="Number"
+                             matInput
+                             #edit_klantnaam="ngModel"
+                             [(ngModel)]="u_new_klantnaam"
+                             name="u_edit_klantnaam"
+                            >
+                    </mat-form-field>
+                    <button (click)="onUserAddClick()" [disabled]="!f.valid" type="button" mat-raised-button 
+                    color="primary">Toevoegen</button>
+                  </div>
+                    <mat-form-field [@fadeInLeftOnEnter] *ngIf="wantsToEdit"  class="example-full-width" appearance="fill">
                         <mat-label>{{'q5'|translate}}</mat-label>
                         <input required type="text"
                                placeholder="Pick one"
@@ -39,7 +61,7 @@
                         color="primary">Verzenden</button>
                       </div>
                         <button (click)="onUserClick()" [disabled]="!f.valid" type="button" mat-raised-button color="accent">Aanpassen</button>
-                        <button [disabled]="!f.valid" type="button" mat-raised-button 
+                        <button (click)="onUserDeleteClick()" [disabled]="!f.valid" type="button" mat-raised-button 
                         color="warn">Verwijderen</button>
                       </div>
                 </div>

@@ -128,19 +128,10 @@ deWALT_employees = [
     this.getData.getClients().subscribe((res:any)=>
     {
       this.options2 = res.sort()
-      if(this.options2.length < 1)
-      {
-        setTimeout(() => {
-          this.isBackendDown = true;
-        }, 3800);
-        setTimeout(() => {
-          this.isBackendDown = false;
-        }, 6300);
-      }
-      else
-      {
-        console.log("BackEnd is up! All good!");
-      }
+      console.log("BackEnd is up! All good!");
+    },(err)=>{
+      this.isBackendDown = true;
+      // alert("Press F5 to continue.")
     })
     
     this.filteredOptions2 = this.myControl2.valueChanges.pipe(

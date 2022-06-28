@@ -11,7 +11,9 @@ import * as a from 'angular-animations'
   templateUrl: './manage.component.html',
   styleUrls: ['./manage.component.css'],
   animations:
-  [a.fadeInLeftOnEnterAnimation()]
+  [a.fadeInLeftOnEnterAnimation(),
+  a.bounceOutOnLeaveAnimation(),
+  a.bounceOnEnterAnimation()]
 })
 export class ManageComponent implements OnInit {
   myControl2 = new FormControl();
@@ -22,6 +24,8 @@ export class ManageComponent implements OnInit {
   isBackendDown = false;
   isKlant = false;
   isEditing = false;
+  wantsToEdit = false;
+  wantsToAdd = false;
   
   constructor(private getData:GetdataService, private sendForms:SendFormsService) { }
 
@@ -30,19 +34,9 @@ export class ManageComponent implements OnInit {
     this.getData.getClients().subscribe((res:any)=>
     {
       this.options2 = res.sort()
-      if(this.options2.length < 1)
-      {
-        setTimeout(() => {
-          this.isBackendDown = true;
-        }, 3800);
-        setTimeout(() => {
-          this.isBackendDown = false;
-        }, 6300);
-      }
-      else
-      {
-        console.log("BackEnd is up! All good!");
-      }
+      console.log("BackEnd is up! All good!");
+    },(err)=>{
+      this.isBackendDown = true;
     })
 
     this.filteredOptions2 = this.myControl2.valueChanges.pipe(
@@ -74,14 +68,45 @@ export class ManageComponent implements OnInit {
 
   onUserEditClick()
   {
-    this.getData.postClient({old_client:`${this.u_klantnaam}`,new_client:`${this.u_new_klantnaam}`}).subscribe((res)=>{
-      if(res !== "")
+    this.getData.postClient({old_client:`${this.u_klantnaam}`,new_client:`${this.u_new_klantnaam}`,reason:"EDIT"}).subscribe((res)=>{
+      if(res !== "ERROR_WHILE_EDITING")
       {
         alert("Edit successfully placed!")
       }
     },(err)=>{
-      alert("Something went wrong... Try again.")
+      alert("Something went wrong while editing the client... Try again.")
     })
+  }
+  onUserAddClick()
+  {
+    this.getData.postClient({old_client:`${this.u_klantnaam}`,new_client:`${this.u_new_klantnaam}`,reason:"ADD"}).subscribe((res)=>{
+      if(res !== "ERROR_WHILE_ADDING")
+      {
+        alert("Client successfully added!")
+      }
+    },(err)=>{
+      alert("Something went wrong while adding the client... Try again.")
+    })
+  }
+  onUserDeleteClick()
+  {
+    this.getData.postClient({old_client:`${this.u_klantnaam}`,reason:"DELETE"}).subscribe((res)=>{
+      if(res !== "ERROR_WHILE_DELETING")
+      {
+        alert("Client successfully deleted!")
+      }
+    },(err)=>{
+      alert("Something went wrong while deleting the client... Try again.")
+    })
+  }
+
+  onUserWantsToEdit()
+  {
+    this.wantsToEdit =  true
+  }
+  onUserWantsToAdd()
+  {
+    this.wantsToAdd = true;
   }
 
 }
