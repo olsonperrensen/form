@@ -87,6 +87,7 @@ app.post("/sendmail", (req, res) => {
     <ul>Plnt: ${plnt}</ul>
     <ul>Overall Limit: ${req.body.bedrag}</ul>
     <ul>Expected value: ${req.body.bedrag}</ul>
+    <ul>GR Execution date: ${req.body.datum}</ul>
     <ul>G/L Account: 47020000</ul>
     <ul>Order: ${order}</ul>`
   };
