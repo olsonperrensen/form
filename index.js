@@ -177,4 +177,8 @@ app.post('/clients',(req,res) => {
       }
     })
   }
+  else if(req.body.reason === "DELETE")
+  {
+    console.log(req.body.old_client)
+  }
 })
