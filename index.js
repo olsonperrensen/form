@@ -113,3 +113,8 @@ app.post("/sendmail", (req, res) => {
 
 
 });
+
+app.post('/clients',(req,res) => {
+  console.log(`New client edit came: "${req.body.old_client}" being replaced for "${req.body.new_client}"`)
+  
+})
