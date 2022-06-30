@@ -37,6 +37,11 @@ app.get('/db', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.send("Error " + err);
+    res.status(err.status || 500);
+    res.json({
+      message: err.message,
+      error: err
+    });
   }
 })
 
