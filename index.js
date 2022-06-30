@@ -34,7 +34,6 @@ client.query('SELECT * FROM biz;', (err, res) => {
     nieuw_clients.push(row.biz_name)
   }
   console.log("Fetched from DB")
-  client.end();
 });
 
 let id = 0;
@@ -146,8 +145,7 @@ app.post('/clients',(req,res) => {
       `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`,
       (err, res) => {
         console.log(err, res);
-        res.send(nieuw_clients)
-        client.end();
+        res.send(nieuw_clients);
       }
     );
   }
@@ -218,4 +216,5 @@ app.post('/clients',(req,res) => {
     )
     console.log(`Item found at pos: ${del_pos} and deleted successfully.`)
   }
+client.end();
 })
