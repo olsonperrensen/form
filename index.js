@@ -7,6 +7,8 @@ const nodemailer = require("nodemailer");
 require('dotenv').config();
 const fs = require('fs');
 
+let nieuw_clients = []
+
 // create a new Express application instance
 const app = express();
 
@@ -38,7 +40,6 @@ client.query('SELECT * FROM biz;', (err, res) => {
 let id = 0;
 let del_pos = 0;
 let sales_per = []
-let nieuw_clients = []
 
 app.get('/',(req,res) => res.send("Hello world!"));
 app.get('/clients',(req,res)=>{res.send(nieuw_clients)});
