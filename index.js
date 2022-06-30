@@ -5,7 +5,6 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 require('dotenv').config();
-const clients = require('./clients.json');
 const fs = require('fs');
 
 // create a new Express application instance
@@ -21,7 +20,7 @@ app.listen(process.env.PORT || 3000, () => {
 });
 
 const client = new Client({
-  connectionString: process.env.DATABASE_URL || 'postgres://bteurqgnjifirr:8141b84bb364c480b8ab64f567d7b24b735e21e3cd285dcc210fbecf7d7195d3@ec2-176-34-211-0.eu-west-1.compute.amazonaws.com:5432/d4l04oh9cth6jn',
+  connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   }
@@ -151,71 +150,6 @@ app.post('/clients',(req,res) => {
   }
   // TO-DO: Reimplement with PUT and DELETE HTTP PACKETS
   // Edit a client's content
-  else if (req.body.reason === "EDIT")
-  {
-    console.log(`New client edit came: "${req.body.old_client}" being replaced for "${req.body.new_client}"`)
-    clients.forEach((client, i)=>{
-      if(client === req.body.old_client)
-      {
-        fs.writeFile("clients2.json", `["${req.body.new_client}"]`, (err) => {
-    if (err)
-      console.log(err);
-    else {
-      console.log("File written successfully\n");
-      console.log("The dummy file has the following new client:");
-      console.log(fs.readFileSync("clients2.json", "utf8"));
-    }
-  });
-        edited_list_of_clients = clients
-        edited_list_of_clients[i] = req.body.new_client
-        fs.writeFile("clients.json", JSON.stringify(edited_list_of_clients), (err) => {
-          if (err) {
-            console.log(err);
-            res.send(JSON.stringify("ERROR_WHILE_EDITING"))
-          }
-          else {
-            console.log("File written successfully\n");
-            console.log("The OG file has the following EDITED content:");
-            console.log(fs.readFileSync("clients.json", "utf8"));
-            res.send(JSON.stringify(edited_list_of_clients));
-          }
-        });
-        console.log(clients)
-      }
-    })
-  }
-  else if(req.body.reason === "DELETE")
-  {
-    console.log(`${req.body.old_client} requested to delete.`)
-    clients.forEach((client, i)=>{
-      if(client === req.body.old_client)
-      {
-        del_pos = i
-        deleted_list_of_clients = clients
-        deleted_list_of_clients.splice(i, 1);
-        fs.writeFile("clients2.json", `["${req.body.old_client}"]`, (err) => {
-          if (err)
-            console.log(err);
-          else {
-            console.log("File written successfully\n");
-            console.log("The dummy file has the following deleted client:");
-            console.log(fs.readFileSync("clients2.json", "utf8"));
-          }
-        });
-        fs.writeFile("clients.json", JSON.stringify(deleted_list_of_clients), (err) => {
-          if (err) {
-            console.log(err);
-            res.send(JSON.stringify("ERROR_WHILE_DELETING"))
-          }
-          else {
-            console.log(`Client "${req.body.old_client}" deleted successfully\n`);  
-            res.send(JSON.stringify(deleted_list_of_clients));        
-          }
-        });
-      }
-    }
-    )
-    console.log(`Item found at pos: ${del_pos} and deleted successfully.`)
-  }
+  
 client.end();
 })
