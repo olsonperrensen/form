@@ -141,33 +141,15 @@ app.post('/clients',(req,res) => {
   // Add a client
   if(req.body.reason === "ADD") {
     console.log(`New client came: "${req.body.new_client}"`)
-  fs.writeFile("clients2.json", `["${req.body.new_client}"]`, (err) => {
-    if (err)
-      console.log(err);
-    else {
-      console.log("File written successfully\n");
-      console.log("The dummy file has the following new client:");
-      console.log(fs.readFileSync("clients2.json", "utf8"));
-    }
-  });
-  new_list_of_clients = clients.concat(req.body.new_client);
-  fs.writeFile("clients.json", JSON.stringify(new_list_of_clients), (err) => {
-    if (err) {
-      console.log(err);
-      res.send(JSON.stringify("ERROR_WHILE_ADDING"));
-    }
-    else {
-      console.log("File written successfully\n");
-      console.log("The OG file has the following NEW content:");
-      console.log(fs.readFileSync("clients.json", "utf8"));
-      res.send(JSON.stringify(new_list_of_clients));
-    }
-  });
-  client.query(`INSERT INTO biz(biz_name) VALUES(${req.body.new_client});`, (err, res) => {
-    if (err) throw err;
-    client.end();
-  });
-  console.log(clients)
+    nieuw_clients.push(req.body.new_client)
+    client.query(
+      `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`,
+      (err, res) => {
+        console.log(err, res);
+        res.send(nieuw_clients)
+        client.end();
+      }
+    );
   }
   // Edit a client's content
   else if (req.body.reason === "EDIT")
