@@ -163,6 +163,10 @@ app.post('/clients',(req,res) => {
       res.send(JSON.stringify(new_list_of_clients));
     }
   });
+  client.query(`INSERT INTO biz(biz_name) VALUES(${req.body.new_client});`, (err, res) => {
+    if (err) throw err;
+    client.end();
+  });
   console.log(clients)
   }
   // Edit a client's content
