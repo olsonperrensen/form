@@ -149,6 +149,7 @@ app.post('/clients',(req,res) => {
       }
     );
   }
+  // TO-DO: Reimplement with PUT and DELETE HTTP PACKETS
   // Edit a client's content
   else if (req.body.reason === "EDIT")
   {
