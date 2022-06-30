@@ -1,4 +1,5 @@
 //import modules installed at the previous step. We need them to run Node.js server and send emails
+const { Pool } = require('pg');
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -18,6 +19,24 @@ app.use(bodyParser.json());
 app.listen(process.env.PORT || 3000, () => {
   console.log("The server started on port 3000");
 });
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL || 'postgresql://postgres:+@localhost:5432/d4l04oh9cth6jn',
+  ssl: process.env.DATABASE_URL ? true : false
+})
+
+app.get('/db', async (req, res) => {
+  try {
+    const client = await pool.connect();
+    const result = await client.query('SELECT * FROM test_table');
+    const results = { 'results': (result) ? result.rows : null};
+    res.render('pages/db', results );
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+})
 
 
 let id = 0;
