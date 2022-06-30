@@ -5,7 +5,13 @@ DATABASE_URL = 'postgres://bteurqgnjifirr:8141b84bb364c480b8ab64f567d7b24b735e21
 
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
-c = conn.cursor()
-
-results = c.execute('SELECT * FROM BIZ')
-print(results)
+cursor = conn.cursor()
+  
+sql = '''SELECT * FROM BIZ;'''
+  
+cursor.execute(sql)
+cursor.fetchone()
+  
+conn.commit()
+cursor.close()
+conn.close()
