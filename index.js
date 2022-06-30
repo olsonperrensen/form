@@ -21,9 +21,11 @@ app.listen(process.env.PORT || 3000, () => {
 });
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || 'postgresql://postgres:+@localhost:5432/d4l04oh9cth6jn',
-  ssl: process.env.DATABASE_URL ? true : false
-})
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
 
 app.get('/db', async (req, res) => {
   try {
