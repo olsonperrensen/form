@@ -1,4 +1,5 @@
 //import modules installed at the previous step. We need them to run Node.js server and send emails
+const { Client } = require('pg');
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -19,13 +20,30 @@ app.listen(process.env.PORT || 3000, () => {
   console.log("The server started on port 3000");
 });
 
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
+
+client.connect();
+client.query('SELECT * FROM biz;', (err, res) => {
+  if (err) throw err;
+  for (let row of res.rows) {
+    console.log(row)
+    nieuw_clients.push(row.biz_name)
+  }
+  client.end();
+});
 
 let id = 0;
 let del_pos = 0;
 let sales_per = []
+let nieuw_clients = []
 
 app.get('/',(req,res) => res.send("Hello world!"));
-app.get('/clients',(req,res)=>{res.send(clients)});
+app.get('/clients',(req,res)=>{res.send(nieuw_clients)});
 
 
 app.get('/sendmail',(req,res) => res.send("Send me a JSON object via POST. (Works with Zoho now."));
