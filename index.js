@@ -31,18 +31,18 @@ client.connect();
 client.query('SELECT * FROM biz;', (err, res) => {
   if (err) throw err;
   for (let row of res.rows) {
-    console.log(JSON.stringify(row));
+    nieuw_clients.push(JSON.stringify(row))
   }
   client.end();
 });
 
-
 let id = 0;
 let del_pos = 0;
 let sales_per = []
+let nieuw_clients = []
 
 app.get('/',(req,res) => res.send("Hello world!"));
-app.get('/clients',(req,res)=>{res.send(clients)});
+app.get('/clients',(req,res)=>{res.send(nieuw_clients)});
 
 
 app.get('/sendmail',(req,res) => res.send("Send me a JSON object via POST. (Works with Zoho now."));
