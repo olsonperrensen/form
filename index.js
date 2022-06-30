@@ -31,7 +31,7 @@ client.connect();
 client.query('SELECT * FROM biz;', (err, res) => {
   if (err) throw err;
   for (let row of res.rows) {
-    console.log(row)
+    // console.log(row)
     nieuw_clients.push(row.biz_name)
   }
   client.end();
