@@ -13,7 +13,15 @@ let nieuw_clients = []
 const app = express();
 
 //configure the Express middleware to accept CORS requests and parse request body into JSON
-app.use(cors({origin: "*" }));
+app.use();
+app.use(function(req, res, next) {
+  cors({origin: "*" })
+  res.header("Access-Control-Allow-Origin", '*');
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+  next();
+});
 app.use(bodyParser.json());
 
 //start application server on port 3000
