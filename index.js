@@ -33,19 +33,18 @@ let id = 0;
 let sales_per = []
 let isRecordInDB = false;
 
-function sendHTTPCode(bool_test)
-{
+function sendHTTPCode(bool_test) {
   if (bool_test) {
-    this.res.send("200")
+    res.send("200")
   }
   else {
-    this.res.send("500")
+    res.send("500")
   }
 }
 
 app.get('/', (req, res) => res.send("Hello world!"));
-app.get('/clients', (req, res) => { 
-  
+app.get('/clients', (req, res) => {
+
   client.query('SELECT * FROM biz;', (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
@@ -54,7 +53,8 @@ app.get('/clients', (req, res) => {
     console.log("Fetched from DB")
   });
   res.send(nieuw_clients);
-  nieuw_clients = []});
+  nieuw_clients = []
+});
 
 
 app.get('/sendmail', (req, res) => res.send("Send me a JSON object via POST. (Works with Zoho now."));
@@ -150,54 +150,59 @@ app.post('/clients', (req, res) => {
   // Add a client
   console.log(`New client came: "${req.body.new_client}"`);
   let isRecordInDB = false
-  client.query(
-    `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`,
-    (err, res) => {
-      if (err) {
-        isRecordInDB = false
-        console.log(`CANNOT insert: ${err}`);
+  await(async function () {
+    return client.query(
+      `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`,
+      (err, res) => {
+        if (err) {
+          isRecordInDB = false
+          console.log(`CANNOT insert: ${err}`);
+        }
+        else {
+          isRecordInDB = true;
+          console.log(`record inserted ${req.body.new_client}`)
+        }
       }
-      else {
-        isRecordInDB = true;
-        console.log(`record inserted ${req.body.new_client}`)
-      }
-      sendHTTPCode(isRecordInDB);
-    }
-  );
+    )
+  })().then(sendHTTPCode(isRecordInDB));
 })
 
-app.put('/clients',(req,res)=>{
+app.put('/clients', (req, res) => {
   console.log(`New edit came: "${req.body.old_client}" to be replaced with "${req.body.new_client}"`)
-  client.query(
-    `UPDATE BIZ SET biz_name = '${req.body.new_client}'
+
+  await(async function () {
+    return client.query(
+      `UPDATE BIZ SET biz_name = '${req.body.new_client}'
     where biz_name = '${req.body.old_client}'`,
-    (err, res) => {
-      if (err) {
-        isRecordInDB = false
-        console.log(`CANNOT update: ${err}`);
+      (err, res) => {
+        if (err) {
+          isRecordInDB = false
+          console.log(`CANNOT update: ${err}`);
+        }
+        else {
+          isRecordInDB = true;
+          console.log(`record updated ${req.body.new_client}`)
+        }
       }
-      else {
-        isRecordInDB = true;
-        console.log(`record updated ${req.body.new_client}`)
-      }
-      sendHTTPCode(isRecordInDB);
-    }
-  );
+    );
+  })().then(sendHTTPCode(isRecordInDB));
 })
 
-app.delete('/clients',(req,res)=>{
+app.delete('/clients', (req, res) => {
   console.log(`New delete came: "${req.body.old_client}"`)
-  client.query(
-    `DELETE FROM BIZ WHERE biz_name = '${req.body.old_client}'`,
-    (err, res) => {
-      if (err) {
-        isRecordInDB = false
-        console.log(`CANNOT delete: ${err}`);
+  await(async function () {
+    return client.query(
+      `DELETE FROM BIZ WHERE biz_name = '${req.body.old_client}'`,
+      (err, res) => {
+        if (err) {
+          isRecordInDB = false
+          console.log(`CANNOT delete: ${err}`);
+        }
+        else {
+          isRecordInDB = true;
+          console.log(`record deleted ${req.body.old_client}`)
+        }
       }
-      else {
-        isRecordInDB = true;
-        console.log(`record deleted ${req.body.old_client}`)
-      }
-      sendHTTPCode(isRecordInDB);
-    }
-  );})
+    )
+  })().then(sendHTTPCode(isRecordInDB));
+})
