@@ -156,8 +156,11 @@ app.post('/clients',(req,res) => {
       }
     );
   }
-  // TO-DO: Reimplement with PUT and DELETE HTTP PACKETS
+})
+
+// TO-DO: Reimplement with PUT and DELETE HTTP PACKETS
   // Edit a client's content
   
-client.end();
-})
+setTimeout(() => {
+  client.end();
+}, 1680000);
