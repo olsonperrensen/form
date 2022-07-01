@@ -28,6 +28,7 @@ const client = new Client({
 
 client.connect();
 
+let nieuw_clients = []
 let id = 0;
 let sales_per = []
 let isRecordInDB = false;
@@ -44,7 +45,7 @@ function sendHTTPCode(bool_test)
 
 app.get('/', (req, res) => res.send("Hello world!"));
 app.get('/clients', (req, res) => { 
-  let nieuw_clients = []
+  
   client.query('SELECT * FROM biz;', (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
@@ -52,7 +53,8 @@ app.get('/clients', (req, res) => {
     }
     console.log("Fetched from DB")
   });
-  res.send(nieuw_clients) });
+  res.send(nieuw_clients);
+  nieuw_clients = []});
 
 
 app.get('/sendmail', (req, res) => res.send("Send me a JSON object via POST. (Works with Zoho now."));
