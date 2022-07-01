@@ -80,13 +80,14 @@ export class ManageComponent implements OnInit {
   onUserAddClick()
   {
     this.getData.postClient({old_client:`${this.u_klantnaam}`,new_client:`${this.u_new_klantnaam}`,reason:"ADD"}).subscribe((res)=>{
-      console.log(res)
-      if(res == 200)
+      if(res == "500")
       {
-        alert("Client successfully added!")
+        alert("Client could NOT be inserted! Use a different name and try again later.")
       }
-    },(err)=>{
-      alert("Something went wrong while adding the client... Try again.")
+      else if(res == "200")
+      {
+        alert("Client was successfully added to the list!")
+      }
     })
   }
   onUserDeleteClick()
