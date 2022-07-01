@@ -9,15 +9,22 @@ export class GetdataService {
   url = 'https://formemail.herokuapp.com/clients';
   local_url = 'http://localhost:3000/clients';
 
-  getClients()
-  {
+  getClients() {
     return this.http.get(this.url);
   }
 
-  postClient(req:any)
-  {
-    return this.http.post(this.url,req);
+  postClient(req: any) {
+    return this.http.post(this.url, req);
   }
 
-  constructor(private http:HttpClient) { }
+  delClient(req: any) {
+    return this.http.delete(this.url, req);
+  }
+
+  updateClient(req: any) {
+    return this.http.put(this.url, req)
+  }
+
+
+  constructor(private http: HttpClient) { }
 }

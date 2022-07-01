@@ -61,54 +61,43 @@ export class ManageComponent implements OnInit {
     return this.options2.filter(option => option.toLowerCase().includes(filterValue));
   }
 
-  onUserClick()
-  {
+  onUserClick() {
     this.isEditing = true;
   }
 
-  onUserEditClick()
-  {
-    this.getData.postClient({old_client:`${this.u_klantnaam}`,new_client:`${this.u_new_klantnaam}`,reason:"EDIT"}).subscribe((res)=>{
-      if(res !== "ERROR_WHILE_EDITING")
-      {
-        alert("Edit successfully placed!")
-      }
-    },(err)=>{
-      alert("Something went wrong while editing the client... Try again.")
-    })
+  onUserAddClick() {
+    this.getData.postClient(
+      { new_client: `${this.u_new_klantnaam}` })
+      .subscribe((res) => {this.checkRes(res)})
   }
-  onUserAddClick()
-  {
-    this.getData.postClient({old_client:`${this.u_klantnaam}`,new_client:`${this.u_new_klantnaam}`,reason:"ADD"}).subscribe((res)=>{
-      if(res == "500")
-      {
-        alert("Client could NOT be inserted! Use a different name and try again later.")
-      }
-      else if(res == "200")
-      {
-        alert("Client was successfully added to the list!")
-      }
-    })
+  onUserEditClick() {
+    // TO-FIX
+
+    this.getData.updateClient(
+      { old_client: `${this.u_klantnaam}`, new_client: `${this.u_new_klantnaam}`})
+      .subscribe((res) => {this.checkRes(res)})
   }
-  onUserDeleteClick()
-  {
-    this.getData.postClient({old_client:`${this.u_klantnaam}`,reason:"DELETE"}).subscribe((res)=>{
-      if(res !== "ERROR_WHILE_DELETING")
-      {
-        alert("Client successfully deleted!")
-      }
-    },(err)=>{
-      alert("Something went wrong while deleting the client... Try again.")
-    })
+  onUserDeleteClick() {
+  // TO-FIX
+    this.getData.delClient(
+      {old_client: `${this.u_klantnaam}`})
+      .subscribe((res) => {this.checkRes(res)})
   }
 
-  onUserWantsToEdit()
-  {
-    this.wantsToEdit =  true
+  onUserWantsToEdit() {
+    this.wantsToEdit = true
   }
-  onUserWantsToAdd()
-  {
+  onUserWantsToAdd() {
     this.wantsToAdd = true;
   }
 
+  checkRes(res:any)
+  {
+    if (res == "500") {
+      alert("Client could NOT be processed! Try again later.")
+    }
+    else if (res == "200") {
+      alert("Client was successfully processed to the list!")
+    }
+  }
 }
