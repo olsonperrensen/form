@@ -154,17 +154,15 @@ app.post('/clients', (req, res) => {
           console.log(`record inserted ${req.body.new_client}`)
         }
       }
-    ) + 1).then(() => {
-      setTimeout(() => {
-        console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`)
+    ).then(()=>{
+      console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`)
         if (isRecordInDB) {
           res.send("200")
         }
         else {
           res.send("500")
         }
-      }, 1000);
-    });
+    }))
   })
 
 })
