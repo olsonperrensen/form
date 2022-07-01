@@ -142,82 +142,80 @@ app.post('/clients', (req, res) => {
   console.log(`New client came: "${req.body.new_client}"`);
   let isRecordInDB = false
   client.query(
-      `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`,
-      (err, res) => {
-        if (err) {
-          isRecordInDB = false
-          console.log(`CANNOT insert: ${err}`);
-        }
-        else {
-          isRecordInDB = true;
-          console.log(`record inserted ${req.body.new_client}`)
-        }
+    `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`,
+    (err, res) => {
+      if (err) {
+        isRecordInDB = false
+        console.log(`CANNOT insert: ${err}`);
       }
-    )
-    setTimeout(() => {
-      console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`)
-        if (isRecordInDB) {
-          res.send("200")
-        }
-        else {
-          res.send("500")
-        }
-    }, 4000);
+      else {
+        isRecordInDB = true;
+        console.log(`record inserted ${req.body.new_client}`)
+      }
+    }
+  )
+  setTimeout(() => {
+    console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`)
+    if (isRecordInDB) {
+      res.send("200")
+    }
+    else {
+      res.send("500")
+    }
+  }, 1200);
 })
 
 app.put('/clients', (req, res) => {
   console.log(`New edit came: "${req.body.old_client}" to be replaced with "${req.body.new_client}"`)
-  new Promise((resolve, reject) => {
-    resolve(client.query(
-      `UPDATE BIZ SET biz_name = '${req.body.new_client}'
+  client.query(
+    `UPDATE BIZ SET biz_name = '${req.body.new_client}'
   where biz_name = '${req.body.old_client}'`,
-      (err, res) => {
-        if (err) {
-          isRecordInDB = false
-          console.log(`CANNOT update: ${err}`);
-        }
-        else {
-          isRecordInDB = true;
-          console.log(`record updated ${req.body.new_client}`)
-        }
-      }
-    )+1);
-  }).then(() => {
-    setTimeout(() => {
-      if (isRecordInDB) {
-        res.send("200")
+    (err, res) => {
+      if (err) {
+        isRecordInDB = false
+        console.log(`CANNOT update: ${err}`);
       }
       else {
-        res.send("500")
+        isRecordInDB = true;
+        console.log(`record updated ${req.body.new_client}`)
       }
-    
-    }, 1000);})
+    }
+  );
+  setTimeout(() => {
+    console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`)
+    if (isRecordInDB) {
+      res.send("200")
+    }
+    else {
+      res.send("500")
+    }
+  }, 1200);
 })
 
 app.delete('/clients', (req, res) => {
   console.log(`New delete came: "${req.body.old_client}"`)
-  new Promise((resolve, reject) => {
-    resolve(client.query(
-      `DELETE FROM BIZ WHERE biz_name = '${req.body.old_client}'`,
-      (err, res) => {
-        if (err) {
-          isRecordInDB = false
-          console.log(`CANNOT delete: ${err}`);
-        }
-        else {
-          isRecordInDB = true;
-          console.log(`record deleted ${req.body.old_client}`)
-        }
-      }
-    )+1);
-  }).then(() => {
-    setTimeout(() => {
-      if (isRecordInDB) {
-        res.send("200")
+  client.query(
+    `DELETE FROM BIZ WHERE biz_name = '${req.body.old_client}'`,
+    (err, res) => {
+      if (err) {
+        isRecordInDB = false
+        console.log(`CANNOT delete: ${err}`);
       }
       else {
-        res.send("500")
-      }  
-    }, 1000);})
+        isRecordInDB = true;
+        console.log(`record deleted ${req.body.old_client}`)
+      }
+    }
+  )
+  setTimeout(() => {
+    console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`)
+    if (isRecordInDB) {
+      res.send("200")
+    }
+    else {
+      res.send("500")
+    }
+  }, 1200);
+
 
 })
