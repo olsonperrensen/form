@@ -156,13 +156,15 @@ app.post('/clients', (req, res) => {
       }
     ) + 1);
   }).then(() => {
-    console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`)
-    if (isRecordInDB===true) {
-      res.send("200")
-    }
-    else {
-      res.send("500")
-    }
+    setTimeout(() => {
+      console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`)
+      if (isRecordInDB) {
+        res.send("200")
+      }
+      else {
+        res.send("500")
+      }
+    }, 1000);
   })
 
 })
@@ -185,13 +187,15 @@ app.put('/clients', (req, res) => {
       }
     )+1);
   }).then(() => {
-    if (isRecordInDB===true) {
-      res.send("200")
-    }
-    else {
-      res.send("500")
-    }
-  })
+    setTimeout(() => {
+      if (isRecordInDB) {
+        res.send("200")
+      }
+      else {
+        res.send("500")
+      }
+    
+    }, 1000);})
 })
 
 app.delete('/clients', (req, res) => {
@@ -211,12 +215,13 @@ app.delete('/clients', (req, res) => {
       }
     )+1);
   }).then(() => {
-    if (isRecordInDB===true) {
-      res.send("200")
-    }
-    else {
-      res.send("500")
-    }
-  })
+    setTimeout(() => {
+      if (isRecordInDB) {
+        res.send("200")
+      }
+      else {
+        res.send("500")
+      }  
+    }, 1000);})
 
 })
