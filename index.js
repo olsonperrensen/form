@@ -141,19 +141,22 @@ app.post('/clients', (req, res) => {
   // Add a client
   console.log(`New client came: "${req.body.new_client}"`);
   let isRecordInDB = false
-  let myPromise = new Promise(()=>{client.query(
-    `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`,
-    (err, res) => {
-      if (err) {
-        isRecordInDB = false
-        console.log(`CANNOT insert: ${err}`);
+  new Promise(() => {
+    client.query(
+      `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`,
+      (err, res) => {
+        if (err) {
+          isRecordInDB = false
+          console.log(`CANNOT insert: ${err}`);
+        }
+        else {
+          isRecordInDB = true;
+          console.log(`record inserted ${req.body.new_client}`)
+        }
       }
-      else {
-        isRecordInDB = true;
-        console.log(`record inserted ${req.body.new_client}`)
-      }
-    }
-  ); return 1}).then(()=>{
+    ); return 1
+  }).then(() => {
+    console.log("LOG after Promise")
     if (isRecordInDB) {
       res.send("200")
     }
@@ -166,11 +169,10 @@ app.post('/clients', (req, res) => {
 
 app.put('/clients', (req, res) => {
   console.log(`New edit came: "${req.body.old_client}" to be replaced with "${req.body.new_client}"`)
-
-  await(async function () {
-    return client.query(
+  new Promise(() => {
+    client.query(
       `UPDATE BIZ SET biz_name = '${req.body.new_client}'
-    where biz_name = '${req.body.old_client}'`,
+  where biz_name = '${req.body.old_client}'`,
       (err, res) => {
         if (err) {
           isRecordInDB = false
@@ -181,14 +183,21 @@ app.put('/clients', (req, res) => {
           console.log(`record updated ${req.body.new_client}`)
         }
       }
-    );
-  })().then(sendHTTPCode(isRecordInDB));
+    ); return 2
+  }).then(() => {
+    if (isRecordInDB) {
+      res.send("200")
+    }
+    else {
+      res.send("500")
+    }
+  })
 })
 
 app.delete('/clients', (req, res) => {
   console.log(`New delete came: "${req.body.old_client}"`)
-  await(async function () {
-    return client.query(
+  new Promise(() => {
+    client.query(
       `DELETE FROM BIZ WHERE biz_name = '${req.body.old_client}'`,
       (err, res) => {
         if (err) {
@@ -200,6 +209,14 @@ app.delete('/clients', (req, res) => {
           console.log(`record deleted ${req.body.old_client}`)
         }
       }
-    )
-  })().then(sendHTTPCode(isRecordInDB));
+    ); return 3
+  }).then(() => {
+    if (isRecordInDB) {
+      res.send("200")
+    }
+    else {
+      res.send("500")
+    }
+  })
+
 })
