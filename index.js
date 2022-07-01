@@ -13,7 +13,6 @@ let nieuw_clients = []
 const app = express();
 
 //configure the Express middleware to accept CORS requests and parse request body into JSON
-app.use();
 app.use(function(req, res, next) {
   cors({origin: "*" })
   res.header("Access-Control-Allow-Origin", '*');
