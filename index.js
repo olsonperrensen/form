@@ -141,7 +141,7 @@ app.post('/clients', (req, res) => {
   // Add a client
   console.log(`New client came: "${req.body.new_client}"`);
   let isRecordInDB = false
-  new Promise(() => {
+  new Promise((resolve, reject) => {
     client.query(
       `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`,
       (err, res) => {
@@ -169,7 +169,7 @@ app.post('/clients', (req, res) => {
 
 app.put('/clients', (req, res) => {
   console.log(`New edit came: "${req.body.old_client}" to be replaced with "${req.body.new_client}"`)
-  new Promise(() => {
+  new Promise((resolve, reject) => {
     client.query(
       `UPDATE BIZ SET biz_name = '${req.body.new_client}'
   where biz_name = '${req.body.old_client}'`,
@@ -196,7 +196,7 @@ app.put('/clients', (req, res) => {
 
 app.delete('/clients', (req, res) => {
   console.log(`New delete came: "${req.body.old_client}"`)
-  new Promise(() => {
+  new Promise((resolve, reject) => {
     client.query(
       `DELETE FROM BIZ WHERE biz_name = '${req.body.old_client}'`,
       (err, res) => {
