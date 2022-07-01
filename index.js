@@ -30,19 +30,20 @@ const client = new Client({
 });
 
 client.connect();
-client.query('SELECT * FROM biz;', (err, res) => {
-  if (err) throw err;
-  for (let row of res.rows) {
-    nieuw_clients.push(row.biz_name)
-  }
-  console.log("Fetched from DB")
-});
 
 let id = 0;
 let sales_per = []
 
 app.get('/', (req, res) => res.send("Hello world!"));
-app.get('/clients', (req, res) => { res.send(nieuw_clients) });
+app.get('/clients', (req, res) => { 
+  client.query('SELECT * FROM biz;', (err, res) => {
+    if (err) throw err;
+    for (let row of res.rows) {
+      nieuw_clients.push(row.biz_name)
+    }
+    console.log("Fetched from DB")
+  });
+  res.send(nieuw_clients) });
 
 
 app.get('/sendmail', (req, res) => res.send("Send me a JSON object via POST. (Works with Zoho now."));
@@ -137,7 +138,6 @@ app.post("/sendmail", (req, res) => {
 app.post('/clients', (req, res) => {
   // Add a client
   console.log(`New client came: "${req.body.new_client}"`)
-  // nieuw_clients.push(req.body.new_client)
   client.query(
     `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`,
     (err, res) => {
