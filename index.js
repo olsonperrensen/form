@@ -33,15 +33,6 @@ let id = 0;
 let sales_per = []
 let isRecordInDB = false;
 
-function sendHTTPCode(bool_test) {
-  if (bool_test) {
-    res.send("200")
-  }
-  else {
-    res.send("500")
-  }
-}
-
 app.get('/', (req, res) => res.send("Hello world!"));
 app.get('/clients', (req, res) => {
 
@@ -162,7 +153,14 @@ app.post('/clients', (req, res) => {
         console.log(`record inserted ${req.body.new_client}`)
       }
     }
-  ); return 1}).then(sendHTTPCode(isRecordInDB))
+  ); return 1}).then(()=>{
+    if (isRecordInDB) {
+      res.send("200")
+    }
+    else {
+      res.send("500")
+    }
+  })
 
 })
 
