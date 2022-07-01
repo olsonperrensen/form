@@ -137,7 +137,7 @@ app.post("/sendmail", (req, res) => {
 app.post('/clients', (req, res) => {
   // Add a client
   console.log(`New client came: "${req.body.new_client}"`)
-  nieuw_clients.push(req.body.new_client)
+  // nieuw_clients.push(req.body.new_client)
   client.query(
     `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`,
     (err, res) => {
@@ -147,6 +147,29 @@ app.post('/clients', (req, res) => {
       else {
         isRecordInDB = true;
         console.log(`record inserted ${req.body.new_client}`)
+      }
+    }
+  );
+  if (isRecordInDB) {
+    res.send("200")
+  }
+  else {
+    res.send("500")
+  }
+})
+
+app.put('/clients',(req,res)=>{
+  console.log(`New edit came: "${req.body.old_client}" to be replaced with "${req.body.new_client}"`)
+  client.query(
+    `UPDATE BIZ SET biz_name = '${req.body.new_client}'
+    where biz_name = '${req.body.new_client}'`,
+    (err, res) => {
+      if (err) {
+        console.log(`CANNOT update: ${err}`);
+      }
+      else {
+        isRecordInDB = true;
+        console.log(`record updated ${req.body.new_client}`)
       }
     }
   );
