@@ -151,16 +151,9 @@ app.post('/clients',(req,res) => {
         else
         {
           console.log(`record inserted ${res}`)
-          res.send(JSON.stringify({value:200}));
+          res.send("200");
         }
       }
     );
   }
 })
-
-// TO-DO: Reimplement with PUT and DELETE HTTP PACKETS
-  // Edit a client's content
-  
-setTimeout(() => {
-  client.end();
-}, 1680000);
