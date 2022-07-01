@@ -144,8 +144,15 @@ app.post('/clients',(req,res) => {
     client.query(
       `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`,
       (err, res) => {
-        console.log(err, res);
-        res.send(nieuw_clients);
+        if(err)
+        {
+          console.log(err);
+        }
+        else
+        {
+          console.log(`record inserted ${res}`)
+          res.send(JSON.stringify({value:200}));
+        }
       }
     );
   }
