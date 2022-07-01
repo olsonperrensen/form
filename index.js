@@ -8,6 +8,7 @@ require('dotenv').config();
 const fs = require('fs');
 
 let nieuw_clients = []
+let isRecordInDB = false
 
 // create a new Express application instance
 const app = express();
@@ -146,14 +147,22 @@ app.post('/clients',(req,res) => {
       (err, res) => {
         if(err)
         {
-          console.log(err);
+          console.log(`CANNOT insert: ${err}`);
         }
         else
         {
-          console.log(`record inserted ${res}`)
-          res.send("200");
+          isRecordInDB = true;
+          console.log(`record inserted ${req.body.new_client}`)
         }
       }
     );
+    if(isRecordInDB)
+    {
+      res.send("200")
+    }
+    else
+    {
+      res.send("500")
+    }
   }
 })
