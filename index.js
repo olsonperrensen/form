@@ -142,7 +142,7 @@ app.post('/clients', (req, res) => {
   console.log(`New client came: "${req.body.new_client}"`);
   let isRecordInDB = false
   new Promise((resolve, reject) => {
-    client.query(
+    resolve(client.query(
       `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`,
       (err, res) => {
         if (err) {
@@ -154,7 +154,7 @@ app.post('/clients', (req, res) => {
           console.log(`record inserted ${req.body.new_client}`)
         }
       }
-    ); resolve("Test1");
+    ) + 1);
   }).then(() => {
     console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`)
     if (isRecordInDB===true) {
@@ -170,7 +170,7 @@ app.post('/clients', (req, res) => {
 app.put('/clients', (req, res) => {
   console.log(`New edit came: "${req.body.old_client}" to be replaced with "${req.body.new_client}"`)
   new Promise((resolve, reject) => {
-    client.query(
+    resolve(client.query(
       `UPDATE BIZ SET biz_name = '${req.body.new_client}'
   where biz_name = '${req.body.old_client}'`,
       (err, res) => {
@@ -183,7 +183,7 @@ app.put('/clients', (req, res) => {
           console.log(`record updated ${req.body.new_client}`)
         }
       }
-    ); resolve("Test2");
+    )+1);
   }).then(() => {
     if (isRecordInDB===true) {
       res.send("200")
@@ -197,7 +197,7 @@ app.put('/clients', (req, res) => {
 app.delete('/clients', (req, res) => {
   console.log(`New delete came: "${req.body.old_client}"`)
   new Promise((resolve, reject) => {
-    client.query(
+    resolve(client.query(
       `DELETE FROM BIZ WHERE biz_name = '${req.body.old_client}'`,
       (err, res) => {
         if (err) {
@@ -209,7 +209,7 @@ app.delete('/clients', (req, res) => {
           console.log(`record deleted ${req.body.old_client}`)
         }
       }
-    ); resolve("Test3");
+    )+1);
   }).then(() => {
     if (isRecordInDB===true) {
       res.send("200")
