@@ -142,6 +142,7 @@ app.post('/clients', (req, res) => {
     `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`,
     (err, res) => {
       if (err) {
+        isRecordInDB = false
         console.log(`CANNOT insert: ${err}`);
       }
       else {
@@ -162,14 +163,38 @@ app.put('/clients',(req,res)=>{
   console.log(`New edit came: "${req.body.old_client}" to be replaced with "${req.body.new_client}"`)
   client.query(
     `UPDATE BIZ SET biz_name = '${req.body.new_client}'
-    where biz_name = '${req.body.new_client}'`,
+    where biz_name = '${req.body.old_client}'`,
     (err, res) => {
       if (err) {
+        isRecordInDB = false
         console.log(`CANNOT update: ${err}`);
       }
       else {
         isRecordInDB = true;
         console.log(`record updated ${req.body.new_client}`)
+      }
+    }
+  );
+  if (isRecordInDB) {
+    res.send("200")
+  }
+  else {
+    res.send("500")
+  }
+})
+
+app.delete('/clients',(req,res)=>{
+  console.log(`New delete came: "${req.body.old_client}"`)
+  client.query(
+    `DELETE FROM BIZ WHERE biz_name = '${req.body.old_client}'`,
+    (err, res) => {
+      if (err) {
+        isRecordInDB = false
+        console.log(`CANNOT delete: ${err}`);
+      }
+      else {
+        isRecordInDB = true;
+        console.log(`record deleted ${req.body.old_client}`)
       }
     }
   );
