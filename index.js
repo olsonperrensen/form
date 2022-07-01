@@ -14,7 +14,7 @@ let isRecordInDB = false
 const app = express();
 
 //configure the Express middleware to accept CORS requests and parse request body into JSON
-app.use(cors({origin: "*" }));
+app.use(cors({ origin: "*" }));
 app.use(bodyParser.json());
 
 //start application server on port 3000
@@ -33,57 +33,54 @@ client.connect();
 client.query('SELECT * FROM biz;', (err, res) => {
   if (err) throw err;
   for (let row of res.rows) {
-    nieuw_clients.push(row.biz_name)
+    nieuw_clients.push(row)
   }
   console.log("Fetched from DB")
 });
 
 let id = 0;
-let del_pos = 0;
 let sales_per = []
 
-app.get('/',(req,res) => res.send("Hello world!"));
-app.get('/clients',(req,res)=>{res.send(nieuw_clients)});
+app.get('/', (req, res) => res.send("Hello world!"));
+app.get('/clients', (req, res) => { res.send(nieuw_clients) });
 
 
-app.get('/sendmail',(req,res) => res.send("Send me a JSON object via POST. (Works with Zoho now."));
+app.get('/sendmail', (req, res) => res.send("Send me a JSON object via POST. (Works with Zoho now."));
 
 // define a sendmail endpoint, which will send emails and response with the corresponding status
 app.post("/sendmail", (req, res) => {
 
-    id++;
+  id++;
 
-    let plnt = 0;
-    let company_code = "A";
-    let order = "A";
-    let destinataries = [];
+  let plnt = 0;
+  let company_code = "A";
+  let order = "A";
+  let destinataries = [];
 
-    if(req.body.land === "Belgie"){
-        company_code = "be01";
-        plnt = 1110;
-        switch(req.body.merk)
-        {
-            case "DEWALT/LENOX": order="BE_DEW_L4"; break;
-            case "STANLEY": order="BE_HDT_L4"; break;
-            case "FACOM": order="BE_IAR_L4"; break;
-            case "BOSTITCH": order="BE_BOS_L4"; break;
-            default: order = "ERROR"; break;
-        }
-    } else {
-        company_code = "nl01";
-        plnt = 1510;
-        switch(req.body.merk)
-        {
-            case "DEWALT/LENOX": order="NL_DEW_L4"; break;
-            case "STANLEY": order="NL_HDT_L4"; break;
-            case "FACOM": order="NL_IAR_L4"; break;
-            case "BOSTITCH": order="NL_BOS_L4"; break;
-            default: order = "ERROR"; break;
-        }
+  if (req.body.land === "Belgie") {
+    company_code = "be01";
+    plnt = 1110;
+    switch (req.body.merk) {
+      case "DEWALT/LENOX": order = "BE_DEW_L4"; break;
+      case "STANLEY": order = "BE_HDT_L4"; break;
+      case "FACOM": order = "BE_IAR_L4"; break;
+      case "BOSTITCH": order = "BE_BOS_L4"; break;
+      default: order = "ERROR"; break;
     }
+  } else {
+    company_code = "nl01";
+    plnt = 1510;
+    switch (req.body.merk) {
+      case "DEWALT/LENOX": order = "NL_DEW_L4"; break;
+      case "STANLEY": order = "NL_HDT_L4"; break;
+      case "FACOM": order = "NL_IAR_L4"; break;
+      case "BOSTITCH": order = "NL_BOS_L4"; break;
+      default: order = "ERROR"; break;
+    }
+  }
 
-    sales_per = req.body.worker.split(' ')
-    req.body.potype === "Pro" ? destinataries = [`Maximiliano.Iturria@sbdinc.com`, `${sales_per[0]}.${sales_per[1]}@sbdinc.com`] : destinataries = "Vicky.DeDecker@sbdinc.com";
+  sales_per = req.body.worker.split(' ')
+  req.body.potype === "Pro" ? destinataries = [`Maximiliano.Iturria@sbdinc.com`, `${sales_per[0]}.${sales_per[1]}@sbdinc.com`] : destinataries = "Vicky.DeDecker@sbdinc.com";
 
   console.log("request came");
   const mailOptions = {
@@ -111,13 +108,13 @@ app.post("/sendmail", (req, res) => {
   };
   const sendMail = (user, callback) => {
     const transporter = nodemailer.createTransport({
-        host: "smtp.zoho.eu", // hostname
-        port: 465, // port for secure SMTP
-        secure: true,
-        auth: {
-            user: 'olsonperrensen@zohomail.eu',
-            pass: `${process.env.S3_BUCKET}`
-        }
+      host: "smtp.zoho.eu", // hostname
+      port: 465, // port for secure SMTP
+      secure: true,
+      auth: {
+        user: 'olsonperrensen@zohomail.eu',
+        pass: `${process.env.S3_BUCKET}`
+      }
     });
     transporter.sendMail(mailOptions, callback);
   }
@@ -137,32 +134,26 @@ app.post("/sendmail", (req, res) => {
 
 });
 
-app.post('/clients',(req,res) => {
+app.post('/clients', (req, res) => {
   // Add a client
-  if(req.body.reason === "ADD") {
-    console.log(`New client came: "${req.body.new_client}"`)
-    nieuw_clients.push(req.body.new_client)
-    client.query(
-      `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`,
-      (err, res) => {
-        if(err)
-        {
-          console.log(`CANNOT insert: ${err}`);
-        }
-        else
-        {
-          isRecordInDB = true;
-          console.log(`record inserted ${req.body.new_client}`)
-        }
+  console.log(`New client came: "${req.body.new_client}"`)
+  nieuw_clients.push(req.body.new_client)
+  client.query(
+    `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`,
+    (err, res) => {
+      if (err) {
+        console.log(`CANNOT insert: ${err}`);
       }
-    );
-    if(isRecordInDB)
-    {
-      res.send("200")
+      else {
+        isRecordInDB = true;
+        console.log(`record inserted ${req.body.new_client}`)
+      }
     }
-    else
-    {
-      res.send("500")
-    }
+  );
+  if (isRecordInDB) {
+    res.send("200")
+  }
+  else {
+    res.send("500")
   }
 })
