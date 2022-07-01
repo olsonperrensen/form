@@ -156,8 +156,8 @@ app.post('/clients', (req, res) => {
       }
     ); resolve("Test1");
   }).then(() => {
-    console.log("LOG after Promise")
-    if (isRecordInDB) {
+    console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`)
+    if (isRecordInDB===true) {
       res.send("200")
     }
     else {
@@ -185,7 +185,7 @@ app.put('/clients', (req, res) => {
       }
     ); resolve("Test2");
   }).then(() => {
-    if (isRecordInDB) {
+    if (isRecordInDB===true) {
       res.send("200")
     }
     else {
@@ -211,7 +211,7 @@ app.delete('/clients', (req, res) => {
       }
     ); resolve("Test3");
   }).then(() => {
-    if (isRecordInDB) {
+    if (isRecordInDB===true) {
       res.send("200")
     }
     else {
