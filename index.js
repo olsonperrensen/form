@@ -36,10 +36,10 @@ let isRecordInDB = false;
 function sendHTTPCode(bool_test)
 {
   if (bool_test) {
-    res.send("200")
+    this.res.send("200")
   }
   else {
-    res.send("500")
+    this.res.send("500")
   }
 }
 
