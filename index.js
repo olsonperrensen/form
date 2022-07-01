@@ -150,21 +150,20 @@ app.post('/clients', (req, res) => {
   // Add a client
   console.log(`New client came: "${req.body.new_client}"`);
   let isRecordInDB = false
-  await(async function () {
-    return client.query(
-      `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`,
-      (err, res) => {
-        if (err) {
-          isRecordInDB = false
-          console.log(`CANNOT insert: ${err}`);
-        }
-        else {
-          isRecordInDB = true;
-          console.log(`record inserted ${req.body.new_client}`)
-        }
+  let myPromise = new Promise(()=>{client.query(
+    `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`,
+    (err, res) => {
+      if (err) {
+        isRecordInDB = false
+        console.log(`CANNOT insert: ${err}`);
       }
-    )
-  })().then(sendHTTPCode(isRecordInDB));
+      else {
+        isRecordInDB = true;
+        console.log(`record inserted ${req.body.new_client}`)
+      }
+    }
+  ); return 1}).then(sendHTTPCode(isRecordInDB))
+
 })
 
 app.put('/clients', (req, res) => {
