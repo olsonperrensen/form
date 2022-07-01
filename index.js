@@ -154,7 +154,7 @@ app.post('/clients', (req, res) => {
           console.log(`record inserted ${req.body.new_client}`)
         }
       }
-    ); return 1
+    ); resolve("Test1");
   }).then(() => {
     console.log("LOG after Promise")
     if (isRecordInDB) {
@@ -183,7 +183,7 @@ app.put('/clients', (req, res) => {
           console.log(`record updated ${req.body.new_client}`)
         }
       }
-    ); return 2
+    ); resolve("Test2");
   }).then(() => {
     if (isRecordInDB) {
       res.send("200")
@@ -209,7 +209,7 @@ app.delete('/clients', (req, res) => {
           console.log(`record deleted ${req.body.old_client}`)
         }
       }
-    ); return 3
+    ); resolve("Test3");
   }).then(() => {
     if (isRecordInDB) {
       res.send("200")
