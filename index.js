@@ -141,8 +141,7 @@ app.post('/clients', (req, res) => {
   // Add a client
   console.log(`New client came: "${req.body.new_client}"`);
   let isRecordInDB = false
-  new Promise((resolve, reject) => {
-    resolve(client.query(
+  client.query(
       `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`,
       (err, res) => {
         if (err) {
@@ -154,7 +153,8 @@ app.post('/clients', (req, res) => {
           console.log(`record inserted ${req.body.new_client}`)
         }
       }
-    ).then(()=>{
+    )
+    setTimeout(() => {
       console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`)
         if (isRecordInDB) {
           res.send("200")
@@ -162,9 +162,7 @@ app.post('/clients', (req, res) => {
         else {
           res.send("500")
         }
-    }))
-  })
-
+    }, 4000);
 })
 
 app.put('/clients', (req, res) => {
