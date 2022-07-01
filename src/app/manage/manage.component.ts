@@ -93,6 +93,7 @@ export class ManageComponent implements OnInit {
 
   checkRes(res:any)
   {
+    console.log(res)
     if (res == "500") {
       alert("Client could NOT be processed! Try again later.")
     }
