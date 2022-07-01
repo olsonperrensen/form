@@ -7,9 +7,6 @@ const nodemailer = require("nodemailer");
 require('dotenv').config();
 const fs = require('fs');
 
-let nieuw_clients = []
-let isRecordInDB = false
-
 // create a new Express application instance
 const app = express();
 
@@ -33,9 +30,21 @@ client.connect();
 
 let id = 0;
 let sales_per = []
+let isRecordInDB = false;
+
+function sendHTTPCode(bool_test)
+{
+  if (bool_test) {
+    res.send("200")
+  }
+  else {
+    res.send("500")
+  }
+}
 
 app.get('/', (req, res) => res.send("Hello world!"));
 app.get('/clients', (req, res) => { 
+  let nieuw_clients = []
   client.query('SELECT * FROM biz;', (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
@@ -137,7 +146,8 @@ app.post("/sendmail", (req, res) => {
 
 app.post('/clients', (req, res) => {
   // Add a client
-  console.log(`New client came: "${req.body.new_client}"`)
+  console.log(`New client came: "${req.body.new_client}"`);
+  let isRecordInDB = false
   client.query(
     `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`,
     (err, res) => {
@@ -149,14 +159,9 @@ app.post('/clients', (req, res) => {
         isRecordInDB = true;
         console.log(`record inserted ${req.body.new_client}`)
       }
+      sendHTTPCode(isRecordInDB);
     }
   );
-  if (isRecordInDB) {
-    res.send("200")
-  }
-  else {
-    res.send("500")
-  }
 })
 
 app.put('/clients',(req,res)=>{
@@ -173,14 +178,9 @@ app.put('/clients',(req,res)=>{
         isRecordInDB = true;
         console.log(`record updated ${req.body.new_client}`)
       }
+      sendHTTPCode(isRecordInDB);
     }
   );
-  if (isRecordInDB) {
-    res.send("200")
-  }
-  else {
-    res.send("500")
-  }
 })
 
 app.delete('/clients',(req,res)=>{
@@ -196,12 +196,6 @@ app.delete('/clients',(req,res)=>{
         isRecordInDB = true;
         console.log(`record deleted ${req.body.old_client}`)
       }
+      sendHTTPCode(isRecordInDB);
     }
-  );
-  if (isRecordInDB) {
-    res.send("200")
-  }
-  else {
-    res.send("500")
-  }
-})
+  );})
