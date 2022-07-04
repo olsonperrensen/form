@@ -24,7 +24,8 @@ export class VendorComponent implements OnInit {
   v_contact = ""
   v_klantnr = ""
   v_file!: File;
-  myJSONForm = {}
+  myJSONForm = {};
+  selected_file!:File;
 
   constructor(private router: Router, private sendVendors: SendVendorsService) { }
 
@@ -38,8 +39,7 @@ export class VendorComponent implements OnInit {
       v_gsm: this.v_gsm,
       v_vat: this.v_vat,
       v_contact: this.v_contact,
-      v_klantnr: this.v_klantnr,
-      v_file: this.v_file
+      v_klantnr: this.v_klantnr
     }
     if (this.v_klant.length > 2
       && this.v_adres.length > 4
@@ -47,11 +47,19 @@ export class VendorComponent implements OnInit {
       && this.v_vat.length > 4
       && this.v_contact.length > 4
     ) {
-      if (this.v_email.includes("@") && this.v_email.includes(".") 
-      && this.v_contact.includes(" ") && this.v_adres.includes(" ")) {
-        this.sendVendors.sendVendor(this.myJSONForm).subscribe((res) => {
+      if (this.v_email.includes("@") && this.v_email.includes(".")
+        && this.v_contact.includes(" ") && this.v_adres.includes(" ")) {
+
+          const fd = new FormData();
+          fd.append('image',this.selected_file,this.selected_file.name)
+          console.log(`About to send`)
+          console.log(this.myJSONForm)
+          console.log(fd)
+          console.log("Information above.")
+        this.sendVendors.sendVendor({plainText:this.myJSONForm,blob:fd}).subscribe((res) => {
           console.log(res)
         });
+
         this.isFormInvalid = false;
       }
       else {
@@ -76,5 +84,7 @@ export class VendorComponent implements OnInit {
     }, 2000);
   }
 
-
+  onFileSelected(event: any) {
+    this.selected_file = <File>event.target.files[0]
+  }
 }
