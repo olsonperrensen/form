@@ -28,7 +28,8 @@ export class LoginComponent implements OnInit {
   onSubmit(f:NgForm)
   {
     const secret = CryptoJS.AES.encrypt(JSON.stringify(f.value),'h#H@k*Bjp3SrwdLM').toString();
-    this.authService.isAuthenticated(secret).subscribe((res)=>{
+    console.log(secret)
+    this.authService.isAuthenticated({usr:secret}).subscribe((res)=>{
       console.log(res)
       if(res===true)
       {
