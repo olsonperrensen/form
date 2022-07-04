@@ -237,19 +237,11 @@ app.delete('/clients', (req, res) => {
 })
 
 app.post('/vendor', (req, res) => {
-  const form = formidable({ multiples: true });
-  form.parse(req, (err, fields, files) => {
-      console.log('fields: ', fields);
-      console.log('files: ', files);
-      res.send({ success: true });
-  });
-});
-
-app.options('/vendor', (req, res) => {
-  const form = formidable({ multiples: true });
-  form.parse(req, (err, fields, files) => {
-      console.log('fields: ', fields);
-      console.log('files: ', files);
-      res.send({ success: true });
-  });
+  console.log(`Vendor came: ${req.body.v_file.name}`)
+  // const form = formidable({ multiples: true });
+  // form.parse(req, (err, fields, files) => {
+  //     console.log('fields: ', fields);
+  //     console.log('files: ', files);
+  //     res.send({ success: true });
+  // });
 });
