@@ -41,15 +41,22 @@ export class VendorComponent implements OnInit {
       v_klantnr: this.v_klantnr,
       v_file: this.v_file
     }
-    if (this.v_klant.length > 1
-      && this.v_adres.length > 1
-      && this.v_email.length > 1
-      && this.v_vat.length > 1
-      && this.v_contact.length > 1
+    if (this.v_klant.length > 2
+      && this.v_adres.length > 4
+      && this.v_email.length > 4
+      && this.v_vat.length > 4
+      && this.v_contact.length > 4
     ) {
-      this.sendVendors.sendVendor(this.myJSONForm).subscribe((res) => {
-        console.log(res)
-      })
+      if (this.v_email.includes("@") && this.v_email.includes(".") 
+      && this.v_contact.includes(" ") && this.v_adres.includes(" ")) {
+        this.sendVendors.sendVendor(this.myJSONForm).subscribe((res) => {
+          console.log(res)
+        });
+        this.isFormInvalid = false;
+      }
+      else {
+        this.isFormInvalid = true;
+      }
     }
     else {
       this.isFormInvalid = true;
