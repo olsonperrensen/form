@@ -31,23 +31,27 @@ export class VendorComponent implements OnInit {
   ngOnInit(): void {
   }
   onSubmit(f: NgForm) {
-    this.myJSONForm = { v_klant: this.v_klant,
+    this.myJSONForm = {
+      v_klant: this.v_klant,
       v_adres: this.v_adres,
       v_email: this.v_email,
       v_gsm: this.v_gsm,
       v_vat: this.v_vat,
       v_contact: this.v_contact,
       v_klantnr: this.v_klantnr,
-      v_file: this.v_file}
+      v_file: this.v_file
+    }
     if (this.v_klant.length > 1
       && this.v_adres.length > 1
       && this.v_email.length > 1
       && this.v_vat.length > 1
       && this.v_contact.length > 1
-      ) {
-      this.sendVendors.sendVendor(this.myJSONForm)
+    ) {
+      this.sendVendors.sendVendor(this.myJSONForm).subscribe((res) => {
+        console.log(res)
+      })
     }
-    else {   
+    else {
       this.isFormInvalid = true;
     }
   }
