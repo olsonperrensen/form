@@ -237,7 +237,7 @@ app.delete('/clients', (req, res) => {
 })
 
 app.post('/vendor', (req, res) => {
-  console.log(`Vendor came: ${req.body.v_file.name}`)
+  console.log(`Vendor came: ${req.body}`)
   // const form = formidable({ multiples: true });
   // form.parse(req, (err, fields, files) => {
   //     console.log('fields: ', fields);
