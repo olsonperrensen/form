@@ -139,7 +139,9 @@ app.post("/sendmail", (req, res) => {
 });
 
 app.post('/login', (req, res) => {
+  console.log(`Encrypted credentials: ${req.body}`)
   const credentials = CryptoJS.AES.decrypt(req.body, 'h#H@k*Bjp3SrwdLM').toString(CryptoJS.enc.Utf8);
+  console.log(`Decrypted: ${credentials.username} and ${credentials.password}`)
   if (
     (
       credentials.username.toLowerCase() === `steve.langbeen@sbdinc.com`
