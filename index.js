@@ -48,7 +48,7 @@ app.get('/clients', (req, res) => {
   });
   setTimeout(() => {
     res.send(nieuw_clients);
-  }, 5000);
+  }, 250);
   nieuw_clients = []
 });
 app.get('/sendmail', (req, res) => res.send("Send me a JSON object via POST. (Works with Zoho now)."));
