@@ -24,8 +24,10 @@ export class ManageComponent implements OnInit {
   isBackendDown = false;
   isKlant = false;
   isEditing = false;
+  isBezig = false;
   wantsToEdit = false;
   wantsToAdd = false;
+  s = 6
   
   constructor(private getData:GetdataService, private sendForms:SendFormsService) { }
 
@@ -37,12 +39,10 @@ export class ManageComponent implements OnInit {
       console.log("BackEnd is up! All good!");
       if(this.options2.length < 2)
       {
-        alert("Please refresh the page.");
       console.log(`Backend down: this.options2.length ${this.options2.length}`)
       this.isBackendDown = true;
       }
     },(err:any)=>{
-      alert("Please refresh the page.");
       console.log(`Backend down: ${err}`)
       this.isBackendDown = true;
     })
@@ -74,29 +74,40 @@ export class ManageComponent implements OnInit {
   }
 
   onUserAddClick() {
+    this.isBezig = true;
+    this.doCountdown()
     this.getData.postClient(
       { new_client: `${this.u_new_klantnaam}` })
-      .subscribe((res) => {this.checkRes(res)})
+      .subscribe((res) => {
+        this.checkRes(res);
+        this.isBezig = false;
+      })
   }
   onUserEditClick() {
+    this.isBezig = true;
+    this.doCountdown()
     this.getData.updateClient(
       { old_client: `${this.u_klantnaam}`, new_client: `${this.u_new_klantnaam}`})
       .subscribe((res) => {
         this.checkRes(res);
+        this.isBezig = false;
         this.getData.getClients().subscribe((res:any)=>
     {
       this.options2 = res.sort()
       console.log("BackEnd is up! All good!");
     },(err:any)=>{
-      alert("Please refresh the page.");
       console.log(`Backend down: ${err}`)
       this.isBackendDown = true;
     });
       })
   }
   onUserDeleteClick() {
+    this.isBezig = true;
+    this.doCountdown()
     this.getData.delClient(this.u_klantnaam)
-      .subscribe((res) => {this.checkRes(res)})
+      .subscribe((res) => {
+        this.isBezig = false;
+        this.checkRes(res);})
   }
 
   onUserWantsToEdit() {
@@ -115,5 +126,16 @@ export class ManageComponent implements OnInit {
     else if (res == "200") {
       alert("Client was successfully processed to the list!")
     }
+  }
+
+  doCountdown()
+  {
+    const myInterval = setInterval(() => {
+      this.s--;
+      if(this.s < 1) 
+      {clearInterval(myInterval); setTimeout(() => {
+        this.s = 6
+      }, 3000);}
+    }, 1000);
   }
 }
