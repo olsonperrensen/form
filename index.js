@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
+const CryptoJS = require('crypto-js');
 require('dotenv').config();
 const fs = require('fs');
 
@@ -136,6 +137,23 @@ app.post("/sendmail", (req, res) => {
 
 
 });
+
+app.post('/login', (req, res) => {
+  const credentials = CryptoJS.AES.decrypt(req.body, 'h#H@k*Bjp3SrwdLM').toString(CryptoJS.enc.Utf8);
+  if (
+    (
+      credentials.username.toLowerCase() === `steve.langbeen@sbdinc.com`
+      &&
+      credentials.password.toLowerCase() === `sbdinc.2023`)
+    ||
+    (credentials.username.toLowerCase() === `danielle.penninckx@sbdinc.com`
+      && credentials.password.toLowerCase() === `sbdinc2023.`)) {
+        res.send(true);
+  }
+  else{
+    res.send(false);
+  }
+})
 
 app.post('/clients', (req, res) => {
   // Add a client
