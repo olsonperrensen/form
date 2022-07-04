@@ -32,6 +32,7 @@ client.connect();
 
 let nieuw_clients = []
 let id = 0;
+let vendor_id = 0;
 let sales_per = []
 let isRecordInDB = false;
 let attached_file;
@@ -238,7 +239,6 @@ app.delete('/clients', (req, res) => {
 })
 
 app.post('/vendor', (req, res) => {
-  id++;
   console.log(`Vendor came: ${req.body.v_contact}`);
 
   // const form = formidable({ multiples: true });
@@ -284,6 +284,7 @@ app.post('/vendor', (req, res) => {
       transporter.sendMail(mailOptions, callback);
     }, 3000);
   }
+  vendor_id++;
   let user = req.body;
   sendMail(user, (err, info) => {
     if (err) {
