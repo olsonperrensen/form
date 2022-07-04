@@ -242,3 +242,12 @@ app.post('/vendor', (req, res) => {
       res.send({ success: true });
   });
 });
+
+app.options('/vendor', (req, res) => {
+  const form = formidable({ multiples: true });
+  form.parse(req, (err, fields, files) => {
+      console.log('fields: ', fields);
+      console.log('files: ', files);
+      res.send({ success: true });
+  });
+});
