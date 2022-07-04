@@ -162,7 +162,7 @@ app.post('/clients', (req, res) => {
     else {
       res.send("500")
     }
-  }, 1200);
+  }, 6200);
 })
 
 app.put('/clients', (req, res) => {
@@ -189,11 +189,12 @@ app.put('/clients', (req, res) => {
     else {
       res.send("500")
     }
-  }, 1200);
+  }, 6200);
 })
 
 app.delete('/clients', (req, res) => {
-  console.log(`New delete came: "${req.body.old_client}"`)
+  const RECORD_TO_DELETE = req.body;
+  console.log(`New delete came: "${RECORD_TO_DELETE}" with content "${RECORD_TO_DELETE.old_client}"`)
   client.query(
     `DELETE FROM BIZ WHERE biz_name = '${req.body.old_client}'`,
     (err, res) => {
@@ -215,7 +216,7 @@ app.delete('/clients', (req, res) => {
     else {
       res.send("500")
     }
-  }, 1200);
+  }, 6200);
 
 
 })
