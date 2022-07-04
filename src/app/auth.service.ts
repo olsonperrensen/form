@@ -1,22 +1,19 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  url = 'https://formemail.herokuapp.com/clients';
   loggedIn = false;
 
-  isAuthenticated()
+  isAuthenticated(secret:any)
   {
-    const promise = new Promise((resolve,reject)=>{
-      setTimeout(() => {
-        resolve(this.loggedIn);
-      }, 800);
-    })
-    return promise
+    return this.http.post(this.url,secret);
   }
 
-  constructor() { }
+  constructor(private http:HttpClient) { }
 
   login()
   {

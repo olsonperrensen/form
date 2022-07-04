@@ -27,30 +27,27 @@ export class LoginComponent implements OnInit {
   }
   onSubmit(f:NgForm)
   {
-    const secret = CryptoJS.AES.encrypt(JSON.stringify(f.value),'nghimax').toString();
-    const credentials = CryptoJS.AES.decrypt(secret, 'nghimax').toString(CryptoJS.enc.Utf8);
-    if(credentials === `{"username":"steve.langbeen@sbdinc.com","password":"sbdinc.2023"}` 
-    || credentials === `{"username":"danielle.penninckx@sbdinc.com","password":"sbdinc2023."}`)
-    {
-      this.onLogin()
+    const secret = CryptoJS.AES.encrypt(JSON.stringify(f.value),'h#H@k*Bjp3SrwdLM').toString();
+    this.authService.isAuthenticated(secret).subscribe((res)=>{
+      if(res===true)
+      {
+        this.onLogin()
       this.isLoggedIn=true;
 
       setTimeout(() => {
         this.router.navigate(['/','manage'])
       }, 2000);
-    }
-    else
-    {
-      this.onLogout()
-      this.isLoggedIn=false;
-      this.isInvalid = true;
-      setTimeout(() => {
-        this.router.navigate(['/'])
-      }, 2000);
-    }
-    
-
-    
+      }
+      else
+      {
+        this.onLogout()
+        this.isLoggedIn=false;
+        this.isInvalid = true;
+        setTimeout(() => {
+          this.router.navigate(['/'])
+        }, 2000);
+      }
+    })
   }
 
   onLogin()
