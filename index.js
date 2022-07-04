@@ -134,6 +134,10 @@ app.post("/sendmail", (req, res) => {
     }
   });
 
+  app.post('/vendor',(req,res)=>{
+    console.log(req.body.v_file)
+  })
+
 
 
 });
