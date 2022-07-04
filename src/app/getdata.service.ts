@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -18,7 +18,17 @@ export class GetdataService {
   }
 
   delClient(req: any) {
-    return this.http.delete(this.url, req);
+    
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: {
+        old_client: req
+      },
+    };
+
+    return this.http.delete(this.url, options);
   }
 
   updateClient(req: any) {

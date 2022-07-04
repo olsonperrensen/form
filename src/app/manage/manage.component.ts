@@ -35,7 +35,15 @@ export class ManageComponent implements OnInit {
     {
       this.options2 = res.sort()
       console.log("BackEnd is up! All good!");
-    },(err)=>{
+      if(this.options2.length < 2)
+      {
+        alert("Please refresh the page.");
+      console.log(`Backend down: this.options2.length ${this.options2.length}`)
+      this.isBackendDown = true;
+      }
+    },(err:any)=>{
+      alert("Please refresh the page.");
+      console.log(`Backend down: ${err}`)
       this.isBackendDown = true;
     })
 
@@ -71,16 +79,23 @@ export class ManageComponent implements OnInit {
       .subscribe((res) => {this.checkRes(res)})
   }
   onUserEditClick() {
-    // TO-FIX
-
     this.getData.updateClient(
       { old_client: `${this.u_klantnaam}`, new_client: `${this.u_new_klantnaam}`})
-      .subscribe((res) => {this.checkRes(res)})
+      .subscribe((res) => {
+        this.checkRes(res);
+        this.getData.getClients().subscribe((res:any)=>
+    {
+      this.options2 = res.sort()
+      console.log("BackEnd is up! All good!");
+    },(err:any)=>{
+      alert("Please refresh the page.");
+      console.log(`Backend down: ${err}`)
+      this.isBackendDown = true;
+    });
+      })
   }
   onUserDeleteClick() {
-  // TO-FIX
-    this.getData.delClient(
-      {old_client: `${this.u_klantnaam}`})
+    this.getData.delClient(this.u_klantnaam)
       .subscribe((res) => {this.checkRes(res)})
   }
 

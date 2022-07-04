@@ -129,6 +129,12 @@ deWALT_employees = [
     {
       this.options2 = res.sort()
       console.log("BackEnd is up! All good!");
+      if(this.options2.length < 2)
+      {
+        alert("Please refresh the page.");
+      console.log(`Backend down: this.options2.length ${this.options2.length}`)
+      this.isBackendDown = true;
+      }
     },(err)=>{
       this.isBackendDown = true;
       // alert("Press F5 to continue.")
