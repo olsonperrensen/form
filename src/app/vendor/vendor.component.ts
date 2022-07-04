@@ -16,6 +16,7 @@ import { SendVendorsService } from '../send-vendors.service';
 })
 export class VendorComponent implements OnInit {
   isFormInvalid = false;
+  isFormValidWithFile = false;
   v_klant = ""
   v_adres = ""
   v_email = ""
@@ -24,8 +25,9 @@ export class VendorComponent implements OnInit {
   v_contact = ""
   v_klantnr = ""
   v_file!: File;
+  v_worker = '';
   myJSONForm = {};
-  selected_file!:File;
+  selected_file!: File;
 
   constructor(private router: Router, private sendVendors: SendVendorsService) { }
 
@@ -39,24 +41,27 @@ export class VendorComponent implements OnInit {
       v_gsm: this.v_gsm,
       v_vat: this.v_vat,
       v_contact: this.v_contact,
-      v_klantnr: this.v_klantnr
+      v_klantnr: this.v_klantnr,
+      v_file: this.selected_file,
+      v_worker:this.v_worker
     }
     if (this.v_klant.length > 2
       && this.v_adres.length > 4
       && this.v_email.length > 4
       && this.v_vat.length > 4
       && this.v_contact.length > 4
+      && this.v_worker.length > 4
     ) {
       if (this.v_email.includes("@") && this.v_email.includes(".")
-        && this.v_contact.includes(" ") && this.v_adres.includes(" ")) {
+        && this.v_contact.includes(" ") && this.v_adres.includes(" ") 
+        && this.v_worker.includes(" ")) {
 
-          const fd = new FormData();
-          fd.append('image',this.selected_file,this.selected_file.name)
-          console.log(`About to send`)
-          console.log(this.myJSONForm)
-          console.log(fd)
-          console.log("Information above.")
-        this.sendVendors.sendVendor({plainText:this.myJSONForm,blob:fd}).subscribe((res) => {
+        // const fd = new FormData();
+        // fd.append('image',this.selected_file,this.selected_file.name)
+        console.log(`About to send:`)
+        console.log(this.myJSONForm)
+        console.log("Information above.")
+        this.sendVendors.sendVendor(this.myJSONForm).subscribe((res) => {
           console.log(res)
         });
 
@@ -85,6 +90,7 @@ export class VendorComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
+    this.isFormValidWithFile = true;
     this.selected_file = <File>event.target.files[0]
   }
 }

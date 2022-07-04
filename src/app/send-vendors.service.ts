@@ -7,6 +7,7 @@ export class SendVendorsService {
   constructor(private http: HttpClient) {
   }
 
+
   private url = 'https://formemail.herokuapp.com/vendor';
 
   public sendVendor(form_data: any) {

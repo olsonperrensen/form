@@ -6,6 +6,10 @@
         <div class="container">
           <p><em style="font-size:xx-small;">{{'w4'|translate}}</em></p>
           <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Ik ben...</mat-label>
+            <input required matInput placeholder="Placeholder" [(ngModel)]="v_worker" name="v_worker">
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Klant</mat-label>
             <input required matInput placeholder="Placeholder" [(ngModel)]="v_klant" name="v_klant">
           </mat-form-field>
@@ -38,7 +42,7 @@
           <button type="button" style="width: 100%" mat-raised-button color="accent"
             (click)="csvInput.click()">Getekende factuur als PDF uploaden</button>
           <hr style="margin: 20px">
-          <button [disabled]="!f.valid" type="submit" mat-raised-button color="accent">{{'q9'|translate}}</button>
+          <button [disabled]="!isFormValidWithFile||!f.valid" type="submit" mat-raised-button color="accent">{{'q9'|translate}}</button>
           <button style="margin-left:9px" [disabled]="!f.valid" type="button" mat-stroked-button color="warn"
             (click)="onCancel(f)">{{'q10'|translate}}</button>
             <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isFormInvalid"
