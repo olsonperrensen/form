@@ -19,7 +19,7 @@
           </mat-form-field>
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Telefoonnr</mat-label>
-            <input type="number" required matInput [(ngModel)]="v_gsm" name="v_gsm" placeholder="Placeholder">
+            <input min="31" max="32999999999" type="number" required matInput [(ngModel)]="v_gsm" name="v_gsm" placeholder="Placeholder">
           </mat-form-field>
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>VAT No.</mat-label>
@@ -31,16 +31,18 @@
           </mat-form-field>
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Klant Nr.</mat-label>
-            <input type="number" required [(ngModel)]="v_klantnr" name="v_klantnr" matInput placeholder="Placeholder">
+            <input min="1000000" max="8000000" type="number" required [(ngModel)]="v_klantnr" name="v_klantnr" matInput placeholder="Placeholder">
           </mat-form-field>
-          <input #csvInput hidden="true" type="file" onclick="this.value=null" (change)="pdfInputChange($event)"
-            accept=".pdf" />
+          <input required #csvInput [(ngModel)]="v_file" name="v_file" hidden="true" type="file" onclick="this.value=null"
+            accept=".pdf, .jpg, .png" />
           <button type="button" style="width: 100%" mat-raised-button color="accent"
             (click)="csvInput.click()">Getekende factuur als PDF uploaden</button>
           <hr style="margin: 20px">
           <button [disabled]="!f.valid" type="submit" mat-raised-button color="accent">{{'q9'|translate}}</button>
           <button style="margin-left:9px" [disabled]="!f.valid" type="button" mat-stroked-button color="warn"
             (click)="onCancel(f)">{{'q10'|translate}}</button>
+            <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isFormInvalid"
+          style="color: red">Gelieve alle velden in te vullen...</pre>
         </div>
       </form>
     </div>

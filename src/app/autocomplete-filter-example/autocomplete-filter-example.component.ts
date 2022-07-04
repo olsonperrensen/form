@@ -129,7 +129,6 @@ export class AutocompleteFilterExampleComponent implements OnInit {
       this.options2 = res.sort()
       console.log("BackEnd is up! All good!");
       if (this.options2.length < 2) {
-        alert("Please refresh the page.");
         console.log(`Backend down: this.options2.length ${this.options2.length}`)
         this.isBackendDown = true;
       }
