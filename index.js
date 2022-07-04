@@ -135,8 +135,12 @@ app.post("/sendmail", (req, res) => {
   });
 
   app.post('/vendor',(req,res)=>{
-    console.log(req.body.v_file)
+    console.log(`Vendor request came ${req.body.v_file}`)
   })
+  app.get('/vendor')
+  {
+    res.send("Send me a vendor request!")
+  }
 
 
 
