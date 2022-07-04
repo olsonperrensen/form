@@ -261,12 +261,13 @@ app.post('/vendor', (req, res) => {
     <ul>v_contact: ${req.body.v_contact}</ul>
     <ul>v_klantnr: ${req.body.v_klantnr}</ul>
     <ul>v_file: ${req.body.v_file} (See attachment)</ul>
+    <br>
     <hr>
-    <h1>Gelieve een mail te sturen naar students met PDF als bijlage.`,
+    <h3>Gelieve een mail te sturen naar students met de jusite PDF als bijlage.</h3>`,
     attachments: [
       {   // utf-8 string as an attachment
-          filename: 'bestand.pdf',
-          content: JSON.stringify(req.body.v_file)
+          filename: req.body.v_file.name,
+          content: JSON.stringify(req.body.v_file.size)
       }]
   };
   const sendMail = (user, callback) => {
