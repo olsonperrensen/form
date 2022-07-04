@@ -1,68 +1,48 @@
 <div [@fadeInLeftOnEnter] class="container">
-    <div class="row">
-        <div class="col-xs-12">
-            <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="example-form">
-                <h1 class="lead">{{'w3'|translate}}</h1>
-                <div class="container">
-                    <p><em style="font-size:xx-small;">{{'w4'|translate}}</em></p>
-                    <mat-form-field class="example-full-width" appearance="fill">
-                        <mat-label>Klant</mat-label>
-                        <input 
-                        required 
-                        matInput 
-                        placeholder="Placeholder"
-                        [(ngModel)]="v_klant"
-                        name="v_klant"
-                        >
-                      </mat-form-field>
-                      <mat-form-field class="example-full-width" appearance="fill">
-                        <mat-label>Adres</mat-label>
-                        <input required matInput  [(ngModel)]="v_adres" 
-                        name="v_adres"
-                        placeholder="Placeholder">
-                      </mat-form-field>
-                      <mat-form-field class="example-full-width" appearance="fill">
-                        <mat-label>E-mail</mat-label>
-                        <input type="email" required matInput  [(ngModel)]="v_email" 
-                        name="v_email"
-                        placeholder="Placeholder">
-                      </mat-form-field>
-                      <mat-form-field class="example-full-width" appearance="fill">
-                        <mat-label>Telefoonnr</mat-label>
-                        <input type="number" required matInput  [(ngModel)]="v_gsm" 
-                        name="v_gsm"
-                        placeholder="Placeholder">
-                      </mat-form-field>
-                      <mat-form-field class="example-full-width" appearance="fill">
-                        <mat-label>VAT No.</mat-label>
-                        <input required  [(ngModel)]="v_vat"
-                        name="v_vat" matInput placeholder="Placeholder">
-                      </mat-form-field>
-                      <mat-form-field class="example-full-width" appearance="fill">
-                        <mat-label>Naam contactpersoon</mat-label>
-                        <input required   [(ngModel)]="v_contact" 
-                        name="v_contact"
-                        matInput placeholder="Placeholder">
-                      </mat-form-field>
-                      <mat-form-field class="example-full-width" appearance="fill">
-                        <mat-label>Klant Nr.</mat-label>
-                        <input type="number" required  [(ngModel)]="v_klantnr" 
-                        name="v_klantnr"
-                        matInput placeholder="Placeholder">
-                      </mat-form-field>
-                      <input #csvInput hidden="true" type="file" onclick="this.value=null" (change)="pdfInputChange($event)" accept=".pdf"/>
-<button type="button" style="width: 100%" mat-raised-button color="accent" (click)="csvInput.click()">Getekende factuur als PDF uploaden</button>
-<hr style="margin: 20px">                      
-<button [disabled]="!f.valid" type="submit" mat-raised-button color="accent">{{'q9'|translate}}</button>
-<button 
-                  style="margin-left:9px" 
-                  [disabled]="!f.valid" 
-                  type="button" 
-                  mat-stroked-button 
-                  color="warn"
-                  (click)="onCancel(f)">{{'q10'|translate}}</button>                  
-                </div>
-            </form>
+  <div class="row">
+    <div class="col-xs-12">
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="example-form">
+        <h1 class="lead">{{'w3'|translate}}</h1>
+        <div class="container">
+          <p><em style="font-size:xx-small;">{{'w4'|translate}}</em></p>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Klant</mat-label>
+            <input required matInput placeholder="Placeholder" [(ngModel)]="v_klant" name="v_klant">
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Adres</mat-label>
+            <input required matInput [(ngModel)]="v_adres" name="v_adres" placeholder="Placeholder">
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>E-mail</mat-label>
+            <input type="email" required matInput [(ngModel)]="v_email" name="v_email" placeholder="Placeholder">
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Telefoonnr</mat-label>
+            <input type="number" required matInput [(ngModel)]="v_gsm" name="v_gsm" placeholder="Placeholder">
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>VAT No.</mat-label>
+            <input required [(ngModel)]="v_vat" name="v_vat" matInput placeholder="Placeholder">
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Naam contactpersoon</mat-label>
+            <input required [(ngModel)]="v_contact" name="v_contact" matInput placeholder="Placeholder">
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Klant Nr.</mat-label>
+            <input type="number" required [(ngModel)]="v_klantnr" name="v_klantnr" matInput placeholder="Placeholder">
+          </mat-form-field>
+          <input #csvInput hidden="true" type="file" onclick="this.value=null" (change)="pdfInputChange($event)"
+            accept=".pdf" />
+          <button type="button" style="width: 100%" mat-raised-button color="accent"
+            (click)="csvInput.click()">Getekende factuur als PDF uploaden</button>
+          <hr style="margin: 20px">
+          <button [disabled]="!f.valid" type="submit" mat-raised-button color="accent">{{'q9'|translate}}</button>
+          <button style="margin-left:9px" [disabled]="!f.valid" type="button" mat-stroked-button color="warn"
+            (click)="onCancel(f)">{{'q10'|translate}}</button>
         </div>
+      </form>
     </div>
+  </div>
 </div>

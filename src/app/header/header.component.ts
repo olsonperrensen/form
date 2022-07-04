@@ -11,20 +11,17 @@ export class HeaderComponent implements OnInit {
   isDutch = true;
 
 
-  constructor(private translateService:TranslateService) { }
+  constructor(private translateService: TranslateService) { }
 
   ngOnInit(): void {
   }
 
-  onLang()
-  {
-    if(this.isDutch)
-    {
+  onLang() {
+    if (this.isDutch) {
       this.isDutch = false
       this.translateService.use('fr-FR')
     }
-    else
-    {
+    else {
       this.isDutch = true
       this.translateService.use('nl-NL')
     }

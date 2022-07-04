@@ -5,7 +5,7 @@ import * as a from 'angular-animations'
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.css'],
-  animations:[
+  animations: [
     a.fadeInLeftBigOnEnterAnimation()
   ]
 })

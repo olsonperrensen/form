@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import * as CryptoJS from 'crypto-js';  
+import * as CryptoJS from 'crypto-js';
 import * as a from 'angular-animations';
 import { Route, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
@@ -9,7 +9,7 @@ import { AuthService } from '../auth.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  animations:[
+  animations: [
     a.bounceInLeftOnEnterAnimation(),
     a.bounceInRightOnEnterAnimation(),
     a.fadeInOnEnterAnimation(),
@@ -18,32 +18,29 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  isLoggedIn:boolean=false;
+  isLoggedIn: boolean = false;
   isInvalid = false;
 
-  constructor(private router:Router, private authService: AuthService) { }
+  constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
   }
-  onSubmit(f:NgForm)
-  {
-    const secret = CryptoJS.AES.encrypt(JSON.stringify(f.value),'h#H@k*Bjp3SrwdLM').toString();
+  onSubmit(f: NgForm) {
+    const secret = CryptoJS.AES.encrypt(JSON.stringify(f.value), 'h#H@k*Bjp3SrwdLM').toString();
     console.log(secret)
-    this.authService.isAuthenticated({usr:secret}).subscribe((res)=>{
+    this.authService.isAuthenticated({ usr: secret }).subscribe((res) => {
       console.log(res)
-      if(res===true)
-      {
+      if (res === true) {
         this.onLogin()
-      this.isLoggedIn=true;
+        this.isLoggedIn = true;
 
-      setTimeout(() => {
-        this.router.navigate(['/','manage'])
-      }, 2000);
+        setTimeout(() => {
+          this.router.navigate(['/', 'manage'])
+        }, 2000);
       }
-      else
-      {
+      else {
         this.onLogout()
-        this.isLoggedIn=false;
+        this.isLoggedIn = false;
         this.isInvalid = true;
         setTimeout(() => {
           this.router.navigate(['/'])
@@ -52,13 +49,11 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  onLogin()
-  {
+  onLogin() {
     this.authService.setGuardStatus(true)
     this.authService.login()
   }
-  onLogout()
-  {
+  onLogout() {
     this.authService.logout()
   }
 

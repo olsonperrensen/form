@@ -10,31 +10,25 @@ export class AuthService {
   private url = 'https://formemail.herokuapp.com/login';
   private loggedIn = false;
 
-  isAuthenticated(secret:any)
-  {
-    return this.http.post(this.url,secret);
+  isAuthenticated(secret: any) {
+    return this.http.post(this.url, secret);
   }
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  login()
-  {
+  login() {
     this.loggedIn = true;
   }
-  logout()
-  {
+  logout() {
     this.loggedIn = false;
   }
 
-  setGuardStatus(val:boolean)
-  {
-    if(val===true)
-    {
+  setGuardStatus(val: boolean) {
+    if (val === true) {
       this.guardStatus = val
     }
   }
-  getGuardStatus()
-  {
+  getGuardStatus() {
     return this.guardStatus
   }
 }

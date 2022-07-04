@@ -7,7 +7,7 @@ import * as a from 'angular-animations';
   selector: 'app-vendor',
   templateUrl: './vendor.component.html',
   styleUrls: ['./vendor.component.css'],
-  animations:[
+  animations: [
     a.fadeInLeftOnEnterAnimation()]
 })
 export class VendorComponent implements OnInit {
@@ -20,20 +20,17 @@ export class VendorComponent implements OnInit {
   v_contact = ""
   v_klantnr = ""
 
-  constructor(private router:Router) { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
-  onSubmit(f:NgForm)
-  {
-    
+  onSubmit(f: NgForm) {
+
   }
-  pdfInputChange(e:Event)
-  {
-    
+  pdfInputChange(e: Event) {
+
   }
-  onCancel(f:NgForm)
-  {
+  onCancel(f: NgForm) {
     this.v_klant = ""
     this.v_adres = ""
     this.v_email = ""

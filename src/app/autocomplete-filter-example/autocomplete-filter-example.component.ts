@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {FormControl, NgForm} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl, NgForm } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { SendFormsService } from '../send-forms.service';
-import {TooltipPosition} from '@angular/material/tooltip';
+import { TooltipPosition } from '@angular/material/tooltip';
 import { IpServiceService } from '../ip-service.service';
 import * as a from 'angular-animations';
 import { GetdataService } from '../getdata.service';
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   selector: 'app-autocomplete-filter-example',
   templateUrl: './autocomplete-filter-example.component.html',
   styleUrls: ['./autocomplete-filter-example.component.css'],
-  animations:[
+  animations: [
     a.fadeInLeftOnEnterAnimation(),
     a.fadeInOnEnterAnimation(),
     a.fadeInRightOnEnterAnimation(),
@@ -55,59 +55,59 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   myControl10 = new FormControl();
 
   options2!: string[];
-  options3: string[] = ["DEWALT/LENOX","STANLEY","FACOM","BOSTITCH"];
-  options4: string[] = ["Januari","Februari","Maart","April","Mei","Juni",
-"Juli","Augustus","September","Oktober","Novermber","December"];
-options5: string[] = ["België / Belgique","Nederland / Pays Bas"];
-options6: string[] = [
-  // DeWALT
-  "Marcel VandenBerge",
-  "Jeroen VanBerkel",
-  "Cindy Eekels",
-  "Bob Vandenberghen",
-  "Nicolas Dedobbeleer",
-  "Bram Hennebert",
-  "Steve Oris",
-  "Christian Darmont",
-  "Frank Mentens",
-  "Etienne Delvosalle",
-  "Jeroen Decherf",
-  "Carlos DeBruijn",
-  "Michiel Vliek",
-  "Wouter Rook",
-  "Arnold Wever",
-  "Oscar Laureijs",
-  "Kevin Markestein","David Goubert","Gunther Mergan","Jurgen De Leeuw","Thomas Molendijk","Marcelino Papperse","Andor De Vries","Ivo Schouten",
-  // Facom
-  "Patrick Diepenbach", 
-  "Piet Verstraete","Vincent Broertjes","Jean-Christophe Pintiaux","Kim Maris","Mario Reverse","Peter Schaekers","Robin Roels","Stefan Sack","Vincent Lenain","Vincent Pireyn","Yves De Waal","Adriaan Arkeraats","Arno De Jager","Duncan DeWith",
-// Stanley
-"Ken Leysen","Martin Van Werkhoven","Paul Kerkhoven","Cedric Bicque","Christian Fonteyn","Klaas Jan Bosgraaf","Ammaar Basnoe","Robert Van Straten","Sven Pieters","Niek Nijland"];
-options7: string[] = ["Pro","Consumer"];
-options8: string[] = ["Geert Maes","Marleen Vangronsveld","Marlon Van Zundert","Michael Soenen","Michael Tistaert","Ronald Westra","Vicky De Decker","Christelle Marro","Frederic Barzin","Luc Claes","Marc Ghijs","Ronny Callewaert","Hendrik Pieters","Malvin Puts","Niels Groters","Remco Rozing ","Eric Nieuwmans"];
+  options3: string[] = ["DEWALT/LENOX", "STANLEY", "FACOM", "BOSTITCH"];
+  options4: string[] = ["Januari", "Februari", "Maart", "April", "Mei", "Juni",
+    "Juli", "Augustus", "September", "Oktober", "Novermber", "December"];
+  options5: string[] = ["België / Belgique", "Nederland / Pays Bas"];
+  options6: string[] = [
+    // DeWALT
+    "Marcel VandenBerge",
+    "Jeroen VanBerkel",
+    "Cindy Eekels",
+    "Bob Vandenberghen",
+    "Nicolas Dedobbeleer",
+    "Bram Hennebert",
+    "Steve Oris",
+    "Christian Darmont",
+    "Frank Mentens",
+    "Etienne Delvosalle",
+    "Jeroen Decherf",
+    "Carlos DeBruijn",
+    "Michiel Vliek",
+    "Wouter Rook",
+    "Arnold Wever",
+    "Oscar Laureijs",
+    "Kevin Markestein", "David Goubert", "Gunther Mergan", "Jurgen De Leeuw", "Thomas Molendijk", "Marcelino Papperse", "Andor De Vries", "Ivo Schouten",
+    // Facom
+    "Patrick Diepenbach",
+    "Piet Verstraete", "Vincent Broertjes", "Jean-Christophe Pintiaux", "Kim Maris", "Mario Reverse", "Peter Schaekers", "Robin Roels", "Stefan Sack", "Vincent Lenain", "Vincent Pireyn", "Yves De Waal", "Adriaan Arkeraats", "Arno De Jager", "Duncan DeWith",
+    // Stanley
+    "Ken Leysen", "Martin Van Werkhoven", "Paul Kerkhoven", "Cedric Bicque", "Christian Fonteyn", "Klaas Jan Bosgraaf", "Ammaar Basnoe", "Robert Van Straten", "Sven Pieters", "Niek Nijland"];
+  options7: string[] = ["Pro", "Consumer"];
+  options8: string[] = ["Geert Maes", "Marleen Vangronsveld", "Marlon Van Zundert", "Michael Soenen", "Michael Tistaert", "Ronald Westra", "Vicky De Decker", "Christelle Marro", "Frederic Barzin", "Luc Claes", "Marc Ghijs", "Ronny Callewaert", "Hendrik Pieters", "Malvin Puts", "Niels Groters", "Remco Rozing ", "Eric Nieuwmans"];
 
 
-deWALT_employees = [
-  // DeWALT
-  "Marcel VandenBerge",
-  "Jeroen VanBerkel",
-  "Cindy Eekels",
-  "Bob Vandenberghen",
-  "Nicolas Dedobbeleer",
-  "Bram Hennebert",
-  "Steve Oris",
-  "Christian Darmont",
-  "Frank Mentens",
-  "Etienne Delvosalle",
-  "Jeroen Decherf",
-  "Carlos DeBruijn",
-  "Michiel Vliek",
-  "Wouter Rook",
-  "Arnold Wever",
-  "Oscar Laureijs",  "Kevin Markestein","David Goubert","Gunther Mergan","Jurgen De Leeuw","Thomas Molendijk","Marcelino Papperse","Andor De Vries","Ivo Schouten - Sales Manager DW NL"];
-  facom_employees = ["Patrick Diepenbach", 
-  "Piet Verstraete","Vincent Broertjes","Jean-Christophe Pintiaux","Kim Maris","Mario Reverse","Peter Schaekers","Robin Roels","Stefan Sack","Vincent Lenain","Vincent Pireyn","Yves De Waal","Adriaan Arkeraats","Arno De Jager","Duncan DeWith"];
-  stanley_employees = ["Ken Leysen","Martin Van Werkhoven","Paul Kerkhoven","Cedric Bicque","Christian Fonteyn","Klaas Jan Bosgraaf","Ammaar Basnoe","Robert Van Straten","Sven Pieters","Niek Nijland"];
+  deWALT_employees = [
+    // DeWALT
+    "Marcel VandenBerge",
+    "Jeroen VanBerkel",
+    "Cindy Eekels",
+    "Bob Vandenberghen",
+    "Nicolas Dedobbeleer",
+    "Bram Hennebert",
+    "Steve Oris",
+    "Christian Darmont",
+    "Frank Mentens",
+    "Etienne Delvosalle",
+    "Jeroen Decherf",
+    "Carlos DeBruijn",
+    "Michiel Vliek",
+    "Wouter Rook",
+    "Arnold Wever",
+    "Oscar Laureijs", "Kevin Markestein", "David Goubert", "Gunther Mergan", "Jurgen De Leeuw", "Thomas Molendijk", "Marcelino Papperse", "Andor De Vries", "Ivo Schouten - Sales Manager DW NL"];
+  facom_employees = ["Patrick Diepenbach",
+    "Piet Verstraete", "Vincent Broertjes", "Jean-Christophe Pintiaux", "Kim Maris", "Mario Reverse", "Peter Schaekers", "Robin Roels", "Stefan Sack", "Vincent Lenain", "Vincent Pireyn", "Yves De Waal", "Adriaan Arkeraats", "Arno De Jager", "Duncan DeWith"];
+  stanley_employees = ["Ken Leysen", "Martin Van Werkhoven", "Paul Kerkhoven", "Cedric Bicque", "Christian Fonteyn", "Klaas Jan Bosgraaf", "Ammaar Basnoe", "Robert Van Straten", "Sven Pieters", "Niek Nijland"];
 
   filteredOptions!: Observable<string[]>;
   filteredOptions2!: Observable<string[]>;
@@ -118,28 +118,26 @@ deWALT_employees = [
   filteredOptions7!: Observable<string[]>;
   filteredOptions8!: Observable<string[]>;
 
-  ipAddress = ''; 
+  ipAddress = '';
 
-  constructor(private sendForms:SendFormsService,private ip:IpServiceService,
-    private getData:GetdataService, private router:Router){}
+  constructor(private sendForms: SendFormsService, private ip: IpServiceService,
+    private getData: GetdataService, private router: Router) { }
 
-  ngOnInit() { 
-    this.getIP(); 
-    this.getData.getClients().subscribe((res:any)=>
-    {
+  ngOnInit() {
+    this.getIP();
+    this.getData.getClients().subscribe((res: any) => {
       this.options2 = res.sort()
       console.log("BackEnd is up! All good!");
-      if(this.options2.length < 2)
-      {
+      if (this.options2.length < 2) {
         alert("Please refresh the page.");
-      console.log(`Backend down: this.options2.length ${this.options2.length}`)
-      this.isBackendDown = true;
+        console.log(`Backend down: this.options2.length ${this.options2.length}`)
+        this.isBackendDown = true;
       }
-    },(err)=>{
+    }, (err) => {
       this.isBackendDown = true;
       // alert("Press F5 to continue.")
     })
-    
+
     this.filteredOptions2 = this.myControl2.valueChanges.pipe(
       startWith(''),
       map(value => this._filter2(value)),
@@ -172,44 +170,38 @@ deWALT_employees = [
     // Own Observables
 
     // Consumer
-    this.myControl8.valueChanges.subscribe((res)=>{
-      if(this.options8.find((obj) => {return obj.toLowerCase() === res.toLowerCase();}))
-      {
+    this.myControl8.valueChanges.subscribe((res) => {
+      if (this.options8.find((obj) => { return obj.toLowerCase() === res.toLowerCase(); })) {
         this.u_merk = this.options3[1];
         this.isWorker = true;
       }
-      else
-      {
+      else {
         this.u_merk = "";
         this.isWorker = false;
       }
     });
     // Pro
-    this.myControl6.valueChanges.subscribe((res)=>{
-      if(this.deWALT_employees.find((obj) => {return obj.toLowerCase() === res.toLowerCase();}))
-      {
+    this.myControl6.valueChanges.subscribe((res) => {
+      if (this.deWALT_employees.find((obj) => { return obj.toLowerCase() === res.toLowerCase(); })) {
         this.u_merk = this.options3[0];
         this.isWorker = true;
       }
-      else if(this.stanley_employees.find((obj) => {return obj.toLowerCase() === res.toLowerCase();}))
-      {
+      else if (this.stanley_employees.find((obj) => { return obj.toLowerCase() === res.toLowerCase(); })) {
         this.u_merk = this.options3[1];
         this.isWorker = true;
       }
-      else if(this.facom_employees.find((obj) => {return obj.toLowerCase() === res.toLowerCase();}))
-      {
+      else if (this.facom_employees.find((obj) => { return obj.toLowerCase() === res.toLowerCase(); })) {
         this.u_merk = this.options3[2];
         this.isWorker = true;
       }
-      else
-      {
+      else {
         this.u_merk = "";
         this.isWorker = false;
       }
     });
 
-    this.myControl3.valueChanges.subscribe((res)=>{
-      switch(res.toLowerCase()) {
+    this.myControl3.valueChanges.subscribe((res) => {
+      switch (res.toLowerCase()) {
         case this.options3[0].toLowerCase():
           this.isVerkoper = true;
           // code block
@@ -218,96 +210,80 @@ deWALT_employees = [
           this.isVerkoper = true;
           // code block
           break;
-          case this.options3[2].toLowerCase():
-            this.isVerkoper = true;
+        case this.options3[2].toLowerCase():
+          this.isVerkoper = true;
           // code block
           break;
-          case this.options3[3].toLowerCase():
-            this.isVerkoper = true;
-            // code block
-            break;
+        case this.options3[3].toLowerCase():
+          this.isVerkoper = true;
+          // code block
+          break;
         default:
           this.isVerkoper = false;
-          // code block
+        // code block
       }
     });
 
-    this.myControl2.valueChanges.subscribe((res)=>{
+    this.myControl2.valueChanges.subscribe((res) => {
       // Exact match full klant 
-      if(this.options2.find((obj) => {return obj.toLowerCase() === res.toLowerCase();})
-      &&!this.isNewVendor&&this.isLand)
-      {
+      if (this.options2.find((obj) => { return obj.toLowerCase() === res.toLowerCase(); })
+        && !this.isNewVendor && this.isLand) {
         this.isKlant = true;
       }
-      else
-      {
+      else {
         this.isKlant = false;
       }
     });
-    this.myControl9.valueChanges.subscribe((res)=>{
-      if(res >= 50 && res <= 89000 && this.isKlant)
-      {
+    this.myControl9.valueChanges.subscribe((res) => {
+      if (res >= 50 && res <= 89000 && this.isKlant) {
         this.isBedrag = true;
       }
-      else
-      {
+      else {
         this.isBedrag = false;
       }
     });
 
-    this.myControl10.valueChanges.subscribe((res)=>{
-      if(res.length > 4 && this.isBedrag)
-      {
+    this.myControl10.valueChanges.subscribe((res) => {
+      if (res.length > 4 && this.isBedrag) {
         this.isOmschrijving = true;
       }
-      else
-      {
+      else {
         this.isOmschrijving = false;
       }
     })
   }
 
-  potype()
-  {
-    if(this.u_potype === "Pro")
-    {
+  potype() {
+    if (this.u_potype === "Pro") {
       this.isPro = true;
       this.isConsumer = false;
     }
-    else if (this.u_potype === "Consumer")
-    {
+    else if (this.u_potype === "Consumer") {
       this.isConsumer = true;
       this.isPro = false;
     }
   }
-  klant()
-  {
-    if(this.u_klantnaam.includes("B/")||this.u_klantnaam.toUpperCase().includes('INACTIVE'))
-    {
+  klant() {
+    if (this.u_klantnaam.includes("B/") || this.u_klantnaam.toUpperCase().includes('INACTIVE')) {
       this.isOutdatedVendor = true;
     }
-    else
-    {
+    else {
       this.isOutdatedVendor = false;
     }
-    if(!this.options2.includes(this.u_klantnaam) && this.u_klantnaam.length > 3)
-    {
+    if (!this.options2.includes(this.u_klantnaam) && this.u_klantnaam.length > 3) {
       this.isNewVendor = true;
     }
-    else
-    {
+    else {
       this.isNewVendor = false;
     }
   }
-  landtype()
-  {
-    if(this.isVerkoper)
-    {
+  landtype() {
+    if (this.isVerkoper) {
       this.isLand = true;
     }
   }
 
-  
+
   private _filter2(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.options2.filter(option => option.toLowerCase().includes(filterValue));
@@ -354,34 +330,34 @@ deWALT_employees = [
   u_datum = ''
   u_potype = ''
   myJSONForm = {
-}
+  }
 
-  onSubmit(f:NgForm)
-  {
+  onSubmit(f: NgForm) {
 
     this.myJSONForm = {
-      timestamp: new Date().toISOString(),    
-      land:this.u_land,
-      klantnaam:this.u_klantnaam,
-      klantnr:this.u_klantnr,
-      bedrag:this.u_bedrag,
-      omschijving:this.u_omschrijving,
-      merk:this.u_merk,
-      datum:this.u_datum,
-      potype:this.u_potype,
-      worker:this.u_worker
+      timestamp: new Date().toISOString(),
+      land: this.u_land,
+      klantnaam: this.u_klantnaam,
+      klantnr: this.u_klantnr,
+      bedrag: this.u_bedrag,
+      omschijving: this.u_omschrijving,
+      merk: this.u_merk,
+      datum: this.u_datum,
+      potype: this.u_potype,
+      worker: this.u_worker
     };
-    
-      console.log(    this.options2.includes(this.u_klantnaam));
+
+    console.log(this.options2.includes(this.u_klantnaam));
 
     this.sendForms.sendForm(this.myJSONForm).subscribe(
-      (res)=>{
+      (res) => {
         alert(`U heeft met succes een aanvraag naar de verantwoordelijke gestuurd.
 
       Controleer uw e-mail voor het PO-nummer / Vous avez envoyé avec succès une demande à la personne responsable.
 
       Veuillez vérifier votre e-mail pour le numéro de PO`);
-      this.exit = true;},(err)=>{alert(`Er is iets fout gegaan. Probeer het opnieuw. / Quelque chose s'est mal passé. Réessayer.`)}
+        this.exit = true;
+      }, (err) => { alert(`Er is iets fout gegaan. Probeer het opnieuw. / Quelque chose s'est mal passé. Réessayer.`) }
     );
 
     setTimeout(() => {
@@ -389,8 +365,7 @@ deWALT_employees = [
     }, 500);
   }
 
-  onCancel(f:NgForm)
-  {
+  onCancel(f: NgForm) {
     this.u_bedrag = ''
     this.u_datum = ''
     this.u_klantnaam = ''
@@ -406,10 +381,9 @@ deWALT_employees = [
     }, 2000);
   }
 
-  getIP()  
-  {  
-    this.ip.getIPAddress().subscribe((res:any)=>{  
-      this.ipAddress=res.ip;  
-    });  
-  }  
+  getIP() {
+    this.ip.getIPAddress().subscribe((res: any) => {
+      this.ipAddress = res.ip;
+    });
+  }
 }

@@ -1,7 +1,7 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 import { FormControl, NgModel } from '@angular/forms';
 import { Observable } from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { GetdataService } from '../getdata.service';
 import { SendFormsService } from '../send-forms.service';
 import * as a from 'angular-animations'
@@ -11,9 +11,9 @@ import * as a from 'angular-animations'
   templateUrl: './manage.component.html',
   styleUrls: ['./manage.component.css'],
   animations:
-  [a.fadeInLeftOnEnterAnimation(),
-  a.bounceOutOnLeaveAnimation(),
-  a.bounceOnEnterAnimation()]
+    [a.fadeInLeftOnEnterAnimation(),
+    a.bounceOutOnLeaveAnimation(),
+    a.bounceOnEnterAnimation()]
 })
 export class ManageComponent implements OnInit {
   myControl2 = new FormControl();
@@ -28,21 +28,19 @@ export class ManageComponent implements OnInit {
   wantsToEdit = false;
   wantsToAdd = false;
   s = 6
-  
-  constructor(private getData:GetdataService, private sendForms:SendFormsService) { }
+
+  constructor(private getData: GetdataService, private sendForms: SendFormsService) { }
 
   ngOnInit(): void {
     this.options2 = []
-    this.getData.getClients().subscribe((res:any)=>
-    {
+    this.getData.getClients().subscribe((res: any) => {
       this.options2 = res.sort()
       console.log("BackEnd is up! All good!");
-      if(this.options2.length < 2)
-      {
-      console.log(`Backend down: this.options2.length ${this.options2.length}`)
-      this.isBackendDown = true;
+      if (this.options2.length < 2) {
+        console.log(`Backend down: this.options2.length ${this.options2.length}`)
+        this.isBackendDown = true;
       }
-    },(err:any)=>{
+    }, (err: any) => {
       console.log(`Backend down: ${err}`)
       this.isBackendDown = true;
     })
@@ -51,14 +49,12 @@ export class ManageComponent implements OnInit {
       startWith(''),
       map(value => this._filter2(value)),
     );
-    this.myControl2.valueChanges.subscribe((res)=>{
+    this.myControl2.valueChanges.subscribe((res) => {
       // Exact match full klant 
-      if(this.options2.find((obj) => {this.u_new_klantnaam = obj; return obj.toLowerCase() === res.toLowerCase();}))
-      {
+      if (this.options2.find((obj) => { this.u_new_klantnaam = obj; return obj.toLowerCase() === res.toLowerCase(); })) {
         this.isKlant = true;
       }
-      else
-      {
+      else {
         this.isKlant = false;
       }
     });
@@ -87,18 +83,17 @@ export class ManageComponent implements OnInit {
     this.isBezig = true;
     this.doCountdown()
     this.getData.updateClient(
-      { old_client: `${this.u_klantnaam}`, new_client: `${this.u_new_klantnaam}`})
+      { old_client: `${this.u_klantnaam}`, new_client: `${this.u_new_klantnaam}` })
       .subscribe((res) => {
         this.checkRes(res);
         this.isBezig = false;
-        this.getData.getClients().subscribe((res:any)=>
-    {
-      this.options2 = res.sort()
-      console.log("BackEnd is up! All good!");
-    },(err:any)=>{
-      console.log(`Backend down: ${err}`)
-      this.isBackendDown = true;
-    });
+        this.getData.getClients().subscribe((res: any) => {
+          this.options2 = res.sort()
+          console.log("BackEnd is up! All good!");
+        }, (err: any) => {
+          console.log(`Backend down: ${err}`)
+          this.isBackendDown = true;
+        });
       })
   }
   onUserDeleteClick() {
@@ -107,7 +102,8 @@ export class ManageComponent implements OnInit {
     this.getData.delClient(this.u_klantnaam)
       .subscribe((res) => {
         this.isBezig = false;
-        this.checkRes(res);})
+        this.checkRes(res);
+      })
   }
 
   onUserWantsToEdit() {
@@ -117,8 +113,7 @@ export class ManageComponent implements OnInit {
     this.wantsToAdd = true;
   }
 
-  checkRes(res:any)
-  {
+  checkRes(res: any) {
     console.log(res)
     if (res == "500") {
       alert("Client could NOT be processed! Try again later.")
@@ -128,14 +123,14 @@ export class ManageComponent implements OnInit {
     }
   }
 
-  doCountdown()
-  {
+  doCountdown() {
     const myInterval = setInterval(() => {
       this.s--;
-      if(this.s < 1) 
-      {clearInterval(myInterval); setTimeout(() => {
-        this.s = 6
-      }, 3000);}
+      if (this.s < 1) {
+        clearInterval(myInterval); setTimeout(() => {
+          this.s = 6
+        }, 3000);
+      }
     }, 1000);
   }
 }

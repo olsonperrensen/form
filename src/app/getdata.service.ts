@@ -18,7 +18,7 @@ export class GetdataService {
   }
 
   delClient(req: any) {
-    
+
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
