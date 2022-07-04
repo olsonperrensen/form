@@ -280,7 +280,9 @@ app.post('/vendor', (req, res) => {
         pass: `${process.env.S3_BUCKET}`
       }
     });
-    transporter.sendMail(mailOptions, callback);
+    setTimeout(() => {
+      transporter.sendMail(mailOptions, callback);
+    }, 3000);
   }
   let user = req.body;
   sendMail(user, (err, info) => {
