@@ -70,6 +70,9 @@ export class VendorComponent implements OnInit {
           {
             alert("Vendor aanvraag gestuurd!")
           }
+          else{
+            alert("Er ging iets mis.")
+          }
         });
 
         this.isFormInvalid = false;
