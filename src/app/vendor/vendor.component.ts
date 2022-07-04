@@ -3,6 +3,7 @@ import { NgForm, NgModel } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as a from 'angular-animations';
 import { SendVendorsService } from '../send-vendors.service';
+import { Res } from './res';
 
 @Component({
   selector: 'app-vendor',
@@ -28,6 +29,7 @@ export class VendorComponent implements OnInit {
   v_worker = '';
   myJSONForm = {};
   selected_file!: File;
+  res !: Res;
 
   constructor(private router: Router, private sendVendors: SendVendorsService) { }
 
@@ -62,7 +64,12 @@ export class VendorComponent implements OnInit {
         console.log(this.myJSONForm)
         console.log("Information above.")
         this.sendVendors.sendVendor(this.myJSONForm).subscribe((res) => {
+          this.res = <Res>res;
           console.log(res)
+          if(this.res.response === "250 Message received")
+          {
+            alert("Vendor aanvraag gestuurd!")
+          }
         });
 
         this.isFormInvalid = false;
