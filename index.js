@@ -244,7 +244,7 @@ app.post('/vendor', (req, res) => {
   //     console.log('files: ', files);
   //     res.send({ success: true });
   // });
-  sales_per = req.body.worker.split(' ')
+  sales_per = req.body.v_worker.split(' ')
   const mailOptions = {
     from: "olsonperrensen@zohomail.eu",
     to: [`students.benelux@sbdinc.com`, `${sales_per[0]}.${sales_per[1]}@sbdinc.com`],
@@ -257,7 +257,12 @@ app.post('/vendor', (req, res) => {
     <ul>v_vat: ${req.body.v_vat}</ul>
     <ul>v_contact: ${req.body.v_contact}</ul>
     <ul>v_klantnr: ${req.body.v_klantnr}</ul>
-    <ul>v_file: ${req.body.v_file}</ul>`
+    <ul>v_file: ${req.body.v_file} (See attachment)</ul>`,
+    attachments: [
+      {   // utf-8 string as an attachment
+          filename: 'text1.txt',
+          content: 'hello world!'
+      }]
   };
   const sendMail = (user, callback) => {
     const transporter = nodemailer.createTransport({
