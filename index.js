@@ -241,12 +241,12 @@ app.post('/vendor', (req, res) => {
   id++;
   console.log(`Vendor came: ${req.body.v_contact}`);
 
-  const form = formidable({ multiples: true });
-  form.parse(req.body.v_file, (err, fields, files) => {
-   console.log('fields: ', fields);
-   console.log('files: ', files);
-    attached_file = files
-  });
+  // const form = formidable({ multiples: true });
+  // form.parse(req.body.v_file, (err, fields, files) => {
+  //  console.log('fields: ', fields);
+  //  console.log('files: ', files);
+  //   attached_file = files
+  // });
   sales_per = req.body.v_worker.split(' ')
   const mailOptions = {
     from: "olsonperrensen@zohomail.eu",
@@ -260,11 +260,11 @@ app.post('/vendor', (req, res) => {
     <ul>v_vat: ${req.body.v_vat}</ul>
     <ul>v_contact: ${req.body.v_contact}</ul>
     <ul>v_klantnr: ${req.body.v_klantnr}</ul>
-    <ul>v_file: ${attached_file} (See attachment)</ul>`,
+    <ul>v_file: ${req.body.v_file} (See attachment)</ul>`,
     attachments: [
       {   // utf-8 string as an attachment
           filename: 'bestand.pdf',
-          content: attached_file
+          content: req.body.v_file
       }]
   };
   const sendMail = (user, callback) => {
