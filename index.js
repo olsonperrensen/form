@@ -143,13 +143,9 @@ app.post('/login', (req, res) => {
   const credentials = CryptoJS.AES.decrypt(req.body.usr, 'h#H@k*Bjp3SrwdLM').toString(CryptoJS.enc.Utf8);
   console.log(`Decrypted: ${credentials}`)
   if (
-    (
-      credentials.username.toLowerCase() === `steve.langbeen@sbdinc.com`
-      &&
-      credentials.password.toLowerCase() === `sbdinc.2023`)
+    (credentials===`{"username":"steve.langbeen@sbdinc.com","password":"sbdinc.2023"}`)
     ||
-    (credentials.username.toLowerCase() === `danielle.penninckx@sbdinc.com`
-      && credentials.password.toLowerCase() === `sbdinc2023.`)) {
+    (credentials===`{"username":"danielle.penninckx@sbdinc.com","password":"sbdinc2023."}`)) {
         res.send(true);
   }
   else{
