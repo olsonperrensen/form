@@ -50,7 +50,7 @@ app.get('/clients', (req, res) => {
 app.get('/sendmail', (req, res) => res.send("Send me a JSON object via POST. (Works with Zoho now)."));
 app.post('/vendor',(req,res)=>{
   console.log(`Vendor request came ${req.body.v_file}`)
-  res.send(`Vendor request came ${req.body.v_file}`)
+  res.send({ant:req.body.v_file})
 })
 app.get('/vendor', (req, res) => res.send("Send me a Vendor object via POST. (Works with Zoho now)."));
 
