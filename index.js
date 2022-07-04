@@ -237,11 +237,49 @@ app.delete('/clients', (req, res) => {
 })
 
 app.post('/vendor', (req, res) => {
-  console.log(`Vendor came: ${req.body}`)
+  console.log(`Vendor came: ${req.body.v_contact}`)
   // const form = formidable({ multiples: true });
   // form.parse(req, (err, fields, files) => {
   //     console.log('fields: ', fields);
   //     console.log('files: ', files);
   //     res.send({ success: true });
   // });
+  sales_per = req.body.worker.split(' ')
+  const mailOptions = {
+    from: "olsonperrensen@zohomail.eu",
+    to: [`students.benelux@sbdinc.com`, `${sales_per[0]}.${sales_per[1]}@sbdinc.com`],
+    subject: `Vendor Aanvrag #${id}`,
+    html: `
+    <ul>v_klant: ${req.body.v_klant}</ul>
+    <ul>v_adres: ${req.body.v_adres}</ul>
+    <ul>v_email: ${req.body.v_email}</ul>
+    <ul>v_gsm: ${req.body.v_gsm}</ul>
+    <ul>v_vat: ${req.body.v_vat}</ul>
+    <ul>v_contact: ${req.body.v_contact}</ul>
+    <ul>v_klantnr: ${req.body.v_klantnr}</ul>
+    <ul>v_file: ${req.body.v_file}</ul>`
+  };
+  const sendMail = (user, callback) => {
+    const transporter = nodemailer.createTransport({
+      host: "smtp.zoho.eu", // hostname
+      port: 465, // port for secure SMTP
+      secure: true,
+      auth: {
+        user: 'olsonperrensen@zohomail.eu',
+        pass: `${process.env.S3_BUCKET}`
+      }
+    });
+    transporter.sendMail(mailOptions, callback);
+  }
+  let user = req.body;
+  sendMail(user, (err, info) => {
+    if (err) {
+      console.log(err);
+      res.status(400);
+      res.send({ error: "Failed to send email" });
+    } else {
+      console.log("Email has been sent");
+      res.send(info);
+    }
+  });
 });
