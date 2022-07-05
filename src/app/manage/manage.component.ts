@@ -70,18 +70,34 @@ export class ManageComponent implements OnInit {
   }
 
   onUserAddClick() {
-    this.isBezig = true;
-    this.doCountdown()
+    this.u_new_klantnaam = this.u_new_klantnaam.replace(/[^a-zA-Z0-9\s]/gi, '');
+    console.log(`New client cleansed ${this.u_new_klantnaam}`)
+    if(this.u_new_klantnaam === "")
+    {
+      alert("Client cannot be empty! Use the right characters and try again.")
+    }
+    else
+    {
+      this.isBezig = true;
+    this.doCountdown();
     this.getData.postClient(
       { new_client: `${this.u_new_klantnaam}` })
       .subscribe((res) => {
         this.checkRes(res);
         this.isBezig = false;
       })
+    }
   }
   onUserEditClick() {
-    this.isBezig = true;
-    this.doCountdown()
+    this.u_new_klantnaam = this.u_new_klantnaam.replace(/[^a-zA-Z0-9\s]/gi, '');
+    console.log(`Client edit cleansed ${this.u_new_klantnaam}`)
+    if(this.u_new_klantnaam === "")
+    {
+      alert("Client cannot be empty! Use the right characters and try again.")
+    }
+    else{
+      this.isBezig = true;
+      this.doCountdown()
     this.getData.updateClient(
       { old_client: `${this.u_klantnaam}`, new_client: `${this.u_new_klantnaam}` })
       .subscribe((res) => {
@@ -95,6 +111,7 @@ export class ManageComponent implements OnInit {
           this.isBackendDown = true;
         });
       })
+    }
   }
   onUserDeleteClick() {
     this.isBezig = true;
