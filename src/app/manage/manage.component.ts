@@ -88,10 +88,7 @@ export class ManageComponent implements OnInit {
         this.isBezig = false;
       })
     }
-    setTimeout(() => {
-      this.u_new_klantnaam = ""
-    }, 8888);
-    this.toHome()
+    
   }
   onUserEditClick() {
     this.u_new_klantnaam = this.u_new_klantnaam.replace(/[^a-zA-Z0-9\s]/gi, '');
@@ -117,11 +114,7 @@ export class ManageComponent implements OnInit {
         });
       })
     }
-    setTimeout(() => {
-      this.u_klantnaam = ""
-    this.u_new_klantnaam = ""
-    }, 8888);
-    this.toHome()
+    
   }
   onUserDeleteClick() {
     this.isBezig = true;
@@ -131,10 +124,7 @@ export class ManageComponent implements OnInit {
         this.isBezig = false;
         this.checkRes(res);
       });
-      setTimeout(() => {
-        this.u_klantnaam = "";
-      }, 8888);
-      this.toHome()
+      
   }
 
   onUserWantsToEdit() {
@@ -151,6 +141,11 @@ export class ManageComponent implements OnInit {
     }
     else if (res == "200") {
       alert("Client was successfully processed to the list!")
+      setTimeout(() => {
+        this.u_klantnaam = ""
+      this.u_new_klantnaam = ""
+      }, 8888);
+      this.toHome()
     }
   }
 
