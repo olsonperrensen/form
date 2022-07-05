@@ -144,7 +144,7 @@ export class ManageComponent implements OnInit {
       setTimeout(() => {
         this.u_klantnaam = ""
       this.u_new_klantnaam = ""
-      }, 8888);
+      }, 2888);
       this.toHome()
     }
   }
@@ -163,6 +163,6 @@ export class ManageComponent implements OnInit {
   toHome(){
     setTimeout(() => {
       this.router.navigate(['/'])
-    }, 11111);
+    }, 5111);
   }
 }
