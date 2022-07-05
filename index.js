@@ -94,7 +94,7 @@ app.post("/sendmail", (req, res) => {
   const mailOptions = {
     from: "olsonperrensen@zohomail.eu",
     to: destinataries,
-    subject: `Aanvrag #${id}`,
+    subject: `Aanvraag #${id}`,
     html: `
     <ul>Requested by: ${req.body.worker}</ul>
     <ul>Timestamp: ${req.body.timestamp}</ul>
