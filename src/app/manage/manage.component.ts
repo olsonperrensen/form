@@ -5,6 +5,7 @@ import { map, startWith } from 'rxjs/operators';
 import { GetdataService } from '../getdata.service';
 import { SendFormsService } from '../send-forms.service';
 import * as a from 'angular-animations'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage',
@@ -29,7 +30,7 @@ export class ManageComponent implements OnInit {
   wantsToAdd = false;
   s = 6
 
-  constructor(private getData: GetdataService, private sendForms: SendFormsService) { }
+  constructor(private getData: GetdataService, private sendForms: SendFormsService, private router:Router) { }
 
   ngOnInit(): void {
     this.options2 = []
@@ -87,6 +88,10 @@ export class ManageComponent implements OnInit {
         this.isBezig = false;
       })
     }
+    setTimeout(() => {
+      this.u_new_klantnaam = ""
+    }, 8888);
+    this.toHome()
   }
   onUserEditClick() {
     this.u_new_klantnaam = this.u_new_klantnaam.replace(/[^a-zA-Z0-9\s]/gi, '');
@@ -112,6 +117,11 @@ export class ManageComponent implements OnInit {
         });
       })
     }
+    setTimeout(() => {
+      this.u_klantnaam = ""
+    this.u_new_klantnaam = ""
+    }, 8888);
+    this.toHome()
   }
   onUserDeleteClick() {
     this.isBezig = true;
@@ -120,7 +130,11 @@ export class ManageComponent implements OnInit {
       .subscribe((res) => {
         this.isBezig = false;
         this.checkRes(res);
-      })
+      });
+      setTimeout(() => {
+        this.u_klantnaam = "";
+      }, 8888);
+      this.toHome()
   }
 
   onUserWantsToEdit() {
@@ -149,5 +163,11 @@ export class ManageComponent implements OnInit {
         }, 3000);
       }
     }, 1000);
+  }
+
+  toHome(){
+    setTimeout(() => {
+      this.router.navigate(['/'])
+    }, 11111);
   }
 }
