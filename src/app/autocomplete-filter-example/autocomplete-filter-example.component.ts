@@ -78,14 +78,21 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
     "Wouter Rook",
     "Arnold Wever",
     "Oscar Laureijs",
-    "Kevin Markestein", "David Goubert", "Gunther Mergan", "Jurgen De Leeuw", "Thomas Molendijk", "Marcelino Papperse", "Andor De Vries", "Ivo Schouten",
+    "Kevin Markestein", "David Goubert", "Gunther Mergan", "Jurgen DeLeeuw", "Thomas Molendijk", 
+    "Marcelino Papperse", "Andor DeVries", "Ivo Schouten",
     // Facom
     "Patrick Diepenbach",
-    "Piet Verstraete", "Vincent Broertjes", "Jean-Christophe Pintiaux", "Kim Maris", "Mario Reverse", "Peter Schaekers", "Robin Roels", "Stefan Sack", "Vincent Lenain", "Vincent Pireyn", "Yves De Waal", "Adriaan Arkeraats", "Arno De Jager", "Duncan DeWith",
+    "Piet Verstraete", "Vincent Broertjes", "Jean-Christophe Pintiaux", "Kim Maris", "Mario Reverse", 
+    "Peter Schaekers", "Robin Roels", "Stefan Sack", "Vincent Lenain", "Vincent Pireyn", "Yves DeWaal", 
+    "Adriaan Arkeraats", "Arno DeJager", "Duncan DeWith",
     // Stanley
-    "Ken Leysen", "Martin Van Werkhoven", "Paul Kerkhoven", "Cedric Bicque", "Christian Fonteyn", "Klaas Jan Bosgraaf", "Ammaar Basnoe", "Robert Van Straten", "Sven Pieters", "Niek Nijland"];
+    "Ken Leysen", "Martin Van Werkhoven", "Paul Kerkhoven", "Cedric Bicque", "Christian Fonteyn", 
+    "KlaasJan Bosgraaf", "Ammaar Basnoe", "Robert VanStraten", "Sven Pieters", "Niek Nijland"];
   options7: string[] = ["Pro", "Consumer"];
-  options8: string[] = ["Geert Maes", "Marleen Vangronsveld", "Marlon Van Zundert", "Michael Soenen", "Michael Tistaert", "Ronald Westra", "Vicky De Decker", "Christelle Marro", "Frederic Barzin", "Luc Claes", "Marc Ghijs", "Ronny Callewaert", "Hendrik Pieters", "Malvin Puts", "Niels Groters", "Remco Rozing ", "Eric Nieuwmans"];
+  options8: string[] = ["Geert Maes", "Marleen Vangronsveld", "Marlon VanZundert", "Michael Soenen", 
+  "Michael Tistaert", "Ronald Westra", "Vicky DeDecker", "Christelle Marro", "Frederic Barzin", "Luc Claes", 
+  "Marc Ghijs", "Ronny Callewaert", "Hendrik Pieters", "Malvin Puts", "Niels Groters", "Remco Rozing ", 
+  "Eric Nieuwmans"];
 
 
   deWALT_employees = [
@@ -105,10 +112,15 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
     "Michiel Vliek",
     "Wouter Rook",
     "Arnold Wever",
-    "Oscar Laureijs", "Kevin Markestein", "David Goubert", "Gunther Mergan", "Jurgen De Leeuw", "Thomas Molendijk", "Marcelino Papperse", "Andor De Vries", "Ivo Schouten - Sales Manager DW NL"];
+    "Oscar Laureijs", "Kevin Markestein", "David Goubert", "Gunther Mergan", "Jurgen DeLeeuw", 
+    "Thomas Molendijk", "Marcelino Papperse", "Andor DeVries", "Ivo Schouten - Sales Manager DW NL"];
   facom_employees = ["Patrick Diepenbach",
-    "Piet Verstraete", "Vincent Broertjes", "Jean-Christophe Pintiaux", "Kim Maris", "Mario Reverse", "Peter Schaekers", "Robin Roels", "Stefan Sack", "Vincent Lenain", "Vincent Pireyn", "Yves De Waal", "Adriaan Arkeraats", "Arno De Jager", "Duncan DeWith"];
-  stanley_employees = ["Ken Leysen", "Martin Van Werkhoven", "Paul Kerkhoven", "Cedric Bicque", "Christian Fonteyn", "Klaas Jan Bosgraaf", "Ammaar Basnoe", "Robert Van Straten", "Sven Pieters", "Niek Nijland"];
+    "Piet Verstraete", "Vincent Broertjes", "Jean-Christophe Pintiaux", "Kim Maris", "Mario Reverse", 
+    "Peter Schaekers", "Robin Roels", "Stefan Sack", "Vincent Lenain", "Vincent Pireyn", "Yves DeWaal", 
+    "Adriaan Arkeraats", "Arno DeJager", "Duncan DeWith"];
+  stanley_employees = ["Ken Leysen", "Martin Van Werkhoven", "Paul Kerkhoven", "Cedric Bicque", 
+  "Christian Fonteyn", "KlaasJan Bosgraaf", "Ammaar Basnoe", "Robert VanStraten", "Sven Pieters", 
+  "Niek Nijland"];
 
   filteredOptions!: Observable<string[]>;
   filteredOptions2!: Observable<string[]>;
