@@ -56,7 +56,7 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
   myControl10 = new FormControl();
 
   options2!: string[];
-  options3: string[] = ["DEWALT/LENOX", "STANLEY", "FACOM", "BOSTITCH"];
+  options3: string[] = ["DeWALT – LENOX – BOSTITCH", "STANLEY", "FACOM"];
   options4: string[] = ["Januari", "Februari", "Maart", "April", "Mei", "Juni",
     "Juli", "Augustus", "September", "Oktober", "Novermber", "December"];
   options5: string[] = ["België / Belgique", "Nederland / Pays Bas"];
