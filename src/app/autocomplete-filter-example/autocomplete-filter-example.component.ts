@@ -8,6 +8,7 @@ import { IpServiceService } from '../ip-service.service';
 import * as a from 'angular-animations';
 import { GetdataService } from '../getdata.service';
 import { Router } from '@angular/router';
+import dateFormat, { masks } from "dateformat";
 
 @Component({
   selector: 'app-autocomplete-filter-example',
@@ -345,9 +346,10 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
   }
 
   onSubmit(f: NgForm) {
+    const now = new Date();
 
     this.myJSONForm = {
-      timestamp: new Date().toISOString(),
+      timestamp: dateFormat(now, "dddd, mmmm dS, yyyy, h:MM:ss TT"),
       land: this.u_land,
       klantnaam: this.u_klantnaam,
       klantnr: this.u_klantnr,
