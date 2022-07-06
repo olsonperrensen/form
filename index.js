@@ -37,7 +37,7 @@ let sales_per = []
 let isRecordInDB = false;
 let attached_file;
 
-app.get('/', (req, res) => res.send("Hello world!"));
+app.get('/', (req, res) => res.send(JSON.stringify({myMsg:"Hello world!"})));
 app.get('/clients', (req, res) => {
 
   client.query('SELECT * FROM biz;', (err, res) => {
