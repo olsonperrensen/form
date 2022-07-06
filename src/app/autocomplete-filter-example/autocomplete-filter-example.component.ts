@@ -255,7 +255,7 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
         this.isBackendDown = true;
         // alert("Press F5 to continue.")
       });
-    }, 5555);
+    }, 3333);
   }
 
   potype() {
