@@ -184,14 +184,18 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
     // Pro
     this.myControl6.valueChanges.subscribe((res) => {
       if (this.deWALT_employees.find((obj) => { return obj.toLowerCase() === res.toLowerCase(); })) {
+        document.body.style.backgroundImage = "url('https://bynder.sbdinc.com/m/6fc93a774163540b/Drupal_Medium-DW_Elite_G1.jpg')";
+       
         this.u_merk = this.options3[0];
         this.isWorker = true;
       }
       else if (this.stanley_employees.find((obj) => { return obj.toLowerCase() === res.toLowerCase(); })) {
+        document.body.style.backgroundImage = "url('https://bynder.sbdinc.com/m/2f45051af153cd5d/Drupal_Large-ST_Workshop_G2.jpg')";
         this.u_merk = this.options3[1];
         this.isWorker = true;
       }
       else if (this.facom_employees.find((obj) => { return obj.toLowerCase() === res.toLowerCase(); })) {
+        document.body.style.backgroundImage = "url('https://photo.facom.com/facom/images/login-background.jpg')";
         this.u_merk = this.options3[2];
         this.isWorker = true;
       }
