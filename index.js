@@ -6,8 +6,6 @@ const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 const CryptoJS = require('crypto-js');
 require('dotenv').config();
-const fs = require('fs');
-const formidable = require('formidable');
 
 // create a new Express application instance
 const app = express();
@@ -31,8 +29,6 @@ const client = new Client({
 client.connect();
 
 let nieuw_clients = []
-let id = 0;
-let vendor_id = 0;
 let sales_per = []
 let sales_man = []
 let isRecordInDB = false;
@@ -126,7 +122,7 @@ app.get('/vendor', (req, res) => res.send("Send me a Vendor object via POST. (Wo
 // define a sendmail endpoint, which will send emails and response with the corresponding status
 app.post("/sendmail", (req, res) => {
 
-  id++;
+  let id = new Date().getTime().toString().slice(7).slice(3)
 
   let plnt = 0;
   let company_code = "A";
@@ -163,11 +159,13 @@ app.post("/sendmail", (req, res) => {
 
   req.body.potype === "Pro" ? destinataries = [`students.benelux@sbdinc.com`, `${sales_per[0]}.${sales_per[1]}@sbdinc.com`, `${sales_man[0]}.${sales_man[1]}@sbdinc.com`] : destinataries = ["Vicky.DeDecker@sbdinc.com", `${sales_per[0]}.${sales_per[1]}@sbdinc.com`, `${sales_man[0]}.${sales_man[1]}@sbdinc.com`];
 
+  subject_klant = req.body.klantnaam.split(" ")
+
   console.log("request came");
   const mailOptions = {
     from: "olsonperrensen@zohomail.eu",
     to: destinataries,
-    subject: `Aanvraag Ref. #${id} ${req.body.klantnaam}`,
+    subject: `Aanvraag Ref. #${sales_per[0][0]}${sales_per[1][0]}${id} ${subject_klant[0]} ${subject_klant[1]} ${subject_klant[2]}`,
     html: `
     <ul>Requested by: ${req.body.worker}</ul>
     <ul>Timestamp: ${req.body.timestamp}</ul>
@@ -312,6 +310,9 @@ app.delete('/clients', (req, res) => {
 })
 
 app.post('/vendor', (req, res) => {
+
+  vendor_id = new Date().getTime().toString().slice(7).slice(3)
+
   console.log(`Vendor came: ${req.body.v_contact}`);
 
   // const form = formidable({ multiples: true });
@@ -324,7 +325,7 @@ app.post('/vendor', (req, res) => {
   const mailOptions = {
     from: "olsonperrensen@zohomail.eu",
     to: [`students.benelux@sbdinc.com`, `${sales_per[0]}.${sales_per[1]}@sbdinc.com`],
-    subject: `Vendor Aanvrag #${id}`,
+    subject: `Vendor Aanvrag #${sales_per[0][0]}${sales_per[1][0]}${vendor_id}`,
     html: `
     <ul>v_klant: ${req.body.v_klant}</ul>
     <ul>v_adres: ${req.body.v_adres}</ul>
@@ -357,7 +358,6 @@ app.post('/vendor', (req, res) => {
       transporter.sendMail(mailOptions, callback);
     }, 3000);
   }
-  vendor_id++;
   let user = req.body;
   sendMail(user, (err, info) => {
     if (err) {
