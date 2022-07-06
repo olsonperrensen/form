@@ -133,7 +133,7 @@ app.post("/sendmail", (req, res) => {
   let order = "A";
   let destinataries = [];
 
-  if (req.body.land === "Belgie") {
+  if (req.body.land === "België / Belgique") {
     company_code = "be01";
     plnt = 1110;
     switch (req.body.merk) {
@@ -156,7 +156,7 @@ app.post("/sendmail", (req, res) => {
   }
   // TO-DO
   managers.forEach(element => {
-    if(req.body.worker === element[0].Name){
+    if (req.body.worker === element[0].Name) {
       sales_man = element[0].Manager.split(' ')
     }
   });
