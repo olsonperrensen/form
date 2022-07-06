@@ -137,10 +137,9 @@ app.post("/sendmail", (req, res) => {
     company_code = "be01";
     plnt = 1110;
     switch (req.body.merk) {
-      case "DEWALT/LENOX": order = "BE_DEW_L4"; break;
+      case "DeWALT – LENOX – BOSTITCH": order = "BE_DEW_L4"; break;
       case "STANLEY": order = "BE_HDT_L4"; break;
       case "FACOM": order = "BE_IAR_L4"; break;
-      case "BOSTITCH": order = "BE_BOS_L4"; break;
       default: order = "ERROR"; break;
     }
   } else {
@@ -150,7 +149,6 @@ app.post("/sendmail", (req, res) => {
       case "DEWALT/LENOX": order = "NL_DEW_L4"; break;
       case "STANLEY": order = "NL_HDT_L4"; break;
       case "FACOM": order = "NL_IAR_L4"; break;
-      case "BOSTITCH": order = "NL_BOS_L4"; break;
       default: order = "ERROR"; break;
     }
   }
