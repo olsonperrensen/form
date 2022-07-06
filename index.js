@@ -36,8 +36,75 @@ let vendor_id = 0;
 let sales_per = []
 let isRecordInDB = false;
 let attached_file;
+let managers = [
+  [{ Name: "Gunther Mergan", Manager: "Jean-Francois Forton" }],
+  [{ Name: "Marcel VandenBerge", Manager: "Ivo Schouten" }],
+  [{ Name: "Jeroen VanBerkel", Manager: "Ivo Schouten" }],
+  [{ Name: "Cindy Eekels", Manager: "Not Found" }],
+  [{ Name: "Bob Vandenberghen", Manager: "Jean-Francois Forton" }],
+  [{ Name: "Nicolas Dedobbeleer", Manager: "Jean-Francois Forton" }],
+  [{ Name: "Bram Hennebert", Manager: "Jean-Francois Forton" }],
+  [{ Name: "Steve Oris", Manager: "Jean-Francois Forton" }],
+  [{ Name: "Christian Darmont", Manager: "Jean-Francois Forton" }],
+  [{ Name: "Frank Mentens", Manager: "Jean-Francois Forton" }],
+  [{ Name: "Etienne Delvosalle", Manager: "Jean-Francois Forton" }],
+  [{ Name: "Jeroen Decherf", Manager: "Jean-Francois Forton" }],
+  [{ Name: "Carlos DeBruijn", Manager: "Ivo Schouten" }],
+  [{ Name: "Michiel Vliek", Manager: "Ivo Schouten" }],
+  [{ Name: "Wouter Rook", Manager: "Ivo Schouten" }],
+  [{ Name: "Arnold Wever", Manager: "Ivo Schouten" }],
+  [{ Name: "Oscar Laureijs", Manager: "Ivo Schouten" }],
+  [{ Name: "Kevin Markestein", Manager: "Jean-Francois Forton" }],
+  [{ Name: "David Goubert", Manager: "Jean-Francois Forton" }],
+  [{ Name: "Jurgen De Leeuw", Manager: "Ivo Schouten" }],
+  [{ Name: "Thomas Molendijk", Manager: "Ivo Schouten" }],
+  [{ Name: "Marcelino Papperse", Manager: "Ivo Schouten" }],
+  [{ Name: "Andor De Vries", Manager: "Ivo Schouten" }],
+  [{ Name: "Ivo Schouten", Manager: "Patrick Diepenbach" }],
+  [{ Name: "Patrick Diepenbach", Manager: "Mark Smiley" }],
+  [{ Name: "Piet Verstraete", Manager: "Patrick Diepenbach" }],
+  [{ Name: "Vincent Broertjes", Manager: "Patrick Diepenbach" }],
+  [{ Name: "Jean-Christophe Pintiaux", Manager: "Piet Verstraete" }],
+  [{ Name: "Kim Maris", Manager: "Piet Verstraete" }],
+  [{ Name: "Mario Reverse", Manager: "Piet Verstraete" }],
+  [{ Name: "Peter Schaekers", Manager: "Piet Verstraete" }],
+  [{ Name: "Robin Roels", Manager: "Piet Verstraete" }],
+  [{ Name: "Stefan Sack", Manager: "Piet Verstraete" }],
+  [{ Name: "Vincent Lenain", Manager: "Piet Verstraete" }],
+  [{ Name: "Vincent Pireyn", Manager: "Piet Verstraete" }],
+  [{ Name: "Yves De Waal", Manager: "Piet Verstraete" }],
+  [{ Name: "Adriaan Arkeraats", Manager: "Vincent Broertjes" }],
+  [{ Name: "Arno De Jager", Manager: "Vincent Broertjes" }],
+  [{ Name: "Duncan DeWith", Manager: "Vincent Broertjes" }],
+  [{ Name: "Ken Leysen", Manager: "Patrick Diepenbach" }],
+  [{ Name: "Martin Van Werkhoven", Manager: "Not Found" }],
+  [{ Name: "Paul Kerkhoven", Manager: "Vincent Broertjes" }],
+  [{ Name: "Cedric Bicque", Manager: "Ken Leysen" }],
+  [{ Name: "Christian Fonteyn", Manager: "Ken Leysen" }],
+  [{ Name: "Klaas Jan Bosgraaf", Manager: "Ken Leysen" }],
+  [{ Name: "Ammaar Basnoe", Manager: "Ken Leysen" }],
+  [{ Name: "Robert Van Straten", Manager: "Ken Leysen" }],
+  [{ Name: "Sven Pieters", Manager: "Ken Leysen" }],
+  [{ Name: "Niek Nijland", Manager: "Ken Leysen" }],
+  [{ Name: "Geert Maes", Manager: "Stephane Depret" }],
+  [{ Name: "Marleen Vangronsveld", Manager: "Stephane Depret" }],
+  [{ Name: "Marlon Van Zundert", Manager: "Stephane Depret" }],
+  [{ Name: "Michael Soenen", Manager: "Stephane Depret" }],
+  [{ Name: "Michael Tistaert", Manager: "Stephane Depret" }],
+  [{ Name: "Ronald Westra", Manager: "Stephane Depret" }],
+  [{ Name: "Vicky De Decker", Manager: "Stephane Depret" }],
+  [{ Name: "Christelle Marro", Manager: "Stephane Depret" }],
+  [{ Name: "Frederic Barzin", Manager: "Christelle Marro" }],
+  [{ Name: "Luc Claes", Manager: "Christelle Marro" }],
+  [{ Name: "Marc Ghijs", Manager: "Christelle Marro" }],
+  [{ Name: "Ronny Callewaert", Manager: "Christelle Marro" }],
+  [{ Name: "Hendrik Pieters", Manager: "Eric Nieuwmans" }],
+  [{ Name: "Malvin Puts", Manager: "Eric Nieuwmans" }],
+  [{ Name: "Niels Groters", Manager: "Eric Nieuwmans" }],
+  [{ Name: "Remco Rozing", Manager: "Eric Nieuwmans" }],
+  [{ Name: "Eric Nieuwmans", Manager: "Stephane Depret" }]]
 
-app.get('/', (req, res) => res.send(JSON.stringify({myMsg:"Hello world!"})));
+app.get('/', (req, res) => res.send(JSON.stringify({ myMsg: "Hello world!" })));
 app.get('/clients', (req, res) => {
 
   client.query('SELECT * FROM biz;', (err, res) => {
@@ -144,12 +211,12 @@ app.post('/login', (req, res) => {
   const credentials = CryptoJS.AES.decrypt(req.body.usr, 'h#H@k*Bjp3SrwdLM').toString(CryptoJS.enc.Utf8);
   console.log(`Decrypted: ${credentials}`)
   if (
-    (credentials===`{"username":"steve.langbeen@sbdinc.com","password":"sbdinc.2023"}`)
+    (credentials === `{"username":"steve.langbeen@sbdinc.com","password":"sbdinc.2023"}`)
     ||
-    (credentials===`{"username":"danielle.penninckx@sbdinc.com","password":"sbdinc2023."}`)) {
-        res.send(true);
+    (credentials === `{"username":"danielle.penninckx@sbdinc.com","password":"sbdinc2023."}`)) {
+    res.send(true);
   }
-  else{
+  else {
     res.send(false);
   }
 })
@@ -266,8 +333,8 @@ app.post('/vendor', (req, res) => {
     <h3>Gelieve een mail te sturen naar students met de jusite PDF als bijlage.</h3>`,
     attachments: [
       {   // utf-8 string as an attachment
-          filename: req.body.v_file.name,
-          content: JSON.stringify(req.body.v_file.size)
+        filename: req.body.v_file.name,
+        content: JSON.stringify(req.body.v_file.size)
       }]
   };
   const sendMail = (user, callback) => {
