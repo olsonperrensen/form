@@ -215,7 +215,7 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
     this.myControl2.valueChanges.subscribe((res) => {
       // Exact match full klant 
       if (this.options2.find((obj) => { return obj.toLowerCase() === res.toLowerCase(); })
-        && !this.isNewVendor && this.isLand) {
+        && this.isLand) {
         this.isKlant = true;
       }
       else {
@@ -255,7 +255,7 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
         this.isBackendDown = true;
         // alert("Press F5 to continue.")
       });
-    }, 3333);
+    }, 2777);
   }
 
   potype() {
@@ -281,7 +281,14 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
     else {
       this.isNewVendor = false;
     }
+    // console.log(`isKlant: ${this.isKlant}
+    // isLand: ${this.isLand}
+    // isVerkoper: ${this.isVerkoper}
+    // isWorker: ${this.isWorker}
+    // isNewVendor: ${this.isNewVendor}
+    // isLand: ${this.isLand}`)
   }
+
   landtype() {
     if (this.isVerkoper) {
       this.isLand = true;
