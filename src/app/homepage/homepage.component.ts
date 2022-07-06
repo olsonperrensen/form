@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as a from 'angular-animations'
+import { GetdataService } from '../getdata.service';
 
 @Component({
   selector: 'app-homepage',
@@ -12,9 +13,21 @@ import * as a from 'angular-animations'
 export class HomepageComponent implements OnInit {
 
 
-  constructor() { }
+  constructor(private getData:GetdataService) { }
 
   ngOnInit(): void {
+    this.getData.getServerStatus().subscribe(
+      (res:any) => {
+        console.log(`Home res:`)
+        console.log(res)
+        if (res.myMsg === "Hello world!") { console.log(res.myMsg);this.getData.setServerStatus(false)}
+        else { console.log("Server didn't gave helloworld.");this.getData.setServerStatus(true) }
+      }, (err) => {
+        console.log(`Home err: ${err.body}`)
+        this.getData.setServerStatus(true)
+      }
+    )
+     
   }
 
 }

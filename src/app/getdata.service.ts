@@ -8,6 +8,19 @@ export class GetdataService {
 
   url = 'https://formemail.herokuapp.com/clients';
   local_url = 'http://localhost:3000/clients';
+  isBackendDown = false;
+
+  getServerStatus() {
+    return this.http.get('https://formemail.herokuapp.com/')
+  }
+
+  setServerStatus(b: boolean) {
+    this.isBackendDown = b;
+  }
+  getBackendBoolean()
+  {
+    return this.isBackendDown;
+  }
 
   getClients() {
     return this.http.get(this.url);

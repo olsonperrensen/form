@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
     a.bounceOutOnLeaveAnimation()
   ]
 })
-export class AutocompleteFilterExampleComponent implements OnInit {
+export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit {
 
   sent = false;
   exit = false;
@@ -125,18 +125,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
 
   ngOnInit() {
     this.getIP();
-    this.getData.getClients().subscribe((res: any) => {
-      this.options2 = res.sort()
-      console.log("BackEnd is up! All good!");
-      if (this.options2.length < 2) {
-        console.log(`Backend down: this.options2.length ${this.options2.length}`)
-        this.isBackendDown = true;
-      }
-    }, (err) => {
-      this.isBackendDown = true;
-      // alert("Press F5 to continue.")
-    })
-
+    this.isBackendDown = this.getData.getBackendBoolean()
     this.filteredOptions2 = this.myControl2.valueChanges.pipe(
       startWith(''),
       map(value => this._filter2(value)),
@@ -250,6 +239,23 @@ export class AutocompleteFilterExampleComponent implements OnInit {
         this.isOmschrijving = false;
       }
     })
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.getData.getClients().subscribe((res: any) => {
+        this.options2 = res.sort();
+        this.isBackendDown = false;
+        console.log(`BackEnd is up! ${this.options2.length} All good!`);
+        if (this.options2.length < 1000) {
+          console.log(`Backend down: this.options2.length ${this.options2.length}`)
+          this.isBackendDown = true;
+        }
+      }, (err) => {
+        this.isBackendDown = true;
+        // alert("Press F5 to continue.")
+      });
+    }, 5555);
   }
 
   potype() {
