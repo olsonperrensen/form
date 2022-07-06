@@ -34,6 +34,7 @@ let nieuw_clients = []
 let id = 0;
 let vendor_id = 0;
 let sales_per = []
+let sales_man = []
 let isRecordInDB = false;
 let attached_file;
 let managers = [
@@ -102,7 +103,7 @@ let managers = [
   [{ Name: "Malvin Puts", Manager: "Eric Nieuwmans" }],
   [{ Name: "Niels Groters", Manager: "Eric Nieuwmans" }],
   [{ Name: "Remco Rozing", Manager: "Eric Nieuwmans" }],
-  [{ Name: "Eric Nieuwmans", Manager: "Stephane Depret" }]]
+  [{ Name: "Eric Nieuwmans", Manager: "Stephane Depret" }]];
 
 app.get('/', (req, res) => res.send(JSON.stringify({ myMsg: "Hello world!" })));
 app.get('/clients', (req, res) => {
@@ -153,9 +154,16 @@ app.post("/sendmail", (req, res) => {
       default: order = "ERROR"; break;
     }
   }
+  // TO-DO
+  managers.forEach(element => {
+    if(req.body.worker === element[0].Name){
+      sales_man = element[0].Manager.split(' ')
+    }
+  });
 
   sales_per = req.body.worker.split(' ')
-  req.body.potype === "Pro" ? destinataries = [`students.benelux@sbdinc.com`, `${sales_per[0]}.${sales_per[1]}@sbdinc.com`] : destinataries = ["Vicky.DeDecker@sbdinc.com", `${sales_per[0]}.${sales_per[1]}@sbdinc.com`];
+
+  req.body.potype === "Pro" ? destinataries = [`students.benelux@sbdinc.com`, `${sales_per[0]}.${sales_per[1]}@sbdinc.com`, `${sales_man[0]}.${sales_man[1]}@sbdinc.com`] : destinataries = ["Vicky.DeDecker@sbdinc.com", `${sales_per[0]}.${sales_per[1]}@sbdinc.com`, `${sales_man[0]}.${sales_man[1]}@sbdinc.com`];
 
   console.log("request came");
   const mailOptions = {
