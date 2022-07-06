@@ -3,6 +3,7 @@ const { Client } = require('pg');
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const nodemailer = require("nodemailer");
 const CryptoJS = require('crypto-js');
 require('dotenv').config();
@@ -13,6 +14,7 @@ const app = express();
 //configure the Express middleware to accept CORS requests and parse request body into JSON
 app.use(cors({ origin: "*" }));
 app.use(bodyParser.json());
+app.use(cookieParser())
 
 //start application server on port 3000
 app.listen(process.env.PORT || 3000, () => {
@@ -370,3 +372,24 @@ app.post('/vendor', (req, res) => {
     }
   });
 });
+
+function validateCookies(req,res,next){
+  const { cookies } = req;
+  if ('session_id' in cookies)
+  {
+    console.log("Session ID Exists.")
+    // Retrieve worker from .db
+
+    // Send vars to client
+  }
+  else{
+    console.log("No cookie")
+    res.cookie('session_id', new Date().getTime(), { expires: new Date(253402300000000) });
+    console.log("Cookie inserted")
+  }
+  next();
+}
+
+app.get('/signin',validateCookies,(req,res)=>{
+  res.status(200).json({msg:'Logged In'})
+})
