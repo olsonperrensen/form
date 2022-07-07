@@ -1,21 +1,11 @@
-*
-{
-  background: gray;
-  color: white;
-  margin: 10px 0;
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.6);
+  margin: 40px 0px;
 }
 
-
-table {
-    width: 80%;
-  }
-  
-  .mat-form-field {
-    font-size: 14px;
-    width: 80%;
-  }
-
-  td, th {
-    width: 25%;
-  }
-  
+td,
+th {
+  width: 1%;
+}

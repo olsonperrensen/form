@@ -1,13 +1,20 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 export interface UserData {
   id: string;
-  name: string;
-  progress: string;
-  fruit: string;
+  Requested_by: string;
+  Timestamp: string;
+  Company: string;
+  Company_Code: string;
+  Short_text: string;
+  PO_Quantity: number;
+  Overall_Limit: number;
+  GR_Execution_date: string;
+  Order: string,
+  Status: string
 }
 
 /** Constants used to fill up our data base. */
@@ -51,22 +58,31 @@ const NAMES: string[] = [
   styleUrls: ['history.component.css'],
   templateUrl: 'history.component.html',
 })
-export class HistoryComponent implements OnInit,AfterViewInit {
-  displayedColumns: string[] = ['id', 'name', 'progress', 'fruit'];
-  dataSource: MatTableDataSource<UserData>;
+export class HistoryComponent implements OnInit, AfterViewInit {
+  displayedColumns: string[] = ['id',
+    'Requested_by',
+    'Timestamp',
+    'Company',
+    'Company_Code',
+    'Short_text',
+    'PO_Quantity',
+    'Overall_Limit',
+    'GR_Execution_date',
+    'Order',
+    'Status'];
+  dataSource!: MatTableDataSource<UserData>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor() {
+  constructor() { }
+
+  ngOnInit(): void {
     // Create 100 users
-    const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
+    const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
 
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(users);
-  }
-
-  ngOnInit(): void {
     document.body.style.backgroundImage = "url('https://u.cubeupload.com/olsonperrensen2/download.png')"
   }
 
@@ -85,7 +101,6 @@ export class HistoryComponent implements OnInit,AfterViewInit {
   }
 }
 
-/** Builds and returns a new User. */
 function createNewUser(id: number): UserData {
   const name =
     NAMES[Math.round(Math.random() * (NAMES.length - 1))] +
@@ -94,9 +109,16 @@ function createNewUser(id: number): UserData {
     '.';
 
   return {
-    id: id.toString(),
-    name: name,
-    progress: Math.round(Math.random() * 100).toString(),
-    fruit: FRUITS[Math.round(Math.random() * (FRUITS.length - 1))],
+    id: '',
+    Requested_by: '',
+    Timestamp: '',
+    Company: '',
+    Company_Code: '',
+    Short_text: '',
+    PO_Quantity: 1,
+    Overall_Limit: 1,
+    GR_Execution_date: '',
+    Order: '',
+    Status: ''
   };
 }
