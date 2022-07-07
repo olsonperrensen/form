@@ -72,10 +72,10 @@
                   #edit_klantnaam="ngModel" [(ngModel)]="u_new_klantnaam" name="u_edit_klantnaam">
               </mat-form-field>
               <button (click)="onUserPOEditClick()" [disabled]="!f.valid" type="button" mat-raised-button
-                color="primary">"Pending" naar PO Nr. vergangen</button>
+                color="primary">Send</button>
             </div>
             <button (click)="onUserPOClick()" [disabled]="!f.valid" type="button" mat-raised-button
-              color="accent">PO Nr geven</button>
+              color="accent">PO Nr.</button>
             <button (click)="onUserPODeleteClick()" [disabled]="!f.valid" type="button" mat-raised-button
               color="warn">PO aanvraag Verwijderen</button>
             <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
