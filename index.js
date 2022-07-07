@@ -229,7 +229,7 @@ app.post("/sendmail", (req, res) => {
       }
       else {
         isRecordInDB = true;
-        console.log(`record PO inserted ${req.body.new_client}`)
+        console.log(`record PO inserted #${sales_per[0][0]}${sales_per[1][0]}${id}`)
       }
     }
   );
