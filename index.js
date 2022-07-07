@@ -165,10 +165,11 @@ app.post("/sendmail", (req, res) => {
   subject_klant = req.body.klantnaam.split(" ")
 
   console.log("request came");
+  const external_id = `${sales_per[0][0]}${sales_per[1][0]}${id}${subject_klant[0]}`
   const mailOptions = {
     from: "olsonperrensen@zohomail.eu",
     to: destinataries,
-    subject: `Aanvraag Ref. #${sales_per[0][0]}${sales_per[1][0]}${id} ${subject_klant[0]} ${subject_klant[1]} ${subject_klant[2]}`,
+    subject: `Aanvraag Ref. #${external_id} ${subject_klant[1]} ${subject_klant[2]}`,
     html: `
     <ul>Requested by: ${req.body.worker}</ul>
     <ul>Timestamp: ${req.body.timestamp}</ul>
@@ -203,6 +204,7 @@ app.post("/sendmail", (req, res) => {
   let user = req.body;
   client.query(
     `INSERT INTO PO(
+      EXTERNAL_ID,
       REQUESTED_BY,
       DATUM,
       COMPANY,
@@ -213,6 +215,7 @@ app.post("/sendmail", (req, res) => {
       GR_EXECUTION_DATE,
       SBU,
       STATUS) VALUES(
+        '${external_id}',
         '${req.body.worker}',
         '${req.body.timestamp}',
         '${req.body.klantnaam}',
@@ -230,7 +233,7 @@ app.post("/sendmail", (req, res) => {
       }
       else {
         isRecordInDB = true;
-        console.log(`record PO inserted #${sales_per[0][0]}${sales_per[1][0]}${id}`)
+        console.log(`record PO inserted #${external_id}}`)
       }
     }
   );
