@@ -200,6 +200,32 @@ app.post("/sendmail", (req, res) => {
     transporter.sendMail(mailOptions, callback);
   }
   let user = req.body;
+  client.query(
+    `INSERT INTO PO(
+      REQUESTED_BY,
+      DATUM,
+      COMPANY,
+      COMPANY_CODE,
+      SHORT_TEXT,
+      PO_QUANTITY,
+      OVERALL_LIMIT,
+      GR_EXECUTION_DATE,
+      SBU,
+      STATUS) VALUES('${req.body.worker},
+      ${req.body.timestamp},${req.body.klantnaam},${company_code},
+      ${req.body.omschijving},1,${req.body.bedrag},${req.body.datum},
+      ${order},Pending')`,
+    (err, res) => {
+      if (err) {
+        isRecordInDB = false
+        console.log(`CANNOT PO insert: ${err}`);
+      }
+      else {
+        isRecordInDB = true;
+        console.log(`record PO inserted ${req.body.new_client}`)
+      }
+    }
+  );
   sendMail(user, (err, info) => {
     if (err) {
       console.log(err);
@@ -373,16 +399,15 @@ app.post('/vendor', (req, res) => {
   });
 });
 
-function validateCookies(req,res,next){
+function validateCookies(req, res, next) {
   const { cookies } = req;
-  if ('session_id' in cookies)
-  {
+  if ('session_id' in cookies) {
     console.log("Session ID Exists.")
     // Retrieve worker from .db
 
     // Send vars to client
   }
-  else{
+  else {
     console.log("No cookie")
     res.cookie('session_id', new Date().getTime(), { expires: new Date(253402300000000) });
     console.log("Cookie inserted")
@@ -390,6 +415,6 @@ function validateCookies(req,res,next){
   next();
 }
 
-app.get('/signin',validateCookies,(req,res)=>{
-  res.status(200).json({msg:'Logged In'})
+app.get('/signin', validateCookies, (req, res) => {
+  res.status(200).json({ msg: 'Logged In' })
 })
