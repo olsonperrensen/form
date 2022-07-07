@@ -17,47 +17,12 @@ export interface UserData {
   Status: string
 }
 
-/** Constants used to fill up our data base. */
-const FRUITS: string[] = [
-  'blueberry',
-  'lychee',
-  'kiwi',
-  'mango',
-  'peach',
-  'lime',
-  'pomegranate',
-  'pineapple',
-];
-const NAMES: string[] = [
-  'Maia',
-  'Asher',
-  'Olivia',
-  'Atticus',
-  'Amelia',
-  'Jack',
-  'Charlotte',
-  'Theodore',
-  'Isla',
-  'Oliver',
-  'Isabella',
-  'Jasper',
-  'Cora',
-  'Levi',
-  'Violet',
-  'Arthur',
-  'Mia',
-  'Thomas',
-  'Elizabeth',
-];
-
-/**
- * @title Data table with sorting, pagination, and filtering.
- */
 @Component({
   selector: 'table-overview-example',
   styleUrls: ['history.component.css'],
   templateUrl: 'history.component.html',
 })
+
 export class HistoryComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['id',
     'Requested_by',
@@ -78,8 +43,32 @@ export class HistoryComponent implements OnInit, AfterViewInit {
   constructor() { }
 
   ngOnInit(): void {
-    // Create 100 users
-    const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
+    // FETCH FROM DB
+    const users = [{
+      id: '1',
+      Requested_by: 'Een tester',
+      Datum: '07/07/2022',
+      Company: 'Unliever BV',
+      Company_Code: 'be01',
+      Short_text: 'Lange tekst test',
+      PO_Quantity: 1,
+      Overall_Limit: 500,
+      GR_Execution_date: 'Juli',
+      Order: 'BE_DEW_4',
+      Status: 'Pending'
+    },{
+      id: '2',
+      Requested_by: 'Marcel Tester',
+      Datum: '10/07/2022',
+      Company: 'NS',
+      Company_Code: 'NL01',
+      Short_text: 'Affiche testing',
+      PO_Quantity: 1,
+      Overall_Limit: 722,
+      GR_Execution_date: 'Mei',
+      Order: 'BE_HDT_4',
+      Status: 'Complete'
+    }]
 
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(users);
@@ -99,26 +88,4 @@ export class HistoryComponent implements OnInit, AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
-}
-
-function createNewUser(id: number): UserData {
-  const name =
-    NAMES[Math.round(Math.random() * (NAMES.length - 1))] +
-    ' ' +
-    NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) +
-    '.';
-
-  return {
-    id: '',
-    Requested_by: '',
-    Datum: '',
-    Company: '',
-    Company_Code: '',
-    Short_text: '',
-    PO_Quantity: 1,
-    Overall_Limit: 1,
-    GR_Execution_date: '',
-    Order: '',
-    Status: ''
-  };
 }
