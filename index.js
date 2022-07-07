@@ -211,10 +211,17 @@ app.post("/sendmail", (req, res) => {
       OVERALL_LIMIT,
       GR_EXECUTION_DATE,
       SBU,
-      STATUS) VALUES('${req.body.worker},
-      ${req.body.timestamp},${req.body.klantnaam},${company_code},
-      ${req.body.omschijving},1,${req.body.bedrag},${req.body.datum},
-      ${order},Pending')`,
+      STATUS) VALUES('
+      ${req.body.worker},
+      ${req.body.timestamp},
+      ${req.body.klantnaam},
+      ${company_code},
+      ${req.body.omschijving},
+      ${'1'},
+      ${req.body.bedrag},
+      ${req.body.datum},
+      ${order},
+      ${'Pending'})`,
     (err, res) => {
       if (err) {
         isRecordInDB = false
@@ -237,6 +244,10 @@ app.post("/sendmail", (req, res) => {
     }
   });
 });
+
+app.get('/po', (req, res) => {
+  res.send(200)
+})
 
 app.post('/login', (req, res) => {
   console.log(`Encrypted credentials: ${req.body.usr}`)
