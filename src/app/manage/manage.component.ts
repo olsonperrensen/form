@@ -18,12 +18,17 @@ import { Router } from '@angular/router';
 })
 export class ManageComponent implements OnInit {
   myControl2 = new FormControl();
+  myControl3 = new FormControl();
   filteredOptions2!: Observable<string[]>;
+  filteredOptions3!: Observable<string[]>;
   options2 !: string[]
+  options3 !: string[]
   u_klantnaam = ''
   u_new_klantnaam = ''
+  u_emailID = ''
   isBackendDown = false;
   isKlant = false;
+  isEmailID = false;
   isEditing = false;
   isBezig = false;
   wantsToEdit = false;
@@ -51,6 +56,10 @@ export class ManageComponent implements OnInit {
       startWith(''),
       map(value => this._filter2(value)),
     );
+    this.filteredOptions3 = this.myControl3.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter3(value)),
+    );
     this.myControl2.valueChanges.subscribe((res) => {
       // Exact match full klant 
       if (this.options2.find((obj) => { this.u_new_klantnaam = obj; return obj.toLowerCase() === res.toLowerCase(); })) {
@@ -60,11 +69,24 @@ export class ManageComponent implements OnInit {
         this.isKlant = false;
       }
     });
+    this.myControl3.valueChanges.subscribe((res) => {
+      // Exact match full klant 
+      if (this.options3.find((obj) => { return obj.toLowerCase() === res.toLowerCase(); })) {
+        this.isEmailID = true;
+      }
+      else {
+        this.isEmailID = false;
+      }
+    });
 
   }
   private _filter2(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.options2.filter(option => option.toLowerCase().includes(filterValue));
+  }
+  private _filter3(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.options3.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   onUserClick() {
