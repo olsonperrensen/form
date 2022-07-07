@@ -6,6 +6,7 @@ import { GetdataService } from '../getdata.service';
 
 export interface UserData {
   id: string;
+  external_id: string;
   requested_by: string;
   datum: string;
   company: string;
@@ -27,6 +28,7 @@ export interface UserData {
 export class HistoryComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['id',
     'requested_by',
+    'external_id',
     'datum',
     'company',
     'company_code',
