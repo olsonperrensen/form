@@ -28,6 +28,7 @@ export class ManageComponent implements OnInit {
   isBezig = false;
   wantsToEdit = false;
   wantsToAdd = false;
+  wantsToPO = false;
   s = 6
 
   constructor(private getData: GetdataService, private sendForms: SendFormsService, private router:Router) { }
@@ -132,6 +133,9 @@ export class ManageComponent implements OnInit {
   }
   onUserWantsToAdd() {
     this.wantsToAdd = true;
+  }
+  onUserWantsToPO(){
+    this.wantsToPO = true;
   }
 
   checkRes(res: any) {

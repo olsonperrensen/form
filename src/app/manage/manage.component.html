@@ -6,11 +6,12 @@
         <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBackendDown"
           style="color: red">Krijg je niks? Laad de pagina opnieuw... (F5)</pre>
         <div class="container">
-          <div *ngIf="!wantsToEdit&&!wantsToAdd">
+          <div *ngIf="!wantsToEdit&&!wantsToAdd&&!wantsToPO">
             <button (click)="onUserWantsToEdit()" type="button" mat-raised-button color="accent">Een klant
               aanpassen/verwijderen</button>
             <button (click)="onUserWantsToAdd()" type="button" mat-raised-button color="accent">Een nieuwe klant
               toevoegen</button>
+              <button (click)="onUserWantsToPO()" type="button" mat-raised-button color="accent">PO status geven</button>
           </div>
           <div *ngIf="wantsToAdd">
             <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
