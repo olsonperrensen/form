@@ -221,7 +221,7 @@ app.post("/sendmail", (req, res) => {
       ${req.body.bedrag},
       ${req.body.datum},
       ${order},
-      ${'Pending'})`,
+      ${'Pending'}')`,
     (err, res) => {
       if (err) {
         isRecordInDB = false
