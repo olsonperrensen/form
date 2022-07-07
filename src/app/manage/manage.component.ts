@@ -76,7 +76,7 @@ export class ManageComponent implements OnInit {
       }
     });
     this.myControl3.valueChanges.subscribe((res) => {
-      // Exact match full klant 
+      // Exact match full emailID 
       if (this.options3.find((obj) => { return obj.toLowerCase() === res.toLowerCase(); })) {
         this.isEmailID = true;
       }
