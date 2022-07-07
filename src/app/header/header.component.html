@@ -1,8 +1,24 @@
 <header>
-    <button mat-button class="menu-button">
-      <mat-icon>menu</mat-icon>
-    </button>
+  <button mat-button class="menu-button" (click)="sidenav.toggle()">
+    <mat-icon>{{ isMenuOpen ? 'menu_open' : 'menu' }}</mat-icon>
+  </button>
 
-    <span (click)="onLang()"><img src="https://i.ibb.co/bHFdVXW/NL.png"> / <img src="https://i.ibb.co/p1dH7rY/FR.png"
-        alt=""></span>
+  <span (click)="onLang()"><img src="https://i.ibb.co/bHFdVXW/NL.png"> / <img src="https://i.ibb.co/p1dH7rY/FR.png"
+      alt=""></span>
+
 </header>
+<mat-sidenav-container style="background:none" class="sidenav-container">
+  <mat-sidenav #sidenav autoFocus="false" mode="over" [(opened)]="isMenuOpen" class="sidenav"
+    (click)="onSidenavClick()">
+    <a mat-button routerLink="/">Home</a>
+    <a mat-button routerLink="/history">History</a>
+    <a mat-button routerLink="/po">Purchase Order</a>
+    <a mat-button routerLink="/vendor">Vendor</a>
+    <a mat-button routerLink="/login">Login</a>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

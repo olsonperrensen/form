@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class HeaderComponent implements OnInit {
 
+  public isMenuOpen: boolean = false;
   isDutch = true;
 
 
@@ -26,5 +27,7 @@ export class HeaderComponent implements OnInit {
       this.translateService.use('nl-NL')
     }
   }
-
+  public onSidenavClick(): void {
+    this.isMenuOpen = false;
+  }
 }
