@@ -30,6 +30,7 @@ export class ManageComponent implements OnInit {
   isKlant = false;
   isEmailID = false;
   isEditing = false;
+  isPOEditing = false;
   isBezig = false;
   wantsToEdit = false;
   wantsToAdd = false;
@@ -98,6 +99,9 @@ export class ManageComponent implements OnInit {
   onUserClick() {
     this.isEditing = true;
   }
+  onUserPOClick() {
+    this.isPOEditing = true;
+  }
 
   onUserAddClick() {
     this.u_new_klantnaam = this.u_new_klantnaam.replace(/[^a-zA-Z0-9\s]/gi, '');
@@ -155,7 +159,14 @@ export class ManageComponent implements OnInit {
       });
       
   }
+  onUserPODeleteClick()
+  {
 
+  }
+onUserPOEditClick()
+{
+
+}
   onUserWantsToEdit() {
     this.wantsToEdit = true
   }

@@ -65,19 +65,19 @@
           </mat-form-field>
           <div *ngIf="isEmailID">
             <h3>Wat wil je doen?</h3>
-            <div *ngIf="isEditing">
+            <div *ngIf="isPOEditing">
               <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
-                <mat-label>Nieuwe gegevens Klant</mat-label>
+                <mat-label>PO Nr</mat-label>
                 <input required type="text" placeholder="Pick one" aria-label="Number" matInput
                   #edit_klantnaam="ngModel" [(ngModel)]="u_new_klantnaam" name="u_edit_klantnaam">
               </mat-form-field>
-              <button (click)="onUserEditClick()" [disabled]="!f.valid" type="button" mat-raised-button
-                color="primary">Verzenden</button>
+              <button (click)="onUserPOEditClick()" [disabled]="!f.valid" type="button" mat-raised-button
+                color="primary">"Pending" naar PO Nr. vergangen</button>
             </div>
-            <button (click)="onUserClick()" [disabled]="!f.valid" type="button" mat-raised-button
-              color="accent">Aanpassen</button>
-            <button (click)="onUserDeleteClick()" [disabled]="!f.valid" type="button" mat-raised-button
-              color="warn">Verwijderen</button>
+            <button (click)="onUserPOClick()" [disabled]="!f.valid" type="button" mat-raised-button
+              color="accent">PO Nr geven</button>
+            <button (click)="onUserPODeleteClick()" [disabled]="!f.valid" type="button" mat-raised-button
+              color="warn">PO aanvraag Verwijderen</button>
             <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
               style="color: white;background: black;">Bezig... ({{s}}s)</pre>
           </div>
