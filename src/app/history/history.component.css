@@ -1,0 +1,21 @@
+*
+{
+  background: gray;
+  color: white;
+  margin: 10px 0;
+}
+
+
+table {
+    width: 80%;
+  }
+  
+  .mat-form-field {
+    font-size: 14px;
+    width: 80%;
+  }
+
+  td, th {
+    width: 25%;
+  }
+  

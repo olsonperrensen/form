@@ -18,6 +18,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { ManageComponent } from './manage/manage.component';
 import { AuthService } from './auth.service';
 import { AuthGuardService } from './auth-guard.service';
+import { HistoryComponent } from './history/history.component';
 
 export function HttpLoaderFactory(http:HttpClient)
 {
@@ -32,7 +33,8 @@ export function HttpLoaderFactory(http:HttpClient)
     VendorComponent,
     LoginComponent,
     HeaderComponent,
-    ManageComponent
+    ManageComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,
