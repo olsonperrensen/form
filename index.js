@@ -251,7 +251,7 @@ app.get('/po', (req, res) => {
   client.query('SELECT * FROM PO;', (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
-      po.push(row.biz_name)
+      po.push(row)
     }
     console.log("Fetched PO's from DB")
   });
