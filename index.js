@@ -31,6 +31,7 @@ const client = new Client({
 client.connect();
 
 let nieuw_clients = []
+let po = []
 let sales_per = []
 let sales_man = []
 let isRecordInDB = false;
@@ -246,8 +247,19 @@ app.post("/sendmail", (req, res) => {
 });
 
 app.get('/po', (req, res) => {
-  res.send(200)
-})
+
+  client.query('SELECT * FROM PO;', (err, res) => {
+    if (err) throw err;
+    for (let row of res.rows) {
+      po.push(row.biz_name)
+    }
+    console.log("Fetched PO's from DB")
+  });
+  setTimeout(() => {
+    res.send(po);
+  }, 250);
+  po = []
+});
 
 app.post('/login', (req, res) => {
   console.log(`Encrypted credentials: ${req.body.usr}`)
