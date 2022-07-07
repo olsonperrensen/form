@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 export interface UserData {
   id: string;
   Requested_by: string;
-  Timestamp: string;
+  Datum: string;
   Company: string;
   Company_Code: string;
   Short_text: string;
@@ -61,7 +61,7 @@ const NAMES: string[] = [
 export class HistoryComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['id',
     'Requested_by',
-    'Timestamp',
+    'Datum',
     'Company',
     'Company_Code',
     'Short_text',
@@ -111,7 +111,7 @@ function createNewUser(id: number): UserData {
   return {
     id: '',
     Requested_by: '',
-    Timestamp: '',
+    Datum: '',
     Company: '',
     Company_Code: '',
     Short_text: '',
