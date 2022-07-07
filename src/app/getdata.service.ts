@@ -48,6 +48,11 @@ export class GetdataService {
     return this.http.put(this.url, req)
   }
 
+  getPO()
+  {
+    return this.http.get('https://formemail.herokuapp.com/po')
+  }
+
 
   constructor(private http: HttpClient) { }
 }
