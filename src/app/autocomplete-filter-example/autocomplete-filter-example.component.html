@@ -105,7 +105,7 @@
 </div>
 <div style="margin-top: 10%" *ngIf="sent" class="container loading">
   <div class="row justify-content-center">
-    <div class="lds-grid">
+    <div  *ngIf="!exit" class="lds-grid">
       <div></div>
       <div></div>
       <div></div>
@@ -116,6 +116,10 @@
       <div></div>
       <div></div>
     </div>
+    <svg *ngIf="exit" class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+      <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+      <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+    </svg>
     <h1 *ngIf="!exit">Aan het laden...</h1>
     <h1 *ngIf="exit">Alles in orde. Je mag dit venster sluiten.</h1>
   </div>

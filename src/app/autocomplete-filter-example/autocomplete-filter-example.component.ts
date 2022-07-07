@@ -13,7 +13,7 @@ import dateFormat, { masks } from "dateformat";
 @Component({
   selector: 'app-autocomplete-filter-example',
   templateUrl: './autocomplete-filter-example.component.html',
-  styleUrls: ['./autocomplete-filter-example.component.css'],
+  styleUrls: ['./autocomplete-filter-example.component.scss'],
   animations: [
     a.fadeInLeftOnEnterAnimation(),
     a.fadeInOnEnterAnimation(),
