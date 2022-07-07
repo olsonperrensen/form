@@ -40,6 +40,7 @@ export class ManageComponent implements OnInit {
 
   ngOnInit(): void {
     this.options2 = []
+    this.options3 = []
     this.getData.getClients().subscribe((res: any) => {
       this.options2 = res.sort()
       console.log("BackEnd is up! All good!");
@@ -50,6 +51,11 @@ export class ManageComponent implements OnInit {
     }, (err: any) => {
       console.log(`Backend down: ${err}`)
       this.isBackendDown = true;
+    });
+    this.getData.getPO().subscribe((res:any)=>{
+      res.forEach((element: any) => {
+        this.options3.push(element.external_id)
+      });
     })
 
     this.filteredOptions2 = this.myControl2.valueChanges.pipe(
