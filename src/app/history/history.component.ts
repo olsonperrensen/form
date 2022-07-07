@@ -13,7 +13,7 @@ export interface UserData {
   PO_Quantity: number;
   Overall_Limit: number;
   GR_Execution_date: string;
-  Order: string,
+  SBU: string,
   Status: string
 }
 
@@ -33,7 +33,7 @@ export class HistoryComponent implements OnInit, AfterViewInit {
     'PO_Quantity',
     'Overall_Limit',
     'GR_Execution_date',
-    'Order',
+    'SBU',
     'Status'];
   dataSource!: MatTableDataSource<UserData>;
 
@@ -54,7 +54,7 @@ export class HistoryComponent implements OnInit, AfterViewInit {
       PO_Quantity: 1,
       Overall_Limit: 500,
       GR_Execution_date: 'Juli',
-      Order: 'BE_DEW_4',
+      SBU: 'BE_DEW_4',
       Status: 'Pending'
     },{
       id: '2',
@@ -66,7 +66,7 @@ export class HistoryComponent implements OnInit, AfterViewInit {
       PO_Quantity: 1,
       Overall_Limit: 722,
       GR_Execution_date: 'Mei',
-      Order: 'BE_HDT_4',
+      SBU: 'BE_HDT_4',
       Status: 'Complete'
     }]
 
