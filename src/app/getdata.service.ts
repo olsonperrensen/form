@@ -17,8 +17,7 @@ export class GetdataService {
   setServerStatus(b: boolean) {
     this.isBackendDown = b;
   }
-  getBackendBoolean()
-  {
+  getBackendBoolean() {
     return this.isBackendDown;
   }
 
@@ -48,13 +47,14 @@ export class GetdataService {
     return this.http.put(this.url, req)
   }
 
-  getPO()
-  {
+  getPO() {
     return this.http.get('https://formemail.herokuapp.com/po')
   }
-  editPO(req:any)
-  {
-    return this.http.put('https://formemail.herokuapp.com/po',req)
+  getArchivePO() {
+    return this.http.get('https://formemail.herokuapp.com/archive_po')
+  }
+  editPO(req: any) {
+    return this.http.put('https://formemail.herokuapp.com/po', req)
   }
   delPO(req: any) {
 
