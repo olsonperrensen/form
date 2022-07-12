@@ -164,7 +164,7 @@ app.post("/sendmail", (req, res) => {
   subject_klant = req.body.klantnaam.split(" ")
 
   console.log("request came");
-  const external_id = new Date().now();
+  const external_id = Date.now();
   const mailOptions = {
     from: "olsonperrensen@zohomail.eu",
     to: destinataries,
