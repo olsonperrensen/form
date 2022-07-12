@@ -157,9 +157,17 @@ export class ManageComponent implements OnInit {
 
   }
   onUserPODeleteClick() {
+    this.isBezig = true;
+    this.doCountdown()
+    this.getData.delPO({u_emailID:this.u_emailID}).subscribe((res) => {
+      this.isBezig = false;
+      this.checkRes(res);
+    })
 
   }
   onUserPOEditClick() {
+    this.isBezig = true;
+    this.doCountdown()
     this.getData.editPO({ email_id: this.u_emailID, new_client: `${this.u_new_klantnaam}` }).subscribe((res) => {
       this.isBezig = false;
       this.checkRes(res);

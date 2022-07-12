@@ -56,7 +56,17 @@ export class GetdataService {
   {
     return this.http.put('https://formemail.herokuapp.com/po',req)
   }
+  delPO(req: any) {
 
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: req,
+    };
+
+    return this.http.delete('https://formemail.herokuapp.com/po', options);
+  }
 
   constructor(private http: HttpClient) { }
 }
