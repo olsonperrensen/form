@@ -7,35 +7,35 @@
           <p><em style="font-size:xx-small;">{{'w4'|translate}}</em></p>
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Ik ben...</mat-label>
-            <input required matInput placeholder="Placeholder" [(ngModel)]="v_worker" name="v_worker">
+            <input required matInput placeholder="Ex. Jan Peeters" [(ngModel)]="v_worker" name="v_worker">
           </mat-form-field>
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Klant</mat-label>
-            <input required matInput placeholder="Placeholder" [(ngModel)]="v_klant" name="v_klant">
+            <input required matInput placeholder="Ex. MEGAPOOL SOLUTIONS LIMITED BV" [(ngModel)]="v_klant" name="v_klant">
           </mat-form-field>
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Adres</mat-label>
-            <input required matInput [(ngModel)]="v_adres" name="v_adres" placeholder="Placeholder">
+            <input required matInput [(ngModel)]="v_adres" name="v_adres" placeholder="Ex. Zandstraat 227B Gent 9000">
           </mat-form-field>
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>E-mail</mat-label>
-            <input type="email" required matInput [(ngModel)]="v_email" name="v_email" placeholder="Placeholder">
+            <input type="email" required matInput [(ngModel)]="v_email" name="v_email" placeholder="Ex. sven.vdb@megapool.com">
           </mat-form-field>
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Telefoonnr</mat-label>
-            <input min="31" max="32999999999" type="number" required matInput [(ngModel)]="v_gsm" name="v_gsm" placeholder="Placeholder">
+            <input min="31000000000" max="32999999999" type="number" required matInput [(ngModel)]="v_gsm" name="v_gsm" placeholder="Ex. 32421775301">
           </mat-form-field>
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>VAT No.</mat-label>
-            <input required [(ngModel)]="v_vat" name="v_vat" matInput placeholder="Placeholder">
+            <input required [(ngModel)]="v_vat" name="v_vat" matInput placeholder="Ex. BE0400823011">
           </mat-form-field>
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Naam contactpersoon</mat-label>
-            <input required [(ngModel)]="v_contact" name="v_contact" matInput placeholder="Placeholder">
+            <input required [(ngModel)]="v_contact" name="v_contact" matInput placeholder="Ex. Sven Van Den Berg">
           </mat-form-field>
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Klant Nr.</mat-label>
-            <input min="100000" max="8999999" type="number" required [(ngModel)]="v_klantnr" name="v_klantnr" matInput placeholder="Placeholder">
+            <input min="100000" max="8999999" type="number" required [(ngModel)]="v_klantnr" name="v_klantnr" matInput placeholder="Ex. 1304862">
           </mat-form-field>
           <input required #csvInput (change)="onFileSelected($event)" hidden="true" type="file" onclick="this.value=null"
             accept=".pdf, .jpg, .jpeg, .bmp, .gif, .png" />
