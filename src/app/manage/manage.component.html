@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-xs-12">
       <form #f="ngForm" (ngSubmit)="1" class="example-form">
-        <h1 class="lead">Manage Clients</h1>
+        <h1 class="lead">Kies een actie</h1>
         <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBackendDown"
           style="color: red">Krijg je niks? Laad de pagina opnieuw... (F5)</pre>
         <div class="container">
@@ -11,7 +11,7 @@
               aanpassen/verwijderen</button>
             <button (click)="onUserWantsToAdd()" type="button" mat-raised-button color="accent">Een nieuwe klant
               toevoegen</button>
-              <button (click)="onUserWantsToPO()" type="button" mat-raised-button color="accent">PO status geven</button>
+              <button (click)="onUserWantsToPO()" type="button" mat-raised-button color="accent">Manage P.O.</button>
           </div>
           <div *ngIf="wantsToAdd">
             <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
@@ -77,7 +77,7 @@
             <button (click)="onUserPOClick()" [disabled]="!f.valid" type="button" mat-raised-button
               color="accent">PO Nr.</button>
             <button (click)="onUserPODeleteClick()" [disabled]="!f.valid" type="button" mat-raised-button
-              color="warn">PO aanvraag Verwijderen</button>
+              color="warn">PO Archiveren</button>
               <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
                 style="color: white;background: black;">Bezig... ({{s}}s)</pre>
           </div>
