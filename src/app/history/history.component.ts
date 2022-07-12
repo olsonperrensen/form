@@ -1,8 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { GetdataService } from '../getdata.service';
+import { Component, OnInit } from '@angular/core';
 
 export interface UserData {
   id: string;
@@ -25,7 +21,7 @@ export interface UserData {
   templateUrl: 'history.component.html',
 })
 
-export class HistoryComponent implements OnInit{
+export class HistoryComponent implements OnInit {
   longText = `Depending on the status of your PO, it can either be in the "Active" section or in the "Archive" section.\n
   An order which still requires a number confirmation will remain in the "Active" section, whereas any PO which has already been processed and given a number will be
   transfered to the "Archive" section.\n\nPlease make a choice:`;
