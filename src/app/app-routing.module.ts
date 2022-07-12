@@ -10,6 +10,7 @@ import { AuthGuardService } from './auth-guard.service';
 import { HistoryComponent } from './history/history.component';
 import { ActiveComponent } from './history/active/active.component';
 import { ArchiveComponent } from './history/archive/archive.component';
+import { VendorHistoryComponent } from './vendor/vendor-history/vendor-history.component';
 
 const routes: Routes = [
   { path: '', component: HomepageComponent },
@@ -19,7 +20,8 @@ const routes: Routes = [
   { path: 'manage', component: ManageComponent, canActivate: [AuthGuardService] },
   { path: 'history', component: HistoryComponent },
   { path: 'active', component: ActiveComponent },
-  { path: 'archive', component: ArchiveComponent }
+  { path: 'archive', component: ArchiveComponent },
+  { path: 'vendor-history', component: VendorHistoryComponent }
 ];
 
 @NgModule({

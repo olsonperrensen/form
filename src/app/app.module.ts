@@ -21,6 +21,7 @@ import { AuthGuardService } from './auth-guard.service';
 import { HistoryComponent } from './history/history.component';
 import { ActiveComponent } from './history/active/active.component';
 import { ArchiveComponent } from './history/archive/archive.component';
+import { VendorHistoryComponent } from './vendor/vendor-history/vendor-history.component';
 
 export function HttpLoaderFactory(http:HttpClient)
 {
@@ -38,7 +39,8 @@ export function HttpLoaderFactory(http:HttpClient)
     ManageComponent,
     HistoryComponent,
     ActiveComponent,
-    ArchiveComponent
+    ArchiveComponent,
+    VendorHistoryComponent
   ],
   imports: [
     BrowserModule,

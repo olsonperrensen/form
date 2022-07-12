@@ -50,6 +50,9 @@ export class GetdataService {
   getPO() {
     return this.http.get('https://formemail.herokuapp.com/po')
   }
+  getVendor() {
+    return this.http.get('https://formemail.herokuapp.com/vendor')
+  }
   getArchivePO() {
     return this.http.get('https://formemail.herokuapp.com/archive_po')
   }
