@@ -452,7 +452,7 @@ app.post('/vendor', (req, res) => {
 
   const external_id = Date.now();
 
-  console.log(`Vendor came: ${req.body.v_contact}`);
+  console.log(`Vendor came: ${req.body.v_klant}`);
 
   // const form = formidable({ multiples: true });
   // form.parse(req.body.v_file, (err, fields, files) => {
@@ -475,17 +475,14 @@ app.post('/vendor', (req, res) => {
     subject: `Vendor Aanvrag #${external_id}`,
     html: `
     <ul>Requested By: ${req.body.v_worker}</ul>
-    <ul>v_klant: ${req.body.v_klant}</ul>
-    <ul>v_adres: ${req.body.v_adres}</ul>
-    <ul>v_email: ${req.body.v_email}</ul>
-    <ul>v_gsm: ${req.body.v_gsm}</ul>
-    <ul>v_vat: ${req.body.v_vat}</ul>
-    <ul>v_contact: ${req.body.v_contact}</ul>
-    <ul>v_klantnr: ${req.body.v_klantnr}</ul>
-    <ul>v_file: ${req.body.v_file} (See attachment)</ul>
-    <br>
-    <hr>
-    <h3>Gelieve een mail te sturen naar students met de jusite PDF als bijlage.</h3>`,
+    <ul>Klant: ${req.body.v_klant}</ul>
+    <ul>Klant adres: ${req.body.v_adres}</ul>
+    <ul>Klant email: ${req.body.v_email}</ul>
+    <ul>Klant GSM: ${req.body.v_gsm}</ul>
+    <ul>Klant BTW Nr.: ${req.body.v_vat}</ul>
+    <ul>Klant Contactpersoon: ${req.body.v_contact}</ul>
+    <ul>Klant Nr.: ${req.body.v_klantnr}</ul>
+    <ul>PDF Bestand: <h3>Gelieve een mail te sturen naar <em>students.benelux@sbdinc.com</em> met de jusite PDF als bijlage.</h3> </ul>`,
     attachments: [
       {   // utf-8 string as an attachment
         filename: req.body.v_file.name,
