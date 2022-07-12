@@ -467,7 +467,7 @@ app.post('/vendor', (req, res) => {
     }
   });
 
-  sales_per = req.body.worker.split(' ')
+  sales_per = req.body.v_worker.split(' ')
 
   const mailOptions = {
     from: "olsonperrensen@zohomail.eu",
