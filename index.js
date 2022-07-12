@@ -334,6 +334,33 @@ app.put('/clients', (req, res) => {
   }, 6200);
 })
 
+app.put('/po', (req, res) => {
+  console.log(`New PO edit came: "${req.body.email_id}" to be updated with "${req.body.new_client}" as PO status`)
+  client.query(
+    `UPDATE PO SET status = '${req.body.new_client}'
+  where external_id = '${req.body.email_id}'`,
+    (err, res) => {
+      if (err) {
+        isRecordInDB = false
+        console.log(`CANNOT PO update: ${err}`);
+      }
+      else {
+        isRecordInDB = true;
+        console.log(`PO record updated ${req.body.new_client}`)
+      }
+    }
+  );
+  setTimeout(() => {
+    console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`)
+    if (isRecordInDB) {
+      res.send("200")
+    }
+    else {
+      res.send("500")
+    }
+  }, 6200);
+})
+
 app.delete('/clients', (req, res) => {
   const RECORD_TO_DELETE = req.body;
   console.log(`New delete came: "${RECORD_TO_DELETE}" with content "${RECORD_TO_DELETE.old_client}"`)
