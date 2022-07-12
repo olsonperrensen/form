@@ -121,7 +121,20 @@ app.get('/clients', (req, res) => {
   nieuw_clients = []
 });
 app.get('/sendmail', (req, res) => res.send("Send me a JSON object via POST. (Works with Zoho now)."));
-app.get('/vendor', (req, res) => res.send("Send me a Vendor object via POST. (Works with Zoho now)."));
+app.get('/vendor', (req, res) => {
+
+  client.query('SELECT * FROM VENDOR;', (err, res) => {
+    if (err) throw err;
+    for (let row of res.rows) {
+      po.push(row)
+    }
+    console.log("Fetched VENDORS from DB")
+  });
+  setTimeout(() => {
+    res.send(po);
+  }, 250);
+  po = []
+});
 
 // define a sendmail endpoint, which will send emails and response with the corresponding status
 app.post("/sendmail", (req, res) => {
@@ -150,7 +163,7 @@ app.post("/sendmail", (req, res) => {
       default: order = "ERROR"; break;
     }
   }
-  // TO-DO
+  // LINK Sales Rep. with zijn manager.
   managers.forEach(element => {
     if (req.body.worker === element[0].Name) {
       sales_man = element[0].Manager.split(' ')
@@ -437,7 +450,7 @@ app.delete('/po', (req, res) => {
 
 app.post('/vendor', (req, res) => {
 
-  vendor_id = new Date().getTime().toString().slice(7).slice(3)
+  const external_id = Date.now();
 
   console.log(`Vendor came: ${req.body.v_contact}`);
 
@@ -447,12 +460,21 @@ app.post('/vendor', (req, res) => {
   //  console.log('files: ', files);
   //   attached_file = files
   // });
-  sales_per = req.body.v_worker.split(' ')
+
+  managers.forEach(element => {
+    if (req.body.worker === element[0].Name) {
+      sales_man = element[0].Manager.split(' ')
+    }
+  });
+
+  sales_per = req.body.worker.split(' ')
+
   const mailOptions = {
     from: "olsonperrensen@zohomail.eu",
-    to: [`students.benelux@sbdinc.com`, `${sales_per[0]}.${sales_per[1]}@sbdinc.com`],
-    subject: `Vendor Aanvrag #${sales_per[0][0]}${sales_per[1][0]}${vendor_id}`,
+    to: [`students.benelux@sbdinc.com`, `${sales_per[0]}.${sales_per[1]}@sbdinc.com`, `${sales_man[0]}.${sales_man[1]}@sbdinc.com`],
+    subject: `Vendor Aanvrag #${external_id}`,
     html: `
+    <ul>Requested By: ${req.body.v_worker}</ul>
     <ul>v_klant: ${req.body.v_klant}</ul>
     <ul>v_adres: ${req.body.v_adres}</ul>
     <ul>v_email: ${req.body.v_email}</ul>
@@ -470,6 +492,43 @@ app.post('/vendor', (req, res) => {
         content: JSON.stringify(req.body.v_file.size)
       }]
   };
+  client.query(
+    `INSERT INTO VENDOR(
+      EXTERNAL_ID,
+      REQUESTED_BY,
+      DATUM,
+      KLANT,
+      ADRES,
+      EMAIL,
+      GSM,
+      VAT,
+      CONTACT,
+      KLANTNR,
+      FILE,
+      STATUS) VALUES(
+        '${external_id}',
+        '${req.body.v_worker}',
+        '${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}',
+        '${req.body.v_klant}',
+        '${req.body.v_adres}',
+        '${req.body.v_email}',
+        '${req.body.v_gsm}',
+        '${req.body.v_vat}',
+        '${req.body.v_contact}',
+        '${req.body.v_klantnr}',
+        '${'via Email'}',
+        '${'Pending'}')`,
+    (err, res) => {
+      if (err) {
+        isRecordInDB = false
+        console.log(`CANNOT PO insert: ${err}`);
+      }
+      else {
+        isRecordInDB = true;
+        console.log(`record PO inserted #${external_id}}`)
+      }
+    }
+  );
   const sendMail = (user, callback) => {
     const transporter = nodemailer.createTransport({
       host: "smtp.zoho.eu", // hostname
