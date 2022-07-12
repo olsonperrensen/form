@@ -263,6 +263,21 @@ app.get('/po', (req, res) => {
   }, 250);
   po = []
 });
+app.get('/archive_po', (req, res) => {
+
+  client.query('SELECT * FROM archive_po;', (err, res) => {
+    if (err) throw err;
+    for (let row of res.rows) {
+      po.push(row)
+    }
+    console.log("Fetched ARCHIVE PO's from DB")
+  });
+  setTimeout(() => {
+    res.send(po);
+  }, 250);
+  po = []
+});
+
 
 app.post('/login', (req, res) => {
   console.log(`Encrypted credentials: ${req.body.usr}`)
