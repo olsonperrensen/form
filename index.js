@@ -389,6 +389,34 @@ app.delete('/clients', (req, res) => {
 
 
 })
+app.delete('/po', (req, res) => {
+  const RECORD_TO_DELETE = req.body;
+  console.log(`New delete came: "${RECORD_TO_DELETE}" with content "${RECORD_TO_DELETE.u_emailID}"`)
+  client.query(
+    `DELETE FROM PO WHERE external_id = '${req.body.u_emailID}'`,
+    (err, res) => {
+      if (err) {
+        isRecordInDB = false
+        console.log(`CANNOT PO delete: ${err}`);
+      }
+      else {
+        isRecordInDB = true;
+        console.log(`PO record deleted ${req.body.u_emailID}`)
+      }
+    }
+  )
+  setTimeout(() => {
+    console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`)
+    if (isRecordInDB) {
+      res.send("200")
+    }
+    else {
+      res.send("500")
+    }
+  }, 6200);
+
+
+})
 
 app.post('/vendor', (req, res) => {
 
