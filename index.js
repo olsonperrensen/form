@@ -482,7 +482,8 @@ app.post('/vendor', (req, res) => {
     <ul>Klant BTW Nr.: ${req.body.v_vat}</ul>
     <ul>Klant Contactpersoon: ${req.body.v_contact}</ul>
     <ul>Klant Nr.: ${req.body.v_klantnr}</ul>
-    <ul>PDF Bestand: <h3>Gelieve een mail te sturen naar <em>students.benelux@sbdinc.com</em> met de jusite PDF als bijlage.</h3> </ul>`,
+    <ul>PDF Bestand: <h3>Gelieve een e-mail te sturen naar <em>students.benelux@sbdinc.com</em> met de jusite PDF als bijlage + Ref Nr. (zie titel).</h3>
+    </ul>`,
     attachments: [
       {   // utf-8 string as an attachment
         filename: req.body.v_file.name,
