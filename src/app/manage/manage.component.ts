@@ -37,7 +37,7 @@ export class ManageComponent implements OnInit {
   wantsToPO = false;
   s = 6
 
-  constructor(private getData: GetdataService, private sendForms: SendFormsService, private router:Router) { }
+  constructor(private getData: GetdataService, private sendForms: SendFormsService, private router: Router) { }
 
   ngOnInit(): void {
     this.options2 = []
@@ -53,7 +53,7 @@ export class ManageComponent implements OnInit {
       console.log(`Backend down: ${err}`)
       this.isBackendDown = true;
     });
-    this.getData.getPO().subscribe((res:any)=>{
+    this.getData.getPO().subscribe((res: any) => {
       res.forEach((element: any) => {
         this.options3.push(element.external_id)
       });
@@ -106,48 +106,45 @@ export class ManageComponent implements OnInit {
   onUserAddClick() {
     this.u_new_klantnaam = this.u_new_klantnaam.replace(/[^a-zA-Z0-9\s]/gi, '');
     console.log(`New client cleansed ${this.u_new_klantnaam}`)
-    if(this.u_new_klantnaam === "")
-    {
+    if (this.u_new_klantnaam === "") {
       alert("Client cannot be empty! Use the right characters and try again.")
     }
-    else
-    {
+    else {
       this.isBezig = true;
-    this.doCountdown();
-    this.getData.postClient(
-      { new_client: `${this.u_new_klantnaam}` })
-      .subscribe((res) => {
-        this.checkRes(res);
-        this.isBezig = false;
-      })
+      this.doCountdown();
+      this.getData.postClient(
+        { new_client: `${this.u_new_klantnaam}` })
+        .subscribe((res) => {
+          this.checkRes(res);
+          this.isBezig = false;
+        })
     }
-    
+
   }
   onUserEditClick() {
     this.u_new_klantnaam = this.u_new_klantnaam.replace(/[^a-zA-Z0-9\s]/gi, '');
     console.log(`Client edit cleansed ${this.u_new_klantnaam}`)
-    if(this.u_new_klantnaam === "")
-    {
+    if (this.u_new_klantnaam === "") {
       alert("Client cannot be empty! Use the right characters and try again.")
     }
-    else{
+    else {
       this.isBezig = true;
       this.doCountdown()
-    this.getData.updateClient(
-      { old_client: `${this.u_klantnaam}`, new_client: `${this.u_new_klantnaam}` })
-      .subscribe((res) => {
-        this.checkRes(res);
-        this.isBezig = false;
-        this.getData.getClients().subscribe((res: any) => {
-          this.options2 = res.sort()
-          console.log("BackEnd is up! All good!");
-        }, (err: any) => {
-          console.log(`Backend down: ${err}`)
-          this.isBackendDown = true;
-        });
-      })
+      this.getData.updateClient(
+        { old_client: `${this.u_klantnaam}`, new_client: `${this.u_new_klantnaam}` })
+        .subscribe((res) => {
+          this.checkRes(res);
+          this.isBezig = false;
+          this.getData.getClients().subscribe((res: any) => {
+            this.options2 = res.sort()
+            console.log("BackEnd is up! All good!");
+          }, (err: any) => {
+            console.log(`Backend down: ${err}`)
+            this.isBackendDown = true;
+          });
+        })
     }
-    
+
   }
   onUserDeleteClick() {
     this.isBezig = true;
@@ -157,23 +154,24 @@ export class ManageComponent implements OnInit {
         this.isBezig = false;
         this.checkRes(res);
       });
-      
-  }
-  onUserPODeleteClick()
-  {
 
   }
-onUserPOEditClick()
-{
+  onUserPODeleteClick() {
 
-}
+  }
+  onUserPOEditClick() {
+    this.getData.editPO({ email_id: this.u_emailID, new_client: `${this.u_new_klantnaam}` }).subscribe((res) => {
+      this.isBezig = false;
+      this.checkRes(res);
+    })
+  }
   onUserWantsToEdit() {
     this.wantsToEdit = true
   }
   onUserWantsToAdd() {
     this.wantsToAdd = true;
   }
-  onUserWantsToPO(){
+  onUserWantsToPO() {
     this.wantsToPO = true;
   }
 
@@ -186,7 +184,7 @@ onUserPOEditClick()
       alert("Client was successfully processed to the list!")
       setTimeout(() => {
         this.u_klantnaam = ""
-      this.u_new_klantnaam = ""
+        this.u_new_klantnaam = ""
       }, 2888);
       this.toHome()
     }
@@ -203,7 +201,7 @@ onUserPOEditClick()
     }, 1000);
   }
 
-  toHome(){
+  toHome() {
     setTimeout(() => {
       this.router.navigate(['/'])
     }, 5111);
