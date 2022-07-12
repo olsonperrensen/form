@@ -395,7 +395,8 @@ app.delete('/po', (req, res) => {
   console.log(RECORD_TO_DELETE)
   console.log(`with content "${RECORD_TO_DELETE.u_emailID}"`)
   client.query(
-    `DELETE FROM PO WHERE external_id = '${req.body.u_emailID}'`,
+    `INSERT INTO archive_po SELECT * FROM po WHERE external_id = '${req.body.u_emailID}';
+    DELETE FROM po USING archive_po WHERE po.external_id = '${req.body.u_emailID}';`,
     (err, res) => {
       if (err) {
         isRecordInDB = false
