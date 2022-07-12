@@ -69,6 +69,9 @@ export class VendorComponent implements OnInit {
           if(this.res.response === "250 Message received")
           {
             alert("Vendor aanvraag gestuurd!")
+            setTimeout(() => {
+              this.router.navigate(['/']);
+            }, 500);
           }
           else{
             alert("Er ging iets mis.")
@@ -86,7 +89,7 @@ export class VendorComponent implements OnInit {
     }
   }
 
-  onCancel(f: NgForm) {
+  onCancel() {
     this.v_klant = ""
     this.v_adres = ""
     this.v_email = ""
