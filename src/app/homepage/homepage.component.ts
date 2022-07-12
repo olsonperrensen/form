@@ -16,6 +16,7 @@ export class HomepageComponent implements OnInit {
   constructor(private getData:GetdataService) { }
 
   ngOnInit(): void {
+    document.body.style.backgroundImage = "url('https://i.postimg.cc/8NqcDrfY/Default-Wallpaper.png')"
     this.getData.getServerStatus().subscribe(
       (res:any) => {
         console.log(`Home res:`)

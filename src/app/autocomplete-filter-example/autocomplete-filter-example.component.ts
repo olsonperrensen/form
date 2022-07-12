@@ -137,6 +137,7 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
     private getData: GetdataService, private router: Router) { }
 
   ngOnInit() {
+    document.body.style.backgroundImage = "url('https://i.postimg.cc/8NqcDrfY/Default-Wallpaper.png')"
     this.getIP();
     this.isBackendDown = this.getData.getBackendBoolean()
     this.filteredOptions2 = this.myControl2.valueChanges.pipe(

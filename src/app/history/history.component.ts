@@ -56,7 +56,7 @@ export class HistoryComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     })
-    document.body.style.backgroundImage = "url('https://u.cubeupload.com/olsonperrensen2/download.png')"
+    document.body.style.backgroundImage = "url('https://u.cubeupload.com/olsonperrensen2/DefaultWallpapermodi.png')"
   }
 
   ngAfterViewInit() {
