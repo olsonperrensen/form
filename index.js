@@ -391,7 +391,9 @@ app.delete('/clients', (req, res) => {
 })
 app.delete('/po', (req, res) => {
   const RECORD_TO_DELETE = req.body;
-  console.log(`New delete came: "${RECORD_TO_DELETE}" with content "${RECORD_TO_DELETE.u_emailID}"`)
+  console.log(`New delete came: `)
+  console.log(RECORD_TO_DELETE)
+  console.log(`with content "${RECORD_TO_DELETE.u_emailID}"`)
   client.query(
     `DELETE FROM PO WHERE external_id = '${req.body.u_emailID}'`,
     (err, res) => {
