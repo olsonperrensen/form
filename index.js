@@ -125,8 +125,6 @@ app.get('/vendor', (req, res) => res.send("Send me a Vendor object via POST. (Wo
 // define a sendmail endpoint, which will send emails and response with the corresponding status
 app.post("/sendmail", (req, res) => {
 
-  let id = new Date().getTime().toString().slice(7).slice(3)
-
   let plnt = 0;
   let company_code = "A";
   let order = "A";
@@ -165,7 +163,7 @@ app.post("/sendmail", (req, res) => {
   subject_klant = req.body.klantnaam.split(" ")
 
   console.log("request came");
-  const external_id = Math.floor(Date.now() / 1000);
+  const external_id = new Date().now();
   const mailOptions = {
     from: "olsonperrensen@zohomail.eu",
     to: destinataries,
@@ -217,7 +215,7 @@ app.post("/sendmail", (req, res) => {
       STATUS) VALUES(
         '${external_id}',
         '${req.body.worker}',
-        '${date.format(new Date(),'YYYY/MM/DD HH:mm:ss')}',
+        '${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}',
         '${req.body.klantnaam}',
         '${company_code}',
         '${req.body.omschijving}',
