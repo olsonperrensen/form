@@ -217,7 +217,7 @@ app.post("/sendmail", (req, res) => {
       STATUS) VALUES(
         '${external_id}',
         '${req.body.worker}',
-        '${req.body.timestamp}',
+        '${date.format(new Date(),'YYYY/MM/DD HH:mm:ss')}',
         '${req.body.klantnaam}',
         '${company_code}',
         '${req.body.omschijving}',
