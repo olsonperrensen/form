@@ -25,50 +25,11 @@ export interface UserData {
   templateUrl: 'history.component.html',
 })
 
-export class HistoryComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['id',
-    'requested_by',
-    'external_id',
-    'datum',
-    'company',
-    'company_code',
-    'short_text',
-    'po_quantity',
-    'overall_limit',
-    'gr_execution_date',
-    'sbu',
-    'status'];
-  dataSource!: MatTableDataSource<UserData>;
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-
-  constructor(private getData: GetdataService) { }
-
-  users!: any;
-
+export class HistoryComponent implements OnInit{
+  longText = `Depending on the status of your PO, it can either be in the "Active" section or in the "Archive" section.\n
+  An order which still requires a number confirmation will remain in the "Active" section, whereas any PO which has already been processed and given a number will be
+  transfered to the "Archive" section.\n\nPlease make a choice:`;
   ngOnInit(): void {
-    // FETCH FROM DB
-    this.getData.getPO().subscribe((res) => {
-      this.users = res;
-       // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(this.users);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    })
     document.body.style.backgroundImage = "url('https://u.cubeupload.com/olsonperrensen2/DefaultWallpapermodi.png')"
-  }
-
-  ngAfterViewInit() {
-    
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
   }
 }

@@ -8,6 +8,8 @@ import { LoginComponent } from './login/login.component';
 import { ManageComponent } from './manage/manage.component';
 import { AuthGuardService } from './auth-guard.service';
 import { HistoryComponent } from './history/history.component';
+import { ActiveComponent } from './history/active/active.component';
+import { ArchiveComponent } from './history/archive/archive.component';
 
 const routes: Routes = [
   { path: '', component: HomepageComponent },
@@ -15,7 +17,9 @@ const routes: Routes = [
   { path: 'vendor', component: VendorComponent },
   { path: 'login', component: LoginComponent },
   { path: 'manage', component: ManageComponent, canActivate: [AuthGuardService] },
-  { path: 'history', component: HistoryComponent }
+  { path: 'history', component: HistoryComponent },
+  { path: 'active', component: ActiveComponent },
+  { path: 'archive', component: ArchiveComponent }
 ];
 
 @NgModule({

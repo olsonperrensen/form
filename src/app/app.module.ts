@@ -19,6 +19,8 @@ import { ManageComponent } from './manage/manage.component';
 import { AuthService } from './auth.service';
 import { AuthGuardService } from './auth-guard.service';
 import { HistoryComponent } from './history/history.component';
+import { ActiveComponent } from './history/active/active.component';
+import { ArchiveComponent } from './history/archive/archive.component';
 
 export function HttpLoaderFactory(http:HttpClient)
 {
@@ -34,7 +36,9 @@ export function HttpLoaderFactory(http:HttpClient)
     LoginComponent,
     HeaderComponent,
     ManageComponent,
-    HistoryComponent
+    HistoryComponent,
+    ActiveComponent,
+    ArchiveComponent
   ],
   imports: [
     BrowserModule,
