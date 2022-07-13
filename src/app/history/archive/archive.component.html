@@ -15,11 +15,6 @@
               <td mat-cell *matCellDef="let row"> {{row.id}} </td>
             </ng-container>
   
-            <ng-container matColumnDef="external_id">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> EmailID </th>
-              <td mat-cell *matCellDef="let row"> {{row.external_id}} </td>
-            </ng-container>
-  
             <!-- Progress Column -->
             <ng-container matColumnDef="requested_by">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Requested by </th>
