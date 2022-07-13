@@ -541,7 +541,7 @@ app.post('/vendor', upload.single('v_file'), (req, res) => {
         '${req.body.v_vat}',
         '${req.body.v_contact}',
         '${req.body.v_klantnr}',
-        '${req.file}',
+        pg_read_binary_file('${req.file.path}'),
         '${'Pending'}')`,
     (err, res) => {
       if (err) {
