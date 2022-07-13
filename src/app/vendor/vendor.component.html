@@ -47,6 +47,8 @@
             (click)="onCancel()">{{'q10'|translate}}</button>
             <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isFormInvalid"
           style="color: red">Gelieve alle velden in te vullen met de juiste gegevens.</pre>
+          <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
+                style="color: white;background: black;">Bezig... ({{s}}s)</pre>
         </div>
       </form>
     </div>

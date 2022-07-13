@@ -30,6 +30,8 @@ export class VendorComponent implements OnInit {
   myJSONForm = {};
   selected_file!: File;
   res !: Res;
+  isBezig = false;
+  s = 6
 
   constructor(private router: Router, private sendVendors: SendVendorsService) { }
 
@@ -73,6 +75,8 @@ export class VendorComponent implements OnInit {
         console.log(`About to send:`)
         console.log(this.myJSONForm)
         console.log("Information above.")
+        this.isBezig = true;
+      this.doCountdown();
         this.sendVendors.sendVendor(fd).subscribe((res) => {
           this.res = <Res>res;
           console.log(res)
@@ -85,6 +89,7 @@ export class VendorComponent implements OnInit {
           else {
             alert("Er ging iets mis.")
           }
+          this.isBezig = false;
         });
 
         this.isFormInvalid = false;
@@ -114,5 +119,15 @@ export class VendorComponent implements OnInit {
   onFileSelected(event: any) {
     this.isFormValidWithFile = true;
     this.selected_file = <File>event.target.files[0]
+  }
+  doCountdown() {
+    const myInterval = setInterval(() => {
+      this.s--;
+      if (this.s < 1) {
+        clearInterval(myInterval); setTimeout(() => {
+          this.s = 6
+        }, 3000);
+      }
+    }, 1000);
   }
 }
