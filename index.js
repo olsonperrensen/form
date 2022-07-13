@@ -397,10 +397,10 @@ app.put('/clients', (req, res) => {
 })
 
 app.put('/po', (req, res) => {
-  console.log(`New PO edit came: "${req.body.email_id}" to be updated with "${req.body.new_client}" as PO status`)
+  console.log(`New PO edit came: "${req.body.u_ID}" to be updated with "${req.body.new_client}" as PO status`)
   client.query(
     `UPDATE PO SET status = '${req.body.new_client}'
-  where external_id = '${req.body.email_id}'`,
+  where id = '${req.body.u_ID}'`,
     (err, res) => {
       if (err) {
         isRecordInDB = false
@@ -455,10 +455,10 @@ app.delete('/po', (req, res) => {
   const RECORD_TO_DELETE = req.body;
   console.log(`New delete came: `)
   console.log(RECORD_TO_DELETE)
-  console.log(`with content "${RECORD_TO_DELETE.u_emailID}"`)
+  console.log(`with content "${RECORD_TO_DELETE.u_ID}"`)
   client.query(
-    `INSERT INTO archive_po SELECT * FROM po WHERE external_id = '${req.body.u_emailID}';
-    DELETE FROM po USING archive_po WHERE po.external_id = '${req.body.u_emailID}';`,
+    `INSERT INTO archive_po SELECT * FROM po WHERE id = '${req.body.u_ID}';
+    DELETE FROM po USING archive_po WHERE po.id = '${req.body.u_ID}';`,
     (err, res) => {
       if (err) {
         isRecordInDB = false
@@ -466,7 +466,7 @@ app.delete('/po', (req, res) => {
       }
       else {
         isRecordInDB = true;
-        console.log(`PO record deleted ${req.body.u_emailID}`)
+        console.log(`PO record deleted ${req.body.u_ID}`)
       }
     }
   )
