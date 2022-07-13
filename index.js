@@ -514,10 +514,9 @@ app.post('/vendor', upload.single('v_file'), (req, res) => {
         console.log(`CANNOT PO insert: ${err}`);
       }
       else {
-        isRecordInDB = true;
-        console.log(`record PO inserted #${external_id}}`)
         db_id = res.rows[0].id
-        console.log(db_id)
+        isRecordInDB = true;
+        console.log(`record PO inserted #${db_id}}`)
       }
     }
   );
