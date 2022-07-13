@@ -552,7 +552,7 @@ app.post('/vendor', upload.single('v_file'), (req, res) => {
       else {
         isRecordInDB = true;
         console.log(`record PO inserted #${external_id}}`)
-        console.log(res)
+        console.log(res.rows[0].id)
       }
     }
   );
