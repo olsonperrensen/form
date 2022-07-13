@@ -510,7 +510,7 @@ app.post('/vendor', upload.single('v_file'), (req, res) => {
     <ul>Klant BTW Nr.: ${req.body.v_vat}</ul>
     <ul>Klant Contactpersoon: ${req.body.v_contact}</ul>
     <ul>Klant Nr.: ${req.body.v_klantnr}</ul>
-    <ul>PDF Bestand: (Zie bijlage)</ul>`,
+    <ul>PDF Bestand: ${req.file.originalname}</ul>`,
     attachments: [
       {   // utf-8 string as an attachment
         filename: req.file.originalname,
@@ -542,7 +542,8 @@ app.post('/vendor', upload.single('v_file'), (req, res) => {
         '${req.body.v_contact}',
         '${req.body.v_klantnr}',
         '${req.file.originalname}',
-        '${'Pending'}')`,
+        '${'Pending'}')
+        RETURNING id;`,
     (err, res) => {
       if (err) {
         isRecordInDB = false
@@ -551,7 +552,7 @@ app.post('/vendor', upload.single('v_file'), (req, res) => {
       else {
         isRecordInDB = true;
         console.log(`record PO inserted #${external_id}}`)
-        console.log(res.rowCount)
+        console.log(res)
       }
     }
   );
