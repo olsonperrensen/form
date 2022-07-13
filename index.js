@@ -512,8 +512,8 @@ app.post('/vendor', upload.single('v_file'), (req, res) => {
     </ul>`,
     attachments: [
       {   // utf-8 string as an attachment
-        filename: req.body.v_file.name,
-        content: JSON.stringify(req.body.v_file.size)
+        filename: req.file.originalname,
+        content: req.file
       }]
   };
   client.query(
