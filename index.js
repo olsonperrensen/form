@@ -482,44 +482,9 @@ app.delete('/po', (req, res) => {
 })
 
 app.post('/vendor', upload.single('v_file'), (req, res) => {
-
-  const external_id = Date.now();
-
-  console.log(`Vendor came: ${req.body.v_klant}`);
-
-  console.log(req.file)
-
-  managers.forEach(element => {
-    if (req.body.worker === element[0].Name) {
-      sales_man = element[0].Manager.split(' ')
-    }
-  });
-
-  sales_per = req.body.v_worker.split(' ')
-
-  const mailOptions = {
-    from: "olsonperrensen@zohomail.eu",
-    to: [`students.benelux@sbdinc.com`, `${sales_per[0]}.${sales_per[1]}@sbdinc.com`, `${sales_man[0]}.${sales_man[1]}@sbdinc.com`],
-    subject: `Vendor Aanvrag #${external_id}`,
-    html: `
-    <ul>Requested By: ${req.body.v_worker}</ul>
-    <ul>Klant: ${req.body.v_klant}</ul>
-    <ul>Klant adres: ${req.body.v_adres}</ul>
-    <ul>Klant email: ${req.body.v_email}</ul>
-    <ul>Klant GSM: ${req.body.v_gsm}</ul>
-    <ul>Klant BTW Nr.: ${req.body.v_vat}</ul>
-    <ul>Klant Contactpersoon: ${req.body.v_contact}</ul>
-    <ul>Klant Nr.: ${req.body.v_klantnr}</ul>
-    <ul>PDF Bestand: ${req.file.originalname}</ul>`,
-    attachments: [
-      {   // utf-8 string as an attachment
-        filename: req.file.originalname,
-        content: req.file
-      }]
-  };
+  let db_id = 0; 
   client.query(
     `INSERT INTO VENDOR(
-      EXTERNAL_ID,
       REQUESTED_BY,
       DATUM,
       KLANT,
@@ -531,7 +496,6 @@ app.post('/vendor', upload.single('v_file'), (req, res) => {
       KLANTNR,
       FILE,
       STATUS) VALUES(
-        '${external_id}',
         '${req.body.v_worker}',
         '${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}',
         '${req.body.v_klant}',
@@ -552,10 +516,44 @@ app.post('/vendor', upload.single('v_file'), (req, res) => {
       else {
         isRecordInDB = true;
         console.log(`record PO inserted #${external_id}}`)
-        console.log(res.rows[0].id)
+        db_id = res.rows[0].id
+        console.log(db_id)
       }
     }
   );
+
+  console.log(`Vendor came: ${req.body.v_klant}`);
+
+  console.log(req.file)
+
+  managers.forEach(element => {
+    if (req.body.worker === element[0].Name) {
+      sales_man = element[0].Manager.split(' ')
+    }
+  });
+
+  sales_per = req.body.v_worker.split(' ')
+
+  const mailOptions = {
+    from: "olsonperrensen@zohomail.eu",
+    to: [`students.benelux@sbdinc.com`, `${sales_per[0]}.${sales_per[1]}@sbdinc.com`, `${sales_man[0]}.${sales_man[1]}@sbdinc.com`],
+    subject: `Vendor Aanvrag #${db_id}`,
+    html: `
+    <ul>Requested By: ${req.body.v_worker}</ul>
+    <ul>Klant: ${req.body.v_klant}</ul>
+    <ul>Klant adres: ${req.body.v_adres}</ul>
+    <ul>Klant email: ${req.body.v_email}</ul>
+    <ul>Klant GSM: ${req.body.v_gsm}</ul>
+    <ul>Klant BTW Nr.: ${req.body.v_vat}</ul>
+    <ul>Klant Contactpersoon: ${req.body.v_contact}</ul>
+    <ul>Klant Nr.: ${req.body.v_klantnr}</ul>
+    <ul>PDF Bestand: ${req.file.originalname}</ul>`,
+    attachments: [
+      {   // utf-8 string as an attachment
+        filename: req.file.originalname,
+        content: req.file
+      }]
+  };
   const sendMail = (user, callback) => {
     const transporter = nodemailer.createTransport({
       host: "smtp.zoho.eu", // hostname
