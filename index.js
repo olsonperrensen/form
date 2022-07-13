@@ -541,7 +541,7 @@ app.post('/vendor', upload.single('v_file'), (req, res) => {
         '${req.body.v_vat}',
         '${req.body.v_contact}',
         '${req.body.v_klantnr}',
-        '${'via Email'}',
+        '${req.file}',
         '${'Pending'}')`,
     (err, res) => {
       if (err) {
@@ -551,6 +551,7 @@ app.post('/vendor', upload.single('v_file'), (req, res) => {
       else {
         isRecordInDB = true;
         console.log(`record PO inserted #${external_id}}`)
+        console.log(res)
       }
     }
   );
