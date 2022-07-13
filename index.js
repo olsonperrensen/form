@@ -8,19 +8,14 @@ const nodemailer = require("nodemailer");
 const CryptoJS = require('crypto-js');
 const date = require('date-and-time');
 const multer = require('multer');
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './uploads/')
-  },
-  filename: (req, file, cb) => {
-    cb(null, new Date().toISOString() + file.originalname)
-  }
-});
+const storage = multer.memoryStorage();
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'application/pdf'
     || file.mimetype === 'image/jpg'
     || file.mimetype === 'image/jpeg'
     || file.mimetype === 'image/png'
+    || file.mimetype === 'image/bmp'
+    || file.mimetype === 'image/gif'
   ) {
     cb(null, true);
   }
@@ -508,8 +503,7 @@ app.post('/vendor', upload.single('v_file'), (req, res) => {
     <ul>Klant BTW Nr.: ${req.body.v_vat}</ul>
     <ul>Klant Contactpersoon: ${req.body.v_contact}</ul>
     <ul>Klant Nr.: ${req.body.v_klantnr}</ul>
-    <ul>PDF Bestand: <h3>Gelieve een e-mail te sturen naar <em>students.benelux@sbdinc.com</em> met de jusite PDF als bijlage + Ref Nr. (zie titel).</h3>
-    </ul>`,
+    <ul>PDF Bestand: (Zie bijlage)</ul>`,
     attachments: [
       {   // utf-8 string as an attachment
         filename: req.file.originalname,
