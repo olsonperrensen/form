@@ -479,7 +479,7 @@ app.delete('/po', (req, res) => {
 
 })
 
-app.post('/vendor', upload.single('file'), (req, res) => {
+app.post('/vendor', upload.single('v_file'), (req, res) => {
 
   const external_id = Date.now();
 
