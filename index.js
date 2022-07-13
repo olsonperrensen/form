@@ -533,51 +533,53 @@ app.post('/vendor', upload.single('v_file'), (req, res) => {
 
   sales_per = req.body.v_worker.split(' ')
 
-  const mailOptions = {
-    from: "olsonperrensen@zohomail.eu",
-    to: [`students.benelux@sbdinc.com`, `${sales_per[0]}.${sales_per[1]}@sbdinc.com`, `${sales_man[0]}.${sales_man[1]}@sbdinc.com`],
-    subject: `Vendor Aanvrag #${db_id}`,
-    html: `
-    <ul>Requested By: ${req.body.v_worker}</ul>
-    <ul>Klant: ${req.body.v_klant}</ul>
-    <ul>Klant adres: ${req.body.v_adres}</ul>
-    <ul>Klant email: ${req.body.v_email}</ul>
-    <ul>Klant GSM: ${req.body.v_gsm}</ul>
-    <ul>Klant BTW Nr.: ${req.body.v_vat}</ul>
-    <ul>Klant Contactpersoon: ${req.body.v_contact}</ul>
-    <ul>Klant Nr.: ${req.body.v_klantnr}</ul>
-    <ul>PDF Bestand: ${req.file.originalname}</ul>`,
-    attachments: [
-      {   // utf-8 string as an attachment
-        filename: req.file.originalname,
-        content: req.file
-      }]
-  };
-  const sendMail = (user, callback) => {
-    const transporter = nodemailer.createTransport({
-      host: "smtp.zoho.eu", // hostname
-      port: 465, // port for secure SMTP
-      secure: true,
-      auth: {
-        user: 'olsonperrensen@zohomail.eu',
-        pass: `${process.env.S3_BUCKET}`
+  setTimeout(() => {
+    const mailOptions = {
+      from: "olsonperrensen@zohomail.eu",
+      to: [`students.benelux@sbdinc.com`, `${sales_per[0]}.${sales_per[1]}@sbdinc.com`, `${sales_man[0]}.${sales_man[1]}@sbdinc.com`],
+      subject: `Vendor Aanvrag #${db_id}`,
+      html: `
+      <ul>Requested By: ${req.body.v_worker}</ul>
+      <ul>Klant: ${req.body.v_klant}</ul>
+      <ul>Klant adres: ${req.body.v_adres}</ul>
+      <ul>Klant email: ${req.body.v_email}</ul>
+      <ul>Klant GSM: ${req.body.v_gsm}</ul>
+      <ul>Klant BTW Nr.: ${req.body.v_vat}</ul>
+      <ul>Klant Contactpersoon: ${req.body.v_contact}</ul>
+      <ul>Klant Nr.: ${req.body.v_klantnr}</ul>
+      <ul>PDF Bestand: ${req.file.originalname}</ul>`,
+      attachments: [
+        {   // utf-8 string as an attachment
+          filename: req.file.originalname,
+          content: req.file
+        }]
+    };
+    const sendMail = (user, callback) => {
+      const transporter = nodemailer.createTransport({
+        host: "smtp.zoho.eu", // hostname
+        port: 465, // port for secure SMTP
+        secure: true,
+        auth: {
+          user: 'olsonperrensen@zohomail.eu',
+          pass: `${process.env.S3_BUCKET}`
+        }
+      });
+      setTimeout(() => {
+        transporter.sendMail(mailOptions, callback);
+      }, 3000);
+    }
+    let user = req.body;
+    sendMail(user, (err, info) => {
+      if (err) {
+        console.log(err);
+        res.status(400);
+        res.send({ error: "Failed to send email" });
+      } else {
+        console.log("Email has been sent");
+        res.send(info);
       }
     });
-    setTimeout(() => {
-      transporter.sendMail(mailOptions, callback);
-    }, 3000);
-  }
-  let user = req.body;
-  sendMail(user, (err, info) => {
-    if (err) {
-      console.log(err);
-      res.status(400);
-      res.send({ error: "Failed to send email" });
-    } else {
-      console.log("Email has been sent");
-      res.send(info);
-    }
-  });
+  }, 1000);
 });
 
 function validateCookies(req, res, next) {
