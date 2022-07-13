@@ -25,10 +25,10 @@ export class ManageComponent implements OnInit {
   options3 !: string[]
   u_klantnaam = ''
   u_new_klantnaam = ''
-  u_emailID = ''
+  u_ID = ''
   isBackendDown = false;
   isKlant = false;
-  isEmailID = false;
+  isID = false;
   isEditing = false;
   isPOEditing = false;
   isBezig = false;
@@ -55,7 +55,7 @@ export class ManageComponent implements OnInit {
     });
     this.getData.getPO().subscribe((res: any) => {
       res.forEach((element: any) => {
-        this.options3.push(element.external_id)
+        this.options3.push(element.id)
       });
     })
 
@@ -77,12 +77,12 @@ export class ManageComponent implements OnInit {
       }
     });
     this.myControl3.valueChanges.subscribe((res) => {
-      // Exact match full emailID 
+      // Exact match full ID 
       if (this.options3.find((obj) => { return obj.toLowerCase() === res.toLowerCase(); })) {
-        this.isEmailID = true;
+        this.isID = true;
       }
       else {
-        this.isEmailID = false;
+        this.isID = false;
       }
     });
 
@@ -159,7 +159,7 @@ export class ManageComponent implements OnInit {
   onUserPODeleteClick() {
     this.isBezig = true;
     this.doCountdown()
-    this.getData.delPO({u_emailID:this.u_emailID}).subscribe((res) => {
+    this.getData.delPO({u_ID:this.u_ID}).subscribe((res) => {
       this.isBezig = false;
       this.checkRes(res);
     })
@@ -168,7 +168,7 @@ export class ManageComponent implements OnInit {
   onUserPOEditClick() {
     this.isBezig = true;
     this.doCountdown()
-    this.getData.editPO({ email_id: this.u_emailID, new_client: `${this.u_new_klantnaam}` }).subscribe((res) => {
+    this.getData.editPO({ u_ID: this.u_ID, new_client: `${this.u_new_klantnaam}` }).subscribe((res) => {
       this.isBezig = false;
       this.checkRes(res);
     })

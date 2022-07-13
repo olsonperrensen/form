@@ -54,16 +54,16 @@
           </div>
           <!-- PO -->
           <mat-form-field [@fadeInLeftOnEnter] *ngIf="wantsToPO" class="example-full-width" appearance="fill">
-            <mat-label>Enter EmailID</mat-label>
+            <mat-label>Enter ID</mat-label>
             <input required type="text" placeholder="Pick one" aria-label="Number" matInput #klantnaam
-              [(ngModel)]="u_emailID" name="u_emailID" [formControl]="myControl3" [matAutocomplete]="auto3">
+              [(ngModel)]="u_ID" name="u_ID" [formControl]="myControl3" [matAutocomplete]="auto3">
             <mat-autocomplete #auto3="matAutocomplete">
-              <mat-option *ngFor="let emailID of filteredOptions3 | async" [value]="emailID">
-                {{emailID}}
+              <mat-option *ngFor="let ID of filteredOptions3 | async" [value]="ID">
+                {{ID}}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
-          <div *ngIf="isEmailID">
+          <div *ngIf="isID">
             <h3>Wat wil je doen?</h3>
             <div *ngIf="isPOEditing">
               <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
