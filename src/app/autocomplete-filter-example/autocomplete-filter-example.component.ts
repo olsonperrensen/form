@@ -62,6 +62,7 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
   options5: string[] = ["België / Belgique", "Nederland / Pays Bas"];
   options6: string[] = [
     // DeWALT
+    "Jean-Francois Forton",
     "Marcel VandenBerge",
     "Jeroen VanBerkel",
     "Cindy Eekels",
@@ -78,25 +79,26 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
     "Wouter Rook",
     "Arnold Wever",
     "Oscar Laureijs",
-    "Kevin Markestein", "David Goubert", "Gunther Mergan", "Jurgen DeLeeuw", "Thomas Molendijk", 
-    "Marcelino Papperse", "Andor DeVries", "Ivo Schouten",
+    "Kevin Markestein", "David Goubert", "Gunther Mergan", "Jurgen DeLeeuw", "Thomas Molendijk",
+    "Marcelino Papperse", "Andor DeVries", "Ivo Schouten", "Patrick Diepenbach",
     // Facom
-    "Patrick Diepenbach",
-    "Piet Verstraete", "Vincent Broertjes", "Jean-Christophe Pintiaux", "Kim Maris", "Mario Reverse", 
-    "Peter Schaekers", "Robin Roels", "Stefan Sack", "Vincent Lenain", "Vincent Pireyn", "Yves DeWaal", 
+    "Piet Verstraete", "Vincent Broertjes", "Jean-Christophe Pintiaux", "Kim Maris", "Mario Reverse",
+    "Peter Schaekers", "Robin Roels", "Stefan Sack", "Vincent Lenain", "Vincent Pireyn", "Yves DeWaal",
     "Adriaan Arkeraats", "Arno DeJager", "Duncan DeWith",
     // Stanley
-    "Ken Leysen", "Martin Van Werkhoven", "Paul Kerkhoven", "Cedric Bicque", "Christian Fonteyn", 
+    "Ken Leysen", "Martin Van Werkhoven", "Paul Kerkhoven", "Cedric Bicque", "Christian Fonteyn",
     "KlaasJan Bosgraaf", "Ammaar Basnoe", "Robert VanStraten", "Sven Pieters", "Niek Nijland"];
   options7: string[] = ["Pro", "Consumer"];
-  options8: string[] = ["Geert Maes", "Marleen Vangronsveld", "Marlon VanZundert", "Michael Soenen", 
-  "Michael Tistaert", "Ronald Westra", "Vicky DeDecker", "Christelle Marro", "Frederic Barzin", "Luc Claes", 
-  "Marc Ghijs", "Ronny Callewaert", "Hendrik Pieters", "Malvin Puts", "Niels Groters", "Remco Rozing ", 
-  "Eric Nieuwmans"];
+  options8: string[] = ["Geert Maes", "Marleen Vangronsveld", "Marlon VanZundert", "Michael Soenen",
+    "Michael Tistaert", "Ronald Westra", "Vicky DeDecker", "Christelle Marro", "Frederic Barzin", "Luc Claes",
+    "Marc Ghijs", "Ronny Callewaert", "Hendrik Pieters", "Malvin Puts", "Niels Groters", "Remco Rozing ",
+    "Eric Nieuwmans"];
 
 
   deWALT_employees = [
     // DeWALT
+    "Patrick Diepenbach",
+    "Jean-Francois Forton",
     "Marcel VandenBerge",
     "Jeroen VanBerkel",
     "Cindy Eekels",
@@ -112,15 +114,15 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
     "Michiel Vliek",
     "Wouter Rook",
     "Arnold Wever",
-    "Oscar Laureijs", "Kevin Markestein", "David Goubert", "Gunther Mergan", "Jurgen DeLeeuw", 
+    "Oscar Laureijs", "Kevin Markestein", "David Goubert", "Gunther Mergan", "Jurgen DeLeeuw",
     "Thomas Molendijk", "Marcelino Papperse", "Andor DeVries", "Ivo Schouten - Sales Manager DW NL"];
-  facom_employees = ["Patrick Diepenbach",
-    "Piet Verstraete", "Vincent Broertjes", "Jean-Christophe Pintiaux", "Kim Maris", "Mario Reverse", 
-    "Peter Schaekers", "Robin Roels", "Stefan Sack", "Vincent Lenain", "Vincent Pireyn", "Yves DeWaal", 
+  facom_employees = [
+    "Piet Verstraete", "Vincent Broertjes", "Jean-Christophe Pintiaux", "Kim Maris", "Mario Reverse",
+    "Peter Schaekers", "Robin Roels", "Stefan Sack", "Vincent Lenain", "Vincent Pireyn", "Yves DeWaal",
     "Adriaan Arkeraats", "Arno DeJager", "Duncan DeWith"];
-  stanley_employees = ["Ken Leysen", "Martin Van Werkhoven", "Paul Kerkhoven", "Cedric Bicque", 
-  "Christian Fonteyn", "KlaasJan Bosgraaf", "Ammaar Basnoe", "Robert VanStraten", "Sven Pieters", 
-  "Niek Nijland"];
+  stanley_employees = ["Ken Leysen", "Martin Van Werkhoven", "Paul Kerkhoven", "Cedric Bicque",
+    "Christian Fonteyn", "KlaasJan Bosgraaf", "Ammaar Basnoe", "Robert VanStraten", "Sven Pieters",
+    "Niek Nijland"];
 
   filteredOptions!: Observable<string[]>;
   filteredOptions2!: Observable<string[]>;
@@ -186,7 +188,6 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
     this.myControl6.valueChanges.subscribe((res) => {
       if (this.deWALT_employees.find((obj) => { return obj.toLowerCase() === res.toLowerCase(); })) {
         document.body.style.backgroundImage = "url('https://bynder.sbdinc.com/m/6fc93a774163540b/Drupal_Medium-DW_Elite_G1.jpg')";
-       
         this.u_merk = this.options3[0];
         this.isWorker = true;
       }
@@ -204,6 +205,160 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
         this.u_merk = "";
         this.isWorker = false;
       }
+      setTimeout(() => {
+        switch (this.u_worker) {
+          case "Gunther Mergan":
+            this.u_land = "België / Belgique"
+            break;
+          case "Jean-Francois Forton":
+            this.u_land = "België / Belgique"
+            break;
+          case "Marcel VandenBerge":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          case "Jeroen VanBerkel":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          case "Cindy Eekels":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          case "Bob Vandenberghen":
+            this.u_land = "België / Belgique"
+            break;
+          case "Nicolas Dedobbeleer":
+            this.u_land = "België / Belgique"
+            break;
+          case "Bram Hennebert":
+            this.u_land = "België / Belgique"
+            break;
+          case "Steve Oris":
+            this.u_land = "België / Belgique"
+            break;
+          case "Christian Darmont":
+            this.u_land = "België / Belgique"
+            break;
+          case "Frank Mentens":
+            this.u_land = "België / Belgique"
+            break;
+          case "Etienne Delvosalle":
+            this.u_land = "België / Belgique"
+            break;
+          case "Jeroen Decherf":
+            this.u_land = "België / Belgique"
+            break;
+          case "Carlos DeBruijn":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          case "Michiel Vliek":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          case "Wouter Rook":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          case "Arnold Wever":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          case "Oscar Laureijs":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          case "Kevin Markestein":
+            this.u_land = "België / Belgique"
+            break;
+          case "David Goubert":
+            this.u_land = "België / Belgique"
+            break;
+          case "Jurgen DeLeeuw":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          case "Thomas Molendijk":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          case "Marcelino Papperse":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          case "Andor DeVries":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          case "Ivo Schouten":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          case "Patrick Diepenbach":
+            this.u_land = "België / Belgique"
+            break;
+          case "Piet Verstraete":
+            this.u_land = "België / Belgique"
+            break;
+          case "Vincent Broertjes":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          case "Jean-Christophe Pintiaux":
+            this.u_land = "België / Belgique"
+            break;
+          case "Kim Maris":
+            this.u_land = "België / Belgique"
+            break;
+          case "Mario Reverse":
+            this.u_land = "België / Belgique"
+            break;
+          case "Peter Schaekers":
+            this.u_land = "België / Belgique"
+            break;
+          case "Robin Roels":
+            this.u_land = "België / Belgique"
+            break;
+          case "Stefan Sack":
+            this.u_land = "België / Belgique"
+            break;
+          case "Vincent Lenain":
+            this.u_land = "België / Belgique"
+            break;
+          case "Vincent Pireyn":
+            this.u_land = "België / Belgique"
+            break;
+          case "Yves DeWaal":
+            this.u_land = "België / Belgique"
+            break;
+          case "Adriaan Arkeraats":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          case "Arno DeJager":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          case "Duncan DeWith":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          case "Ken Leysen":
+            this.u_land = "België / Belgique"
+            break;
+          case "Paul Kerkhoven":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          case "Cedric Bicque":
+            this.u_land = "België / Belgique"
+            break;
+          case "Christian Fonteyn":
+            this.u_land = "België / Belgique"
+            break;
+          case "KlaasJan Bosgraaf":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          case "Ammaar Basnoe":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          case "Robert VanStraten":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          case "Sven Pieters":
+            this.u_land = "België / Belgique"
+            break;
+          case "Niek Nijland":
+            this.u_land = "Nederland / Pays Bas"
+            break;
+          default:
+            break;
+        }
+        this.isLand = true;
+      }, 600);
     });
 
     this.myControl3.valueChanges.subscribe((res) => {
