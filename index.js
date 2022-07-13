@@ -8,7 +8,14 @@ const nodemailer = require("nodemailer");
 const CryptoJS = require('crypto-js');
 const date = require('date-and-time');
 const multer = require('multer');
-const storage = multer.memoryStorage();
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './uploads/')
+  },
+  filename: (req, file, cb) => {
+    cb(null, new Date().toISOString() + file.originalname)
+  }
+});
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'application/pdf'
     || file.mimetype === 'image/jpg'
