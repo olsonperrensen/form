@@ -46,7 +46,7 @@ export class VendorComponent implements OnInit {
       v_contact: this.v_contact,
       v_klantnr: this.v_klantnr,
       v_file: this.selected_file,
-      v_worker:this.v_worker
+      v_worker: this.v_worker
     }
     if (this.v_klant.length > 2
       && this.v_adres.length > 4
@@ -56,25 +56,33 @@ export class VendorComponent implements OnInit {
       && this.v_worker.length > 4
     ) {
       if (this.v_email.includes("@") && this.v_email.includes(".")
-        && this.v_contact.includes(" ") && this.v_adres.includes(" ") 
+        && this.v_contact.includes(" ") && this.v_adres.includes(" ")
         && this.v_worker.includes(" ")) {
 
-        // const fd = new FormData();
-        // fd.append('image',this.selected_file,this.selected_file.name)
+        const fd = new FormData();
+        fd.append('v_klant',this.v_klant)
+        fd.append('v_adres',this.v_adres)
+        fd.append('v_email',this.v_email)
+        fd.append('v_gsm',this.v_gsm)
+        fd.append('v_vat',this.v_vat)
+        fd.append('v_contact',this.v_contact)
+        fd.append('v_klantnr',this.v_klantnr)
+        fd.append('v_file',this.selected_file,this.selected_file.name)
+        fd.append('v_worker',this.v_worker)
+        
         console.log(`About to send:`)
         console.log(this.myJSONForm)
         console.log("Information above.")
-        this.sendVendors.sendVendor(this.myJSONForm).subscribe((res) => {
+        this.sendVendors.sendVendor(fd).subscribe((res) => {
           this.res = <Res>res;
           console.log(res)
-          if(this.res.response === "250 Message received")
-          {
+          if (this.res.response === "250 Message received") {
             alert("Vendor aanvraag gestuurd!")
             setTimeout(() => {
               this.router.navigate(['/']);
             }, 500);
           }
-          else{
+          else {
             alert("Er ging iets mis.")
           }
         });
