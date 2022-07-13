@@ -196,6 +196,41 @@ app.post("/sendmail", (req, res) => {
       default: order = "ERROR"; break;
     }
   }
+  client.query(
+    `INSERT INTO PO(
+      REQUESTED_BY,
+      DATUM,
+      COMPANY,
+      COMPANY_CODE,
+      SHORT_TEXT,
+      PO_QUANTITY,
+      OVERALL_LIMIT,
+      GR_EXECUTION_DATE,
+      SBU,
+      STATUS) VALUES(
+        '${req.body.worker}',
+        '${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}',
+        '${req.body.klantnaam}',
+        '${company_code}',
+        '${req.body.omschijving}',
+        '${'1'}',
+        '${req.body.bedrag}',
+        '${req.body.datum}',
+        '${order}',
+        '${'Pending'}')
+        RETURNING id;`,
+    (err, res) => {
+      if (err) {
+        isRecordInDB = false
+        console.log(`CANNOT PO insert: ${err}`);
+      }
+      else {
+        db_id = res.rows[0].id
+        isRecordInDB = true;
+        console.log(`record PO inserted #${db_id}}`)
+      }
+    }
+  );
   // LINK Sales Rep. with zijn manager.
   managers.forEach(element => {
     if (req.body.worker === element[0].Name) {
@@ -210,88 +245,55 @@ app.post("/sendmail", (req, res) => {
   subject_klant = req.body.klantnaam.split(" ")
 
   console.log("request came");
-  const external_id = Date.now();
-  const mailOptions = {
-    from: "olsonperrensen@zohomail.eu",
-    to: destinataries,
-    subject: `Aanvraag Ref. #${external_id} ${subject_klant[1]} ${subject_klant[2]}`,
-    html: `
-    <ul>Requested by: ${req.body.worker}</ul>
-    <ul>Timestamp: ${req.body.timestamp}</ul>
-    <ul>Company: ${req.body.klantnaam}</ul>
-    <ul>Purch. Org.: 0001</ul>
-    <ul>Purch. Group: LV4</ul>
-    <ul>Company Code: ${company_code}</ul>
-    <ul>A: f</ul>
-    <ul>I: d</ul>
-    <ul>Short text: ${req.body.omschijving}</ul>
-    <ul>PO Quantity: 1</ul>
-    <ul>Matl Group: level4</ul>
-    <ul>Plnt: ${plnt}</ul>
-    <ul>Overall Limit: ${req.body.bedrag}</ul>
-    <ul>Expected value: ${req.body.bedrag}</ul>
-    <ul>GR Execution date: ${req.body.datum}</ul>
-    <ul>G/L Account: 47020000</ul>
-    <ul>Order: ${order}</ul>`
-  };
-  const sendMail = (user, callback) => {
-    const transporter = nodemailer.createTransport({
-      host: "smtp.zoho.eu", // hostname
-      port: 465, // port for secure SMTP
-      secure: true,
-      auth: {
-        user: 'olsonperrensen@zohomail.eu',
-        pass: `${process.env.S3_BUCKET}`
+  
+  setTimeout(() => {
+    const mailOptions = {
+      from: "olsonperrensen@zohomail.eu",
+      to: destinataries,
+      subject: `Aanvraag Ref. #${db_id} ${subject_klant[1]} ${subject_klant[2]}`,
+      html: `
+      <ul>Requested by: ${req.body.worker}</ul>
+      <ul>Timestamp: ${req.body.timestamp}</ul>
+      <ul>Company: ${req.body.klantnaam}</ul>
+      <ul>Purch. Org.: 0001</ul>
+      <ul>Purch. Group: LV4</ul>
+      <ul>Company Code: ${company_code}</ul>
+      <ul>A: f</ul>
+      <ul>I: d</ul>
+      <ul>Short text: ${req.body.omschijving}</ul>
+      <ul>PO Quantity: 1</ul>
+      <ul>Matl Group: level4</ul>
+      <ul>Plnt: ${plnt}</ul>
+      <ul>Overall Limit: ${req.body.bedrag}</ul>
+      <ul>Expected value: ${req.body.bedrag}</ul>
+      <ul>GR Execution date: ${req.body.datum}</ul>
+      <ul>G/L Account: 47020000</ul>
+      <ul>Order: ${order}</ul>`
+    };
+    const sendMail = (user, callback) => {
+      const transporter = nodemailer.createTransport({
+        host: "smtp.zoho.eu", // hostname
+        port: 465, // port for secure SMTP
+        secure: true,
+        auth: {
+          user: 'olsonperrensen@zohomail.eu',
+          pass: `${process.env.S3_BUCKET}`
+        }
+      });
+      transporter.sendMail(mailOptions, callback);
+    }
+    let user = req.body;
+    sendMail(user, (err, info) => {
+      if (err) {
+        console.log(err);
+        res.status(400);
+        res.send({ error: "Failed to send email" });
+      } else {
+        console.log("Email has been sent");
+        res.send(info);
       }
     });
-    transporter.sendMail(mailOptions, callback);
-  }
-  let user = req.body;
-  client.query(
-    `INSERT INTO PO(
-      EXTERNAL_ID,
-      REQUESTED_BY,
-      DATUM,
-      COMPANY,
-      COMPANY_CODE,
-      SHORT_TEXT,
-      PO_QUANTITY,
-      OVERALL_LIMIT,
-      GR_EXECUTION_DATE,
-      SBU,
-      STATUS) VALUES(
-        '${external_id}',
-        '${req.body.worker}',
-        '${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}',
-        '${req.body.klantnaam}',
-        '${company_code}',
-        '${req.body.omschijving}',
-        '${'1'}',
-        '${req.body.bedrag}',
-        '${req.body.datum}',
-        '${order}',
-        '${'Pending'}')`,
-    (err, res) => {
-      if (err) {
-        isRecordInDB = false
-        console.log(`CANNOT PO insert: ${err}`);
-      }
-      else {
-        isRecordInDB = true;
-        console.log(`record PO inserted #${external_id}}`)
-      }
-    }
-  );
-  sendMail(user, (err, info) => {
-    if (err) {
-      console.log(err);
-      res.status(400);
-      res.send({ error: "Failed to send email" });
-    } else {
-      console.log("Email has been sent");
-      res.send(info);
-    }
-  });
+  }, 1000);
 });
 
 app.get('/po', (req, res) => {
