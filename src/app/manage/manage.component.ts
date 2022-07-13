@@ -78,7 +78,7 @@ export class ManageComponent implements OnInit {
     });
     this.myControl3.valueChanges.subscribe((res) => {
       // Exact match full ID 
-      if (this.options3.find((obj) => { return obj.toLowerCase() === res.toLowerCase(); })) {
+      if (this.options3.find((obj) => { return obj === res; })) {
         this.isID = true;
       }
       else {
@@ -92,8 +92,8 @@ export class ManageComponent implements OnInit {
     return this.options2.filter(option => option.toLowerCase().includes(filterValue));
   }
   private _filter3(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.options3.filter(option => option.toLowerCase().includes(filterValue));
+    const filterValue = value;
+    return this.options3.filter(option => option.toString().includes(filterValue));
   }
 
   onUserClick() {
