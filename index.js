@@ -6,7 +6,38 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const nodemailer = require("nodemailer");
 const CryptoJS = require('crypto-js');
-const date = require('date-and-time')
+const date = require('date-and-time');
+const multer = require('multer');
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './uploads/')
+  },
+  filename: (req, file, cb) => {
+    cb(null, new Date().toISOString() + file.originalname)
+  }
+});
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'application/pdf'
+    || file.mimetype === 'image/jpg'
+    || file.mimetype === 'image/jpeg'
+    || file.mimetype === 'image/png'
+  ) {
+    cb(null, true);
+  }
+  else {
+    // does NOT throw an error!
+    cb(null, false);
+  }
+
+}
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 10
+  },
+  fileFilter: fileFilter
+});
+
 require('dotenv').config();
 
 // create a new Express application instance
@@ -448,18 +479,13 @@ app.delete('/po', (req, res) => {
 
 })
 
-app.post('/vendor', (req, res) => {
+app.post('/vendor', upload.single('file'), (req, res) => {
 
   const external_id = Date.now();
 
   console.log(`Vendor came: ${req.body.v_klant}`);
 
-  // const form = formidable({ multiples: true });
-  // form.parse(req.body.v_file, (err, fields, files) => {
-  //  console.log('fields: ', fields);
-  //  console.log('files: ', files);
-  //   attached_file = files
-  // });
+  console.log(req.file)
 
   managers.forEach(element => {
     if (req.body.worker === element[0].Name) {
