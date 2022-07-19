@@ -111,7 +111,7 @@ let managers = [
   [{ Name: "Arno DeJager", Manager: "Vincent Broertjes" }],
   [{ Name: "Duncan DeWith", Manager: "Vincent Broertjes" }],
   [{ Name: "Ken Leysen", Manager: "Patrick Diepenbach" }],
-  [{ Name: "Jean-Francois Forton", Manager: "Patrick Diepenbach" }]
+  [{ Name: "Jean-Francois Forton", Manager: "Patrick Diepenbach" }],
   [{ Name: "Martin Van Werkhoven", Manager: "Not Found" }],
   [{ Name: "Paul Kerkhoven", Manager: "Vincent Broertjes" }],
   [{ Name: "Cedric Bicque", Manager: "Ken Leysen" }],
