@@ -22,6 +22,7 @@ import { HistoryComponent } from './history/history.component';
 import { ActiveComponent } from './history/active/active.component';
 import { ArchiveComponent } from './history/archive/archive.component';
 import { VendorHistoryComponent } from './vendor/vendor-history/vendor-history.component';
+import { PublicComponent } from './public/public.component';
 
 export function HttpLoaderFactory(http:HttpClient)
 {
@@ -40,7 +41,8 @@ export function HttpLoaderFactory(http:HttpClient)
     HistoryComponent,
     ActiveComponent,
     ArchiveComponent,
-    VendorHistoryComponent
+    VendorHistoryComponent,
+    PublicComponent
   ],
   imports: [
     BrowserModule,

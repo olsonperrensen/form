@@ -11,17 +11,19 @@ import { HistoryComponent } from './history/history.component';
 import { ActiveComponent } from './history/active/active.component';
 import { ArchiveComponent } from './history/archive/archive.component';
 import { VendorHistoryComponent } from './vendor/vendor-history/vendor-history.component';
+import { PublicComponent } from './public/public.component';
 
 const routes: Routes = [
-  { path: '', component: HomepageComponent },
-  { path: 'po', component: AutocompleteFilterExampleComponent },
-  { path: 'vendor', component: VendorComponent },
+  { path: '', component: PublicComponent },
+  { path: 'homepage', component: HomepageComponent, canActivate: [AuthGuardService]},
+  { path: 'po', component: AutocompleteFilterExampleComponent, canActivate: [AuthGuardService] },
+  { path: 'vendor', component: VendorComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent },
   { path: 'manage', component: ManageComponent, canActivate: [AuthGuardService] },
-  { path: 'history', component: HistoryComponent },
-  { path: 'active', component: ActiveComponent },
-  { path: 'archive', component: ArchiveComponent },
-  { path: 'vendor-history', component: VendorHistoryComponent }
+  { path: 'history', component: HistoryComponent, canActivate: [AuthGuardService] },
+  { path: 'active', component: ActiveComponent, canActivate: [AuthGuardService] },
+  { path: 'archive', component: ArchiveComponent, canActivate: [AuthGuardService] },
+  { path: 'vendor-history', component: VendorHistoryComponent, canActivate: [AuthGuardService] }
 ];
 
 @NgModule({
