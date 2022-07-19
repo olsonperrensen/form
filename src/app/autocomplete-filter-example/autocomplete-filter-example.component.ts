@@ -358,7 +358,7 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
             break;
         }
         this.isLand = true;
-      }, 600);
+      }, 26);
     });
 
     this.myControl3.valueChanges.subscribe((res) => {
@@ -428,7 +428,7 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
         this.isBackendDown = true;
         // alert("Press F5 to continue.")
       });
-    }, 2777);
+    }, 777);
   }
 
   potype() {
