@@ -190,7 +190,7 @@ app.post("/sendmail", (req, res) => {
     company_code = "nl01";
     plnt = 1510;
     switch (req.body.merk) {
-      case "DEWALT/LENOX": order = "NL_DEW_L4"; break;
+      case "DeWALT – LENOX – BOSTITCH": order = "NL_DEW_L4"; break;
       case "STANLEY": order = "NL_HDT_L4"; break;
       case "FACOM": order = "NL_IAR_L4"; break;
       default: order = "ERROR"; break;
