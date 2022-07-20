@@ -351,6 +351,22 @@ app.post('/login', (req, res) => {
 app.post('/invoice', upload.single('file'), (req, res) => {
 
   client.query(
+    `select requested_by from po
+    where id = '${req.body.u_ID}'`,
+    (err, res) => {
+      if (err) {
+        isRecordInDB = false
+        console.log(`CANNOT INVOICE update: ${err}`);
+      }
+      else {
+        isRecordInDB = true;
+        console.log(`INVOICE record updated ${req.body.u_ID}`)
+        sales_per = res.split(' ')
+      }
+    }
+  );
+
+  client.query(
     `UPDATE PO SET INVOICE = 'Sent to AP at 
     ${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}'
   where id = '${req.body.u_ID}'`,
@@ -371,9 +387,10 @@ app.post('/invoice', upload.single('file'), (req, res) => {
   console.log(req.file)
 
   setTimeout(() => {
+    console.log(sales_per)
     const mailOptions = {
       from: "olsonperrensen@zohomail.eu",
-      to: [`SBDInvoices@sbdinc.com`, `S-GTS-APBelgium@sbdinc.com`, `apnetherlands@sbdinc.com`],
+      to: [`students.benelux@sbdinc.com`, `students.benelux@sbdinc.com`, `students.benelux@sbdinc.com`],
       cc: 'students.benelux@sbdinc.com',
       subject: `Process Invoice - ${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}`,
       html: `
