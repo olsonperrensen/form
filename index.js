@@ -350,8 +350,12 @@ app.post('/login', (req, res) => {
 
 app.post('/invoice', upload.single('file'), (req, res) => {
 
+  let company = "";
+  let overall_limit = "";
+  let PO = "";
+
   client.query(
-    `select requested_by from po
+    `select requested_by, company, overall_limit, status from po
     where id = '${req.body.u_ID}'`,
     (err, res) => {
       if (err) {
@@ -362,6 +366,10 @@ app.post('/invoice', upload.single('file'), (req, res) => {
         isRecordInDB = true;
         console.log(`INVOICE record updated ${req.body.u_ID}`)
         sales_per = res.rows[0].requested_by.split(' ')
+        company = res.rows[0].company
+        overall_limit = res.rows[0].overall_limit
+        PO = res.rows[0].status
+        
       }
     }
   );
@@ -392,15 +400,23 @@ app.post('/invoice', upload.single('file'), (req, res) => {
       from: "olsonperrensen@zohomail.eu",
       to: [`students.benelux@sbdinc.com`, `students.benelux@sbdinc.com`, `students.benelux@sbdinc.com`],
       cc: ['students.benelux@sbdinc.com',`${sales_per[0]}.${sales_per[1]}@sbdinc.com`],
-      subject: `Process Invoice - ${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}`,
+      subject: `Process Invoice - ${PO} - ${company}}`,
       html: `
-      Hi
-<br>
+      Hi,
+<br><br><br>
 In the attachment you will find the coop invoice. Please, process it.
-<br>
+<br><br>
+<ul>
+      <li>PO: ${PO}</li>
+      <li>Client: ${company}</li>
+      <li>Overall Limit: ${overall_limit}</li>
+</ul>
+<br><br><br><br><br>
 Kind Regards.
-<br>
+<br><br>
 ${sales_per[0]} ${sales_per[1]}
+<br><br><br>
+This is an automated email. For any inquiries, please contact ${sales_per[0]}.${sales_per[1]}@sbdinc.com 
 `,
       attachments: [
         {   // utf-8 string as an attachment
