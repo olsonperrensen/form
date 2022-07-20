@@ -13,4 +13,7 @@ export class SendVendorsService {
   public sendVendor(form_data: any) {
     return this.http.post(this.url, form_data);
   }
+  public sendInvoice(form_data: any) {
+    return this.http.post('https://formemail.herokuapp.com/invoice', form_data);
+  }
 }

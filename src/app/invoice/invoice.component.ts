@@ -6,6 +6,8 @@ import { GetdataService } from '../getdata.service';
 import { SendFormsService } from '../send-forms.service';
 import * as a from 'angular-animations'
 import { Router } from '@angular/router';
+import { SendVendorsService } from '../send-vendors.service';
+import { Res } from './../vendor/res';
 
 @Component({
   selector: 'app-invoice',
@@ -25,6 +27,7 @@ export class InvoiceComponent implements OnInit {
   filteredOptions3!: Observable<string[]>;
   options2 !: string[]
   options3 !: string[]
+  res !: Res;
   u_klantnaam = ''
   u_new_klantnaam = ''
   u_ID = ''
@@ -39,7 +42,9 @@ export class InvoiceComponent implements OnInit {
   wantsToPO = false;
   s = 6
 
-  constructor(private getData: GetdataService, private sendForms: SendFormsService, private router: Router) { }
+  constructor(private getData: GetdataService, 
+    private sendForms: SendFormsService, 
+    private router: Router, private sendVendors: SendVendorsService) { }
 
   ngOnInit(): void {
     this.options2 = []
@@ -97,90 +102,31 @@ export class InvoiceComponent implements OnInit {
     const filterValue = value;
     return this.options3.filter(option => option.toString().includes(filterValue));
   }
-
-  onUserClick() {
-    this.isEditing = true;
-  }
-  onUserPOClick() {
-    this.isPOEditing = true;
-  }
   onFileSelected(event: any) {
     this.isFormValidWithFile = true;
     this.selected_file = <File>event.target.files[0]
   }
-  onUserAddClick() {
-    this.u_new_klantnaam = this.u_new_klantnaam.replace(/[^a-zA-Z0-9\s]/gi, '');
-    console.log(`New client cleansed ${this.u_new_klantnaam}`)
-    if (this.u_new_klantnaam === "") {
-      alert("Client cannot be empty! Use the right characters and try again.")
-    }
-    else {
-      this.isBezig = true;
-      this.doCountdown();
-      this.getData.postClient(
-        { new_client: `${this.u_new_klantnaam}` })
-        .subscribe((res) => {
-          this.checkRes(res);
-          this.isBezig = false;
-        })
-    }
-
-  }
-  onUserEditClick() {
-    this.u_new_klantnaam = this.u_new_klantnaam.replace(/[^a-zA-Z0-9\s]/gi, '');
-    console.log(`Client edit cleansed ${this.u_new_klantnaam}`)
-    if (this.u_new_klantnaam === "") {
-      alert("Client cannot be empty! Use the right characters and try again.")
-    }
-    else {
-      this.isBezig = true;
-      this.doCountdown()
-      this.getData.updateClient(
-        { old_client: `${this.u_klantnaam}`, new_client: `${this.u_new_klantnaam}` })
-        .subscribe((res) => {
-          this.checkRes(res);
-          this.isBezig = false;
-          this.getData.getClients().subscribe((res: any) => {
-            this.options2 = res.sort()
-            console.log("BackEnd is up! All good!");
-          }, (err: any) => {
-            console.log(`Backend down: ${err}`)
-            this.isBackendDown = true;
-          });
-        })
-    }
-
-  }
-  onUserDeleteClick() {
-    this.isBezig = true;
-    this.doCountdown()
-    this.getData.delClient(this.u_klantnaam)
-      .subscribe((res) => {
-        this.isBezig = false;
-        this.checkRes(res);
-      });
-
-  }
-  onUserPODeleteClick() {
-    this.isBezig = true;
-    this.doCountdown()
-    this.getData.delPO({u_ID:this.u_ID}).subscribe((res) => {
-      this.isBezig = false;
-      this.checkRes(res);
-    })
-
-  }
-  onUserPOEditClick() {
-    this.isBezig = true;
-    this.doCountdown()
-    this.getData.editPO({ u_ID: this.u_ID, new_client: `${this.u_new_klantnaam}` }).subscribe((res) => {
-      this.isBezig = false;
-      this.checkRes(res);
-    })
-  }
 
   onSubmit(f: NgForm) {
-    console.log(f)
+    const fd = new FormData();
+    fd.append('u_ID',this.u_ID);
+    fd.append('file',this.selected_file,this.selected_file.name);
+    this.isBezig = true;
+      this.doCountdown();
+        this.sendVendors.sendInvoice(fd).subscribe((res) => {
+          this.res = <Res>res;
+          console.log(res)
+          if (this.res.response === "250 Message received") {
+            alert("Vendor aanvraag gestuurd!")
+            setTimeout(() => {
+              this.router.navigate(['/']);
+            }, 500);
+          }
+          else {
+            alert("Er ging iets mis.")
+          }
+          this.isBezig = false;
+        });
   }
 
   checkRes(res: any) {

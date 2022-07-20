@@ -20,7 +20,7 @@
             <input required #csvInput (change)="onFileSelected($event)" hidden="true" type="file" onclick="this.value=null"
             accept=".pdf, .jpg, .jpeg, .bmp, .gif, .png" />
           <button type="button" style="width: 100%" mat-raised-button color="accent"
-            (click)="csvInput.click()">Getekende factuur als PDF uploaden</button>
+            (click)="csvInput.click()">Factuur hier uploaden</button>
           <hr style="margin: 20px">
               <button [disabled]="!f.valid||!isFormValidWithFile" mat-raised-button
                 color="primary">Send</button>
