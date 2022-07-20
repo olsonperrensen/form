@@ -74,13 +74,13 @@
 
           <ng-container matColumnDef="gr">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> GR </th>
-            <td mat-cell [ngStyle]="{color:row.status==='Pending'?'orange':'green'}" *matCellDef="let row">
+            <td mat-cell [ngStyle]="{color:row.gr==='Pending'?'orange':'green'}" *matCellDef="let row">
               {{row.gr}} </td>
           </ng-container>
 
           <ng-container matColumnDef="invoice">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Invoice </th>
-            <td mat-cell [ngStyle]="{color:row.status==='Pending'?'orange':'green'}" *matCellDef="let row">
+            <td mat-cell [ngStyle]="{color:row.invoice==='Pending'?'orange':'green'}" *matCellDef="let row">
               {{row.invoice}} </td>
           </ng-container>
 
