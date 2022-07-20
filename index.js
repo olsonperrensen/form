@@ -349,6 +349,23 @@ app.post('/login', (req, res) => {
 })
 
 app.post('/invoice', upload.single('file'), (req, res) => {
+
+  client.query(
+    `UPDATE PO SET INVOICE = 'Sent to AP at 
+    ${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}'
+  where id = '${req.body.u_ID}'`,
+    (err, res) => {
+      if (err) {
+        isRecordInDB = false
+        console.log(`CANNOT INVOICE update: ${err}`);
+      }
+      else {
+        isRecordInDB = true;
+        console.log(`INVOICE record updated ${req.body.u_ID}`)
+      }
+    }
+  );
+
   console.log(`Invoice came: ${req.body.u_ID}`);
 
   console.log(req.file)
