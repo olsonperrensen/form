@@ -3,6 +3,20 @@ a {
   text-decoration: none;
 }
 
+.mat-icon,
+button {
+  background-color: white;
+  color: black;
+  height: 3rem;
+  width: 3rem;
+  box-shadow: 1px 1px 0px #999,
+    2px 2px 0px #999,
+    3px 3px 0px #999,
+    4px 4px 0px #999,
+    5px 5px 0px #999,
+    6px 6px 0px #999;
+}
+
 header {
   background: none;
   color: #fff;
@@ -22,10 +36,11 @@ header {
     line-height: normal;
   }
 
-  button{
+  button {
     float: left;
   }
-  span{
+
+  span {
     float: right;
     background-color: rgba($color: #ffffff, $alpha: 0.3);
   }
@@ -35,18 +50,18 @@ header {
   flex: 1;
 
   .sidenav {
-      min-width: 240px;
+    min-width: 240px;
 
-      a {
-          display: block;
-          padding: 6px 24px;
-          width: 100%;
-          text-align: left;
-      }
+    a {
+      display: block;
+      padding: 6px 24px;
+      width: 100%;
+      text-align: left;
+    }
   }
 
   main {
-      padding: 18px 24px;
+    padding: 18px 24px;
 
   }
 }
