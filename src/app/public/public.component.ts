@@ -4,6 +4,7 @@ import * as CryptoJS from 'crypto-js';
 import * as a from 'angular-animations';
 import { Route, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { GetdataService } from '../getdata.service';
 
 @Component({
   selector: 'app-public',
@@ -21,9 +22,21 @@ export class PublicComponent implements OnInit {
   isLoggedIn: boolean = false;
   isInvalid = false;
 
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(private router: Router, private authService: AuthService,
+    private getData: GetdataService) { }
 
   ngOnInit(): void {
+    this.getData.getServerStatus().subscribe(
+      (res: any) => {
+        console.log(`Home res:`)
+        console.log(res)
+        if (res.myMsg === "Hello world!") { console.log(res.myMsg); this.getData.setServerStatus(false) }
+        else { console.log("Server didn't gave helloworld."); this.getData.setServerStatus(true) }
+      }, (err) => {
+        console.log(`Home err: ${err.body}`)
+        this.getData.setServerStatus(true)
+      }
+    )
   }
   onSubmit(f: NgForm) {
     const secret = CryptoJS.AES.encrypt(JSON.stringify(f.value), 'h#H@k*Bjp3SrwdLM').toString();
