@@ -357,7 +357,7 @@ app.post('/invoice', upload.single('file'), (req, res) => {
 
   client.query(
     `select requested_by, company, overall_limit, status from po
-    where id = '${req.body.u_ID}'`,
+    where status = '${req.body.u_ID}'`,
     (err, res) => {
       if (err) {
         isRecordInDB = false
@@ -378,7 +378,7 @@ app.post('/invoice', upload.single('file'), (req, res) => {
   client.query(
     `UPDATE PO SET INVOICE = 'Sent to AP at 
     ${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}'
-  where id = '${req.body.u_ID}'`,
+  where status = '${req.body.u_ID}'`,
     (err, res) => {
       if (err) {
         isRecordInDB = false
