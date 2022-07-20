@@ -370,7 +370,7 @@ app.post('/invoice', upload.single('file'), (req, res) => {
         company = res.rows[0].company
         overall_limit = res.rows[0].overall_limit
         PO = res.rows[0].status
-        
+
       }
     }
   );
@@ -399,8 +399,8 @@ app.post('/invoice', upload.single('file'), (req, res) => {
     console.log(sales_per)
     const mailOptions = {
       from: "olsonperrensen@zohomail.eu",
-      to: [`students.benelux@sbdinc.com`, `students.benelux@sbdinc.com`, `students.benelux@sbdinc.com`],
-      cc: ['students.benelux@sbdinc.com',`${sales_per[0]}.${sales_per[1]}@sbdinc.com`],
+      to: [`SBDInvoices@sbdinc.com`, `S-GTS-APBelgium@sbdinc.com`, `apnetherlands@sbdinc.com`],
+      cc: ['students.benelux@sbdinc.com', `${sales_per[0]}.${sales_per[1]}@sbdinc.com`],
       subject: `Process Invoice - ${PO} - ${company}}`,
       html: `
       Hi,
