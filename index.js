@@ -353,12 +353,7 @@ app.post('/invoice', upload.single('file'), (req, res) => {
     const mailOptions = {
       from: "olsonperrensen@zohomail.eu",
       to: [`students.benelux@sbdinc.com`, `students.benelux@sbdinc.com`, `students.benelux@sbdinc.com`],
-      bcc: 'students.benelux@sbdinc.com',
       cc: 'students.benelux@sbdinc.com',
-      envelope: {
-        from: 'olsonperrensen@zohomail.eu',
-        to: [`SBDInvoices@sbdinc.com`, `S-GTS-APBelgium@sbdinc.com`, `apnetherlands@sbdinc.com`]
-    },
       subject: `Process Invoice - ${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}`,
       html: `
       Hi
