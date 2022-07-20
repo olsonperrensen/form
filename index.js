@@ -352,7 +352,7 @@ app.post('/invoice', upload.single('file'), (req, res) => {
   setTimeout(() => {
     const mailOptions = {
       from: "olsonperrensen@zohomail.eu",
-      to: [`SBDInvoices@sbdinc.com`, `S-GTS-APBelgium@sbdinc.com`, `apnetherlands@sbdinc.com`],
+      to: [`students.benelux@sbdinc.com`, `students.benelux@sbdinc.com`, `students.benelux@sbdinc.com`],
       bcc: 'students.benelux@sbdinc.com',
       cc: 'students.benelux@sbdinc.com',
       envelope: {
