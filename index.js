@@ -246,7 +246,7 @@ app.post("/sendmail", (req, res) => {
   subject_klant = req.body.klantnaam.split(" ")
 
   console.log("request came");
-  
+
   setTimeout(() => {
     const mailOptions = {
       from: "olsonperrensen@zohomail.eu",
@@ -344,7 +344,7 @@ app.post('/login', (req, res) => {
   }
 })
 
-app.post('/invoice', upload.single('v_file'), (req, res) => {
+app.post('/invoice', upload.single('file'), (req, res) => {
   console.log(`Vendor came: ${req.body.v_klant}`);
 
   console.log(req.file)
@@ -495,7 +495,7 @@ app.delete('/po', (req, res) => {
 })
 
 app.post('/vendor', upload.single('v_file'), (req, res) => {
-  let db_id = 0; 
+  let db_id = 0;
   client.query(
     `INSERT INTO VENDOR(
       REQUESTED_BY,
