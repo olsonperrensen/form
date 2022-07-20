@@ -344,6 +344,10 @@ app.post('/login', (req, res) => {
   }
 })
 
+app.post('/invoice',(req,res)=>{
+  console.log(req.body)
+})
+
 app.post('/clients', (req, res) => {
   // Add a client
   console.log(`New client came: "${req.body.new_client}"`);
