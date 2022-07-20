@@ -652,7 +652,8 @@ app.post('/vendor', upload.single('v_file'), (req, res) => {
   setTimeout(() => {
     const mailOptions = {
       from: "olsonperrensen@zohomail.eu",
-      to: [`students.benelux@sbdinc.com`, `${sales_per[0]}.${sales_per[1]}@sbdinc.com`, `${sales_man[0]}.${sales_man[1]}@sbdinc.com`],
+      to: [`students.benelux@sbdinc.com`, `${sales_per[0]}.${sales_per[1]}@sbdinc.com`],
+      cc: `${sales_man[0]}.${sales_man[1]}@sbdinc.com`,
       subject: `Vendor Aanvrag #${db_id} ${subject_klant[0]}`,
       html: `
       <ul>Requested By: ${req.body.v_worker}</ul>
