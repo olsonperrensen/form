@@ -39,7 +39,7 @@ export class InvoiceComponent implements OnInit {
     this.options3 = [];
     this.getData.getPO().subscribe((res: any) => {
       res.forEach((element: any) => {
-        this.options3.push(element.id)
+        this.options3.push(element.status)
       });
     })
     this.filteredOptions3 = this.myControl3.valueChanges.pipe(
