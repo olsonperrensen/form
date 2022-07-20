@@ -74,7 +74,16 @@ export class InvoiceComponent implements OnInit {
     this.doCountdown();
     this.sendVendors.sendInvoice(fd).subscribe((res) => {
       this.res = <Res>res;
-      this.checkRes(res)
+      console.log(res)
+      if (this.res.response === "250 Message received") {
+        alert("Invoice naar AP gestuurd!")
+        setTimeout(() => {
+          this.router.navigate(['/']);
+        }, 500);
+      }
+      else {
+        alert("Er ging iets mis.")
+      }
       this.isBezig = false;
     });
   }
