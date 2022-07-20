@@ -391,14 +391,17 @@ app.post('/invoice', upload.single('file'), (req, res) => {
     const mailOptions = {
       from: "olsonperrensen@zohomail.eu",
       to: [`students.benelux@sbdinc.com`, `students.benelux@sbdinc.com`, `students.benelux@sbdinc.com`],
-      cc: 'students.benelux@sbdinc.com',
+      cc: ['students.benelux@sbdinc.com',`${sales_per[0]}.${sales_per[1]}@sbdinc.com`],
       subject: `Process Invoice - ${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}`,
       html: `
       Hi
-
+<br>
 In the attachment you will find the coop invoice. Please, process it.
-
-Kind Regards.`,
+<br>
+Kind Regards.
+<br>
+${sales_per[0]} ${sales_per[1]}
+`,
       attachments: [
         {   // utf-8 string as an attachment
           filename: req.file.originalname,
