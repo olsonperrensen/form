@@ -15,7 +15,9 @@ export interface UserData {
   overall_limit: number;
   gr_execution_date: string;
   sbu: string,
-  status: string
+  status: string,
+  gr: string,
+  invoice: string,
 }
 
 
@@ -35,7 +37,9 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
     'overall_limit',
     'gr_execution_date',
     'sbu',
-    'status'];
+    'status',
+    'gr',
+  'invoice'];
   dataSource!: MatTableDataSource<UserData>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
