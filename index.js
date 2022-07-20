@@ -208,7 +208,9 @@ app.post("/sendmail", (req, res) => {
       OVERALL_LIMIT,
       GR_EXECUTION_DATE,
       SBU,
-      STATUS) VALUES(
+      STATUS,
+      GR,
+      INVOICE) VALUES(
         '${req.body.worker}',
         '${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}',
         '${req.body.klantnaam}',
@@ -218,6 +220,8 @@ app.post("/sendmail", (req, res) => {
         '${req.body.bedrag}',
         '${req.body.datum}',
         '${order}',
+        '${'Pending'}',
+        '${'Pending'}',
         '${'Pending'}')
         RETURNING id;`,
     (err, res) => {
