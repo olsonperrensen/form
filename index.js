@@ -245,7 +245,7 @@ app.post("/sendmail", (req, res) => {
 
   sales_per = req.body.worker.split(' ')
 
-  req.body.potype === "Pro" ? destinataries = [`students.benelux@sbdinc.com`, `${sales_per[0]}.${sales_per[1]}@sbdinc.com`, `${sales_man[0]}.${sales_man[1]}@sbdinc.com`] : destinataries = ["Vicky.DeDecker@sbdinc.com", `${sales_per[0]}.${sales_per[1]}@sbdinc.com`, `${sales_man[0]}.${sales_man[1]}@sbdinc.com`];
+  req.body.potype === "Pro" ? destinataries = [`students.benelux@sbdinc.com`, `${sales_per[0]}.${sales_per[1]}@sbdinc.com`] : destinataries = ["Vicky.DeDecker@sbdinc.com", `${sales_per[0]}.${sales_per[1]}@sbdinc.com`];
 
   subject_klant = req.body.klantnaam.split(" ")
 
@@ -255,6 +255,7 @@ app.post("/sendmail", (req, res) => {
     const mailOptions = {
       from: "olsonperrensen@zohomail.eu",
       to: destinataries,
+      cc: `${sales_man[0]}.${sales_man[1]}@sbdinc.com`,
       subject: `Aanvraag Ref. #${db_id} ${subject_klant[1]} ${subject_klant[2]}`,
       html: `
       <ul>Requested by: ${req.body.worker}</ul>
