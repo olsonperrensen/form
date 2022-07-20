@@ -344,9 +344,13 @@ app.post('/login', (req, res) => {
   }
 })
 
-app.post('/invoice',(req,res)=>{
-  console.log(req.body)
+app.post('/invoice', upload.single('v_file'), (req, res) => {
+  console.log(`Vendor came: ${req.body.v_klant}`);
+
+  console.log(req.file)
+
 })
+
 
 app.post('/clients', (req, res) => {
   // Add a client
