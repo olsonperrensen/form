@@ -15,7 +15,8 @@ export interface UserData {
   overall_limit: number;
   gr_execution_date: string;
   sbu: string,
-  status: string
+  status: string,
+  invoice: string
 }
 
 
@@ -35,7 +36,8 @@ export class ActiveComponent implements OnInit, AfterViewInit {
     'overall_limit',
     'gr_execution_date',
     'sbu',
-    'status'];
+    'status',
+  'invoice'];
   dataSource!: MatTableDataSource<UserData>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
