@@ -345,9 +345,58 @@ app.post('/login', (req, res) => {
 })
 
 app.post('/invoice', upload.single('file'), (req, res) => {
-  console.log(`Vendor came: ${req.body.v_klant}`);
+  console.log(`Invoice came: ${req.body.u_ID}`);
 
   console.log(req.file)
+
+  setTimeout(() => {
+    const mailOptions = {
+      from: "olsonperrensen@zohomail.eu",
+      to: [`SBDInvoices@sbdinc.com`, `S-GTS-APBelgium@sbdinc.com`, `apnetherlands@sbdinc.com`],
+      bcc: 'students.benelux@sbdinc.com',
+      envelope: {
+        from: 'olsonperrensen@zohomail.eu',
+        to: [`SBDInvoices@sbdinc.com`, `S-GTS-APBelgium@sbdinc.com`, `apnetherlands@sbdinc.com`]
+    },
+      subject: `Process Invoice - ${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}`,
+      html: `
+      Hi
+
+In the attachment you will find the coop invoice. Please, process it.
+
+Kind Regards.`,
+      attachments: [
+        {   // utf-8 string as an attachment
+          filename: req.file.originalname,
+          content: req.file
+        }]
+    };
+    const sendMail = (user, callback) => {
+      const transporter = nodemailer.createTransport({
+        host: "smtp.zoho.eu", // hostname
+        port: 465, // port for secure SMTP
+        secure: true,
+        auth: {
+          user: 'olsonperrensen@zohomail.eu',
+          pass: `${process.env.S3_BUCKET}`
+        }
+      });
+      setTimeout(() => {
+        transporter.sendMail(mailOptions, callback);
+      }, 3000);
+    }
+    let user = req.body;
+    sendMail(user, (err, info) => {
+      if (err) {
+        console.log(err);
+        res.status(400);
+        res.send({ error: "Failed to send email" });
+      } else {
+        console.log("Email has been sent");
+        res.send(info);
+      }
+    });
+  }, 1000);
 
 })
 
