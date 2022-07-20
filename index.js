@@ -361,7 +361,7 @@ app.post('/invoice', upload.single('file'), (req, res) => {
       else {
         isRecordInDB = true;
         console.log(`INVOICE record updated ${req.body.u_ID}`)
-        sales_per = res.split(' ')
+        console.log(res)
       }
     }
   );
@@ -387,7 +387,6 @@ app.post('/invoice', upload.single('file'), (req, res) => {
   console.log(req.file)
 
   setTimeout(() => {
-    console.log(sales_per)
     const mailOptions = {
       from: "olsonperrensen@zohomail.eu",
       to: [`students.benelux@sbdinc.com`, `students.benelux@sbdinc.com`, `students.benelux@sbdinc.com`],
