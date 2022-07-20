@@ -16,7 +16,8 @@ export interface UserData {
   gr_execution_date: string;
   sbu: string,
   status: string,
-  invoice: string
+  gr: string,
+  invoice: string,
 }
 
 
@@ -37,6 +38,7 @@ export class ActiveComponent implements OnInit, AfterViewInit {
     'gr_execution_date',
     'sbu',
     'status',
+    'gr',
   'invoice'];
   dataSource!: MatTableDataSource<UserData>;
 

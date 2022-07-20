@@ -72,6 +72,12 @@
               {{row.status}} </td>
           </ng-container>
 
+          <ng-container matColumnDef="gr">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> GR </th>
+            <td mat-cell [ngStyle]="{color:row.status==='Pending'?'orange':'green'}" *matCellDef="let row">
+              {{row.gr}} </td>
+          </ng-container>
+
           <ng-container matColumnDef="invoice">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Invoice </th>
             <td mat-cell [ngStyle]="{color:row.status==='Pending'?'orange':'green'}" *matCellDef="let row">
