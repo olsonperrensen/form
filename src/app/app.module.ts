@@ -23,6 +23,7 @@ import { ActiveComponent } from './history/active/active.component';
 import { ArchiveComponent } from './history/archive/archive.component';
 import { VendorHistoryComponent } from './vendor/vendor-history/vendor-history.component';
 import { PublicComponent } from './public/public.component';
+import { InvoiceComponent } from './invoice/invoice.component';
 
 export function HttpLoaderFactory(http:HttpClient)
 {
@@ -42,7 +43,8 @@ export function HttpLoaderFactory(http:HttpClient)
     ActiveComponent,
     ArchiveComponent,
     VendorHistoryComponent,
-    PublicComponent
+    PublicComponent,
+    InvoiceComponent
   ],
   imports: [
     BrowserModule,

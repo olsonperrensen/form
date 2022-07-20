@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="example-form">
+        <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBackendDown"
+          style="color: red">Krijg je niks? Laad de pagina opnieuw... (F5)</pre>
+        <div class="container">
+          <!-- PO -->
+          <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+            <mat-label>Enter History ID</mat-label>
+            <input required type="text" placeholder="Pick one" aria-label="Number" matInput #klantnaam
+              [(ngModel)]="u_ID" name="u_ID" [formControl]="myControl3" [matAutocomplete]="auto3">
+            <mat-autocomplete #auto3="matAutocomplete">
+              <mat-option *ngFor="let ID of filteredOptions3 | async" [value]="ID">
+                {{ID}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <div *ngIf="isID">
+            <input required #csvInput (change)="onFileSelected($event)" hidden="true" type="file" onclick="this.value=null"
+            accept=".pdf, .jpg, .jpeg, .bmp, .gif, .png" />
+          <button type="button" style="width: 100%" mat-raised-button color="accent"
+            (click)="csvInput.click()">Getekende factuur als PDF uploaden</button>
+          <hr style="margin: 20px">
+              <button [disabled]="!f.valid||!isFormValidWithFile" mat-raised-button
+                color="primary">Send</button>
+            <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
+              style="color: white;background: black;">Bezig... ({{s}}s)</pre>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

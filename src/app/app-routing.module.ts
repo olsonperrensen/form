@@ -12,6 +12,7 @@ import { ActiveComponent } from './history/active/active.component';
 import { ArchiveComponent } from './history/archive/archive.component';
 import { VendorHistoryComponent } from './vendor/vendor-history/vendor-history.component';
 import { PublicComponent } from './public/public.component';
+import { InvoiceComponent } from './invoice/invoice.component';
 
 const routes: Routes = [
   { path: '', component: PublicComponent },
@@ -23,7 +24,8 @@ const routes: Routes = [
   { path: 'history', component: HistoryComponent, canActivate: [AuthGuardService] },
   { path: 'active', component: ActiveComponent, canActivate: [AuthGuardService] },
   { path: 'archive', component: ArchiveComponent, canActivate: [AuthGuardService] },
-  { path: 'vendor-history', component: VendorHistoryComponent, canActivate: [AuthGuardService] }
+  { path: 'vendor-history', component: VendorHistoryComponent, canActivate: [AuthGuardService] },
+  { path: 'invoice', component: InvoiceComponent, canActivate: [AuthGuardService] }
 ];
 
 @NgModule({
