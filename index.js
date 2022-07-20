@@ -361,7 +361,7 @@ app.post('/invoice', upload.single('file'), (req, res) => {
       else {
         isRecordInDB = true;
         console.log(`INVOICE record updated ${req.body.u_ID}`)
-        sales_per = res.rows[0].id.split(' ')
+        sales_per = res.rows[0].requested_by.split(' ')
       }
     }
   );
