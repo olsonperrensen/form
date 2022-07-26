@@ -7,16 +7,21 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   private guardStatus = false;
-  private url = 'https://formemail.herokuapp.com/login';
-  private recover_url = 'https://formemail.herokuapp.com/recover';
+  private URL = 'https://formemail.herokuapp.com/login';
+  private RECOVER_URL = 'https://formemail.herokuapp.com/recover';
+  private RESET_URL = 'https://formemail.herokuapp.com/reset'
   private loggedIn = false;
 
   isAuthenticated(secret: any) {
-    return this.http.post(this.url, secret);
+    return this.http.post(this.URL, secret);
   }
 
-  recoverPWD(u_username:any){
-    return this.http.post(this.recover_url,{u_username: u_username});
+  recoverPWD(u_username: any) {
+    return this.http.post(this.RECOVER_URL, { u_username: u_username });
+  }
+
+  resetPWD(u_pwd: any) {
+    return this.http.post(this.RESET_URL, { u_pwd: u_pwd });
   }
 
   constructor(private http: HttpClient) { }

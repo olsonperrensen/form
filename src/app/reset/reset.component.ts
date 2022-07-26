@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import * as a from 'angular-animations';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-reset',
@@ -15,12 +16,15 @@ import * as a from 'angular-animations';
 })
 export class ResetComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
 
   }
   onSubmit(f: NgForm) {
     console.log(f.value)
+    this.authService.resetPWD(f.value.password).subscribe((res)=>{
+      
+    })
   }
 }
