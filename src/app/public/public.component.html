@@ -19,6 +19,7 @@
           <div [@bounceInRightOnEnter] class="forms-inputs mb-4">
             <span>Password</span>
             <input class="form-control" type="password" ngModel name="password" placeholder="************" required>
+            <a style="color:gray" routerLink="/"><p [@fadeInOnEnter] class="ffs">Request your Password</p></a>
           </div>
           <div class="mb-3">
             <button class="btn btn-dark w-100" [disabled]="!f.valid">Login</button>
