@@ -353,6 +353,7 @@ app.post('/login', (req, res) => {
 })
 
 app.post('/recover', (req, res) => {
+  console.log(req.body.username)
   client.query(
     `select password from users where username = '${req.body.username}'`,
     (err, res) => {
