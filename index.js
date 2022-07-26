@@ -383,9 +383,9 @@ We recently received a request to recover the Sbdinc Forms Account ${req.body.u_
 If you sent that request, you don't need to take any action. We'll provide you with the password down below.
 <br><br>
 However, if you didn't make this request, please notify students.benelux@sbdinc.com.
-<br><br>
+<br><br><br>
 
-Your reset password is <b>${pwd}</b>. 
+Your reset password is <h4><b>${pwd}</b></h4> 
 <br><br>
 <br><br>
 You can change it here.
