@@ -24,6 +24,7 @@ import { ArchiveComponent } from './history/archive/archive.component';
 import { VendorHistoryComponent } from './vendor/vendor-history/vendor-history.component';
 import { PublicComponent } from './public/public.component';
 import { InvoiceComponent } from './invoice/invoice.component';
+import { ResetComponent } from './reset/reset.component';
 
 export function HttpLoaderFactory(http:HttpClient)
 {
@@ -44,7 +45,8 @@ export function HttpLoaderFactory(http:HttpClient)
     ArchiveComponent,
     VendorHistoryComponent,
     PublicComponent,
-    InvoiceComponent
+    InvoiceComponent,
+    ResetComponent
   ],
   imports: [
     BrowserModule,

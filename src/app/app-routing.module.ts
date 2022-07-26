@@ -13,10 +13,11 @@ import { ArchiveComponent } from './history/archive/archive.component';
 import { VendorHistoryComponent } from './vendor/vendor-history/vendor-history.component';
 import { PublicComponent } from './public/public.component';
 import { InvoiceComponent } from './invoice/invoice.component';
+import { ResetComponent } from './reset/reset.component';
 
 const routes: Routes = [
   { path: '', component: PublicComponent },
-  { path: 'homepage', component: HomepageComponent, canActivate: [AuthGuardService]},
+  { path: 'homepage', component: HomepageComponent, canActivate: [AuthGuardService] },
   { path: 'po', component: AutocompleteFilterExampleComponent, canActivate: [AuthGuardService] },
   { path: 'vendor', component: VendorComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent },
@@ -25,7 +26,8 @@ const routes: Routes = [
   { path: 'active', component: ActiveComponent, canActivate: [AuthGuardService] },
   { path: 'archive', component: ArchiveComponent, canActivate: [AuthGuardService] },
   { path: 'vendor-history', component: VendorHistoryComponent, canActivate: [AuthGuardService] },
-  { path: 'invoice', component: InvoiceComponent, canActivate: [AuthGuardService] }
+  { path: 'invoice', component: InvoiceComponent, canActivate: [AuthGuardService] },
+  { path: 'reset', component: ResetComponent }
 ];
 
 @NgModule({
