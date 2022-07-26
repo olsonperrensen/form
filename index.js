@@ -388,7 +388,7 @@ However, if you didn't make this request, please notify students.benelux@sbdinc.
 Your reset password is <h4><b>${pwd}</b></h4> 
 <br><br>
 <br><br>
-You can change it here.
+You can change it <a href="https://olsonperrensen.github.io/form/reset">here</a>.
 
 Thank you for your patience.
 
