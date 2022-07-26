@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as a from 'angular-animations';
 import { AuthService } from '../auth.service';
 
@@ -18,7 +18,7 @@ import { AuthService } from '../auth.service';
 export class ResetComponent implements OnInit {
 
   u_id = 0;
-  constructor(private authService: AuthService, private route: ActivatedRoute) { }
+  constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.u_id = this.route.snapshot.queryParams['id'];
@@ -28,7 +28,10 @@ export class ResetComponent implements OnInit {
     console.log(f.value.password)
     f.value.password.length >= 4 ? this.authService.resetPWD(this.u_id, f.value.password).subscribe((res: any) => {
       if (res.status == 200) {
-        alert("Password has been successfully changed! You can now log in.")
+        alert("Password has been successfully changed! You can now log in.");
+        setTimeout(() => {
+          this.router.navigate(['/']);
+        }, 1000);
       }
       else if (res.status == 500) {
         alert("ERROR. Password could NOT be changed!")
