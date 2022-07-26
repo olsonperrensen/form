@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm, NgModel } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as a from 'angular-animations';
+import { AuthService } from '../auth.service';
 import { SendVendorsService } from '../send-vendors.service';
 import { Res } from './res';
 
@@ -33,9 +34,10 @@ export class VendorComponent implements OnInit {
   isBezig = false;
   s = 6
 
-  constructor(private router: Router, private sendVendors: SendVendorsService) { }
+  constructor(private router: Router, private sendVendors: SendVendorsService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.v_worker = this.authService.getCredentials().naam
     document.body.style.backgroundImage = "url('https://u.cubeupload.com/olsonperrensen2/313skyscraperwallpaperu.jpg')"
   }
   onSubmit(f: NgForm) {
@@ -62,21 +64,21 @@ export class VendorComponent implements OnInit {
         && this.v_worker.includes(" ")) {
 
         const fd = new FormData();
-        fd.append('v_klant',this.v_klant)
-        fd.append('v_adres',this.v_adres)
-        fd.append('v_email',this.v_email)
-        fd.append('v_gsm',this.v_gsm)
-        fd.append('v_vat',this.v_vat)
-        fd.append('v_contact',this.v_contact)
-        fd.append('v_klantnr',this.v_klantnr)
-        fd.append('v_file',this.selected_file,this.selected_file.name)
-        fd.append('v_worker',this.v_worker)
-        
+        fd.append('v_klant', this.v_klant)
+        fd.append('v_adres', this.v_adres)
+        fd.append('v_email', this.v_email)
+        fd.append('v_gsm', this.v_gsm)
+        fd.append('v_vat', this.v_vat)
+        fd.append('v_contact', this.v_contact)
+        fd.append('v_klantnr', this.v_klantnr)
+        fd.append('v_file', this.selected_file, this.selected_file.name)
+        fd.append('v_worker', this.v_worker)
+
         console.log(`About to send:`)
         console.log(this.myJSONForm)
         console.log("Information above.")
         this.isBezig = true;
-      this.doCountdown();
+        this.doCountdown();
         this.sendVendors.sendVendor(fd).subscribe((res) => {
           this.res = <Res>res;
           console.log(res)
