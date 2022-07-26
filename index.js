@@ -385,7 +385,10 @@ If you sent that request, you don't need to take any action. We'll provide you w
 However, if you didn't make this request, please notify students.benelux@sbdinc.com.
 <br><br>
 
-Your reset password is <b>${pwd}</b>. You can change it here.
+Your reset password is <b>${pwd}</b>. 
+<br><br>
+<br><br>
+You can change it here.
 
 Thank you for your patience.
 
