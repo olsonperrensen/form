@@ -115,7 +115,7 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
     "Wouter Rook",
     "Arnold Wever",
     "Oscar Laureijs", "Kevin Markestein", "David Goubert", "Gunther Mergan", "Jurgen DeLeeuw",
-    "Thomas Molendijk", "Marcelino Papperse", "Andor DeVries", "Ivo Schouten - Sales Manager DW NL"];
+    "Thomas Molendijk", "Marcelino Papperse", "Andor DeVries", "Ivo Schouten"];
   facom_employees = [
     "Piet Verstraete", "Vincent Broertjes", "Jean-Christophe Pintiaux", "Kim Maris", "Mario Reverse",
     "Peter Schaekers", "Robin Roels", "Stefan Sack", "Vincent Lenain", "Vincent Pireyn", "Yves DeWaal",
