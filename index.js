@@ -333,22 +333,24 @@ app.get('/archive_po', (req, res) => {
 
 
 app.post('/login', (req, res) => {
-  console.log(`Encrypted credentials: ${req.body.usr}`)
-  const credentials = CryptoJS.AES.decrypt(req.body.usr, 'h#H@k*Bjp3SrwdLM').toString(CryptoJS.enc.Utf8);
-  console.log(`Decrypted: ${credentials}`)
-  if (
-    (credentials === `{"username":"team@sbdinc.com","password":"Mechelen2022."}`)
-    ||
-    (credentials === `{"username":"steve.langbeen@sbdinc.com","password":"sbdinc.2023"}`)
-    ||
-    (credentials === `{"username":"danielle.penninckx@sbdinc.com","password":"sbdinc2023."}`)) {
-    res.send(true);
-  }
-  else {
-    res.send(false);
-  }
+  console.log(`Encrypted tmp_credentials: ${req.body.usr}`)
+  const tmp_credentials = CryptoJS.AES.decrypt(req.body.usr, 'h#H@k*Bjp3SrwdLM').toString(CryptoJS.enc.Utf8).split('\"');
+  console.log(`Decrypted: ${tmp_credentials[3]}`)
+  client.query(
+    `select id from users where username = '${tmp_credentials[3]}'
+    and password = '${tmp_credentials[7]}'`,
+    (err, res) => {
+      if (err) {
+        console.log(`WRONG CREDENTIALS!`);
+        res.send(false);
+      }
+      else {
+        console.log(`VALID CREDENTIALS...`)
+        res.send(true);
+      }
+    }
+  );
 })
-
 app.post('/invoice', upload.single('file'), (req, res) => {
 
   let company = "";
