@@ -75,7 +75,7 @@ export class PublicComponent implements OnInit {
     if (this.u_username.endsWith('@sbdinc.com')) {
       this.authService.recoverPWD(this.u_username).subscribe((res:any) => {
         console.log(res)
-        if(res.status==200)
+        if(res.response === "250 Message received")
         {
           alert("Your password has been sent! Please, check your email for instructions.")
         }
