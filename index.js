@@ -367,7 +367,8 @@ app.post('/recover', (req, res) => {
     }
   );
   setTimeout(() => {
-    res.send(200);
+    console.log(`Sending email to ${req.body.u_username} to recover PWD...`)
+    res.send({status:200});
   }, 600);
 })
 
