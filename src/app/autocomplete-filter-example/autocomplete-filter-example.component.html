@@ -6,33 +6,10 @@
         <div class="container">
           <p><em style="font-size:xx-small;">{{'subtitleKey'|translate}}{{ipAddress}}</em></p>
         </div>
-        <mat-form-field [@fadeInLeftOnEnter] style="width: 100%" appearance="fill">
-          <mat-label>{{'q1'|translate}}</mat-label>
-          <mat-select matInput [(ngModel)]="u_potype" (ngModelChange)="potype()" name="u_potype" required>
-            <mat-option *ngFor="let potype of filteredOptions7 | async" [value]="potype">
-              {{potype}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field [@fadeInLeftOnEnter] *ngIf="isPro" class="example-full-width" appearance="fill">
+        <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
           <mat-label>{{'q2'|translate}}</mat-label>
           <input required type="text" placeholder="Pick one" aria-label="Number" matInput [(ngModel)]="u_worker"
-            name="u_worker" [formControl]="myControl6" [matAutocomplete]="auto6">
-          <mat-autocomplete #auto6="matAutocomplete">
-            <mat-option *ngFor="let worker of filteredOptions6 | async" [value]="worker">
-              {{worker}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-        <mat-form-field [@fadeInLeftOnEnter] *ngIf="isConsumer" class="example-full-width" appearance="fill">
-          <mat-label>{{'q2'|translate}}</mat-label>
-          <input required type="text" placeholder="Pick one" aria-label="Number" matInput [(ngModel)]="u_worker"
-            name="u_worker" [formControl]="myControl8" [matAutocomplete]="auto6">
-          <mat-autocomplete #auto6="matAutocomplete">
-            <mat-option *ngFor="let worker of filteredOptions8 | async" [value]="worker">
-              {{worker}}
-            </mat-option>
-          </mat-autocomplete>
+            name="u_worker" [formControl]="myControl6">
         </mat-form-field>
         <mat-form-field [@fadeInLeftOnEnter] *ngIf="isWorker" class="example-full-width" appearance="fill">
           <mat-label>{{'q3'|translate}}</mat-label>
@@ -44,7 +21,7 @@
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
-        <mat-form-field [@fadeInLeftOnEnter] *ngIf="isVerkoper&&isWorker" style="width: 100%" appearance="fill">
+        <mat-form-field [@fadeInLeftOnEnter] style="width: 100%" appearance="fill">
           <mat-label>{{'q4'|translate}}</mat-label>
           <mat-select matInput [(ngModel)]="u_land" (ngModelChange)="landtype()" name="u_land" required>
             <mat-option *ngFor="let land of filteredOptions5 | async" [value]="land">
@@ -52,7 +29,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field [@fadeInLeftOnEnter] *ngIf="isLand&&isVerkoper&&isWorker" class="example-full-width"
+        <mat-form-field [@fadeInLeftOnEnter] class="example-full-width"
           appearance="fill">
           <mat-label>{{'q5'|translate}}</mat-label>
           <input required type="text" placeholder="Pick one" aria-label="Number" matInput #klantnaam

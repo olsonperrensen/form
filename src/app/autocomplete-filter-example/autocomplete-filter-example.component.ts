@@ -9,6 +9,7 @@ import * as a from 'angular-animations';
 import { GetdataService } from '../getdata.service';
 import { Router } from '@angular/router';
 import dateFormat, { masks } from "dateformat";
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-autocomplete-filter-example',
@@ -22,7 +23,7 @@ import dateFormat, { masks } from "dateformat";
     a.bounceOutOnLeaveAnimation()
   ]
 })
-export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit {
+export class AutocompleteFilterExampleComponent implements OnInit {
 
   sent = false;
   exit = false;
@@ -50,7 +51,6 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
   myControl4 = new FormControl();
   myControl5 = new FormControl();
   myControl6 = new FormControl();
-  myControl7 = new FormControl();
   myControl8 = new FormControl();
   myControl9 = new FormControl();
   myControl10 = new FormControl();
@@ -60,12 +60,6 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
   options4: string[] = ["Januari", "Februari", "Maart", "April", "Mei", "Juni",
     "Juli", "Augustus", "September", "Oktober", "Novermber", "December"];
   options5: string[] = ["België / Belgique", "Nederland / Pays Bas"];
-  options6: string[] = [];
-  options7: string[] = ["Pro", "Consumer"];
-  options8: string[] = ["Geert Maes", "Marleen Vangronsveld", "Marlon VanZundert", "Michael Soenen",
-    "Michael Tistaert", "Ronald Westra", "Vicky DeDecker", "Christelle Marro", "Frederic Barzin", "Luc Claes",
-    "Marc Ghijs", "Ronny Callewaert", "Hendrik Pieters", "Malvin Puts", "Niels Groters", "Remco Rozing ",
-    "Eric Nieuwmans"];
 
 
   deWALT_employees = [
@@ -102,61 +96,48 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
   filteredOptions3!: Observable<string[]>;
   filteredOptions4!: Observable<string[]>;
   filteredOptions5!: Observable<string[]>;
-  filteredOptions6!: Observable<string[]>;
-  filteredOptions7!: Observable<string[]>;
-  filteredOptions8!: Observable<string[]>;
 
   ipAddress = '';
 
   constructor(private sendForms: SendFormsService, private ip: IpServiceService,
-    private getData: GetdataService, private router: Router) { }
+    private getData: GetdataService, private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
+    this.getData.getClients().subscribe((res: any) => {
+      this.options2 = res.sort();
+      this.isBackendDown = false;
+      console.log(`BackEnd is up! ${this.options2.length} All good!`);
+      if (this.options2.length < 1000) {
+        console.log(`Backend down: this.options2.length ${this.options2.length}`)
+        this.isBackendDown = true;
+      }
+    }, (err) => {
+      this.isBackendDown = true;
+    });
     document.body.style.backgroundImage = "url('https://i.postimg.cc/8NqcDrfY/Default-Wallpaper.png')"
     this.getIP();
     this.isBackendDown = this.getData.getBackendBoolean()
-    this.filteredOptions2 = this.myControl2.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter2(value)),
-    );
-    this.filteredOptions3 = this.myControl3.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter3(value)),
-    );
-    this.filteredOptions4 = this.myControl4.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter4(value)),
-    );
-    this.filteredOptions5 = this.myControl5.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter5(value)),
-    );
-    this.filteredOptions6 = this.myControl6.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter6(value)),
-    );
-    this.filteredOptions7 = this.myControl7.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter7(value)),
-    );
-    this.filteredOptions8 = this.myControl8.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter8(value)),
-    );
+    setTimeout(() => {
+      this.filteredOptions2 = this.myControl2.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter2(value)),
+      );
+      this.filteredOptions3 = this.myControl3.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter3(value)),
+      );
+      this.filteredOptions4 = this.myControl4.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter4(value)),
+      );
+      this.filteredOptions5 = this.myControl5.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter5(value)),
+      );
+    }, 800);
+
 
     // Own Observables
-
-    // Consumer
-    this.myControl8.valueChanges.subscribe((res) => {
-      if (this.options8.find((obj) => { return obj.toLowerCase() === res.toLowerCase(); })) {
-        this.u_merk = this.options3[1];
-        this.isWorker = true;
-      }
-      else {
-        this.u_merk = "";
-        this.isWorker = false;
-      }
-    });
     // Pro
     this.myControl6.valueChanges.subscribe((res) => {
       if (this.deWALT_employees.find((obj) => { return obj.toLowerCase() === res.toLowerCase(); })) {
@@ -358,16 +339,18 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
       }
     });
 
-    this.myControl2.valueChanges.subscribe((res) => {
-      // Exact match full klant 
-      if (this.options2.find((obj) => { return obj.toLowerCase() === res.toLowerCase(); })
-        && this.isLand) {
-        this.isKlant = true;
-      }
-      else {
-        this.isKlant = false;
-      }
-    });
+    setTimeout(() => {
+      this.myControl2.valueChanges.subscribe((res) => {
+        // Exact match full klant 
+        if (this.options2.find((obj) => { return obj.toLowerCase() === res.toLowerCase(); })
+          && this.isLand) {
+          this.isKlant = true;
+        }
+        else {
+          this.isKlant = false;
+        }
+      });
+    }, 800);
     this.myControl9.valueChanges.subscribe((res) => {
       if (res >= 50 && res <= 89000 && this.isKlant) {
         this.isBedrag = true;
@@ -387,32 +370,6 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
     })
   }
 
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-
-      this.getData.getClients().subscribe((res: any) => {
-        this.options2 = res.sort();
-        this.isBackendDown = false;
-        console.log(`BackEnd is up! ${this.options2.length} All good!`);
-        if (this.options2.length < 1000) {
-          console.log(`Backend down: this.options2.length ${this.options2.length}`)
-          this.isBackendDown = true;
-        }
-      }, (err) => {
-        this.isBackendDown = true;
-        // alert("Press F5 to continue.")
-      });
-
-      // Populate workers (options6)
-      this.getData.getWorkers().subscribe(
-        (res: any) => {
-          this.options6 = res.naam
-          this.options6.length > 2 ? console.log('Fetched workers!') : console.log("Could NOT fetch workers.")
-        }
-      )
-    }, 777);
-  }
-
   potype() {
     if (this.u_potype === "Pro") {
       this.isPro = true;
@@ -424,24 +381,20 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
     }
   }
   klant() {
-    if (this.u_klantnaam.includes("B/") || this.u_klantnaam.toUpperCase().includes('INACTIVE')) {
-      this.isOutdatedVendor = true;
-    }
-    else {
-      this.isOutdatedVendor = false;
-    }
-    if (!this.options2.includes(this.u_klantnaam) && this.u_klantnaam.length > 3) {
-      this.isNewVendor = true;
-    }
-    else {
-      this.isNewVendor = false;
-    }
-    // console.log(`isKlant: ${this.isKlant}
-    // isLand: ${this.isLand}
-    // isVerkoper: ${this.isVerkoper}
-    // isWorker: ${this.isWorker}
-    // isNewVendor: ${this.isNewVendor}
-    // isLand: ${this.isLand}`)
+    setTimeout(() => {
+      if (this.u_klantnaam.includes("B/") || this.u_klantnaam.toUpperCase().includes('INACTIVE')) {
+        this.isOutdatedVendor = true;
+      }
+      else {
+        this.isOutdatedVendor = false;
+      }
+      if (!this.options2.includes(this.u_klantnaam) && this.u_klantnaam.length > 3) {
+        this.isNewVendor = true;
+      }
+      else {
+        this.isNewVendor = false;
+      }
+    }, 800);
   }
 
   landtype() {
@@ -470,30 +423,14 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
 
     return this.options5.filter(option => option.toLowerCase().includes(filterValue));
   }
-  private _filter6(value: string): string[] {
-    const filterValue = value.toLowerCase();
 
-    return this.options6.filter(option => option.toLowerCase().includes(filterValue));
-  }
-  private _filter7(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.options7.filter(option => option.toLowerCase().includes(filterValue));
-  }
-
-  private _filter8(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.options8.filter(option => option.toLowerCase().includes(filterValue));
-  }
-
-  u_worker = ''
-  u_land = ''
+  u_worker = this.authService.getCredentials().naam
+  u_land = this.authService.getCredentials().land
   u_klantnaam = ''
   u_klantnr = ''
   u_bedrag = ''
   u_omschrijving = ''
-  u_merk = ''
+  u_merk = this.authService.getCredentials().sbu
   u_datum = ''
   u_potype = ''
   myJSONForm = {

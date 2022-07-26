@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
     console.log(secret)
     this.authService.isAuthenticated({ usr: secret }).subscribe((res:any) => {
       console.log(res)
-      if (res.isAuthenticated === true) {
+      if (res.u_user.isAuthenticated === true) {
         this.onLogin()
         this.isLoggedIn = true;
 

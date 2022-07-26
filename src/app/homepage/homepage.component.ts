@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as a from 'angular-animations'
+import { AuthService } from '../auth.service';
 import { GetdataService } from '../getdata.service';
 
 @Component({
@@ -13,10 +14,11 @@ import { GetdataService } from '../getdata.service';
 export class HomepageComponent implements OnInit {
 
 
-  constructor(private getData:GetdataService) { }
+  constructor(private getData: GetdataService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    document.body.style.backgroundImage = "url('https://i.postimg.cc/8NqcDrfY/Default-Wallpaper.png')"
+    document.body.style.backgroundImage = "url('https://i.postimg.cc/8NqcDrfY/Default-Wallpaper.png')";
+    console.log(this.authService.getCredentials())
   }
 
 }
