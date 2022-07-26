@@ -341,7 +341,7 @@ app.post('/login', (req, res) => {
     `select id from users where username = '${tmp_credentials[3]}'
     and password = '${tmp_credentials[7]}'`,
     (err, res) => {
-      if (err) {
+      if (!res.rows[0].id) {
         console.log(`WRONG CREDENTIALS!`);
         is_authenticated = false
       }
