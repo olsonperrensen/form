@@ -6,8 +6,10 @@ import { Injectable } from '@angular/core';
 })
 export class GetdataService {
 
-  url = 'https://formemail.herokuapp.com/clients';
-  local_url = 'http://localhost:3000/clients';
+  URL = 'https://formemail.herokuapp.com/clients';
+  LOCAL_URL = 'http://localhost:3000/clients';
+  WORKERS_URL = 'https://formemail.herokuapp.com/workers'
+
   isBackendDown = false;
 
   getServerStatus() {
@@ -22,11 +24,15 @@ export class GetdataService {
   }
 
   getClients() {
-    return this.http.get(this.url);
+    return this.http.get(this.URL);
+  }
+
+  getWorkers() {
+    return this.http.get(this.WORKERS_URL);
   }
 
   postClient(req: any) {
-    return this.http.post(this.url, req);
+    return this.http.post(this.URL, req);
   }
 
   delClient(req: any) {
@@ -40,11 +46,11 @@ export class GetdataService {
       },
     };
 
-    return this.http.delete(this.url, options);
+    return this.http.delete(this.URL, options);
   }
 
   updateClient(req: any) {
-    return this.http.put(this.url, req)
+    return this.http.put(this.URL, req)
   }
 
   getPO() {

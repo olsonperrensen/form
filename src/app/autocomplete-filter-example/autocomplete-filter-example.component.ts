@@ -60,34 +60,7 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
   options4: string[] = ["Januari", "Februari", "Maart", "April", "Mei", "Juni",
     "Juli", "Augustus", "September", "Oktober", "Novermber", "December"];
   options5: string[] = ["België / Belgique", "Nederland / Pays Bas"];
-  options6: string[] = [
-    // DeWALT
-    "Jean-Francois Forton",
-    "Marcel VandenBerge",
-    "Jeroen VanBerkel",
-    "Cindy Eekels",
-    "Bob Vandenberghen",
-    "Nicolas Dedobbeleer",
-    "Bram Hennebert",
-    "Steve Oris",
-    "Christian Darmont",
-    "Frank Mentens",
-    "Etienne Delvosalle",
-    "Jeroen Decherf",
-    "Carlos DeBruijn",
-    "Michiel Vliek",
-    "Wouter Rook",
-    "Arnold Wever",
-    "Oscar Laureijs",
-    "Kevin Markestein", "David Goubert", "Gunther Mergan", "Jurgen DeLeeuw", "Thomas Molendijk",
-    "Marcelino Papperse", "Andor DeVries", "Ivo Schouten", "Patrick Diepenbach",
-    // Facom
-    "Piet Verstraete", "Vincent Broertjes", "Jean-Christophe Pintiaux", "Kim Maris", "Mario Reverse",
-    "Peter Schaekers", "Robin Roels", "Stefan Sack", "Vincent Lenain", "Vincent Pireyn", "Yves DeWaal",
-    "Adriaan Arkeraats", "Arno DeJager", "Duncan DeWith",
-    // Stanley
-    "Ken Leysen", "Martin Van Werkhoven", "Paul Kerkhoven", "Cedric Bicque", "Christian Fonteyn",
-    "KlaasJan Bosgraaf", "Ammaar Basnoe", "Robert VanStraten", "Sven Pieters", "Niek Nijland"];
+  options6: string[] = [];
   options7: string[] = ["Pro", "Consumer"];
   options8: string[] = ["Geert Maes", "Marleen Vangronsveld", "Marlon VanZundert", "Michael Soenen",
     "Michael Tistaert", "Ronald Westra", "Vicky DeDecker", "Christelle Marro", "Frederic Barzin", "Luc Claes",
@@ -416,6 +389,7 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
 
   ngAfterViewInit(): void {
     setTimeout(() => {
+
       this.getData.getClients().subscribe((res: any) => {
         this.options2 = res.sort();
         this.isBackendDown = false;
@@ -428,6 +402,14 @@ export class AutocompleteFilterExampleComponent implements OnInit, AfterViewInit
         this.isBackendDown = true;
         // alert("Press F5 to continue.")
       });
+
+      // Populate workers (options6)
+      this.getData.getWorkers().subscribe(
+        (res: any) => {
+          this.options6 = res.naam
+          this.options6.length > 2 ? console.log('Fetched workers!') : console.log("Could NOT fetch workers.")
+        }
+      )
     }, 777);
   }
 
