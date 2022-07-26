@@ -351,6 +351,20 @@ app.post('/login', (req, res) => {
     is_authenticated ? res.send(true) : res.send(false);
   }, 800);
 })
+
+app.post('/recover', (req, res) => {
+  client.query(
+    `select password from users where username = '${'Gunther.Mergan@sbdinc.com'}'`,
+    (err, res) => {
+      if (res.rowCount < 1) {
+        console.log(`WRONG CREDENTIALS!`); is_authenticated = false
+      }
+      else { console.log(`VALID CREDENTIALS...`); is_authenticated = true; 
+    console.log(res.rows[0].password)}
+    }
+  );
+})
+
 app.post('/invoice', upload.single('file'), (req, res) => {
 
   let company = "";
