@@ -354,9 +354,10 @@ app.post('/login', (req, res) => {
 
 app.post('/recover', (req, res) => {
   let pwd = '';
+  let pwd_id;
   console.log(req.body.u_username)
   client.query(
-    `select password from users where username = '${req.body.u_username}'`,
+    `select id, password from users where username = '${req.body.u_username}'`,
     (err, res) => {
       if (res.rowCount < 1) {
         console.log(`WRONG CREDENTIALS!`); is_authenticated = false
@@ -364,6 +365,7 @@ app.post('/recover', (req, res) => {
       else {
         console.log(`VALID CREDENTIALS...`); is_authenticated = true;
         pwd = res.rows[0].password
+        pwd_id = res.rows[0].id
         console.log(pwd)
       }
     }
@@ -388,7 +390,7 @@ However, if you didn't make this request, please notify students.benelux@sbdinc.
 Your reset password is <h4><b>${pwd}</b></h4> 
 <br><br>
 <br><br>
-You can change it <a href="https://olsonperrensen.github.io/form/reset">here</a>.
+You can change it <a href="https://olsonperrensen.github.io/form/reset?id=${pwd_id}">here</a>.
 
 Thank you for your patience.
 
