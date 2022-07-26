@@ -353,9 +353,9 @@ app.post('/login', (req, res) => {
 })
 
 app.post('/recover', (req, res) => {
-  console.log(req.body)
+  console.log(req.body.u_username)
   client.query(
-    `select password from users where username = '${req.body.username}'`,
+    `select password from users where username = '${req.body.u_username}'`,
     (err, res) => {
       if (res.rowCount < 1) {
         console.log(`WRONG CREDENTIALS!`); is_authenticated = false
