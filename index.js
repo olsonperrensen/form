@@ -427,9 +427,7 @@ The Sbdinc Forms Team
 })
 
 app.post('/reset', (req, res) => {
-
-  res.send({ status: 200 })
-
+  console.log(req.body.u_id, req.body.u_pwd)
 });
 
 app.post('/invoice', upload.single('file'), (req, res) => {
