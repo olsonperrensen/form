@@ -341,11 +341,17 @@ app.post('/login', (req, res) => {
     `select id from users where username = '${tmp_credentials[3]}'
     and password = '${tmp_credentials[7]}'`,
     (err, res) => {
-      console.log(res.rows[0])
+      if (typeof res.rows[0].id === 'undefined') {
+        console.log(`WRONG CREDENTIALS!`); is_authenticated = false
+      }
+      else {
+        console.log(`VALID CREDENTIALS...`);
+        is_authenticated = true;
+      }
     }
   );
   setTimeout(() => {
-    is_authenticated?res.send(true):res.send(false);
+    is_authenticated ? res.send(true) : res.send(false);
   }, 800);
 })
 app.post('/invoice', upload.single('file'), (req, res) => {
