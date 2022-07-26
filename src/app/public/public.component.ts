@@ -42,12 +42,12 @@ export class PublicComponent implements OnInit {
   onSubmit(f: NgForm) {
     const secret = CryptoJS.AES.encrypt(JSON.stringify(f.value), 'h#H@k*Bjp3SrwdLM').toString();
     console.log(secret)
-    this.authService.isAuthenticated({ usr: secret }).subscribe((res) => {
+    this.authService.isAuthenticated({ usr: secret }).subscribe((res: any) => {
       console.log(res)
-      if (res === true) {
+      if (res.u_user.isAuthenticated === true) {
         this.onLogin()
         this.isLoggedIn = true;
-
+        this.authService.setCredentials(res.u_user);
         setTimeout(() => {
           this.router.navigate(['/', 'homepage'])
         }, 2000);
@@ -73,16 +73,14 @@ export class PublicComponent implements OnInit {
 
   onRecoverPWD() {
     if (this.u_username.endsWith('@sbdinc.com')) {
-      this.authService.recoverPWD(this.u_username).subscribe((res:any) => {
+      this.authService.recoverPWD(this.u_username).subscribe((res: any) => {
         console.log(res)
-        if(res.response === "250 Message received")
-        {
+        if (res.response === "250 Message received") {
           alert("Your password has been sent! Please, check your email for instructions.")
         }
       });
     }
-    else
-    {
+    else {
       console.log(`Non-domain request: ${this.u_username}`)
       alert("You are not authorized to use this email provider. Please, use the official domain instead.")
     }

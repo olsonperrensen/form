@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
+  private dbUser = { isAuthenticated: false, id: 0, username: '', naam: '', sbu: '', land: "" };
   private guardStatus = false;
   private URL = 'https://formemail.herokuapp.com/login';
   private RECOVER_URL = 'https://formemail.herokuapp.com/recover';
@@ -14,6 +15,19 @@ export class AuthService {
 
   isAuthenticated(secret: any) {
     return this.http.post(this.URL, secret);
+  }
+
+  setCredentials(u_user: any) {
+    this.dbUser.id = u_user.id;
+    this.dbUser.isAuthenticated = u_user.isAuthenticated;
+    this.dbUser.land = u_user.land;
+    this.dbUser.naam = u_user.naam;
+    this.dbUser.sbu = u_user.sbu;
+    this.dbUser.username = u_user.username;
+  }
+
+  getCredentials() {
+    return this.dbUser;
   }
 
   recoverPWD(u_username: any) {
