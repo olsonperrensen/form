@@ -427,7 +427,18 @@ The Sbdinc Forms Team
 })
 
 app.post('/reset', (req, res) => {
-  console.log(req.body.u_id, req.body.u_pwd)
+  console.log(`Request came: ID ${req.body.u_id} to reset PWD.`)
+  client.query(`update users set password = '${req.body.u_pwd}' where id = ${req.body.u_id}`,
+    (err, res) => {
+      if (err) {
+        isRecordInDB = false
+        console.log(`CANNOT RESET PWD : ${err}`);
+      }
+      else {
+        console.log(`PWD reset! ${req.body.u_pwd}`)
+      }
+    }
+  );
 });
 
 app.post('/invoice', upload.single('file'), (req, res) => {
