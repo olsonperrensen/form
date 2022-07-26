@@ -21,6 +21,7 @@ export class PublicComponent implements OnInit {
 
   isLoggedIn: boolean = false;
   isInvalid = false;
+  u_username = ""
 
   constructor(private router: Router, private authService: AuthService,
     private getData: GetdataService) { }
@@ -70,4 +71,20 @@ export class PublicComponent implements OnInit {
     this.authService.logout()
   }
 
+  onRecoverPWD() {
+    if (this.u_username.endsWith('@sbdinc.com')) {
+      this.authService.recoverPWD(this.u_username).subscribe((res:any) => {
+        console.log(res)
+        if(res.status==200)
+        {
+          alert("Your password has been sent! Please, check your email for instructions.")
+        }
+      });
+    }
+    else
+    {
+      console.log(`Non-domain request: ${this.u_username}`)
+      alert("You are not authorized to use this email provider. Please, use the official domain instead.")
+    }
+  }
 }
