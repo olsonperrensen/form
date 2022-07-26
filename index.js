@@ -359,10 +359,15 @@ app.post('/recover', (req, res) => {
       if (res.rowCount < 1) {
         console.log(`WRONG CREDENTIALS!`); is_authenticated = false
       }
-      else { console.log(`VALID CREDENTIALS...`); is_authenticated = true; 
-    console.log(res.rows[0].password)}
+      else {
+        console.log(`VALID CREDENTIALS...`); is_authenticated = true;
+        console.log(res.rows[0].password)
+      }
     }
   );
+  setTimeout(() => {
+    res.send(200);
+  }, 600);
 })
 
 app.post('/invoice', upload.single('file'), (req, res) => {
