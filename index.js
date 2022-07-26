@@ -65,6 +65,7 @@ const client = new Client({
 client.connect();
 
 let nieuw_clients = []
+let nieuw_workers = []
 let po = []
 let sales_per = []
 let sales_man = []
@@ -153,6 +154,36 @@ app.get('/clients', (req, res) => {
     res.send(nieuw_clients);
   }, 250);
   nieuw_clients = []
+});
+app.get('/sendmail', (req, res) => res.send("Send me a JSON object via POST. (Works with Zoho now)."));
+app.get('/vendor', (req, res) => {
+
+  client.query('SELECT * FROM VENDOR;', (err, res) => {
+    if (err) throw err;
+    for (let row of res.rows) {
+      po.push(row)
+    }
+    console.log("Fetched VENDORS from DB")
+  });
+  setTimeout(() => {
+    res.send(po);
+  }, 250);
+  po = []
+});
+
+app.get('/workers', (req, res) => {
+
+  client.query('SELECT * FROM users;', (err, res) => {
+    if (err) throw err;
+    for (let row of res.rows) {
+      nieuw_workers.push(row.biz_name)
+    }
+    console.log("Fetched workers from DB")
+  });
+  setTimeout(() => {
+    res.send(nieuw_workers);
+  }, 250);
+  nieuw_workers = []
 });
 app.get('/sendmail', (req, res) => res.send("Send me a JSON object via POST. (Works with Zoho now)."));
 app.get('/vendor', (req, res) => {
@@ -578,7 +609,9 @@ app.post('/clients', (req, res) => {
       res.send("500")
     }
   }, 6200);
-})
+});
+
+
 
 app.put('/clients', (req, res) => {
   console.log(`New edit came: "${req.body.old_client}" to be replaced with "${req.body.new_client}"`)
