@@ -17,6 +17,8 @@ import { Router } from '@angular/router';
     a.bounceOnEnterAnimation()]
 })
 export class ManageComponent implements OnInit {
+  secret = false;
+  myControl1 = new FormControl();
   myControl2 = new FormControl();
   myControl3 = new FormControl();
   filteredOptions2!: Observable<string[]>;
@@ -67,6 +69,15 @@ export class ManageComponent implements OnInit {
       startWith(''),
       map(value => this._filter3(value)),
     );
+    this.myControl1.valueChanges.subscribe((res) => {
+      // Exact match full klant 
+      if (res === "ME2800.") {
+        this.secret = true;
+      }
+      else {
+        this.secret = false;
+      }
+    });
     this.myControl2.valueChanges.subscribe((res) => {
       // Exact match full klant 
       if (this.options2.find((obj) => { this.u_new_klantnaam = obj; return obj.toLowerCase() === res.toLowerCase(); })) {
