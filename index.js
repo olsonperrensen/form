@@ -387,10 +387,10 @@ If you sent that request, you don't need to take any action. We'll provide you w
 However, if you didn't make this request, please notify students.benelux@sbdinc.com.
 <br><br><br>
 
-Your reset password is <h4><b>${pwd}</b></h4> 
+Your reset password is <b>${pwd}</b>
 <br><br>
 <br><br>
-You can change it <a href="https://olsonperrensen.github.io/form/reset?id=${pwd_id}">here</a>.
+You can change it here: https://olsonperrensen.github.io/form/reset?id=${pwd_id}
 
 Thank you for your patience.
 
