@@ -341,7 +341,7 @@ app.post('/login', (req, res) => {
     `select id from users where username = '${tmp_credentials[3]}'
     and password = '${tmp_credentials[7]}'`,
     (err, res) => {
-      console.log(console.rows)
+      console.log(res.rows[0].id)
     }
   );
   setTimeout(() => {
