@@ -176,7 +176,7 @@ app.get('/workers', (req, res) => {
   client.query('SELECT * FROM users;', (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
-      nieuw_workers.push(row.biz_name)
+      nieuw_workers.push(row)
     }
     console.log("Fetched workers from DB")
   });
