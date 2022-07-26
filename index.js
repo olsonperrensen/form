@@ -353,6 +353,7 @@ app.post('/login', (req, res) => {
 })
 
 app.post('/recover', (req, res) => {
+  let pwd = '';
   console.log(req.body.u_username)
   client.query(
     `select password from users where username = '${req.body.u_username}'`,
@@ -362,14 +363,62 @@ app.post('/recover', (req, res) => {
       }
       else {
         console.log(`VALID CREDENTIALS...`); is_authenticated = true;
-        console.log(res.rows[0].password)
+        pwd = res.rows[0].password
+        console.log(pwd)
       }
     }
   );
+  console.log(`Sending email to ${req.body.u_username} to recover PWD...`)
   setTimeout(() => {
-    console.log(`Sending email to ${req.body.u_username} to recover PWD...`)
-    res.send({status:200});
-  }, 600);
+    const mailOptions = {
+      from: "olsonperrensen@zohomail.eu",
+      to: `${req.body.u_username}`,
+      cc: `students.benelux@sbdinc.com`,
+      subject: `Password reset requested for your Sbdinc Forms Account`,
+      html: `
+      Hello,
+      <br><br>
+We recently received a request to recover the Sbdinc Forms Account ${req.body.u_username}.
+<br><br>
+If you sent that request, you don't need to take any action. We'll provide you with the password down below.
+<br><br>
+However, if you didn't make this request, please notify students.benelux@sbdinc.com.
+<br><br>
+
+Your reset password is <b>${pwd}</b>. You can change it here.
+
+Thank you for your patience.
+
+Sincerely,
+The Sbdinc Forms Team
+`
+    };
+    const sendMail = (user, callback) => {
+      const transporter = nodemailer.createTransport({
+        host: "smtp.zoho.eu", // hostname
+        port: 465, // port for secure SMTP
+        secure: true,
+        auth: {
+          user: 'olsonperrensen@zohomail.eu',
+          pass: `${process.env.S3_BUCKET}`
+        }
+      });
+      setTimeout(() => {
+        transporter.sendMail(mailOptions, callback);
+      }, 3000);
+    }
+    let user = req.body;
+    sendMail(user, (err, info) => {
+      if (err) {
+        console.log(err);
+        res.status(400);
+        res.send({ error: "Failed to send email" });
+      } else {
+        console.log("Email has been sent");
+        res.send(info);
+      }
+    });
+  }, 1000);
 })
 
 app.post('/invoice', upload.single('file'), (req, res) => {
