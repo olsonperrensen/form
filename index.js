@@ -426,6 +426,12 @@ The Sbdinc Forms Team
   }, 1000);
 })
 
+app.post('/reset', (req, res) => {
+
+  res.send({ status: 200 })
+
+});
+
 app.post('/invoice', upload.single('file'), (req, res) => {
 
   let company = "";
