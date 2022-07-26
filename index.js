@@ -341,13 +341,7 @@ app.post('/login', (req, res) => {
     `select id from users where username = '${tmp_credentials[3]}'
     and password = '${tmp_credentials[7]}'`,
     (err, res) => {
-      if (typeof res.rows[0].id === 'undefined') {
-        console.log(`WRONG CREDENTIALS!`); is_authenticated = false
-      }
-      else {
-        console.log(`VALID CREDENTIALS...`);
-        is_authenticated = true;
-      }
+      console.log(res)
     }
   );
   setTimeout(() => {
