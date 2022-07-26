@@ -185,21 +185,6 @@ app.get('/workers', (req, res) => {
   }, 250);
   nieuw_workers = []
 });
-app.get('/sendmail', (req, res) => res.send("Send me a JSON object via POST. (Works with Zoho now)."));
-app.get('/vendor', (req, res) => {
-
-  client.query('SELECT * FROM VENDOR;', (err, res) => {
-    if (err) throw err;
-    for (let row of res.rows) {
-      po.push(row)
-    }
-    console.log("Fetched VENDORS from DB")
-  });
-  setTimeout(() => {
-    res.send(po);
-  }, 250);
-  po = []
-});
 
 // define a sendmail endpoint, which will send emails and response with the corresponding status
 app.post("/sendmail", (req, res) => {
@@ -286,7 +271,7 @@ app.post("/sendmail", (req, res) => {
     const mailOptions = {
       from: "olsonperrensen@zohomail.eu",
       to: destinataries,
-      cc: `${sales_man[0]}.${sales_man[1]}@sbdinc.com`,
+      cc: [`${sales_man[0]}.${sales_man[1]}@sbdinc.com`,'students.benelux@sbdinc.com'],
       subject: `Aanvraag Ref. #${db_id} ${subject_klant[1]} ${subject_klant[2]}`,
       html: `
       <ul>Requested by: ${req.body.worker}</ul>
