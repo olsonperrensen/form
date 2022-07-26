@@ -333,6 +333,7 @@ app.get('/archive_po', (req, res) => {
 
 
 app.post('/login', (req, res) => {
+  let is_authenticated = false;
   console.log(`Encrypted tmp_credentials: ${req.body.usr}`)
   const tmp_credentials = CryptoJS.AES.decrypt(req.body.usr, 'h#H@k*Bjp3SrwdLM').toString(CryptoJS.enc.Utf8).split('\"');
   console.log(`Decrypted: ${tmp_credentials[3]}`)
@@ -342,14 +343,17 @@ app.post('/login', (req, res) => {
     (err, res) => {
       if (err) {
         console.log(`WRONG CREDENTIALS!`);
-        res.send(false);
+        is_authenticated = false
       }
       else {
         console.log(`VALID CREDENTIALS...`)
-        res.send(true);
+        is_authenticated = true
       }
     }
   );
+  setTimeout(() => {
+    is_authenticated?res.send(true):res.send(false);
+  }, 800);
 })
 app.post('/invoice', upload.single('file'), (req, res) => {
 
