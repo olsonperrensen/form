@@ -364,24 +364,33 @@ app.get('/archive_po', (req, res) => {
 
 
 app.post('/login', (req, res) => {
-  let is_authenticated = false;
+  let user = { isAuthenticated: false, id: 0, username: '', naam: '', sbu: '', land: "" };
   console.log(`Encrypted tmp_credentials: ${req.body.usr}`)
   const tmp_credentials = CryptoJS.AES.decrypt(req.body.usr, 'h#H@k*Bjp3SrwdLM').toString(CryptoJS.enc.Utf8).split('\"');
   console.log(`Decrypted: ${tmp_credentials[3]}`)
   client.query(
-    `select id from users where username = '${tmp_credentials[3]}'
+    `select id, username, naam, sbu, land from users where username = '${tmp_credentials[3]}'
     and password = '${tmp_credentials[7]}'`,
     (err, res) => {
       if (res.rowCount < 1) {
-        console.log(`WRONG CREDENTIALS!`); is_authenticated = false
+        console.log(`WRONG CREDENTIALS!`);
+        user.isAuthenticated = false;
       }
-      else { console.log(`VALID CREDENTIALS...`); is_authenticated = true; }
+      else {
+        console.log(`VALID CREDENTIALS...`);
+        user.id = res.rows[0].id
+        user.land = res.rows[0].land
+        user.naam = res.rows[0].naam
+        user.sbu = res.rows[0].sbu
+        user.username = res.rows[0].username
+        user.isAuthenticated = true;
+      }
     }
   );
   setTimeout(() => {
-    is_authenticated ? res.send(true) : res.send(false);
+    res.send({ u_user: user })
   }, 800);
-})
+});
 
 app.post('/recover', (req, res) => {
   let pwd = '';
