@@ -20,8 +20,8 @@ export class AuthService {
     return this.http.post(this.RECOVER_URL, { u_username: u_username });
   }
 
-  resetPWD(u_pwd: any) {
-    return this.http.post(this.RESET_URL, { u_pwd: u_pwd });
+  resetPWD(u_id: any, u_pwd: any) {
+    return this.http.post(this.RESET_URL, { u_id: u_id, u_pwd: u_pwd });
   }
 
   constructor(private http: HttpClient) { }
