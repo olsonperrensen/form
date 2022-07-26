@@ -59,7 +59,7 @@ export class VendorHistoryComponent implements OnInit, AfterViewInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     })
-    document.body.style.backgroundImage = "url('https://u.cubeupload.com/olsonperrensen2/DefaultWallpapermodi.png')"
+    document.body.style.backgroundImage = "url('https://u.cubeupload.com/olsonperrensen2/skyscraperwallpaperu.jpg')"
   }
 
   ngAfterViewInit() {

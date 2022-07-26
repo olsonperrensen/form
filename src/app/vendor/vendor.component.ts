@@ -36,7 +36,7 @@ export class VendorComponent implements OnInit {
   constructor(private router: Router, private sendVendors: SendVendorsService) { }
 
   ngOnInit(): void {
-    document.body.style.backgroundImage = "url('https://i.postimg.cc/8NqcDrfY/Default-Wallpaper.png')"
+    document.body.style.backgroundImage = "url('https://u.cubeupload.com/olsonperrensen2/313skyscraperwallpaperu.jpg')"
   }
   onSubmit(f: NgForm) {
     this.myJSONForm = {
