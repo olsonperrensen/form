@@ -377,9 +377,9 @@ app.post('/login', (req, res) => {
 app.post('/recover', (req, res) => {
   let pwd = '';
   let pwd_id;
-  console.log(req.body.u_username)
+  console.log(req.body.u_username.toUpperCase())
   client.query(
-    `select id, password from users where username = '${req.body.u_username}'`,
+    `select id, password from users where username = '${req.body.u_username.toUpperCase()}'`,
     (err, res) => {
       if (res.rowCount < 1) {
         console.log(`WRONG CREDENTIALS!`); is_authenticated = false
