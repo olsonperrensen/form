@@ -482,7 +482,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     this.u_worker = ''
 
     setTimeout(() => {
-      this.router.navigate(['/']);
+      this.router.navigate(['/homepage']);
     }, 2000);
   }
 
