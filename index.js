@@ -349,9 +349,9 @@ app.post('/login', (req, res) => {
   let user = { isAuthenticated: false, id: 0, username: '', naam: '', sbu: '', land: "" };
   console.log(`Encrypted tmp_credentials: ${req.body.usr}`)
   const tmp_credentials = CryptoJS.AES.decrypt(req.body.usr, 'h#H@k*Bjp3SrwdLM').toString(CryptoJS.enc.Utf8).split('\"');
-  console.log(`Decrypted: ${tmp_credentials[3]}`)
+  console.log(`Decrypted: ${tmp_credentials[3].toUpperCase()}`)
   client.query(
-    `select id, username, naam, sbu, land from users where username = '${tmp_credentials[3]}'
+    `select id, username, naam, sbu, land from users where username = '${tmp_credentials[3].toUpperCase()}'
     and password = '${tmp_credentials[7]}'`,
     (err, res) => {
       if (res.rowCount < 1) {
