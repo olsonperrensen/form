@@ -63,7 +63,7 @@ const client = new Client({
 });
 
 client.connect();
-
+let salesrep = "";
 let nieuw_clients = []
 let nieuw_workers = []
 let po = []
@@ -357,12 +357,13 @@ app.get('/salesrep', (req, res) => {
   }, 250);
   salesrep = []
 });
-app.get('/salesrepdetails', (req, res) => {
+app.put('/salesrepdetails', (req, res) => {
 
+  const SALESMAN = req.body;
   console.log(`Details requested for`)
-  console.log(`${req.body}`)
+  console.log(`${SALESMAN.old_salesrep}`)
 
-  client.query(`SELECT * FROM users where naam = '${req.body.naam}';`, (err, res) => {
+  client.query(`SELECT * FROM users where naam = '${SALESMAN.old_salesrep}';`, (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
       salesrep.push(row)
