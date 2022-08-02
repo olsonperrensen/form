@@ -735,9 +735,9 @@ app.delete('/salesrep', (req, res) => {
   const RECORD_TO_DELETE = req.body;
   console.log(`New delete came for Sales Rep: `)
   console.log(RECORD_TO_DELETE)
-  console.log(`with content "${RECORD_TO_DELETE.u_ID}"`)
+  console.log(`with content "${RECORD_TO_DELETE.u_salesrep}"`)
   client.query(
-    `DELETE FROM users WHERE id = '${req.body.u_ID}';`,
+    `DELETE FROM users WHERE naam = '${req.body.u_salesrep}';`,
     (err, res) => {
       if (err) {
         isRecordInDB = false
@@ -745,7 +745,7 @@ app.delete('/salesrep', (req, res) => {
       }
       else {
         isRecordInDB = true;
-        console.log(`SALES REP record deleted ${req.body.u_ID}`)
+        console.log(`SALES REP record deleted ${req.body.u_salesrep}`)
       }
     }
   )
