@@ -10,7 +10,8 @@
     </div>
     <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
       <mat-label>Enter the security code to grant access</mat-label>
-      <input required type="password" placeholder="******" aria-label="secret" [formControl]="myControl1" matInput name="u_secret">
+      <input required type="password" placeholder="******" aria-label="secret" [formControl]="myControl1" matInput
+        name="u_secret">
     </mat-form-field>
   </div>
 </div>
@@ -23,12 +24,14 @@
         <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBackendDown"
           style="color: red">Krijg je niks? Laad de pagina opnieuw... (F5)</pre>
         <div class="container">
-          <div *ngIf="!wantsToEdit&&!wantsToAdd&&!wantsToPO">
+          <div *ngIf="!wantsToEdit&&!wantsToAdd&&!wantsToPO&&!wantsToSalesRep">
             <button (click)="onUserWantsToEdit()" type="button" mat-raised-button color="accent">Een klant
               aanpassen/verwijderen</button>
             <button (click)="onUserWantsToAdd()" type="button" mat-raised-button color="accent">Een nieuwe klant
               toevoegen</button>
-            <button (click)="onUserWantsToPO()" type="button" mat-raised-button color="accent">Manage P.O.</button>
+            <button (click)="onUserWantsToPO()" type="button" mat-raised-button color="accent">Edit PO</button>
+            <button (click)="onUserWantsToSalesRep()" type="button" mat-raised-button color="accent">Edit Sales Rep
+              List</button>
           </div>
           <div *ngIf="wantsToAdd">
             <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
@@ -97,6 +100,19 @@
               color="warn">PO Archiveren</button>
             <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
               style="color: white;background: black;">Bezig... ({{s}}s)</pre>
+          </div>
+          <!-- Sales Rep -->
+          <div *ngIf="wantsToSalesRep">
+            <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+              <mat-label>Enter Sales Rep. Name</mat-label>
+              <input required type="text" placeholder="Pick one" aria-label="Number" matInput #salesrep
+                [(ngModel)]="u_salesrep" name="u_salesrep" [formControl]="myControl4" [matAutocomplete]="auto4">
+              <mat-autocomplete #auto4="matAutocomplete">
+                <mat-option *ngFor="let sales of filteredOptions4 | async" [value]="sales">
+                  {{sales}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
           </div>
         </div>
       </form>

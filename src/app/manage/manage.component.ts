@@ -21,13 +21,17 @@ export class ManageComponent implements OnInit {
   myControl1 = new FormControl();
   myControl2 = new FormControl();
   myControl3 = new FormControl();
+  myControl4 = new FormControl();
   filteredOptions2!: Observable<string[]>;
   filteredOptions3!: Observable<string[]>;
-  options2 !: string[]
-  options3 !: string[]
-  u_klantnaam = ''
-  u_new_klantnaam = ''
-  u_ID = ''
+  filteredOptions4!: Observable<string[]>;
+  options2 !: string[];
+  options3 !: string[];
+  options4 !: string[];
+  u_klantnaam = '';
+  u_new_klantnaam = '';
+  u_ID = '';
+  u_salesrep = '';
   isBackendDown = false;
   isKlant = false;
   isID = false;
@@ -37,18 +41,20 @@ export class ManageComponent implements OnInit {
   wantsToEdit = false;
   wantsToAdd = false;
   wantsToPO = false;
-  s = 6
+  wantsToSalesRep = false;
+  s = 6;
 
   constructor(private getData: GetdataService, private sendForms: SendFormsService, private router: Router) { }
 
   ngOnInit(): void {
-    this.options2 = []
-    this.options3 = []
+    this.options2 = [];
+    this.options3 = [];
+    this.options4 = ["Peter","Sam"];
     this.getData.getClients().subscribe((res: any) => {
-      this.options2 = res.sort()
+      this.options2 = res.sort();
       console.log("BackEnd is up! All good!");
       if (this.options2.length < 2) {
-        console.log(`Backend down: this.options2.length ${this.options2.length}`)
+        console.log(`Backend down: this.options2.length ${this.options2.length}`);
         this.isBackendDown = true;
       }
     }, (err: any) => {
@@ -57,7 +63,7 @@ export class ManageComponent implements OnInit {
     });
     this.getData.getPO().subscribe((res: any) => {
       res.forEach((element: any) => {
-        this.options3.push(element.id)
+        this.options3.push(element.id);
       });
     })
 
@@ -68,6 +74,10 @@ export class ManageComponent implements OnInit {
     this.filteredOptions3 = this.myControl3.valueChanges.pipe(
       startWith(''),
       map(value => this._filter3(value)),
+    );
+    this.filteredOptions4 = this.myControl4.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter4(value)),
     );
     this.myControl1.valueChanges.subscribe((res) => {
       // Exact match full klant 
@@ -106,6 +116,10 @@ export class ManageComponent implements OnInit {
     const filterValue = value;
     return this.options3.filter(option => option.toString().includes(filterValue));
   }
+  private _filter4(value: string): string[] {
+    const filterValue = value;
+    return this.options4.filter(option => option.includes(filterValue));
+  }
 
   onUserClick() {
     this.isEditing = true;
@@ -116,9 +130,9 @@ export class ManageComponent implements OnInit {
 
   onUserAddClick() {
     this.u_new_klantnaam = this.u_new_klantnaam.replace(/[^a-zA-Z0-9\s]/gi, '');
-    console.log(`New client cleansed ${this.u_new_klantnaam}`)
+    console.log(`New client cleansed ${this.u_new_klantnaam}`);
     if (this.u_new_klantnaam === "") {
-      alert("Client cannot be empty! Use the right characters and try again.")
+      alert("Client cannot be empty! Use the right characters and try again.");
     }
     else {
       this.isBezig = true;
@@ -134,13 +148,13 @@ export class ManageComponent implements OnInit {
   }
   onUserEditClick() {
     this.u_new_klantnaam = this.u_new_klantnaam.replace(/[^a-zA-Z0-9\s]/gi, '');
-    console.log(`Client edit cleansed ${this.u_new_klantnaam}`)
+    console.log(`Client edit cleansed ${this.u_new_klantnaam}`);
     if (this.u_new_klantnaam === "") {
-      alert("Client cannot be empty! Use the right characters and try again.")
+      alert("Client cannot be empty! Use the right characters and try again.");
     }
     else {
       this.isBezig = true;
-      this.doCountdown()
+      this.doCountdown();
       this.getData.updateClient(
         { old_client: `${this.u_klantnaam}`, new_client: `${this.u_new_klantnaam}` })
         .subscribe((res) => {
@@ -169,8 +183,8 @@ export class ManageComponent implements OnInit {
   }
   onUserPODeleteClick() {
     this.isBezig = true;
-    this.doCountdown()
-    this.getData.delPO({u_ID:this.u_ID}).subscribe((res) => {
+    this.doCountdown();
+    this.getData.delPO({ u_ID: this.u_ID }).subscribe((res) => {
       this.isBezig = false;
       this.checkRes(res);
     })
@@ -178,14 +192,14 @@ export class ManageComponent implements OnInit {
   }
   onUserPOEditClick() {
     this.isBezig = true;
-    this.doCountdown()
+    this.doCountdown();
     this.getData.editPO({ u_ID: this.u_ID, new_client: `${this.u_new_klantnaam}` }).subscribe((res) => {
       this.isBezig = false;
       this.checkRes(res);
     })
   }
   onUserWantsToEdit() {
-    this.wantsToEdit = true
+    this.wantsToEdit = true;
   }
   onUserWantsToAdd() {
     this.wantsToAdd = true;
@@ -193,19 +207,22 @@ export class ManageComponent implements OnInit {
   onUserWantsToPO() {
     this.wantsToPO = true;
   }
+  onUserWantsToSalesRep() {
+    this.wantsToSalesRep = true;
+  }
 
   checkRes(res: any) {
-    console.log(res)
+    console.log(res);
     if (res == "500") {
-      alert("Client could NOT be processed! Try again later.")
+      alert("Client could NOT be processed! Try again later.");
     }
     else if (res == "200") {
-      alert("Client was successfully processed to the list!")
+      alert("Client was successfully processed to the list!");
       setTimeout(() => {
         this.u_klantnaam = ""
         this.u_new_klantnaam = ""
       }, 2888);
-      this.toHome()
+      this.toHome();
     }
   }
 
@@ -214,7 +231,7 @@ export class ManageComponent implements OnInit {
       this.s--;
       if (this.s < 1) {
         clearInterval(myInterval); setTimeout(() => {
-          this.s = 6
+          this.s = 6;
         }, 3000);
       }
     }, 1000);
@@ -222,7 +239,7 @@ export class ManageComponent implements OnInit {
 
   toHome() {
     setTimeout(() => {
-      this.router.navigate(['/'])
+      this.router.navigate(['/']);
     }, 5111);
   }
 }
