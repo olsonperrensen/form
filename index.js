@@ -357,7 +357,20 @@ app.get('/salesrep', (req, res) => {
   }, 250);
   salesrep = []
 });
+app.get('/salesrepdetails', (req, res) => {
 
+  client.query(`SELECT * FROM users where naam=${req.body.naam};`, (err, res) => {
+    if (err) throw err;
+    for (let row of res.rows) {
+      salesrep.push(row)
+    }
+    console.log("Fetched salesrep from DB")
+  });
+  setTimeout(() => {
+    res.send(salesrep);
+  }, 250);
+  salesrep = []
+});
 
 app.post('/login', (req, res) => {
   let user = { isAuthenticated: false, id: 0, username: '', naam: '', sbu: '', land: "" };
