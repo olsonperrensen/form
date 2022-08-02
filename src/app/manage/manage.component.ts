@@ -135,7 +135,7 @@ export class ManageComponent implements OnInit {
   }
   private _filter4(value: string): string[] {
     const filterValue = value;
-    return this.options4.filter(option => option.includes(filterValue));
+    return this.options4.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   onUserClick() {
