@@ -359,7 +359,7 @@ app.get('/salesrep', (req, res) => {
 });
 app.get('/salesrepdetails', (req, res) => {
 
-  client.query(`SELECT * FROM users where naam=${req.body.naam};`, (err, res) => {
+  client.query(`SELECT * FROM users where naam = '${req.body.naam}';`, (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
       salesrep.push(row)
