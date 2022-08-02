@@ -125,6 +125,7 @@
                   color="primary">Send</button>
               </div>
               <div *ngIf="askforSalesRepModification">
+                <h5>Extra info over Sales Rep.:</h5>
                 <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal"
                   *ngFor="let detail of salesRepDetails">
                   <mat-chip class="example-box" cdkDrag>
