@@ -345,7 +345,7 @@ app.get('/archive_po', (req, res) => {
 });
 app.get('/salesrep', (req, res) => {
 
-  client.query('SELECT * FROM users;', (err, res) => {
+  client.query('SELECT naam FROM users;', (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
       salesrep.push(row)
