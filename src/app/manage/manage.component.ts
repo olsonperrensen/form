@@ -42,6 +42,10 @@ export class ManageComponent implements OnInit {
   u_klantnaam = '';
   u_new_klantnaam = '';
   u_new_salesrep = '';
+  u_new_email = '';
+  u_new_pwd = ''
+  u_new_sbu = ''
+  u_new_land = ''
   u_ID = '';
   u_salesrep = '';
   isBackendDown = false;
@@ -275,7 +279,14 @@ export class ManageComponent implements OnInit {
       this.isBezig = true;
       this.doCountdown();
       this.getData.updateSalesRep(
-        { old_salesrep: `${this.u_salesrep}`, new_salesrep: `${this.u_new_salesrep}` })
+        {
+          old_salesrep: `${this.u_salesrep}`,
+          new_email: this.u_new_email,
+          new_pwd: this.u_new_pwd,
+          new_salesrep: `${this.u_new_salesrep}`,
+          new_sbu: this.u_new_sbu,
+          new_land: this.u_new_land
+        })
         .subscribe((res) => {
           this.checkRes(res);
           this.isBezig = false;

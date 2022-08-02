@@ -117,15 +117,36 @@
               <h3>Wat wil je doen?</h3>
               <div *ngIf="isSalesRepEditing">
                 <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
-                  <mat-label>Nieuwe gegevens</mat-label>
+                  <mat-label>Nieuwe email</mat-label>
+                  <input required type="text" placeholder="Pick one" aria-label="Number" matInput #new_email="ngModel"
+                    [(ngModel)]="u_new_email" name="u_new_email">
+                </mat-form-field>
+                <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+                  <mat-label>Nieuwe wachtwoord</mat-label>
+                  <input required type="text" placeholder="Pick one" aria-label="Number" matInput #new_pwd="ngModel"
+                    [(ngModel)]="u_new_pwd" name="u_new_pwd">
+                </mat-form-field>
+                <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+                  <mat-label>Nieuwe naam</mat-label>
                   <input required type="text" placeholder="Pick one" aria-label="Number" matInput
                     #edit_salesrep="ngModel" [(ngModel)]="u_new_salesrep" name="u_edit_salesrep">
                 </mat-form-field>
+                <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+                  <mat-label>Nieuwe sbu</mat-label>
+                  <input required type="text" placeholder="Pick one" aria-label="Number" matInput #new_sbu="ngModel"
+                    [(ngModel)]="u_new_sbu" name="u_new_sbu">
+                </mat-form-field>
+                <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+                  <mat-label>Nieuwe land</mat-label>
+                  <input required type="text" placeholder="Pick one" aria-label="Number" matInput #new_land="ngModel"
+                    [(ngModel)]="u_new_land" name="u_new_land">
+                </mat-form-field>
+
                 <button (click)="onUserSalesRepEditClick()" [disabled]="!f.valid" type="button" mat-raised-button
                   color="primary">Send</button>
               </div>
               <div *ngIf="askforSalesRepModification">
-                <h5>Extra info over Sales Rep.:</h5>
+                <h5><b>Huidige</b> info over Sales Rep.:</h5>
                 <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal"
                   *ngFor="let detail of salesRepDetails">
                   <mat-chip class="example-box" cdkDrag>
