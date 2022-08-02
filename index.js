@@ -345,7 +345,7 @@ app.get('/archive_po', (req, res) => {
 });
 app.get('/salesrep', (req, res) => {
 
-  client.query('SELECT naam FROM users;', (err, res) => {
+  client.query('SELECT * FROM users;', (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
       salesrep.push(row)
@@ -730,6 +730,34 @@ app.delete('/po', (req, res) => {
   }, 6200);
 
 
+})
+app.delete('/salesrep', (req, res) => {
+  const RECORD_TO_DELETE = req.body;
+  console.log(`New delete came for Sales Rep: `)
+  console.log(RECORD_TO_DELETE)
+  console.log(`with content "${RECORD_TO_DELETE.u_ID}"`)
+  client.query(
+    `DELETE FROM users WHERE id = '${req.body.u_ID}';`,
+    (err, res) => {
+      if (err) {
+        isRecordInDB = false
+        console.log(`CANNOT SALES REP delete: ${err}`);
+      }
+      else {
+        isRecordInDB = true;
+        console.log(`SALES REP record deleted ${req.body.u_ID}`)
+      }
+    }
+  )
+  setTimeout(() => {
+    console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`)
+    if (isRecordInDB) {
+      res.send("200")
+    }
+    else {
+      res.send("500")
+    }
+  }, 6200);
 })
 
 app.post('/vendor', upload.single('v_file'), (req, res) => {
