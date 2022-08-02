@@ -30,11 +30,14 @@ export class ManageComponent implements OnInit {
   options4 !: string[];
   u_klantnaam = '';
   u_new_klantnaam = '';
+  u_new_salesrep = '';
   u_ID = '';
   u_salesrep = '';
   isBackendDown = false;
   isKlant = false;
   isID = false;
+  isSalesRep = false;
+  isSalesRepEditing = false;
   isEditing = false;
   isPOEditing = false;
   isBezig = false;
@@ -111,6 +114,15 @@ export class ManageComponent implements OnInit {
         this.isID = false;
       }
     });
+    this.myControl4.valueChanges.subscribe((res) => {
+      // Exact match fullname Sales Rep 
+      if (this.options4.find((obj) => { return obj === res; })) {
+        this.isSalesRep = true;
+      }
+      else {
+        this.isSalesRep = false;
+      }
+    });
 
   }
   private _filter2(value: string): string[] {
@@ -131,6 +143,9 @@ export class ManageComponent implements OnInit {
   }
   onUserPOClick() {
     this.isPOEditing = true;
+  }
+  onUserSalesRepClick() {
+    this.isSalesRepEditing = true;
   }
 
   onUserAddClick() {
@@ -195,6 +210,15 @@ export class ManageComponent implements OnInit {
     })
 
   }
+  onUserSalesRepDeleteClick() {
+    this.isBezig = true;
+    this.doCountdown();
+    this.getData.delSalesRep({ u_salesrep: this.u_salesrep }).subscribe((res) => {
+      this.isBezig = false;
+      this.checkRes(res);
+    })
+
+  }
   onUserPOEditClick() {
     this.isBezig = true;
     this.doCountdown();
@@ -202,6 +226,23 @@ export class ManageComponent implements OnInit {
       this.isBezig = false;
       this.checkRes(res);
     })
+  }
+  onUserSalesRepEditClick() {
+    this.u_new_salesrep = this.u_new_salesrep.replace(/[^a-zA-Z0-9\s]/gi, '');
+    console.log(`Sales Rep edit cleansed ${this.u_new_salesrep}`);
+    if (this.u_new_salesrep === "") {
+      alert("Sales Rep. cannot be empty! Use the right characters and try again.");
+    }
+    else {
+      this.isBezig = true;
+      this.doCountdown();
+      this.getData.updateSalesRep(
+        { old_salesrep: `${this.u_salesrep}`, new_salesrep: `${this.u_new_salesrep}` })
+        .subscribe((res) => {
+          this.checkRes(res);
+          this.isBezig = false;
+        })
+    }
   }
   onUserWantsToEdit() {
     this.wantsToEdit = true;

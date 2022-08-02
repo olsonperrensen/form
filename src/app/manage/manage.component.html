@@ -113,6 +113,24 @@
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
+            <div *ngIf="isSalesRep">
+              <h3>Wat wil je doen?</h3>
+              <div *ngIf="isSalesRepEditing">
+                <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+                  <mat-label>Nieuwe gegevens</mat-label>
+                  <input required type="text" placeholder="Pick one" aria-label="Number" matInput
+                    #edit_salesrep="ngModel" [(ngModel)]="u_new_salesrep" name="u_edit_salesrep">
+                </mat-form-field>
+                <button (click)="onUserSalesRepEditClick()" [disabled]="!f.valid" type="button" mat-raised-button
+                  color="primary">Send</button>
+              </div>
+              <button (click)="onUserSalesRepClick()" [disabled]="!f.valid" type="button" mat-raised-button
+                color="accent">Vervangen</button>
+              <button (click)="onUserSalesRepDeleteClick()" [disabled]="!f.valid" type="button" mat-raised-button
+                color="warn">Verwijderen</button>
+              <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
+                style="color: white;background: black;">Bezig... ({{s}}s)</pre>
+            </div>
           </div>
         </div>
       </form>

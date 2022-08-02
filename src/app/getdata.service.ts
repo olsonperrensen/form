@@ -52,6 +52,9 @@ export class GetdataService {
   updateClient(req: any) {
     return this.http.put(this.URL, req)
   }
+  updateSalesRep(req: any) {
+    return this.http.put("https://formemail.herokuapp.com/salesrep", req)
+  }
 
   getPO() {
     return this.http.get('https://formemail.herokuapp.com/po')
@@ -78,6 +81,17 @@ export class GetdataService {
     };
 
     return this.http.delete('https://formemail.herokuapp.com/po', options);
+  }
+  delSalesRep(req: any) {
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: req,
+    };
+
+    return this.http.delete('https://formemail.herokuapp.com/salesrep', options);
   }
 
   constructor(private http: HttpClient) { }
