@@ -683,7 +683,7 @@ app.put('/salesrep', (req, res) => {
       }
       else {
         isRecordInDB = true;
-        console.log(`SalesRep record updated ${req.body.new_client}`)
+        console.log(`SalesRep record updated ${req.body.new_salesrep}`)
       }
     }
   );
