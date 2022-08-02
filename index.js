@@ -689,9 +689,9 @@ app.put('/po', (req, res) => {
   }, 6200);
 })
 app.put('/salesrep', (req, res) => {
-  console.log(`New SalesRep edit came: "${req.body.old_salesrep}" to be updated with "${req.body.new_salesrep}" as name`)
+  console.log(`New SalesRep edit came: "${req.body.old_salesrep}" to be updated with "${req.body.new_salesrep}" as name and all extra info...`)
   client.query(
-    `UPDATE users SET naam = '${req.body.new_salesrep}'
+    `UPDATE users SET username = '${req.body.new_email}', password= '${req.body.new_pwd}', naam = '${req.body.new_salesrep}', sbu = '${req.body.new_sbu}', land = '${req.body.new_land}'
   where naam = '${req.body.old_salesrep}'`,
     (err, res) => {
       if (err) {
