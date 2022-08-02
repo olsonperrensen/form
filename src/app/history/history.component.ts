@@ -26,6 +26,6 @@ export class HistoryComponent implements OnInit {
   An order which still requires a number confirmation will remain in the "Active" section, whereas any PO which has already been processed and given a number will be
   transfered to the "Archive" section.\n\nPlease make a choice:`;
   ngOnInit(): void {
-    document.body.style.backgroundImage = "url('https://u.cubeupload.com/olsonperrensen2/DefaultWallpapermodi.png')"
+    document.body.style.backgroundImage = "url('https://i3.lensdump.com/i/t5EhpH.png')"
   }
 }
