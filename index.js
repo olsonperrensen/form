@@ -343,6 +343,20 @@ app.get('/archive_po', (req, res) => {
   }, 250);
   po = []
 });
+app.get('/salesrep', (req, res) => {
+
+  client.query('SELECT naam FROM users;', (err, res) => {
+    if (err) throw err;
+    for (let row of res.rows) {
+      salesrep.push(row)
+    }
+    console.log("Fetched salesrep from DB")
+  });
+  setTimeout(() => {
+    res.send(salesrep);
+  }, 250);
+  salesrep = []
+});
 
 
 app.post('/login', (req, res) => {
@@ -473,7 +487,7 @@ app.post('/invoice', upload.single('file'), (req, res) => {
   let company = "";
   let overall_limit = "";
   let PO = "";
-
+  let salesrep = "";
   client.query(
     `select requested_by, company, overall_limit, status from po
     where status = '${req.body.u_ID}'`,
