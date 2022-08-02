@@ -213,6 +213,7 @@ export class ManageComponent implements OnInit {
   onUserSalesRepDeleteClick() {
     this.isBezig = true;
     this.doCountdown();
+    console.log(`Sent request to delete Sales Rep. ${this.u_salesrep}`)
     this.getData.delSalesRep({ u_salesrep: this.u_salesrep }).subscribe((res) => {
       this.isBezig = false;
       this.checkRes(res);
