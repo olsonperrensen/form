@@ -671,6 +671,32 @@ app.put('/po', (req, res) => {
     }
   }, 6200);
 })
+app.put('/salesrep', (req, res) => {
+  console.log(`New SalesRep edit came: "${req.body.old_salesrep}" to be updated with "${req.body.new_salesrep}" as name`)
+  client.query(
+    `UPDATE users SET naam = '${req.body.new_salesrep}'
+  where naam = '${req.body.old_salesrep}'`,
+    (err, res) => {
+      if (err) {
+        isRecordInDB = false
+        console.log(`CANNOT SalesRep update: ${err}`);
+      }
+      else {
+        isRecordInDB = true;
+        console.log(`SalesRep record updated ${req.body.new_client}`)
+      }
+    }
+  );
+  setTimeout(() => {
+    console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`)
+    if (isRecordInDB) {
+      res.send("200")
+    }
+    else {
+      res.send("500")
+    }
+  }, 6200);
+})
 
 app.delete('/clients', (req, res) => {
   const RECORD_TO_DELETE = req.body;
