@@ -359,7 +359,8 @@ app.get('/salesrep', (req, res) => {
 });
 app.get('/salesrepdetails', (req, res) => {
 
-  console.log(`Details requested for ${req.body.naam}`)
+  console.log(`Details requested for`)
+  console.log(`${req.body}`)
 
   client.query(`SELECT * FROM users where naam = '${req.body.naam}';`, (err, res) => {
     if (err) throw err;
