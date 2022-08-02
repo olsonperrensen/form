@@ -1,27 +1,32 @@
 .example-form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
-  }
-  
-  .example-full-width {
-    width: 100%;
-  }
-  *
-  {
-    text-align: center;
-    margin:0 auto
-  }
-  form
-{   
-    padding: 30px;
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
 }
-*
-{
-    background: gainsboro;
-    color: black;
+
+.example-full-width {
+  width: 100%;
 }
-button
-{
+
+* {
+  text-align: center;
+  margin: 0 auto
+}
+
+form {
+  padding: 30px;
+}
+
+* {
+  background: gainsboro;
+  color: black;
+}
+
+button {
   margin: 20px;
+}
+
+.example-box {
+  color: white;
+  background: black;
 }

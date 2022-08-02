@@ -124,6 +124,29 @@
                 <button (click)="onUserSalesRepEditClick()" [disabled]="!f.valid" type="button" mat-raised-button
                   color="primary">Send</button>
               </div>
+              <div *ngIf="askforSalesRepModification">
+                <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal"
+                  *ngFor="let detail of salesRepDetails">
+                  <mat-chip class="example-box" cdkDrag>
+                    {{detail.id}}
+                  </mat-chip>
+                  <mat-chip class="example-box" cdkDrag>
+                    {{detail.username}}
+                  </mat-chip>
+                  <mat-chip class="example-box" cdkDrag>
+                    {{detail.password}}
+                  </mat-chip>
+                  <mat-chip class="example-box" cdkDrag>
+                    {{detail.naam}}
+                  </mat-chip>
+                  <mat-chip class="example-box" cdkDrag>
+                    {{detail.sbu}}
+                  </mat-chip>
+                  <mat-chip class="example-box" cdkDrag>
+                    {{detail.land}}
+                  </mat-chip>
+                </mat-chip-list>
+              </div>
               <button (click)="onUserSalesRepClick()" [disabled]="!f.valid" type="button" mat-raised-button
                 color="accent">Vervangen</button>
               <button (click)="onUserSalesRepDeleteClick()" [disabled]="!f.valid" type="button" mat-raised-button

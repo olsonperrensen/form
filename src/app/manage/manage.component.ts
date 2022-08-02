@@ -6,6 +6,16 @@ import { GetdataService } from '../getdata.service';
 import { SendFormsService } from '../send-forms.service';
 import * as a from 'angular-animations'
 import { Router } from '@angular/router';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+
+export interface SalesRep {
+  id: string;
+  username: string;
+  password: string;
+  naam: string;
+  sbu: string;
+  land: string;
+}
 
 @Component({
   selector: 'app-manage',
@@ -17,6 +27,7 @@ import { Router } from '@angular/router';
     a.bounceOnEnterAnimation()]
 })
 export class ManageComponent implements OnInit {
+  salesRepDetails !: SalesRep[];
   secret = false;
   myControl1 = new FormControl();
   myControl2 = new FormControl();
@@ -45,7 +56,9 @@ export class ManageComponent implements OnInit {
   wantsToAdd = false;
   wantsToPO = false;
   wantsToSalesRep = false;
+  askforSalesRepModification = false;
   s = 6;
+  modify_counter = 0;
 
   constructor(private getData: GetdataService, private sendForms: SendFormsService, private router: Router) { }
 
@@ -146,6 +159,17 @@ export class ManageComponent implements OnInit {
   }
   onUserSalesRepClick() {
     this.isSalesRepEditing = true;
+    if (this.modify_counter % 2 === 0) {
+      this.getData.getSalesRepDetails({ old_salesrep: `${this.u_salesrep}` }).subscribe((res: any) => {
+        this.salesRepDetails = res;
+        console.log(`fetches sales rep details: ${this.salesRepDetails}`)
+      });
+      this.askforSalesRepModification = true;
+    }
+    else {
+      this.onUserSalesRepEditClick()
+    }
+    this.modify_counter++;
   }
 
   onUserAddClick() {
@@ -211,6 +235,19 @@ export class ManageComponent implements OnInit {
 
   }
   onUserSalesRepDeleteClick() {
+    if (this.modify_counter % 2 === 0) {
+      this.getData.getSalesRepDetails({ old_salesrep: `${this.u_salesrep}` }).subscribe((res: any) => {
+        this.salesRepDetails = res;
+        console.log(`fetches sales rep details: ${this.salesRepDetails}`)
+      });
+      this.askforSalesRepModification = true;
+    }
+    else {
+      this.onUserSalesRepDeleteConfirmClick()
+    }
+    this.modify_counter++;
+  }
+  onUserSalesRepDeleteConfirmClick() {
     this.isBezig = true;
     this.doCountdown();
     console.log(`Sent request to delete Sales Rep. ${this.u_salesrep}`)
