@@ -1,7 +1,7 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 import { FormControl, NgModel } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { elementAt, map, startWith } from 'rxjs/operators';
 import { GetdataService } from '../getdata.service';
 import { SendFormsService } from '../send-forms.service';
 import * as a from 'angular-animations'
@@ -49,7 +49,7 @@ export class ManageComponent implements OnInit {
   ngOnInit(): void {
     this.options2 = [];
     this.options3 = [];
-    this.options4 = ["Peter","Sam"];
+    this.options4 = [];
     this.getData.getClients().subscribe((res: any) => {
       this.options2 = res.sort();
       console.log("BackEnd is up! All good!");
@@ -65,6 +65,11 @@ export class ManageComponent implements OnInit {
       res.forEach((element: any) => {
         this.options3.push(element.id);
       });
+    });
+    this.getData.getSalesRep().subscribe((res: any) => {
+      res.forEach((salesname: any) => {
+        this.options4.push(salesname.naam)
+      })
     })
 
     this.filteredOptions2 = this.myControl2.valueChanges.pipe(
