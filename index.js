@@ -948,6 +948,65 @@ app.post('/vendor', upload.single('v_file'), (req, res) => {
   }, 1000);
 });
 
+app.put('/gr', (req, res) => {
+  const RECORD_TO_UPDATE = req.body;
+  console.log(`New GR update came: `)
+  console.log(RECORD_TO_UPDATE)
+  console.log(`with content "${RECORD_TO_DELETE.u_ID}"`)
+  client.query(
+    `UPDATE po SET gr = '${req.body.new_gr}' WHERE id = '${req.body.u_ID}';`,
+    (err, res) => {
+      if (err) {
+        isRecordInDB = false
+        console.log(`CANNOT PO delete: ${err}`);
+      }
+      else {
+        isRecordInDB = true;
+        console.log(`GR record updated ${req.body.u_ID}`)
+      }
+    }
+  )
+  setTimeout(() => {
+    console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`)
+    if (isRecordInDB) {
+      res.send("200")
+    }
+    else {
+      res.send("500")
+    }
+  }, 6200);
+})
+app.delete('/gr', (req, res) => {
+  const RECORD_TO_DELETE = req.body;
+  console.log(`New GR delete came: `)
+  console.log(RECORD_TO_DELETE)
+  console.log(`with content "${RECORD_TO_DELETE.u_ID}"`)
+  client.query(
+    `DELETE FROM po WHERE po.id = '${req.body.u_ID}';`,
+    (err, res) => {
+      if (err) {
+        isRecordInDB = false
+        console.log(`CANNOT GR delete: ${err}`);
+      }
+      else {
+        isRecordInDB = true;
+        console.log(`GR record deleted ${req.body.u_ID}`)
+      }
+    }
+  )
+  setTimeout(() => {
+    console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`)
+    if (isRecordInDB) {
+      res.send("200")
+    }
+    else {
+      res.send("500")
+    }
+  }, 6200);
+
+
+})
+
 function validateCookies(req, res, next) {
   const { cookies } = req;
   if ('session_id' in cookies) {
