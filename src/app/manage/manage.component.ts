@@ -41,6 +41,7 @@ export class ManageComponent implements OnInit {
   options4 !: string[];
   u_klantnaam = '';
   u_new_klantnaam = '';
+  u_new_gr = '';
   u_new_salesrep = '';
   u_new_email = '';
   u_new_pwd = ''
@@ -55,10 +56,12 @@ export class ManageComponent implements OnInit {
   isSalesRepEditing = false;
   isEditing = false;
   isPOEditing = false;
+  isGREditing = false;
   isBezig = false;
   wantsToEdit = false;
   wantsToAdd = false;
   wantsToPO = false;
+  wantsToGR = false;
   wantsToSalesRep = false;
   askforSalesRepModification = false;
   s = 6;
@@ -161,6 +164,9 @@ export class ManageComponent implements OnInit {
   onUserPOClick() {
     this.isPOEditing = true;
   }
+  onUserGRClick() {
+    this.isGREditing = true;
+  }
   onUserSalesRepClick() {
     this.isSalesRepEditing = true;
     if (this.modify_counter % 2 === 0) {
@@ -238,6 +244,15 @@ export class ManageComponent implements OnInit {
     })
 
   }
+  onUserGRDeleteClick() {
+    this.isBezig = true;
+    this.doCountdown();
+    this.getData.delGR({ u_ID: this.u_ID }).subscribe((res) => {
+      this.isBezig = false;
+      this.checkRes(res);
+    })
+
+  }
   onUserSalesRepDeleteClick() {
     if (this.modify_counter % 2 === 0) {
       this.getData.getSalesRepDetails({ old_salesrep: `${this.u_salesrep}` }).subscribe((res: any) => {
@@ -265,6 +280,14 @@ export class ManageComponent implements OnInit {
     this.isBezig = true;
     this.doCountdown();
     this.getData.editPO({ u_ID: this.u_ID, new_client: `${this.u_new_klantnaam}` }).subscribe((res) => {
+      this.isBezig = false;
+      this.checkRes(res);
+    })
+  }
+  onUserGREditClick() {
+    this.isBezig = true;
+    this.doCountdown();
+    this.getData.editGR({ u_ID: this.u_ID, new_gr: `${this.u_new_gr}` }).subscribe((res) => {
       this.isBezig = false;
       this.checkRes(res);
     })
@@ -301,6 +324,9 @@ export class ManageComponent implements OnInit {
   }
   onUserWantsToPO() {
     this.wantsToPO = true;
+  }
+  onUserWantsToGR() {
+    this.wantsToGR = true;
   }
   onUserWantsToSalesRep() {
     this.wantsToSalesRep = true;

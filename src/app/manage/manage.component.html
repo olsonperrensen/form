@@ -66,7 +66,7 @@
                 <mat-divider inset></mat-divider>
                 <mat-card-actions class="whiteish">
                   <button (click)="onUserWantsToPO()" type="button" mat-raised-button color="accent">Po Nr.</button>
-                  <button type="button" mat-raised-button color="accent">Gr. Nr.</button>
+                  <button (click)="onUserWantsToGR()" type="button" mat-raised-button color="accent">Gr. Nr.</button>
                 </mat-card-actions>
                 <mat-card-footer>
                   <mat-progress-bar mode="buffer"></mat-progress-bar>
@@ -162,6 +162,35 @@
               Nr.</button>
             <button (click)="onUserPODeleteClick()" [disabled]="!f.valid" type="button" mat-raised-button
               color="warn">PO Archiveren</button>
+            <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
+              style="color: white;background: black;">Bezig... ({{s}}s)</pre>
+          </div>
+          <!-- GR -->
+          <mat-form-field [@fadeInLeftOnEnter] *ngIf="wantsToGR" class="example-full-width" appearance="fill">
+            <mat-label>Enter ID</mat-label>
+            <input required type="text" placeholder="Pick one" aria-label="Number" matInput #klantnaam
+              [(ngModel)]="u_ID" name="u_ID" [formControl]="myControl3" [matAutocomplete]="auto3">
+            <mat-autocomplete #auto3="matAutocomplete">
+              <mat-option *ngFor="let ID of filteredOptions3 | async" [value]="ID">
+                {{ID}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <div *ngIf="isID">
+            <h3>Wat wil je doen?</h3>
+            <div *ngIf="isGREditing">
+              <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+                <mat-label>GR Nr</mat-label>
+                <input required type="text" placeholder="Pick one" aria-label="Number" matInput #edit_gr="ngModel"
+                  [(ngModel)]="u_new_gr" name="u_edit_gr">
+              </mat-form-field>
+              <button (click)="onUserGREditClick()" [disabled]="!f.valid" type="button" mat-raised-button
+                color="primary">Send</button>
+            </div>
+            <button (click)="onUserGRClick()" [disabled]="!f.valid" type="button" mat-raised-button color="accent">PO
+              Nr.</button>
+            <button (click)="onUserGRDeleteClick()" [disabled]="!f.valid" type="button" mat-raised-button
+              color="warn">GR Verwijderen</button>
             <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
               style="color: white;background: black;">Bezig... ({{s}}s)</pre>
           </div>

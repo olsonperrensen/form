@@ -75,6 +75,9 @@ export class GetdataService {
   editPO(req: any) {
     return this.http.put('https://formemail.herokuapp.com/po', req)
   }
+  editGR(req: any) {
+    return this.http.put('https://formemail.herokuapp.com/gr', req)
+  }
   delPO(req: any) {
 
     const options = {
@@ -85,6 +88,17 @@ export class GetdataService {
     };
 
     return this.http.delete('https://formemail.herokuapp.com/po', options);
+  }
+  delGR(req: any) {
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: req,
+    };
+
+    return this.http.delete('https://formemail.herokuapp.com/gr', options);
   }
   delSalesRep(req: any) {
 
