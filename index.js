@@ -63,6 +63,8 @@ const client = new Client({
 });
 
 client.connect();
+let po_guy = "";
+let tmp_company_po = "";
 let salesrep = "";
 let nieuw_clients = []
 let nieuw_workers = []
@@ -261,7 +263,6 @@ app.post("/sendmail", (req, res) => {
 
   sales_per = req.body.worker.split(' ')
   subject_klant = req.body.klantnaam.split(" ")
-
   console.log("request came");
 
   setTimeout(() => {
@@ -678,15 +679,57 @@ app.put('/po', (req, res) => {
       }
     }
   );
+  client.query(
+    `SELECT requested_by, company from PO
+  where id = '${req.body.u_ID}'`,
+    (err, res) => {
+      if (err) {
+        isRecordInDB = false
+        console.log(`CANNOT PO find: ${err}`);
+      }
+      else {
+        isRecordInDB = true;
+        console.log(`PO Guy record found ${req.body.u_ID}`)
+        po_guy = res.rows[0].requested_by.split(' ')
+        po_guy = `${po_guy[0]}.${po_guy[1]}@sbdinc.com`
+        tmp_company_po = res.rows[0].company
+      }
+    }
+  );
   setTimeout(() => {
-    console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`)
-    if (isRecordInDB) {
-      res.send("200")
+    const mailOptions = {
+      from: "olsonperrensen@zohomail.eu",
+      to: po_guy,
+      cc: `students.benelux@sbdinc.com`,
+      subject: `PO Nr. #${req.body.u_ID} ${tmp_company_po}`,
+      html: `<h1>${req.body.new_client}</h1>`,
+    };
+    const sendMail = (user, callback) => {
+      const transporter = nodemailer.createTransport({
+        host: "smtp.zoho.eu", // hostname
+        port: 465, // port for secure SMTP
+        secure: true,
+        auth: {
+          user: 'olsonperrensen@zohomail.eu',
+          pass: `${process.env.S3_BUCKET}`
+        }
+      });
+      setTimeout(() => {
+        transporter.sendMail(mailOptions, callback);
+      }, 3000);
     }
-    else {
-      res.send("500")
-    }
-  }, 6200);
+    let user = req.body;
+    sendMail(user, (err, info) => {
+      if (err) {
+        console.log(err);
+        res.status(400);
+        res.send({ error: "Failed to send email" });
+      } else {
+        console.log("Email has been sent");
+        res.send(info);
+      }
+    });
+  }, 1000);
 })
 app.put('/salesrep', (req, res) => {
   console.log(`New SalesRep edit came: "${req.body.old_salesrep}" to be updated with "${req.body.new_salesrep}" as name and all extra info...`)
