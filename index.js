@@ -722,11 +722,10 @@ app.put('/po', (req, res) => {
     sendMail(user, (err, info) => {
       if (err) {
         console.log(err);
-        res.status(400);
-        res.send({ error: "Failed to send email" });
+        res.send("500")
       } else {
         console.log("Email has been sent");
-        res.send(info);
+        res.send("200")
       }
     });
   }, 1000);
