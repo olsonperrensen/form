@@ -30,3 +30,16 @@ button {
   color: white;
   background: black;
 }
+
+.whiteish,
+svg {
+  background: white;
+}
+
+.example-card {
+  margin: 10px;
+}
+
+.locked {
+  background: gainsboro;
+}
