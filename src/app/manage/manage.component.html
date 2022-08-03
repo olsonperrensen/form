@@ -24,7 +24,7 @@
         <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBackendDown"
           style="color: red">Krijg je niks? Laad de pagina opnieuw... (F5)</pre>
         <div class="container">
-          <div *ngIf="!wantsToEdit&&!wantsToAdd&&!wantsToPO&&!wantsToSalesRep">
+          <div *ngIf="!wantsToEdit&&!wantsToAdd&&!wantsToPO&&!wantsToGR&&!wantsToSalesRep">
             <mat-grid-list cols="2" rowHeight="2:1">
               <mat-card class="example-card whiteish">
                 <mat-card-title-group class="whiteish">
@@ -168,15 +168,15 @@
           <!-- GR -->
           <mat-form-field [@fadeInLeftOnEnter] *ngIf="wantsToGR" class="example-full-width" appearance="fill">
             <mat-label>Enter ID</mat-label>
-            <input required type="text" placeholder="Pick one" aria-label="Number" matInput #klantnaam
-              [(ngModel)]="u_ID" name="u_ID" [formControl]="myControl3" [matAutocomplete]="auto3">
+            <input required type="text" placeholder="Pick one" aria-label="Number" matInput #gr [(ngModel)]="u_ID"
+              name="u_ID" [formControl]="myControl5" [matAutocomplete]="auto3">
             <mat-autocomplete #auto3="matAutocomplete">
-              <mat-option *ngFor="let ID of filteredOptions3 | async" [value]="ID">
-                {{ID}}
+              <mat-option *ngFor="let grID of filteredOptions3 | async" [value]="grID">
+                {{grID}}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
-          <div *ngIf="isID">
+          <div *ngIf="isGRID">
             <h3>Wat wil je doen?</h3>
             <div *ngIf="isGREditing">
               <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
@@ -187,7 +187,7 @@
               <button (click)="onUserGREditClick()" [disabled]="!f.valid" type="button" mat-raised-button
                 color="primary">Send</button>
             </div>
-            <button (click)="onUserGRClick()" [disabled]="!f.valid" type="button" mat-raised-button color="accent">PO
+            <button (click)="onUserGRClick()" [disabled]="!f.valid" type="button" mat-raised-button color="accent">GR
               Nr.</button>
             <button (click)="onUserGRDeleteClick()" [disabled]="!f.valid" type="button" mat-raised-button
               color="warn">GR Verwijderen</button>

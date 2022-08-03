@@ -33,6 +33,7 @@ export class ManageComponent implements OnInit {
   myControl2 = new FormControl();
   myControl3 = new FormControl();
   myControl4 = new FormControl();
+  myControl5 = new FormControl();
   filteredOptions2!: Observable<string[]>;
   filteredOptions3!: Observable<string[]>;
   filteredOptions4!: Observable<string[]>;
@@ -52,6 +53,7 @@ export class ManageComponent implements OnInit {
   isBackendDown = false;
   isKlant = false;
   isID = false;
+  isGRID = false;
   isSalesRep = false;
   isSalesRepEditing = false;
   isEditing = false;
@@ -132,6 +134,15 @@ export class ManageComponent implements OnInit {
       }
       else {
         this.isID = false;
+      }
+    });
+    this.myControl5.valueChanges.subscribe((res) => {
+      // Exact match full GR ID 
+      if (this.options3.find((obj) => { return obj === res; })) {
+        this.isGRID = true;
+      }
+      else {
+        this.isGRID = false;
       }
     });
     this.myControl4.valueChanges.subscribe((res) => {
