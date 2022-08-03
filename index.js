@@ -702,7 +702,7 @@ app.put('/po', (req, res) => {
       to: po_guy,
       cc: `students.benelux@sbdinc.com`,
       subject: `PO Nr. #${req.body.u_ID} ${tmp_company_po}`,
-      html: `<h1>${req.body.new_client}</h1>`,
+      html: `<p class=MsoNormal>PO <b><span style='font-size:13.5pt;font-family:"Arial",sans-serif;color:navy'>${req.body.new_client}<o:p></o:p></span></b></p><p class=MsoNormal><o:p>&nbsp;</o:p></p><p class=MsoNormal><o:p>&nbsp;</o:p></p><p class=MsoNormal><span lang=NL>Met vriendelijke groeten<o:p></o:p></span></p><p class=MsoNormal><span lang=NL><o:p>&nbsp;</o:p></span></p><p class=MsoNormal><span lang=NL>Maximiliano Iturria.-<o:p></o:p></span></p><p class=MsoNormal>Student Sales &amp; Marketing Support<o:p></o:p></p><p class=MsoNormal><o:p>&nbsp;</o:p></p>`,
     };
     const sendMail = (user, callback) => {
       const transporter = nodemailer.createTransport({
