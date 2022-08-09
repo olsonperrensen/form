@@ -29,8 +29,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field [@fadeInLeftOnEnter] class="example-full-width"
-          appearance="fill">
+        <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
           <mat-label>{{'q5'|translate}}</mat-label>
           <input required type="text" placeholder="Pick one" aria-label="Number" matInput #klantnaam
             [(ngModel)]="u_klantnaam" (ngModelChange)="klant()" name="u_klantnaam" [formControl]="myControl2"
@@ -82,7 +81,7 @@
 </div>
 <div style="margin-top: 10%" *ngIf="sent" class="container loading">
   <div class="row justify-content-center">
-    <div  *ngIf="!exit" class="lds-grid">
+    <div *ngIf="!exit" class="lds-grid">
       <div></div>
       <div></div>
       <div></div>
@@ -94,8 +93,8 @@
       <div></div>
     </div>
     <svg *ngIf="exit" class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-      <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
-      <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+      <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+      <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
     </svg>
     <h1 *ngIf="!exit">Aan het laden...</h1>
     <h1 *ngIf="exit">Alles in orde. Je mag dit venster sluiten.</h1>
