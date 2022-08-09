@@ -57,8 +57,8 @@ export class AutocompleteFilterExampleComponent implements OnInit {
 
   options2!: string[];
   options3: string[] = ["DeWALT – LENOX – BOSTITCH", "STANLEY", "FACOM"];
-  options4: string[] = ["Januari", "Februari", "Maart", "April", "Mei", "Juni",
-    "Juli", "Augustus", "September", "Oktober", "Novermber", "December"];
+  options4: string[] = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"];
   options5: string[] = ["België / Belgique", "Nederland / Pays Bas"];
 
 
@@ -431,7 +431,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   u_bedrag = ''
   u_omschrijving = ''
   u_merk = this.authService.getCredentials().sbu
-  u_datum = ''
+  u_datum = new Date().toLocaleString("en-US", { month: "long" });
   u_potype = ''
   myJSONForm = {
   }
