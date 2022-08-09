@@ -25,6 +25,7 @@ import { VendorHistoryComponent } from './vendor/vendor-history/vendor-history.c
 import { PublicComponent } from './public/public.component';
 import { InvoiceComponent } from './invoice/invoice.component';
 import { ResetComponent } from './reset/reset.component';
+import { ProfileComponent } from './profile/profile.component';
 
 export function HttpLoaderFactory(http:HttpClient)
 {
@@ -46,7 +47,8 @@ export function HttpLoaderFactory(http:HttpClient)
     VendorHistoryComponent,
     PublicComponent,
     InvoiceComponent,
-    ResetComponent
+    ResetComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

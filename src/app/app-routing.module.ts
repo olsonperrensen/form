@@ -14,6 +14,7 @@ import { VendorHistoryComponent } from './vendor/vendor-history/vendor-history.c
 import { PublicComponent } from './public/public.component';
 import { InvoiceComponent } from './invoice/invoice.component';
 import { ResetComponent } from './reset/reset.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   { path: '', component: PublicComponent },
@@ -27,7 +28,8 @@ const routes: Routes = [
   { path: 'archive', component: ArchiveComponent, canActivate: [AuthGuardService] },
   { path: 'vendor-history', component: VendorHistoryComponent, canActivate: [AuthGuardService] },
   { path: 'invoice', component: InvoiceComponent, canActivate: [AuthGuardService] },
-  { path: 'reset', component: ResetComponent }
+  { path: 'reset', component: ResetComponent },
+  { path: 'profile', component: ProfileComponent,canActivate: [AuthGuardService] }
 ];
 
 @NgModule({
