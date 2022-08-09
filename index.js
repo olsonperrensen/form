@@ -700,7 +700,7 @@ app.put('/po', (req, res) => {
         console.log(`PO Guy record found ${req.body.u_ID}`)
         po_guy = res.rows[0].requested_by.split(' ')
         po_guy = `${po_guy[0]}.${po_guy[1]}@sbdinc.com`
-        tmp_company_po = res.rows[0].company
+        tmp_company_po = res.rows[0].company.split(' ')
         po_datum = res.rows[0].datum
         po_company_code = res.rows[0].company_code
         po_shortxt = res.rows[0].short_text
@@ -719,7 +719,11 @@ app.put('/po', (req, res) => {
       html: `
       PO <b><span style='font-size:13.5pt;font-family:"Arial",sans-serif;color:navy'>${req.body.new_client}<o:p></o:p></span></b>
       <br>
+      <br>
+      <br>
       <hr>
+      <br>
+      <br>
       <br>
       <ul>Requested by: ${po_guy}</ul>
       <ul>Timestamp: ${po_datum}</ul>
