@@ -270,7 +270,7 @@ app.post("/sendmail", (req, res) => {
       from: "olsonperrensen@zohomail.eu",
       to: `${sales_per[0]}.${sales_per[1]}@sbdinc.com`,
       cc: [`${sales_man[0]}.${sales_man[1]}@sbdinc.com`, 'students.benelux@sbdinc.com'],
-      subject: `Aanvraag Ref. #${db_id} ${subject_klant[1]} ${subject_klant[2]}`,
+      subject: `Aanvraag Ref. #${db_id} ${req.body.omschijving} ${subject_klant[1]} ${subject_klant[2]}`,
       html: `
       <ul>Requested by: ${req.body.worker}</ul>
       <ul>Timestamp: ${req.body.timestamp}</ul>
