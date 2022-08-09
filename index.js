@@ -64,6 +64,14 @@ const client = new Client({
 
 client.connect();
 let po_guy = "";
+let po_shortxt = "";
+let po_requested_by;
+let po_datum;
+let po_company;
+let po_company_code;
+let po_overallmt;
+let po_gr;
+let po_sbu;
 let tmp_company_po = "";
 let salesrep = "";
 let nieuw_clients = []
@@ -684,7 +692,7 @@ app.put('/po', (req, res) => {
   where id = '${req.body.u_ID}'`,
     (err, res) => {
       if (err) {
-        isRecordInDB = false
+        isRecordInDB = false;
         console.log(`CANNOT PO find: ${err}`);
       }
       else {
@@ -693,6 +701,12 @@ app.put('/po', (req, res) => {
         po_guy = res.rows[0].requested_by.split(' ')
         po_guy = `${po_guy[0]}.${po_guy[1]}@sbdinc.com`
         tmp_company_po = res.rows[0].company
+        po_datum = res.rows[0].datum
+        po_company_code = res.rows[0].company_code
+        po_shortxt = res.rows[0].short_text
+        po_overallmt = res.rows[0].overall_limit
+        po_gr = res.rows[0].gr_execution_date
+        po_sbu = res.rows[0].sbu
       }
     }
   );
@@ -701,8 +715,28 @@ app.put('/po', (req, res) => {
       from: "olsonperrensen@zohomail.eu",
       to: po_guy,
       cc: `students.benelux@sbdinc.com`,
-      subject: `PO Nr. #${req.body.u_ID} ${tmp_company_po}`,
-      html: `<p class=MsoNormal>PO <b><span style='font-size:13.5pt;font-family:"Arial",sans-serif;color:navy'>${req.body.new_client}<o:p></o:p></span></b></p><p class=MsoNormal><o:p>&nbsp;</o:p></p><p class=MsoNormal><o:p>&nbsp;</o:p></p><p class=MsoNormal><span lang=NL>Met vriendelijke groeten<o:p></o:p></span></p><p class=MsoNormal><span lang=NL><o:p>&nbsp;</o:p></span></p><p class=MsoNormal><span lang=NL>Maximiliano Iturria.-<o:p></o:p></span></p><p class=MsoNormal>Student Sales &amp; Marketing Support<o:p></o:p></p><p class=MsoNormal><o:p>&nbsp;</o:p></p>`,
+      subject: `PO #${req.body.u_ID} ${po_shortxt} ${tmp_company_po[1]} ${tmp_company_po[2]}`,
+      html: `
+      PO <b><span style='font-size:13.5pt;font-family:"Arial",sans-serif;color:navy'>${req.body.new_client}<o:p></o:p></span></b>
+      <hr>
+      <ul>Requested by: ${po_guy}</ul>
+      <ul>Timestamp: ${po_datum}</ul>
+      <ul>Company: ${tmp_company_po}</ul>
+      <ul>Purch. Org.: 0001</ul>
+      <ul>Purch. Group: LV4</ul>
+      <ul>Company Code: ${po_company_code}</ul>
+      <ul>A: f</ul>
+      <ul>I: d</ul>
+      <ul>Short text: ${po_shortxt}</ul>
+      <ul>PO Quantity: 1</ul>
+      <ul>Matl Group: level4</ul>
+      <ul>Plnt: ${po_company_code === "be01" ? "1110" : "1510"}</ul>
+      <ul>Overall Limit: ${po_overallmt}</ul>
+      <ul>Expected value: ${po_overallmt}</ul>
+      <ul>GR Execution date: ${po_gr}</ul>
+      <ul>G/L Account: 47020000</ul>
+      <ul>Order: ${po_sbu}</ul>
+      `,
     };
     const sendMail = (user, callback) => {
       const transporter = nodemailer.createTransport({
