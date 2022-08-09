@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { AuthService } from 'src/app/auth.service';
 import { GetdataService } from '../../getdata.service';
 
 export interface UserData {
@@ -39,24 +40,24 @@ export class ActiveComponent implements OnInit, AfterViewInit {
     'sbu',
     'status',
     'gr',
-  'invoice'];
+    'invoice'];
   dataSource!: MatTableDataSource<UserData>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private getData: GetdataService) { }
+  constructor(private getData: GetdataService, private authService: AuthService) { }
 
   users!: any;
   isArchive = false;
   isChoosing = true;
-
+  u_worker = this.authService.getCredentials().naam
   ngOnInit(): void {
 
 
 
     // FETCH FROM DB
-    this.getData.getPO().subscribe((res) => {
+    this.getData.getPO(this.u_worker).subscribe((res) => {
       this.users = res;
       // Assign the data to the data source for the table to render
       this.dataSource = new MatTableDataSource(this.users);

@@ -86,7 +86,7 @@ export class ManageComponent implements OnInit {
       console.log(`Backend down: ${err}`)
       this.isBackendDown = true;
     });
-    this.getData.getPO().subscribe((res: any) => {
+    this.getData.getPO("%").subscribe((res: any) => {
       res.forEach((element: any) => {
         this.options3.push(element.id);
       });

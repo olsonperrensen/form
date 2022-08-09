@@ -8,6 +8,7 @@ import * as a from 'angular-animations'
 import { Router } from '@angular/router';
 import { SendVendorsService } from '../send-vendors.service';
 import { Res } from './../vendor/res';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-invoice',
@@ -30,14 +31,15 @@ export class InvoiceComponent implements OnInit {
   isID = false;
   isBezig = false;
   s = 6
+  u_worker = this.authService.getCredentials().naam
 
   constructor(private getData: GetdataService,
     private sendForms: SendFormsService,
-    private router: Router, private sendVendors: SendVendorsService) { }
+    private router: Router, private sendVendors: SendVendorsService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.options3 = [];
-    this.getData.getPO().subscribe((res: any) => {
+    this.getData.getPO(this.u_worker).subscribe((res: any) => {
       res.forEach((element: any) => {
         this.options3.push(element.status)
       });
