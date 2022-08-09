@@ -324,20 +324,21 @@ app.post("/sendmail", (req, res) => {
   }, 1000);
 });
 
-app.get('/po', (req, res) => {
+app.post('/po', (req, res) => {
 
   client.query('SELECT * FROM PO;', (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
       po.push(row)
     }
-    console.log("Fetched PO's from DB")
+    console.log(`Fetched PO's from DB by user ${req.body.requested_by}`)
   });
   setTimeout(() => {
     res.send(po);
   }, 250);
   po = []
 });
+
 app.get('/archive_po', (req, res) => {
 
   client.query('SELECT * FROM archive_po;', (err, res) => {
