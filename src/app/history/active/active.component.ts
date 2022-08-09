@@ -57,7 +57,7 @@ export class ActiveComponent implements OnInit, AfterViewInit {
 
 
     // FETCH FROM DB
-    this.getData.getPO(this.u_worker).subscribe((res) => {
+    this.getData.getPO(this.u_worker.toUpperCase()).subscribe((res) => {
       this.users = res;
       // Assign the data to the data source for the table to render
       this.dataSource = new MatTableDataSource(this.users);

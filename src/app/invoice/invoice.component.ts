@@ -39,7 +39,7 @@ export class InvoiceComponent implements OnInit {
 
   ngOnInit(): void {
     this.options3 = [];
-    this.getData.getPO(this.u_worker).subscribe((res: any) => {
+    this.getData.getPO(this.u_worker.toUpperCase()).subscribe((res: any) => {
       res.forEach((element: any) => {
         this.options3.push(element.status)
       });
