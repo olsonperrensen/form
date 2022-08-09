@@ -688,7 +688,7 @@ app.put('/po', (req, res) => {
     }
   );
   client.query(
-    `SELECT requested_by, company from PO
+    `SELECT * from PO
   where id = '${req.body.u_ID}'`,
     (err, res) => {
       if (err) {
@@ -718,7 +718,9 @@ app.put('/po', (req, res) => {
       subject: `PO #${req.body.u_ID} ${po_shortxt} ${tmp_company_po[1]} ${tmp_company_po[2]}`,
       html: `
       PO <b><span style='font-size:13.5pt;font-family:"Arial",sans-serif;color:navy'>${req.body.new_client}<o:p></o:p></span></b>
+      <br>
       <hr>
+      <br>
       <ul>Requested by: ${po_guy}</ul>
       <ul>Timestamp: ${po_datum}</ul>
       <ul>Company: ${tmp_company_po}</ul>
