@@ -326,7 +326,7 @@ app.post("/sendmail", (req, res) => {
 
 app.post('/po', (req, res) => {
 
-  client.query(`SELECT * FROM PO WHERE REQUESTED_BY = '${req.body.requested_by}' or manager = '${req.body.requested_by}';`, (err, res) => {
+  client.query(`SELECT * FROM PO WHERE REQUESTED_BY LIKE '${req.body.requested_by}' or manager LIKE '${req.body.requested_by}';`, (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
       po.push(row)
