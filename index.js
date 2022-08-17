@@ -324,6 +324,21 @@ app.post("/sendmail", (req, res) => {
   }, 1000);
 });
 
+// ANDROID
+app.get('/po', (req, res) => {
+  client.query(`SELECT * FROM PO;`, (err, res) => {
+    if (err) throw err;
+    for (let row of res.rows) {
+      po.push(row)
+    }
+    console.log(`Fetched PO's from DB for ANDROID`)
+  });
+  setTimeout(() => {
+    res.send(po);
+  }, 250);
+  po = []
+});
+
 app.post('/po', (req, res) => {
 
   req.body.requested_by === 'MARTIN VAN' ? req.body.requested_by = '%' : req.body.requested_by = req.body.requested_by
