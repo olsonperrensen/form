@@ -82,7 +82,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     "Wouter Rook",
     "Arnold Wever",
     "Oscar Laureijs", "Kevin Markestein", "David Goubert", "Gunther Mergan", "Jurgen DeLeeuw",
-    "Thomas Molendijk", "Marcelino Papperse", "Andor DeVries", "Ivo Schouten"];
+    "Thomas Molendijk", "Marcelino Papperse", "Andor DeVries", "Ivo Schouten", "Eric Nieuwmans"];
   facom_employees = [
     "Piet Verstraete", "Vincent Broertjes", "Jean-Christophe Pintiaux", "Kim Maris", "Mario Reverse",
     "Peter Schaekers", "Robin Roels", "Stefan Sack", "Vincent Lenain", "Vincent Pireyn", "Yves DeWaal",
