@@ -164,6 +164,7 @@ app.get('/img', (req, res) => {
     counter++;
   }
   res.send(JSON.stringify(android));
+  android = []
 });
 app.get('/clients', (req, res) => {
   client.query('SELECT * FROM biz;', (err, res) => {
