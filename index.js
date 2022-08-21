@@ -157,9 +157,9 @@ app.get('/img', (req, res) => {
   let counter = 0;
   while (counter < 100) {
     if (counter % 2 === 0) {
-      android.push({ url: `${android_BASE_URL}men/${counter}` });
+      android.push({ url: `${android_BASE_URL}men/${counter}.jpg` });
     } else {
-      android.push({ url: `${android_BASE_URL}women/${counter}` });
+      android.push({ url: `${android_BASE_URL}women/${counter}.jpg` });
     }
     counter++;
   }
