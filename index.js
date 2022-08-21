@@ -151,7 +151,7 @@ let managers = [
   [{ NAME: "ERIC NIEUWMANS", MANAGER: "STEPHANE DEPRET" }]];
 
 app.get('/', (req, res) => res.send(JSON.stringify({ myMsg: "Hello world!" })));
-app.get('/img', (req, res) => res.send(JSON.stringify({ url: `https://randomuser.me/api/portraits/${req.query.workerGenre}/${req.query.workerGenre}.jpg` })));
+app.get('/img', (req, res) => res.send(JSON.stringify({ url: `https://randomuser.me/api/portraits/${req.query.workerGenre}/${req.query.workerNumber}.jpg` })));
 app.get('/clients', (req, res) => {
 
   client.query('SELECT * FROM biz;', (err, res) => {
