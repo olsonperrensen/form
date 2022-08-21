@@ -152,9 +152,7 @@ let managers = [
 
 app.get('/', (req, res) => res.send(JSON.stringify({ myMsg: "Hello world!" })));
 app.get('/img', (req, res) => res.send(JSON.stringify(
-  [
     { url: `https://randomuser.me/api/portraits/${req.query.workerGenre}/${req.query.workerNumber}.jpg` }
-  ]
   )));
 app.get('/clients', (req, res) => {
 
