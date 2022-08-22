@@ -197,7 +197,7 @@ app.get('/vendor', (req, res) => {
 });
 
 app.get('/workers', (req, res) => {
-  client.query('SELECT * FROM users;', (err, res) => {
+  client.query('SELECT * FROM users order by CHAR_LENGTH(naam) asc;', (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
       nieuw_workers.push(row);
