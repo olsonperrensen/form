@@ -778,9 +778,8 @@ app.put('/po', (req, res) => {
       cc: `students.benelux@sbdinc.com`,
       subject: `PO #${req.body.u_ID} ${po_shortxt} ${tmp_company_po[1]} ${tmp_company_po[2]}`,
       html: `
-      <p class=MsoNormal>PO <b><span style='font-size:13.5pt;font-family:"Arial",sans-serif;color:navy'>${
-        req.body.new_client
-      }<o:p></o:p></span></b></p><p class=MsoNormal><o:p>&nbsp;</o:p></p><p class=MsoNormal><o:p>&nbsp;</o:p></p><p class=MsoNormal><span lang=NL>Met vriendelijke groeten<o:p></o:p></span></p><p class=MsoNormal><span lang=NL><o:p>&nbsp;</o:p></span></p><p class=MsoNormal><span lang=NL>Students Benelux<o:p></o:p></span></p>
+      <p class=MsoNormal>PO <b><span style='font-size:13.5pt;font-family:"Arial",sans-serif;color:navy'>${req.body.new_client
+        }<o:p></o:p></span></b></p><p class=MsoNormal><o:p>&nbsp;</o:p></p><p class=MsoNormal><o:p>&nbsp;</o:p></p><p class=MsoNormal><span lang=NL>Met vriendelijke groeten<o:p></o:p></span></p><p class=MsoNormal><span lang=NL><o:p>&nbsp;</o:p></span></p><p class=MsoNormal><span lang=NL>Students Benelux<o:p></o:p></span></p>
       <hr>
       <ul>Requested by: ${po_guy}</ul>
       <ul>Timestamp: ${po_datum}</ul>
@@ -1004,7 +1003,9 @@ app.post('/vendor', upload.single('v_file'), (req, res) => {
       <ul>Klant BTW Nr.: ${req.body.v_vat}</ul>
       <ul>Klant Contactpersoon: ${req.body.v_contact}</ul>
       <ul>Klant Nr.: ${req.body.v_klantnr}</ul>
-      <ul>PDF Bestand: ${req.file.originalname}</ul>`,
+      <ul>PDF Bestand: ${req.file.originalname}</ul>
+      <ul>Reason: Level 4 vendor, for customer: ${req.body.v_klant}, forum contribution</ul>
+      <ul>Special instructions: payment terms- payable immediately, for customer: ${req.body.v_klant} level4 vendor</ul>`,
       attachments: [
         {
           // utf-8 string as an attachment
