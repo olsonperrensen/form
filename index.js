@@ -977,7 +977,7 @@ app.post('/vendor', upload.single('v_file'), (req, res) => {
   console.log(req.file);
 
   managers.forEach((element) => {
-    if (req.body.worker === element[0].NAME) {
+    if (req.body.v_worker === element[0].NAME) {
       sales_man = element[0].MANAGER.split(' ');
     }
   });
