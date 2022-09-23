@@ -993,7 +993,7 @@ app.post('/vendor', upload.single('v_file'), (req, res) => {
         `${sales_per[0]}.${sales_per[1]}@sbdinc.com`,
       ],
       cc: `${sales_man[0]}.${sales_man[1]}@sbdinc.com`,
-      subject: `Vendor Aanvrag #${db_id} ${subject_klant[0]}`,
+      subject: `Vendor Aanvraag #${db_id} ${subject_klant[0]}`,
       html: `
       <ul>Requested By: ${req.body.v_worker}</ul>
       <ul>Klant: ${req.body.v_klant}</ul>
