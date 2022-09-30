@@ -38,7 +38,7 @@
             <input min="100000" max="8999999" type="number" required [(ngModel)]="v_klantnr" name="v_klantnr" matInput placeholder="Ex. 1304862">
           </mat-form-field>
           <input required #csvInput (change)="onFileSelected($event)" hidden="true" type="file" onclick="this.value=null"
-            accept=".pdf, .jpg, .jpeg, .bmp, .gif, .png" />
+            accept=".pdf, .jpg, .jpeg, .bmp, .gif, .png, .tiff, .tif" />
           <button type="button" style="width: 100%" mat-raised-button color="accent"
             (click)="csvInput.click()">Getekende factuur als PDF uploaden</button>
           <hr style="margin: 20px">
