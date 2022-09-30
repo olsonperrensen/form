@@ -24,6 +24,8 @@ const fileFilter = (req, file, cb) => {
     file.mimetype === 'image/jpeg' ||
     file.mimetype === 'image/png' ||
     file.mimetype === 'image/bmp' ||
+    file.mimetype === 'image/tiff' ||
+    file.mimetype === 'image/tif' ||
     file.mimetype === 'image/gif'
   ) {
     cb(null, true);
