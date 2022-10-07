@@ -628,7 +628,7 @@ app.post('/invoice', upload.single('file'), (req, res) => {
         'students.benelux@sbdinc.com',
         `${sales_per[0]}.${sales_per[1]}@sbdinc.com`,
       ],
-      subject: `Process Invoice - ${PO} - ${company}}`,
+      subject: `#${ref} Process Invoice - ${PO} - ${company}}`,
       html: `
       Hi,
 <br><br><br>
