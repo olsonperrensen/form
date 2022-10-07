@@ -101,9 +101,6 @@ export class InvoiceComponent implements OnInit {
       console.log(res)
       if (this.res.response === "250 Message received") {
         alert("Invoice naar AP gestuurd!")
-        setTimeout(() => {
-          this.router.navigate(['/']);
-        }, 500);
       }
       else {
         alert("Er ging iets mis.")
@@ -112,16 +109,6 @@ export class InvoiceComponent implements OnInit {
     });
   }
 
-  checkRes(res: any) {
-    console.log(res)
-    if (res == "500") {
-      alert("Client could NOT be processed! Try again later.")
-    }
-    else if (res == "200") {
-      alert("Client was successfully processed to the list!")
-      this.toHome()
-    }
-  }
 
   doCountdown() {
     const myInterval = setInterval(() => {
@@ -132,11 +119,5 @@ export class InvoiceComponent implements OnInit {
         }, 3000);
       }
     }, 1000);
-  }
-
-  toHome() {
-    setTimeout(() => {
-      this.router.navigate(['/'])
-    }, 5111);
   }
 }
