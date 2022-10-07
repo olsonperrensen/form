@@ -47,6 +47,26 @@
               </mat-autocomplete>
             </mat-form-field>
             <div *ngIf="isID">
+              <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal">
+                <mat-chip class="example-box" cdkDrag>
+                  {{selectedPO.requested_by}}
+                </mat-chip>
+                <mat-chip class="example-box" cdkDrag>
+                  {{selectedPO.datum}}
+                </mat-chip>
+                <mat-chip class="example-box short-txt" cdkDrag>
+                  {{selectedPO.company}}
+                </mat-chip>
+                <mat-chip class="example-box" cdkDrag>
+                  {{selectedPO.short_text}}
+                </mat-chip>
+                <mat-chip class="example-box" cdkDrag>
+                  €{{selectedPO.overall_limit}}
+                </mat-chip>
+                <mat-chip class="example-box" cdkDrag>
+                  {{selectedPO.sbu}}
+                </mat-chip>
+              </mat-chip-list>
               <input required #csvInput (change)="onFileSelected($event)" hidden="true" type="file"
                 onclick="this.value=null" accept=".pdf, .jpg, .jpeg, .bmp, .gif, .png, .tiff, .tif" />
               <button type="button" style="width: 100%" mat-raised-button color="accent"

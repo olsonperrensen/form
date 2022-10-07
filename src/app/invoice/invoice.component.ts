@@ -23,6 +23,7 @@ import { PO } from './PO';
 
 export class InvoiceComponent implements OnInit {
   allPO: PO[] = [];
+  selectedPO !: PO;
   wantsOne = false;
   wantsAll = false;
   isFormValidWithFile = false;
@@ -57,7 +58,14 @@ export class InvoiceComponent implements OnInit {
     this.myControl3.valueChanges.subscribe((res) => {
       // Exact match full ID 
       if (this.options3.find((obj) => { return obj === res; })) {
+        if (this.allPO.find((po) => {
+          if (po.status == res) {
+            this.selectedPO = po;
+          }
+          return po === res;
+        })) {
 
+        }
         this.isID = true;
       }
       else {
