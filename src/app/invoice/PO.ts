@@ -1,6 +1,5 @@
 export class PO {
     id  !: string;
-    external_id  !: string;
     requested_by  !: string;
     datum !: string;
     company !: string;
@@ -11,4 +10,5 @@ export class PO {
     gr_execution_date !: string;
     sbu !: string;
     status !: string;
+    invoice !: string;
 }
