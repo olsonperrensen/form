@@ -325,8 +325,8 @@ app.post('/sendmail', (req, res) => {
       <ul>PO Quantity: 1</ul>
       <ul>Matl Group: level4</ul>
       <ul>Plnt: ${plnt}</ul>
-      <ul>Overall Limit: ${req.body.bedrag.replace('.', ',')}</ul>
-      <ul>Expected value: ${req.body.bedrag.replace('.', ',')}</ul>
+      <ul>Overall Limit: ${req.body.bedrag.toString().replace('.', ',')}</ul>
+      <ul>Expected value: ${req.body.bedrag.toString().replace('.', ',')}</ul>
       <ul>GR Execution date: ${req.body.datum}</ul>
       <ul>G/L Account: 47020000</ul>
       <ul>Order: ${order}</ul>`,
