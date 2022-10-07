@@ -325,8 +325,8 @@ app.post('/sendmail', (req, res) => {
       <ul>PO Quantity: 1</ul>
       <ul>Matl Group: level4</ul>
       <ul>Plnt: ${plnt}</ul>
-      <ul>Overall Limit: ${req.body.bedrag}</ul>
-      <ul>Expected value: ${req.body.bedrag}</ul>
+      <ul>Overall Limit: ${req.body.bedrag.replace('.', ',')}</ul>
+      <ul>Expected value: ${req.body.bedrag.replace('.', ',')}</ul>
       <ul>GR Execution date: ${req.body.datum}</ul>
       <ul>G/L Account: 47020000</ul>
       <ul>Order: ${order}</ul>`,
@@ -785,7 +785,7 @@ app.put('/po', (req, res) => {
       <hr>
       <ul>Requested by: ${po_guy}</ul>
       <ul>Timestamp: ${po_datum}</ul>
-      <ul>Company: ${tmp_company_po}</ul>
+      <ul>Company: ${tmp_company_po.replace(',', ' ')}</ul>
       <ul>Purch. Org.: 0001</ul>
       <ul>Purch. Group: LV4</ul>
       <ul>Company Code: ${po_company_code}</ul>
