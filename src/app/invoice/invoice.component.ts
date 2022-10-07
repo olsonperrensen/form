@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { SendVendorsService } from '../send-vendors.service';
 import { Res } from './../vendor/res';
 import { AuthService } from '../auth.service';
+import { PO } from './PO';
 
 @Component({
   selector: 'app-invoice',
@@ -19,7 +20,11 @@ import { AuthService } from '../auth.service';
     a.bounceOutOnLeaveAnimation(),
     a.bounceOnEnterAnimation()]
 })
+
 export class InvoiceComponent implements OnInit {
+  allPO: PO[] = [];
+  wantsOne = false;
+  wantsAll = false;
   isFormValidWithFile = false;
   selected_file!: File;
   myControl3 = new FormControl();
@@ -41,6 +46,7 @@ export class InvoiceComponent implements OnInit {
     this.options3 = [];
     this.getData.getPO(this.u_worker.toUpperCase()).subscribe((res: any) => {
       res.forEach((element: any) => {
+        this.allPO.push(element);
         this.options3.push(element.status)
       });
     })
@@ -51,6 +57,7 @@ export class InvoiceComponent implements OnInit {
     this.myControl3.valueChanges.subscribe((res) => {
       // Exact match full ID 
       if (this.options3.find((obj) => { return obj === res; })) {
+
         this.isID = true;
       }
       else {
@@ -59,6 +66,14 @@ export class InvoiceComponent implements OnInit {
     });
 
   }
+
+  onUserWantsOne() {
+    this.wantsOne = true;
+  }
+  onUserWantsAll() {
+    this.wantsAll = true;
+  }
+
   private _filter3(value: string): string[] {
     const filterValue = value;
     return this.options3.filter(option => option.toString().includes(filterValue));

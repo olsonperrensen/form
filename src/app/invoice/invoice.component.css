@@ -7,6 +7,17 @@
   .example-full-width {
     width: 100%;
   }
+
+  .short-txt
+  {
+    font-size: xx-small;
+  }
+
+  .example-box {
+    color: white;
+    background: black;
+  }
+
   *
   {
     text-align: center;
