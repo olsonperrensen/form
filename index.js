@@ -590,6 +590,7 @@ app.post('/invoice', upload.single('file'), (req, res) => {
         sales_per = res.rows[0].requested_by.split(' ');
         company = res.rows[0].company;
         overall_limit = res.rows[0].overall_limit;
+        ref = res.rows[0].id;
         PO = res.rows[0].status;
       }
     }
@@ -634,6 +635,7 @@ app.post('/invoice', upload.single('file'), (req, res) => {
 In the attachment you will find the coop invoice. Please, process it.
 <br><br>
 <ul>
+      <li>Ref: ${ref}</li>
       <li>PO: ${PO}</li>
       <li>Client: ${company}</li>
       <li>Overall Limit: ${overall_limit}</li>
