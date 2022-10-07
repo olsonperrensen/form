@@ -150,7 +150,7 @@ let managers = [
   [{ NAME: 'MALVIN PUTS', MANAGER: 'ERIC NIEUWMANS' }],
   [{ NAME: 'NIELS GROTERS', MANAGER: 'ERIC NIEUWMANS' }],
   [{ NAME: 'REMCO ROZING', MANAGER: 'ERIC NIEUWMANS' }],
-  [{ NAME: 'ERIC NIEUWMANS', MANAGER: 'STEPHANE DEPRET' }],
+  [{ NAME: 'ERIC NIEUWMANS', MANAGER: 'PATRICK DIEPENBACH' }],
 ];
 let android = [];
 let android_BASE_URL = 'https://randomuser.me/api/portraits/';
