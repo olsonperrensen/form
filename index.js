@@ -787,7 +787,7 @@ app.put('/po', (req, res) => {
       <hr>
       <ul>Requested by: ${po_guy}</ul>
       <ul>Timestamp: ${po_datum}</ul>
-      <ul>Company: ${tmp_company_po.replace(',', ' ')}</ul>
+      <ul>Company: ${tmp_company_po.toString().replace(',', ' ')}</ul>
       <ul>Purch. Org.: 0001</ul>
       <ul>Purch. Group: LV4</ul>
       <ul>Company Code: ${po_company_code}</ul>
