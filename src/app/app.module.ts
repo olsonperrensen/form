@@ -26,6 +26,7 @@ import { PublicComponent } from './public/public.component';
 import { InvoiceComponent } from './invoice/invoice.component';
 import { ResetComponent } from './reset/reset.component';
 import { ProfileComponent } from './profile/profile.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 export function HttpLoaderFactory(http:HttpClient)
 {
@@ -66,7 +67,8 @@ export function HttpLoaderFactory(http:HttpClient)
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    NgxDropzoneModule
   ],
   providers: [AuthService,AuthGuardService],
   bootstrap: [AppComponent]

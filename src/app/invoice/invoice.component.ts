@@ -27,7 +27,7 @@ export class InvoiceComponent implements OnInit {
   wantsOne = false;
   wantsAll = false;
   isFormValidWithFile = false;
-  selected_file!: File;
+  selected_files: File[] = [];
   myControl3 = new FormControl();
   filteredOptions3!: Observable<string[]>;
   options3 !: string[]
@@ -88,13 +88,12 @@ export class InvoiceComponent implements OnInit {
   }
   onFileSelected(event: any) {
     this.isFormValidWithFile = true;
-    this.selected_file = <File>event.target.files[0]
+    this.selected_files.push(...event.addedFiles);
   }
-
-  onSubmit(f: NgForm) {
+  onSubmitDrag(u_ID: any) {
     const fd = new FormData();
-    fd.append('u_ID', this.u_ID);
-    fd.append('file', this.selected_file, this.selected_file.name);
+    fd.append('u_ID', u_ID);
+    fd.append('file', this.selected_files[0], this.selected_files[0].name);
     this.isBezig = true;
     this.doCountdown();
     this.sendVendors.sendInvoice(fd).subscribe((res) => {
