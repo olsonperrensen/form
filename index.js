@@ -288,7 +288,7 @@ app.post('/sendmail', (req, res) => {
       } else {
         db_id = res.rows[0].id;
         isRecordInDB = true;
-        console.log(`record PO inserted #${db_id}}`);
+        console.log(`record PO inserted #${db_id}`);
       }
     }
   );
@@ -628,7 +628,7 @@ app.post('/invoice', upload.single('file'), (req, res) => {
         'students.benelux@sbdinc.com',
         `${sales_per[0]}.${sales_per[1]}@sbdinc.com`,
       ],
-      subject: `#${ref} Process Invoice - ${PO} - ${company}}`,
+      subject: `#${ref} Process Invoice - ${PO} - ${company}`,
       html: `
       Hi,
 <br><br><br>
@@ -971,7 +971,7 @@ app.post('/vendor', upload.single('v_file'), (req, res) => {
       } else {
         db_id = res.rows[0].id;
         isRecordInDB = true;
-        console.log(`record PO inserted #${db_id}}`);
+        console.log(`record PO inserted #${db_id}`);
       }
     }
   );
