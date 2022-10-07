@@ -67,12 +67,16 @@
                   {{selectedPO.sbu}}
                 </mat-chip>
               </mat-chip-list>
-              <input required #csvInput (change)="onFileSelected($event)" hidden="true" type="file"
-                onclick="this.value=null" accept=".pdf, .jpg, .jpeg, .bmp, .gif, .png, .tiff, .tif" />
-              <button type="button" style="width: 100%" mat-raised-button color="accent"
-                (click)="csvInput.click()">Factuur MET PO hier uploaden</button>
-              <hr style="margin: 20px">
-              <button [disabled]="!f.valid||!isFormValidWithFile" mat-raised-button color="primary">Send</button>
+              <mat-card-actions class="whiteish">
+                <ngx-dropzone (change)="onFileSelected($event)">
+                  <ngx-dropzone-label>Factuur inslepen / Déposez la facture</ngx-dropzone-label>
+                  <ngx-dropzone-preview *ngFor="let f of selected_files" [removable]="true">
+                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                  </ngx-dropzone-preview>
+                </ngx-dropzone>
+              </mat-card-actions>
+              <button [disabled]="!f.valid||!isFormValidWithFile" (click)="onSubmitDrag(u_ID)" mat-raised-button
+                color="primary">Send</button>
               <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
                 style="color: white;background: black;">Bezig... ({{s}}s)</pre>
             </div>
