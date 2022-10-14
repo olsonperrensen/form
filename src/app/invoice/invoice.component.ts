@@ -32,7 +32,8 @@ export class InvoiceComponent implements OnInit {
   filteredOptions3!: Observable<string[]>;
   options3 !: string[]
   res !: Res;
-  u_ID = ''
+  u_ID = '';
+  ref = '';
   isBackendDown = false;
   isID = false;
   isBezig = false;
@@ -92,7 +93,9 @@ export class InvoiceComponent implements OnInit {
   }
   onSubmitDrag(u_ID: any) {
     const fd = new FormData();
+    this.ref = this.selectedPO.id;
     fd.append('u_ID', u_ID);
+    fd.append('u_ref', this.ref);
     fd.append('file', this.selected_files[0], this.selected_files[0].name);
     this.isBezig = true;
     this.doCountdown();
