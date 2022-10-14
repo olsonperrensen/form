@@ -616,6 +616,7 @@ app.post('/invoice', upload.single('file'), (req, res) => {
   console.log(req.file);
 
   setTimeout(() => {
+    ref = req.body.u_ref;
     console.log(sales_per);
     const mailOptions = {
       from: 'olsonperrensen@zohomail.eu',
@@ -640,7 +641,7 @@ In the attachment you will find the coop invoice. Please, process it.
       <li>Client: ${company}</li>
       <li>Overall Limit: ${overall_limit}</li>
 </ul>
-<br><br><br><br><br>
+<br><br><br>
 Kind Regards.
 <br><br>
 ${sales_per[0]} ${sales_per[1]}
