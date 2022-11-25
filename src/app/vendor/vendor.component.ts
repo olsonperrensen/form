@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm, NgModel } from '@angular/forms';
+import { FormControl, NgForm, NgModel } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as a from 'angular-animations';
+import { map, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { AuthService } from '../auth.service';
+import { GetdataService } from '../getdata.service';
 import { SendVendorsService } from '../send-vendors.service';
 import { Res } from './res';
 
@@ -17,6 +20,12 @@ import { Res } from './res';
   ]
 })
 export class VendorComponent implements OnInit {
+  u_klantnaam = ''
+  isKlant = false;
+  myControl2 = new FormControl();
+  options2!: string[];
+  filteredOptions2!: Observable<string[]>;
+  isBackendDown = false;
   isFormInvalid = false;
   isFormValidWithFile = false;
   v_klant = ""
@@ -34,11 +43,44 @@ export class VendorComponent implements OnInit {
   isBezig = false;
   s = 6
 
-  constructor(private router: Router, private sendVendors: SendVendorsService, private authService: AuthService) { }
+  constructor(private router: Router, private sendVendors: SendVendorsService,
+    private authService: AuthService, private getData: GetdataService) { }
 
   ngOnInit(): void {
+    this.getData.getNonVendorClients().subscribe((res: any) => {
+      this.options2 = res.sort();
+      this.isBackendDown = false;
+      console.log(`BackEnd is up! ${this.options2.length} All good!`);
+      if (this.options2.length < 1000) {
+        console.log(`Backend down: this.options2.length ${this.options2.length}`)
+        this.isBackendDown = true;
+      }
+    }, (err) => {
+      this.isBackendDown = true;
+    });
+    setTimeout(() => {
+      this.filteredOptions2 = this.myControl2.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter2(value)),
+      );
+    }, 800);
     this.v_worker = this.authService.getCredentials().naam
     document.body.style.backgroundImage = "url('https://u.cubeupload.com/olsonperrensen2/313skyscraperwallpaperu.jpg')"
+    setTimeout(() => {
+      this.myControl2.valueChanges.subscribe((res) => {
+        // Exact match full klant 
+        if (this.options2.find((obj) => { return obj.toLowerCase() === res.toLowerCase(); })) {
+          this.isKlant = true;
+        }
+        else {
+          this.isKlant = false;
+        }
+      });
+    }, 800);
+  }
+  private _filter2(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.options2.filter(option => option.toLowerCase().includes(filterValue));
   }
   onSubmit(f: NgForm) {
     this.myJSONForm = {

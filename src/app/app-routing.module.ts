@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: '', component: PublicComponent },
   { path: 'homepage', component: HomepageComponent, canActivate: [AuthGuardService] },
   { path: 'po', component: AutocompleteFilterExampleComponent, canActivate: [AuthGuardService] },
-  { path: 'vendor', component: VendorComponent, canActivate: [AuthGuardService] },
+  { path: 'vendor', component: VendorComponent, canActivate: [] },
   { path: 'login', component: LoginComponent },
   { path: 'manage', component: ManageComponent, canActivate: [AuthGuardService] },
   { path: 'history', component: HistoryComponent, canActivate: [AuthGuardService] },

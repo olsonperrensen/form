@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 export class GetdataService {
 
   URL = 'https://formemail.herokuapp.com/clients';
+  NONVENDORURL = 'https://formemail.herokuapp.com/nonvendors'
   LOCAL_URL = 'http://localhost:3000/clients';
   WORKERS_URL = 'https://formemail.herokuapp.com/workers'
 
@@ -25,6 +26,10 @@ export class GetdataService {
 
   getClients() {
     return this.http.get(this.URL);
+  }
+
+  getNonVendorClients() {
+    return this.http.get(this.NONVENDORURL);
   }
 
   getWorkers() {
