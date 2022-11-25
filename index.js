@@ -181,6 +181,19 @@ app.get('/clients', (req, res) => {
   }, 250);
   nieuw_clients = [];
 });
+app.get('/nonvendors', (req, res) => {
+  client.query('SELECT * FROM nonvendors;', (err, res) => {
+    if (err) throw err;
+    for (let row of res.rows) {
+      nieuw_clients.push(row.biz_name);
+    }
+    console.log('Fetched from DB');
+  });
+  setTimeout(() => {
+    res.send(nieuw_clients);
+  }, 250);
+  nieuw_clients = [];
+});
 app.get('/sendmail', (req, res) =>
   res.send('Send me a JSON object via POST. (Works with Zoho now).')
 );
