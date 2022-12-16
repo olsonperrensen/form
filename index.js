@@ -811,8 +811,8 @@ app.put('/po', (req, res) => {
       <ul>PO Quantity: 1</ul>
       <ul>Matl Group: level4</ul>
       <ul>Plnt: ${po_company_code === 'be01' ? '1110' : '1510'}</ul>
-      <ul>Overall Limit: ${po_overallmt}</ul>
-      <ul>Expected value: ${po_overallmt}</ul>
+      <ul>Overall Limit: ${po_overallmt.toString().replace('.', ',')}</ul>
+      <ul>Expected value: ${po_overallmt.toString().replace('.', ',')}</ul>
       <ul>GR Execution date: ${po_gr}</ul>
       <ul>G/L Account: 47020000</ul>
       <ul>Order: ${po_sbu}</ul>
