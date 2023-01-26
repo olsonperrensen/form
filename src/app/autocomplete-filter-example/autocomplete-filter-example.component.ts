@@ -308,6 +308,9 @@ export class AutocompleteFilterExampleComponent implements OnInit {
           case "Niek Nijland":
             this.u_land = "Nederland / Pays Bas"
             break;
+          case "Ludwig Vanhaute":
+            this.u_land = "België / Belgique"
+            break;
           default:
             break;
         }
