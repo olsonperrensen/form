@@ -637,6 +637,7 @@ app.post('/invoice', upload.single('file'), (req, res) => {
         `SBDInvoices@sbdinc.com`,
         `S-GTS-APBelgium@sbdinc.com`,
         `apnetherlands@sbdinc.com`,
+        'SVC-CRP-SBDe-Invoices@sbdinc.com',
       ],
       cc: [
         'students.benelux@sbdinc.com',
