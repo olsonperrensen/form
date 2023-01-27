@@ -1023,8 +1023,8 @@ app.post('/vendor', upload.single('v_file'), (req, res) => {
       <ul>Klant Contactpersoon: ${req.body.v_contact}</ul>
       <ul>Klant Nr.: ${req.body.v_klantnr}</ul>
       <ul>PDF Bestand: ${req.file.originalname}</ul>
-      <ul>Reason: Level 4 vendor, for customer: ${req.body.v_klant}, forum contribution</ul>
-      <ul>Special instructions: payment terms- payable immediately, for customer: ${req.body.v_klant} level4 vendor</ul>`,
+      <ul>Reason: Level 4 vendor, for customer: ${req.body.v_klant} (${req.body.v_klantnr}), forum contribution</ul>
+      <ul>Special instructions: payment terms- payable 30 days after invoice, for customer: ${req.body.v_klant} (${req.body.v_klantnr}) level4 vendor</ul>`,
       attachments: [
         {
           // utf-8 string as an attachment
