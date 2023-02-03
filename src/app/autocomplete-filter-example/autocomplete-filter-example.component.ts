@@ -38,6 +38,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   isLand = false;
   isKlant = false;
   isBedrag = false;
+  isBedrag_2 = false;
   isOmschrijving = false;
 
   isNewVendor = false;
@@ -45,18 +46,23 @@ export class AutocompleteFilterExampleComponent implements OnInit {
 
   isBackendDown = false;
 
+  split = false;
+
   myControl = new FormControl();
   myControl2 = new FormControl();
   myControl3 = new FormControl();
+  myControl3_2 = new FormControl();
   myControl4 = new FormControl();
   myControl5 = new FormControl();
   myControl6 = new FormControl();
   myControl8 = new FormControl();
   myControl9 = new FormControl();
+  myControl9_2 = new FormControl();
   myControl10 = new FormControl();
 
   options2!: string[];
   options3: string[] = ["DeWALT – LENOX – BOSTITCH", "STANLEY", "FACOM"];
+  options3_2: string[] = ["DeWALT – LENOX – BOSTITCH", "STANLEY", "FACOM"];
   options4: string[] = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"];
   options5: string[] = ["België / Belgique", "Nederland / Pays Bas"];
@@ -82,7 +88,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     "Wouter Rook",
     "Arnold Wever",
     "Oscar Laureijs", "Kevin Markestein", "David Goubert", "Gunther Mergan", "Jurgen DeLeeuw",
-    "Thomas Molendijk", "Marcelino Papperse", "Andor DeVries", "Ivo Schouten", "Eric Nieuwmans","Ludwig Vanhaute"];
+    "Thomas Molendijk", "Marcelino Papperse", "Andor DeVries", "Ivo Schouten", "Eric Nieuwmans", "Ludwig Vanhaute"];
   facom_employees = [
     "Piet Verstraete", "Vincent Broertjes", "Jean-Christophe Pintiaux", "Kim Maris", "Mario Reverse",
     "Peter Schaekers", "Robin Roels", "Stefan Sack", "Vincent Lenain", "Vincent Pireyn", "Yves DeWaal",
@@ -94,6 +100,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   filteredOptions!: Observable<string[]>;
   filteredOptions2!: Observable<string[]>;
   filteredOptions3!: Observable<string[]>;
+  filteredOptions3_2!: Observable<string[]>;
   filteredOptions4!: Observable<string[]>;
   filteredOptions5!: Observable<string[]>;
 
@@ -125,6 +132,10 @@ export class AutocompleteFilterExampleComponent implements OnInit {
       this.filteredOptions3 = this.myControl3.valueChanges.pipe(
         startWith(''),
         map(value => this._filter3(value)),
+      );
+      this.filteredOptions3_2 = this.myControl3_2.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter3_2(value)),
       );
       this.filteredOptions4 = this.myControl4.valueChanges.pipe(
         startWith(''),
@@ -362,6 +373,14 @@ export class AutocompleteFilterExampleComponent implements OnInit {
         this.isBedrag = false;
       }
     });
+    this.myControl9_2.valueChanges.subscribe((res) => {
+      if (res >= 50 && res <= 89000 && this.isKlant) {
+        this.isBedrag_2 = true;
+      }
+      else {
+        this.isBedrag_2 = false;
+      }
+    });
 
     this.myControl10.valueChanges.subscribe((res) => {
       if (res.length > 4 && this.isBedrag) {
@@ -406,6 +425,10 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     }
   }
 
+  enableSplitPo() {
+    this.split = !this.split;
+  }
+
 
   private _filter2(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -415,6 +438,11 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     const filterValue = value.toLowerCase();
 
     return this.options3.filter(option => option.toLowerCase().includes(filterValue));
+  }
+  private _filter3_2(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options3_2.filter(option => option.toLowerCase().includes(filterValue));
   }
   private _filter4(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -432,8 +460,10 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   u_klantnaam = ''
   u_klantnr = ''
   u_bedrag = ''
+  u_bedrag_2 = ''
   u_omschrijving = ''
   u_merk = this.authService.getCredentials().sbu
+  u_merk_2 = this.authService.getCredentials().sbu
   u_datum = new Date().toLocaleString("en-US", { month: "long" });
   u_potype = ''
   myJSONForm = {
@@ -448,8 +478,10 @@ export class AutocompleteFilterExampleComponent implements OnInit {
       klantnaam: this.u_klantnaam,
       klantnr: this.u_klantnr,
       bedrag: this.u_bedrag,
+      bedrag_2: this.u_bedrag_2,
       omschijving: this.u_omschrijving,
       merk: this.u_merk,
+      merk_2: this.u_merk_2,
       datum: this.u_datum,
       potype: this.u_potype,
       worker: this.u_worker
@@ -475,11 +507,13 @@ export class AutocompleteFilterExampleComponent implements OnInit {
 
   onCancel(f: NgForm) {
     this.u_bedrag = ''
+    this.u_bedrag_2 = ''
     this.u_datum = ''
     this.u_klantnaam = ''
     this.u_klantnr = ''
     this.u_land = ''
     this.u_merk = ''
+    this.u_merk_2 = ''
     this.u_omschrijving = ''
     this.u_potype = ''
     this.u_worker = ''

@@ -47,33 +47,81 @@
         <pre style="color: red;" *ngIf="isOutdatedVendor&&isLand&&isVerkoper&&isWorker">{{'h3'|translate}}</pre>
         <mat-form-field *ngIf="isKlant&&isLand&&isVerkoper&&isWorker" [@fadeInLeftOnEnter] class="example-full-width"
           appearance="fill">
-          <mat-label>{{'q6'|translate}}</mat-label>
+          <mat-label>
+            <div *ngIf="!split">{{'q6'|translate}}</div>
+            <div class="text-danger" *ngIf="split">Eerste bedrag</div>
+          </mat-label>
           <input min="50" max="89000" required type="number" placeholder="Write here" aria-label="Number" matInput
             [(ngModel)]="u_bedrag" [formControl]="myControl9" name="u_bedrag">
-
+          <pre *ngIf="!isOmschrijving" [@fadeInLeftOnEnter] (click)="enableSplitPo()"
+            style="color: red"><a routerLink="/po"><pre *ngIf="split">Disable</pre><pre *ngIf="!split">Enable</pre> Split PO</a></pre>
         </mat-form-field>
-        <mat-form-field *ngIf="isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker" [@fadeInLeftOnEnter]
-          class="example-full-width" appearance="fill">
-          <mat-label>{{'q7'|translate}}</mat-label>
-          <input required type="text" placeholder="Write here" aria-label="Number" matInput [(ngModel)]="u_omschrijving"
-            [formControl]="myControl10" name="u_omschrijving">
-        </mat-form-field>
+        <div *ngIf="split" class="bg-warning text-white">
+          <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+            <mat-label class="text-danger">Tweede bedrag</mat-label>
+            <input min="50" max="89000" required type="number" placeholder="Write here" aria-label="Number" matInput
+              [(ngModel)]="u_bedrag_2" [formControl]="myControl9_2" name="u_bedrag_2">
+          </mat-form-field>
+          <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+            <mat-label class="text-danger">Tweede unit</mat-label>
+            <input required type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl3_2"
+              [matAutocomplete]="auto3_2" [(ngModel)]="u_merk_2" name="u_merk_2">
+            <mat-autocomplete #auto3_2="matAutocomplete">
+              <mat-option *ngFor="let klant of filteredOptions3_2 | async" [value]="klant">
+                {{klant}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div *ngIf="!split">
+          <mat-form-field *ngIf="isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker" [@fadeInLeftOnEnter]
+            class="example-full-width" appearance="fill">
+            <mat-label>{{'q7'|translate}}</mat-label>
+            <input required type="text" placeholder="Write here" aria-label="Number" matInput
+              [(ngModel)]="u_omschrijving" [formControl]="myControl10" name="u_omschrijving">
+          </mat-form-field>
 
-        <mat-form-field [@fadeInLeftOnEnter] *ngIf="isOmschrijving&&isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker"
-          style="width: 100%" matTooltip="Telt voor afleveringsdatum van de afspraak" matTooltipPosition="left"
-          appearance="fill">
-          <mat-label>{{'q8'|translate}}</mat-label>
-          <mat-select matInput [(ngModel)]="u_datum" name="u_klantnaam" required>
-            <mat-option *ngFor="let maand of filteredOptions4 | async" [value]="maand">
-              {{maand}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+          <mat-form-field [@fadeInLeftOnEnter] *ngIf="isOmschrijving&&isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker"
+            style="width: 100%" matTooltip="Telt voor afleveringsdatum van de afspraak" matTooltipPosition="left"
+            appearance="fill">
+            <mat-label>{{'q8'|translate}}</mat-label>
+            <mat-select matInput [(ngModel)]="u_datum" name="u_klantnaam" required>
+              <mat-option *ngFor="let maand of filteredOptions4 | async" [value]="maand">
+                {{maand}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
-        <button [disabled]="!isWorker||!isVerkoper||!isLand||!isKlant||!isBedrag||!isOmschrijving||!f.valid"
-          type="submit" mat-raised-button color="accent">{{'q9'|translate}}</button>
-        <button style="margin-left:9px" [disabled]="!isWorker" type="button" mat-stroked-button color="warn"
-          (click)="onCancel(f)">{{'q10'|translate}}</button>
+          <button [disabled]="!isWorker||!isVerkoper||!isLand||!isKlant||!isBedrag||!isOmschrijving||!f.valid"
+            type="submit" mat-raised-button color="accent">{{'q9'|translate}}</button>
+          <button style="margin-left:9px" [disabled]="!isWorker" type="button" mat-stroked-button color="warn"
+            (click)="onCancel(f)">{{'q10'|translate}}</button>
+        </div>
+        <div *ngIf="split">
+          <mat-form-field *ngIf="isBedrag_2&&isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker" [@fadeInLeftOnEnter]
+            class="example-full-width" appearance="fill">
+            <mat-label>{{'q7'|translate}}</mat-label>
+            <input required type="text" placeholder="Write here" aria-label="Number" matInput
+              [(ngModel)]="u_omschrijving" [formControl]="myControl10" name="u_omschrijving">
+          </mat-form-field>
+
+          <mat-form-field [@fadeInLeftOnEnter]
+            *ngIf="isOmschrijving&&isBedrag_2&&isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker" style="width: 100%"
+            matTooltip="Telt voor afleveringsdatum van de afspraak" matTooltipPosition="left" appearance="fill">
+            <mat-label>{{'q8'|translate}}</mat-label>
+            <mat-select matInput [(ngModel)]="u_datum" name="u_klantnaam" required>
+              <mat-option *ngFor="let maand of filteredOptions4 | async" [value]="maand">
+                {{maand}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <button
+            [disabled]="!isWorker||!isVerkoper||!isLand||!isKlant||!isBedrag_2||!isBedrag||!isOmschrijving||!f.valid"
+            type="submit" mat-raised-button color="accent">{{'q9'|translate}}</button>
+          <button style="margin-left:9px" [disabled]="!isWorker" type="button" mat-stroked-button color="warn"
+            (click)="onCancel(f)">{{'q10'|translate}}</button>
+        </div>
       </form>
 
     </div>
