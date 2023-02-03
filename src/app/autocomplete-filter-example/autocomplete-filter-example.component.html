@@ -79,8 +79,8 @@
             <mat-label>{{'q7'|translate}}</mat-label>
             <input required type="text" placeholder="Write here" aria-label="Number" matInput
               [(ngModel)]="u_omschrijving" [formControl]="myControl10" name="u_omschrijving">
-          </mat-form-field>
-
+            <pre>Tot 40 tekens</pre>
+            </mat-form-field>
           <mat-form-field [@fadeInLeftOnEnter] *ngIf="isOmschrijving&&isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker"
             style="width: 100%" matTooltip="Telt voor afleveringsdatum van de afspraak" matTooltipPosition="left"
             appearance="fill">
@@ -103,7 +103,8 @@
             <mat-label>{{'q7'|translate}}</mat-label>
             <input required type="text" placeholder="Write here" aria-label="Number" matInput
               [(ngModel)]="u_omschrijving" [formControl]="myControl10" name="u_omschrijving">
-          </mat-form-field>
+              <pre>Tot 40 tekens</pre>
+            </mat-form-field>
 
           <mat-form-field [@fadeInLeftOnEnter]
             *ngIf="isOmschrijving&&isBedrag_2&&isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker" style="width: 100%"

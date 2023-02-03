@@ -40,6 +40,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   isBedrag = false;
   isBedrag_2 = false;
   isOmschrijving = false;
+  invalidOmschrijving = false;
 
   isNewVendor = false;
   isOutdatedVendor = false;
@@ -383,10 +384,11 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     });
 
     this.myControl10.valueChanges.subscribe((res) => {
-      if (res.length > 4 && this.isBedrag) {
+      if (res.length > 4 && res.length <= 40 && this.isBedrag) {
         this.isOmschrijving = true;
       }
       else {
+        if (res.length < 4 && res.length > 40) this.invalidOmschrijving = true;
         this.isOmschrijving = false;
       }
     })
