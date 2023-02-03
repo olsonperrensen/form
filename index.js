@@ -227,9 +227,12 @@ app.get('/workers', (req, res) => {
 
 // define a sendmail endpoint, which will send emails and response with the corresponding status
 app.post('/sendmail', (req, res) => {
+  let split = req.body.merk_2 != '' && req.body.bedrag_2 != '' ? true : false
+  let som = req.body.bedrag_2 != '' ? Math.floor(req.body.bedrag) + Math.floor(req.body.bedrag_2) : ''
   let plnt = 0;
   let company_code = 'A';
   let order = 'A';
+  let order_2 = 'A';
   let destinataries = [];
 
   if (req.body.land === 'België / Belgique') {
@@ -249,6 +252,20 @@ app.post('/sendmail', (req, res) => {
         order = 'ERROR';
         break;
     }
+    switch (req.body.merk_2) {
+      case 'DeWALT – LENOX – BOSTITCH':
+        order_2 = 'BE_DEW_L4';
+        break;
+      case 'STANLEY':
+        order_2 = 'BE_HDT_L4';
+        break;
+      case 'FACOM':
+        order_2 = 'BE_IAR_L4';
+        break;
+      default:
+        order_2 = '';
+        break;
+    }
   } else {
     company_code = 'nl01';
     plnt = 1510;
@@ -266,6 +283,20 @@ app.post('/sendmail', (req, res) => {
         order = 'ERROR';
         break;
     }
+    switch (req.body.merk_2) {
+      case 'DeWALT – LENOX – BOSTITCH':
+        order_2 = 'NL_DEW_L4';
+        break;
+      case 'STANLEY':
+        order_2 = 'NL_HDT_L4';
+        break;
+      case 'FACOM':
+        order_2 = 'NL_IAR_L4';
+        break;
+      default:
+        order_2 = '';
+        break;
+    }
   }
   client.query(
     `INSERT INTO PO(
@@ -276,8 +307,10 @@ app.post('/sendmail', (req, res) => {
       SHORT_TEXT,
       PO_QUANTITY,
       OVERALL_LIMIT,
+      OVERALL_LIMIT_2,
       GR_EXECUTION_DATE,
       SBU,
+      SBU_2,
       STATUS,
       GR,
       INVOICE) VALUES(
@@ -288,8 +321,10 @@ app.post('/sendmail', (req, res) => {
         '${req.body.omschijving}',
         '${'1'}',
         '${req.body.bedrag}',
+        '${req.body.bedrag_2}',
         '${req.body.datum}',
         '${order}',
+        '${order_2}',
         '${'Pending'}',
         '${'Pending'}',
         '${'Pending'}')
@@ -324,8 +359,9 @@ app.post('/sendmail', (req, res) => {
         `${sales_man[0]}.${sales_man[1]}@sbdinc.com`,
         'students.benelux@sbdinc.com',
       ],
-      subject: `Aanvraag Ref. #${db_id} ${req.body.omschijving} ${subject_klant[1]} ${subject_klant[2]}`,
-      html: `
+      subject: !split ? `Aanvraag Ref. #${db_id} ${req.body.omschijving} ${subject_klant[1]} ${subject_klant[2]}` : `Split Ref. #${db_id} ${req.body.omschijving} ${subject_klant[1]} ${subject_klant[2]}`,
+      html: !split ?
+        `
       <ul>Requested by: ${req.body.worker}</ul>
       <ul>Timestamp: ${req.body.timestamp}</ul>
       <ul>Company: ${req.body.klantnaam}</ul>
@@ -342,7 +378,28 @@ app.post('/sendmail', (req, res) => {
       <ul>Expected value: ${req.body.bedrag.toString().replace('.', ',')}</ul>
       <ul>GR Execution date: ${req.body.datum}</ul>
       <ul>G/L Account: 47020000</ul>
-      <ul>Order: ${order}</ul>`,
+      <ul>Order: ${order}</ul>
+      `
+        :
+        `<ul>Requested by: ${req.body.worker}</ul>
+      <ul>Timestamp: ${req.body.timestamp}</ul>
+      <ul>Company: ${req.body.klantnaam}</ul>
+      <ul>Purch. Org.: 0001</ul>
+      <ul>Purch. Group: LV4</ul>
+      <ul>Company Code: ${company_code}</ul>
+      <ul>A: f</ul>
+      <ul>I: d</ul>
+      <ul>Short text: ${req.body.omschijving}</ul>
+      <ul>PO Quantity: 1</ul>
+      <ul>Matl Group: level4</ul>
+      <ul>Plnt: ${plnt}</ul>
+      <ul>First Limit: ${req.body.bedrag.toString().replace('.', ',')}</ul>
+      <ul>Second Limit: ${req.body.bedrag_2.toString().replace('.', ',')}</ul>
+      <ul>Combined value: ${som.toString().replace('.', ',')}</ul>
+      <ul>GR Execution date: ${req.body.datum}</ul>
+      <ul>G/L Account: 47020000</ul>
+      <ul>First Order: ${order}</ul>
+      <ul>Second Order: ${order_2}</ul>`,
     };
     const sendMail = (user, callback) => {
       const transporter = nodemailer.createTransport({
