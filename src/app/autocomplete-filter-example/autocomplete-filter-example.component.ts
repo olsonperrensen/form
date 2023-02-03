@@ -463,7 +463,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   u_bedrag_2 = ''
   u_omschrijving = ''
   u_merk = this.authService.getCredentials().sbu
-  u_merk_2 = this.authService.getCredentials().sbu
+  u_merk_2 = ''
   u_datum = new Date().toLocaleString("en-US", { month: "long" });
   u_potype = ''
   myJSONForm = {
@@ -499,6 +499,8 @@ export class AutocompleteFilterExampleComponent implements OnInit {
         this.exit = true;
       }, (err) => { alert(`Er is iets fout gegaan. Probeer het opnieuw. / Quelque chose s'est mal passé. Réessayer.`) }
     );
+
+    // console.log(this.myJSONForm)
 
     setTimeout(() => {
       this.sent = true;
