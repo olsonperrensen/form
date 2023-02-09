@@ -499,8 +499,8 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   u_klantnaam = ''
   u_klantnr = ''
   u_bedrag = ''
-  u_bedrag_2 = ''
-  u_bedrag_3 = ''
+  u_bedrag_2 = '0'
+  u_bedrag_3 = '0'
   u_omschrijving = ''
   u_merk = this.authService.getCredentials().sbu
   u_merk_2 = ''
