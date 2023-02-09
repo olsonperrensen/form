@@ -229,10 +229,12 @@ app.get('/workers', (req, res) => {
 app.post('/sendmail', (req, res) => {
   let split = req.body.merk_2 != '' && req.body.bedrag_2 != '' ? true : false
   let som = req.body.bedrag_2 != '' ? Math.floor(req.body.bedrag) + Math.floor(req.body.bedrag_2) : ''
+  som = req.body.bedrag_3 != '' ? som + Math.floor(req.body.bedrag_3) : ''
   let plnt = 0;
   let company_code = 'A';
   let order = 'A';
   let order_2 = 'A';
+  let order_3 = 'A';
   let destinataries = [];
 
   if (req.body.land === 'België / Belgique') {
@@ -266,6 +268,20 @@ app.post('/sendmail', (req, res) => {
         order_2 = '';
         break;
     }
+    switch (req.body.merk_3) {
+      case 'DeWALT – LENOX – BOSTITCH':
+        order_3 = 'BE_DEW_L4';
+        break;
+      case 'STANLEY':
+        order_3 = 'BE_HDT_L4';
+        break;
+      case 'FACOM':
+        order_3 = 'BE_IAR_L4';
+        break;
+      default:
+        order_3 = '';
+        break;
+    }
   } else {
     company_code = 'nl01';
     plnt = 1510;
@@ -297,6 +313,20 @@ app.post('/sendmail', (req, res) => {
         order_2 = '';
         break;
     }
+    switch (req.body.merk_3) {
+      case 'DeWALT – LENOX – BOSTITCH':
+        order_3 = 'NL_DEW_L4';
+        break;
+      case 'STANLEY':
+        order_3 = 'NL_HDT_L4';
+        break;
+      case 'FACOM':
+        order_3 = 'NL_IAR_L4';
+        break;
+      default:
+        order_3 = '';
+        break;
+    }
   }
   client.query(
     `INSERT INTO PO(
@@ -308,9 +338,11 @@ app.post('/sendmail', (req, res) => {
       PO_QUANTITY,
       OVERALL_LIMIT,
       OVERALL_LIMIT_2,
+      OVERALL_LIMIT_3,
       GR_EXECUTION_DATE,
       SBU,
       SBU_2,
+      SBU_3,
       STATUS,
       GR,
       INVOICE) VALUES(
@@ -322,9 +354,11 @@ app.post('/sendmail', (req, res) => {
         '${'1'}',
         '${req.body.bedrag}',
         '${req.body.bedrag_2}',
+        '${req.body.bedrag_3}',
         '${req.body.datum}',
         '${order}',
         '${order_2}',
+        '${order_3}',
         '${'Pending'}',
         '${'Pending'}',
         '${'Pending'}')
@@ -395,11 +429,13 @@ app.post('/sendmail', (req, res) => {
       <ul>Plnt: ${plnt}</ul>
       <ul>First Limit: ${req.body.bedrag.toString().replace('.', ',')}</ul>
       <ul>Second Limit: ${req.body.bedrag_2.toString().replace('.', ',')}</ul>
+      <ul>Third Limit: ${req.body.bedrag_3.toString().replace('.', ',')}</ul>
       <ul>Combined value: ${som.toString().replace('.', ',')}</ul>
       <ul>GR Execution date: ${req.body.datum}</ul>
       <ul>G/L Account: 47020000</ul>
       <ul>First Order: ${order}</ul>
-      <ul>Second Order: ${order_2}</ul>`,
+      <ul>Second Order: ${order_2}</ul>
+      <ul>Third Order: ${order_3}</ul>`,
     };
     const sendMail = (user, callback) => {
       const transporter = nodemailer.createTransport({
@@ -659,7 +695,7 @@ app.post('/invoice', upload.single('file'), (req, res) => {
         console.log(`INVOICE record updated ${req.body.u_ID}`);
         sales_per = res.rows[0].requested_by.split(' ');
         company = res.rows[0].company;
-        overall_limit = res.rows[0].overall_limit;
+        overall_limit = Math.floor(res.rows[0].overall_limit_3) + Math.floor(res.rows[0].overall_limit_2) + Math.floor(res.rows[0].overall_limit);
         ref = res.rows[0].id;
         PO = res.rows[0].status;
       }
@@ -841,7 +877,7 @@ app.put('/po', (req, res) => {
         po_datum = res.rows[0].datum;
         po_company_code = res.rows[0].company_code;
         po_shortxt = res.rows[0].short_text;
-        po_overallmt = res.rows[0].overall_limit;
+        po_overallmt = Math.floor(res.rows[0].overall_limit_3) + Math.floor(res.rows[0].overall_limit_2) + Math.floor(res.rows[0].overall_limit);
         po_gr = res.rows[0].gr_execution_date;
         po_sbu = res.rows[0].sbu;
       }
