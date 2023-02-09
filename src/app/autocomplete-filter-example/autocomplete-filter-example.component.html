@@ -56,7 +56,16 @@
           <pre *ngIf="!isOmschrijving" [@fadeInLeftOnEnter] (click)="enableSplitPo()"
             style="color: red"><a routerLink="/po"><pre *ngIf="split">Disable</pre><pre *ngIf="!split">Enable</pre> Split PO</a></pre>
         </mat-form-field>
-        <div *ngIf="split" class="bg-warning text-white">
+        <div *ngIf="split">
+          <mat-form-field [@fadeInLeftOnEnter] style="width: 100%" appearance="fill">
+            <mat-label>Hoeveel splits?</mat-label>
+            <mat-select matInput [(ngModel)]="u_split_n" (ngModelChange)="split_n()" name="u_split_n" required>
+              <mat-option *ngFor="let n of filteredOptionsSplitN | async" [value]="n">
+                {{n}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="split2||split3" class="bg-warning text-white">
           <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
             <mat-label class="text-danger">Tweede bedrag</mat-label>
             <input min="50" max="89000" required type="number" placeholder="Write here" aria-label="Number" matInput
@@ -72,6 +81,24 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
+        </div>
+          <div *ngIf="split3" class="bg-warning text-white">
+            <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+              <mat-label class="text-danger">Derde bedrag</mat-label>
+              <input min="50" max="89000" required type="number" placeholder="Write here" aria-label="Number" matInput
+                [(ngModel)]="u_bedrag_3" [formControl]="myControl9_3" name="u_bedrag_3">
+            </mat-form-field>
+            <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+              <mat-label class="text-danger">Derde unit</mat-label>
+              <input required type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl3_3"
+                [matAutocomplete]="auto3_3" [(ngModel)]="u_merk_3" name="u_merk_3">
+              <mat-autocomplete #auto3_3="matAutocomplete">
+                <mat-option *ngFor="let klant of filteredOptions3_3 | async" [value]="klant">
+                  {{klant}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
         </div>
         <div *ngIf="!split">
           <mat-form-field *ngIf="isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker" [@fadeInLeftOnEnter]

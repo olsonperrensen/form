@@ -48,26 +48,32 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   isBackendDown = false;
 
   split = false;
+  split2 = false;
+  split3 = false;
 
   myControl = new FormControl();
   myControl2 = new FormControl();
   myControl3 = new FormControl();
   myControl3_2 = new FormControl();
+  myControl3_3 = new FormControl();
   myControl4 = new FormControl();
   myControl5 = new FormControl();
   myControl6 = new FormControl();
   myControl8 = new FormControl();
   myControl9 = new FormControl();
   myControl9_2 = new FormControl();
+  myControl9_3 = new FormControl();
   myControl10 = new FormControl();
+  myControlsplitn = new FormControl();
 
   options2!: string[];
   options3: string[] = ["DeWALT – LENOX – BOSTITCH", "STANLEY", "FACOM"];
   options3_2: string[] = ["DeWALT – LENOX – BOSTITCH", "STANLEY", "FACOM"];
+  options3_3: string[] = ["DeWALT – LENOX – BOSTITCH", "STANLEY", "FACOM"];
   options4: string[] = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"];
   options5: string[] = ["België / Belgique", "Nederland / Pays Bas"];
-
+  optionssplitn: string[] = ["2", "3"];
 
   deWALT_employees = [
     // DeWALT
@@ -102,8 +108,10 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   filteredOptions2!: Observable<string[]>;
   filteredOptions3!: Observable<string[]>;
   filteredOptions3_2!: Observable<string[]>;
+  filteredOptions3_3!: Observable<string[]>;
   filteredOptions4!: Observable<string[]>;
   filteredOptions5!: Observable<string[]>;
+  filteredOptionsSplitN!: Observable<string[]>;
 
   ipAddress = '';
 
@@ -138,6 +146,10 @@ export class AutocompleteFilterExampleComponent implements OnInit {
         startWith(''),
         map(value => this._filter3_2(value)),
       );
+      this.filteredOptions3_3 = this.myControl3_3.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter3_3(value)),
+      );
       this.filteredOptions4 = this.myControl4.valueChanges.pipe(
         startWith(''),
         map(value => this._filter4(value)),
@@ -145,6 +157,10 @@ export class AutocompleteFilterExampleComponent implements OnInit {
       this.filteredOptions5 = this.myControl5.valueChanges.pipe(
         startWith(''),
         map(value => this._filter5(value)),
+      );
+      this.filteredOptionsSplitN = this.myControlsplitn.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filtersplitn(value)),
       );
     }, 800);
 
@@ -427,6 +443,17 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     }
   }
 
+  split_n() {
+    if (this.u_split_n == 2) {
+      this.split2 = !this.split2;
+      this.split3 = false;
+    }
+    else if (this.u_split_n == 3) {
+      this.split3 = !this.split3;
+      this.split2 = false;
+    }
+  }
+
   enableSplitPo() {
     this.split = !this.split;
   }
@@ -446,6 +473,11 @@ export class AutocompleteFilterExampleComponent implements OnInit {
 
     return this.options3_2.filter(option => option.toLowerCase().includes(filterValue));
   }
+  private _filter3_3(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options3_3.filter(option => option.toLowerCase().includes(filterValue));
+  }
   private _filter4(value: string): string[] {
     const filterValue = value.toLowerCase();
 
@@ -456,6 +488,11 @@ export class AutocompleteFilterExampleComponent implements OnInit {
 
     return this.options5.filter(option => option.toLowerCase().includes(filterValue));
   }
+  private _filtersplitn(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.optionssplitn.filter(option => option.toLowerCase().includes(filterValue));
+  }
 
   u_worker = this.authService.getCredentials().naam
   u_land = this.authService.getCredentials().land
@@ -463,11 +500,14 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   u_klantnr = ''
   u_bedrag = ''
   u_bedrag_2 = ''
+  u_bedrag_3 = ''
   u_omschrijving = ''
   u_merk = this.authService.getCredentials().sbu
   u_merk_2 = ''
+  u_merk_3 = ''
   u_datum = new Date().toLocaleString("en-US", { month: "long" });
   u_potype = ''
+  u_split_n = 2
   myJSONForm = {
   }
 
@@ -481,9 +521,11 @@ export class AutocompleteFilterExampleComponent implements OnInit {
       klantnr: this.u_klantnr,
       bedrag: this.u_bedrag,
       bedrag_2: this.u_bedrag_2,
+      bedrag_3: this.u_bedrag_3,
       omschijving: this.u_omschrijving,
       merk: this.u_merk,
       merk_2: this.u_merk_2,
+      merk_3: this.u_merk_3,
       datum: this.u_datum,
       potype: this.u_potype,
       worker: this.u_worker
@@ -512,12 +554,15 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   onCancel(f: NgForm) {
     this.u_bedrag = ''
     this.u_bedrag_2 = ''
+    this.u_bedrag_3 = ''
     this.u_datum = ''
     this.u_klantnaam = ''
     this.u_klantnr = ''
     this.u_land = ''
     this.u_merk = ''
     this.u_merk_2 = ''
+    this.u_split_n = NaN
+    this.u_merk_3 = ''
     this.u_omschrijving = ''
     this.u_potype = ''
     this.u_worker = ''
