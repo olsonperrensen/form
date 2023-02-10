@@ -62,7 +62,7 @@ export class InvoiceComponent implements OnInit {
       if (this.options3.find((obj) => { return obj === res; })) {
         if (this.allPO.find((po) => {
           if (po.status == res) {
-            po.overall_limit = !this.found?Math.floor(po.overall_limit) + Math.floor(po.overall_limit_2) + Math.floor(po.overall_limit_3):po.overall_limit
+            po.overall_limit = !this.found ? (parseFloat(po.overall_limit) + parseFloat(po.overall_limit_2) + parseFloat(po.overall_limit_3)).toString() : po.overall_limit
             this.found = true;
             this.selectedPO = po;
           }

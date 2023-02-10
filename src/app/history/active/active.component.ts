@@ -13,9 +13,9 @@ export interface UserData {
   company_code: string;
   short_text: string;
   po_quantity: number;
-  overall_limit: number;
-  overall_limit_2: number;
-  overall_limit_3: number;
+  overall_limit: string;
+  overall_limit_2: string;
+  overall_limit_3: string;
   gr_execution_date: string;
   sbu: string,
   status: string,
@@ -64,7 +64,7 @@ export class ActiveComponent implements OnInit, AfterViewInit {
       // Assign the data to the data source for the table to render
       this.dataSource = new MatTableDataSource(this.users);
       this.dataSource.data.forEach(po => {
-        po.overall_limit = Math.floor(po.overall_limit)+Math.floor(po.overall_limit_2)+Math.floor(po.overall_limit_3)
+        po.overall_limit = (parseFloat(po.overall_limit) + parseFloat(po.overall_limit_2) + parseFloat(po.overall_limit_3)).toString()
       });
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

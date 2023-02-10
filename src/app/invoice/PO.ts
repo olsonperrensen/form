@@ -6,9 +6,9 @@ export class PO {
     company_code !: string;
     short_text !: string;
     po_quantity !: string;
-    overall_limit !: number;
-    overall_limit_2 !: number;
-    overall_limit_3 !: number;
+    overall_limit !: string;
+    overall_limit_2 !: string;
+    overall_limit_3 !: string;
     gr_execution_date !: string;
     sbu !: string;
     status !: string;
