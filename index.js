@@ -228,8 +228,8 @@ app.get('/workers', (req, res) => {
 // define a sendmail endpoint, which will send emails and response with the corresponding status
 app.post('/sendmail', (req, res) => {
   let split = req.body.merk_2 != '' && req.body.bedrag_2 != '' ? true : false
-  let som = req.body.bedrag_2 != '' ? Math.floor(req.body.bedrag) + Math.floor(req.body.bedrag_2) : ''
-  som = req.body.bedrag_3 != '' ? som + Math.floor(req.body.bedrag_3) : ''
+  let som = req.body.bedrag_2 != '' ? parseFloat(req.body.bedrag) + parseFloat(req.body.bedrag_2) : ''
+  som = req.body.bedrag_3 != '' ? som + parseFloat(req.body.bedrag_3) : ''
   let plnt = 0;
   let company_code = 'A';
   let order = 'A';
@@ -696,7 +696,7 @@ app.post('/invoice', upload.single('file'), (req, res) => {
         console.log(`INVOICE record updated ${req.body.u_ID}`);
         sales_per = res.rows[0].requested_by.split(' ');
         company = res.rows[0].company;
-        overall_limit = Math.floor(res.rows[0].overall_limit_3) + Math.floor(res.rows[0].overall_limit_2) + Math.floor(res.rows[0].overall_limit);
+        overall_limit = parseFloat(res.rows[0].overall_limit_3) + parseFloat(res.rows[0].overall_limit_2) + parseFloat(res.rows[0].overall_limit);
         ref = res.rows[0].id;
         PO = res.rows[0].status;
       }
@@ -878,7 +878,7 @@ app.put('/po', (req, res) => {
         po_datum = res.rows[0].datum;
         po_company_code = res.rows[0].company_code;
         po_shortxt = res.rows[0].short_text;
-        po_overallmt = Math.floor(res.rows[0].overall_limit_3) + Math.floor(res.rows[0].overall_limit_2) + Math.floor(res.rows[0].overall_limit);
+        po_overallmt = parseFloat(res.rows[0].overall_limit_3) + parseFloat(res.rows[0].overall_limit_2) + parseFloat(res.rows[0].overall_limit);
         po_gr = res.rows[0].gr_execution_date;
         po_sbu = res.rows[0].sbu;
       }
