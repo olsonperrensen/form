@@ -39,6 +39,7 @@ export class InvoiceComponent implements OnInit {
   isBezig = false;
   s = 6
   u_worker = this.authService.getCredentials().naam
+  found = false;
 
   constructor(private getData: GetdataService,
     private sendForms: SendFormsService,
@@ -61,6 +62,8 @@ export class InvoiceComponent implements OnInit {
       if (this.options3.find((obj) => { return obj === res; })) {
         if (this.allPO.find((po) => {
           if (po.status == res) {
+            po.overall_limit = !this.found?Math.floor(po.overall_limit) + Math.floor(po.overall_limit_2) + Math.floor(po.overall_limit_3):po.overall_limit
+            this.found = true;
             this.selectedPO = po;
           }
           return po === res;
