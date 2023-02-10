@@ -684,7 +684,8 @@ app.post('/invoice', upload.single('file'), (req, res) => {
   let PO = '';
   let salesrep = '';
   client.query(
-    `select requested_by, company, overall_limit, status from po
+    `select requested_by, company, overall_limit, overall_limit_2, overall_limit_3, 
+    status from po
     where status = '${req.body.u_ID}'`,
     (err, res) => {
       if (err) {
