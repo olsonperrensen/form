@@ -522,7 +522,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
       bedrag: this.u_bedrag,
       bedrag_2: this.u_bedrag_2,
       bedrag_3: this.u_bedrag_3,
-      omschijving: this.u_omschrijving,
+      omschijving: this.u_omschrijving.replace(/'/g, ''),
       merk: this.u_merk,
       merk_2: this.u_merk_2,
       merk_3: this.u_merk_3,
