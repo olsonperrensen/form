@@ -1,15 +1,94 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as a from 'angular-animations';
+import dateFormat from "dateformat";
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { SendFormsService } from '../send-forms.service';
-import { TooltipPosition } from '@angular/material/tooltip';
-import { IpServiceService } from '../ip-service.service';
-import * as a from 'angular-animations';
-import { GetdataService } from '../getdata.service';
-import { Router } from '@angular/router';
-import dateFormat, { masks } from "dateformat";
 import { AuthService } from '../auth.service';
+import { GetdataService } from '../getdata.service';
+import { IpServiceService } from '../ip-service.service';
+import { SendFormsService } from '../send-forms.service';
+
+const CCEMAILS = new Map<string, any>();
+
+@Component({
+  selector: 'ngbd-modal-content',
+  template: `
+		<div class="modal-header">
+			<h4 class="modal-title">One last step</h4>
+			<button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+		</div>
+    <div class="modal-init">
+		<div class="modal-body">
+			<p>Would you like to include the other Sales Representatives in CC?</p>
+		</div>
+		<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="ccInput()">Yes</button>
+			<button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">No</button>
+		</div>
+    </div>
+    <div style='display:none;' class="modal-cc">
+		<div class="modal-body">
+    <div class="input-group mb-3 cc1group">
+  <input type="text" 
+  class="form-control cc-1" 
+  placeholder="{{sbu2}} Salesman (name.surname)" 
+  id="cc1"
+  (change)="store($event)"
+  aria-label="Recipient's username" aria-describedby="basic-addon2">
+  <span class="input-group-text" id="basic-addon2">@sbdinc.com</span>
+</div>
+<div class="input-group mb-3 cc2group">
+  <input type="text" 
+  class="form-control cc-2" 
+  placeholder="{{sbu3}} Salesman (name.surname)" 
+  id='cc2'
+  (change)="store($event)"
+  aria-label="Recipient's username" aria-describedby="basic-addon2">
+  <span class="input-group-text" id="basic-addon2">@sbdinc.com</span>
+</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-dark" (click)="activeModal.close('Close click')">Save</button>
+		</div>
+    </div>
+	`,
+})
+
+export class NgbdModalContent implements OnInit {
+  @Input() sbu2: any;
+  @Input() sbu3: any;
+  wantsCC = false;
+  ccInput() {
+    const element = <HTMLElement>document.getElementsByClassName('modal-init')[0];
+    const elementcc = <HTMLElement>document.getElementsByClassName('modal-cc')[0];
+    element.style.display = 'none';
+    elementcc.style.display = 'block';
+    if (this.sbu3.length < 1) {
+      const cc2group = <HTMLElement>document.getElementsByClassName('cc2group')[0];
+      cc2group.style.display = 'none';
+    }
+  }
+  store(event: any) {
+    const DOMAIN = '@sbdinc.com'
+    if (event.target.value.includes(' ')) {
+      event.target.value = event.target.value.replace(/\s+/g, '.')
+    }
+    if (event.target.id == 'cc1') {
+      CCEMAILS.set('cc1', event.target.value + DOMAIN)
+    }
+    else {
+      CCEMAILS.set('cc2', event.target.value + DOMAIN)
+    }
+  }
+
+  constructor(public activeModal: NgbActiveModal) { }
+  ngOnInit(): void {
+  }
+}
+
 
 @Component({
   selector: 'app-autocomplete-filter-example',
@@ -25,6 +104,22 @@ import { AuthService } from '../auth.service';
 })
 export class AutocompleteFilterExampleComponent implements OnInit {
 
+  open() {
+    if (!this.split) {
+      const myPromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve("foo");
+        }, 1);
+      });
+      return myPromise
+    }
+    const modalRef = this.modalService.open(NgbdModalContent);
+    modalRef.componentInstance.sbu2 = this.u_merk_2;
+    modalRef.componentInstance.sbu3 = this.u_merk_3;
+    return modalRef.result
+  }
+
+  modalHasClosed = false;
   sent = false;
   exit = false;
 
@@ -116,7 +211,8 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   ipAddress = '';
 
   constructor(private sendForms: SendFormsService, private ip: IpServiceService,
-    private getData: GetdataService, private router: Router, private authService: AuthService) { }
+    private getData: GetdataService, private router: Router,
+    private authService: AuthService, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.getData.getClients().subscribe((res: any) => {
@@ -512,44 +608,52 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   }
 
   onSubmit(f: NgForm) {
-    const now = new Date();
+    this.open().then(() => {
+      const now = new Date();
 
-    this.myJSONForm = {
-      timestamp: dateFormat(now, "dddd, mmmm dS, yyyy, h:MM:ss TT"),
-      land: this.u_land,
-      klantnaam: this.u_klantnaam,
-      klantnr: this.u_klantnr,
-      bedrag: this.u_bedrag,
-      bedrag_2: this.u_bedrag_2,
-      bedrag_3: this.u_bedrag_3,
-      omschijving: this.u_omschrijving.replace(/'/g, ''),
-      merk: this.u_merk,
-      merk_2: this.u_merk_2,
-      merk_3: this.u_merk_3,
-      datum: this.u_datum,
-      potype: this.u_potype,
-      worker: this.u_worker
-    };
+      this.myJSONForm = {
+        timestamp: dateFormat(now, "dddd, mmmm dS, yyyy, h:MM:ss TT"),
+        land: this.u_land,
+        klantnaam: this.u_klantnaam,
+        klantnr: this.u_klantnr,
+        bedrag: this.u_bedrag,
+        bedrag_2: this.u_bedrag_2,
+        bedrag_3: this.u_bedrag_3,
+        omschijving: this.u_omschrijving.replace(/'/g, ''),
+        merk: this.u_merk,
+        merk_2: this.u_merk_2,
+        merk_3: this.u_merk_3,
+        cc1: CCEMAILS.get('cc1'),
+        cc2: CCEMAILS.get('cc2'),
+        datum: this.u_datum,
+        potype: this.u_potype,
+        worker: this.u_worker
+      };
 
-    console.log(this.options2.includes(this.u_klantnaam));
+      console.log(this.options2.includes(this.u_klantnaam));
 
-    this.sendForms.sendForm(this.myJSONForm).subscribe(
-      (res) => {
-        alert(`U heeft met succes een aanvraag naar de verantwoordelijke gestuurd.
+      // console.log(this.myJSONForm)
+
+
+      this.sendForms.sendForm(this.myJSONForm).subscribe(
+        (res) => {
+          alert(`U heeft met succes een aanvraag naar de verantwoordelijke gestuurd.
 
       Controleer uw e-mail voor het PO-nummer / Vous avez envoyé avec succès une demande à la personne responsable.
 
       Veuillez vérifier votre e-mail pour le numéro de PO`);
-        this.exit = true;
-      }, (err) => { alert(`Er is iets fout gegaan. Probeer het opnieuw. / Quelque chose s'est mal passé. Réessayer.`) }
-    );
+          this.exit = true;
+        }, (err) => { alert(`Er is iets fout gegaan. Probeer het opnieuw. / Quelque chose s'est mal passé. Réessayer.`) }
+      );
 
-    // console.log(this.myJSONForm)
+      // console.log(this.myJSONForm)
 
-    setTimeout(() => {
-      this.sent = true;
-    }, 500);
+      setTimeout(() => {
+        this.sent = true;
+      }, 500);
+    })
   }
+
 
   onCancel(f: NgForm) {
     this.u_bedrag = ''

@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'vendor-history', component: VendorHistoryComponent, canActivate: [AuthGuardService] },
   { path: 'invoice', component: InvoiceComponent, canActivate: [AuthGuardService] },
   { path: 'reset', component: ResetComponent },
-  { path: 'profile', component: ProfileComponent,canActivate: [AuthGuardService] }
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] }
 ];
 
 @NgModule({
