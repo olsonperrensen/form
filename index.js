@@ -227,6 +227,8 @@ app.get('/workers', (req, res) => {
 
 // define a sendmail endpoint, which will send emails and response with the corresponding status
 app.post('/sendmail', (req, res) => {
+  let cc1 = req.body.cc1 != undefined ? req.body.cc1 : ''
+  let cc2 = req.body.cc2 != undefined ? req.body.cc2 : ''
   let split = req.body.merk_2 != '' && req.body.bedrag_2 != '' ? true : false
   let som = req.body.bedrag_2 != '' ? parseFloat(req.body.bedrag) + parseFloat(req.body.bedrag_2) : ''
   som = req.body.bedrag_3 != '' ? som + parseFloat(req.body.bedrag_3) : ''
@@ -392,6 +394,8 @@ app.post('/sendmail', (req, res) => {
       cc: [
         `${sales_man[0]}.${sales_man[1]}@sbdinc.com`,
         'students.benelux@sbdinc.com',
+        cc1,
+        cc2
       ],
       subject: !split ? `Aanvraag Ref. #${db_id} ${req.body.omschijving} ${subject_klant[1]} ${subject_klant[2]}` : `Split Ref. #${db_id} ${req.body.omschijving} ${subject_klant[1]} ${subject_klant[2]}`,
       html: !split ?
