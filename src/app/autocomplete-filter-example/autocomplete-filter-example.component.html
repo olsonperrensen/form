@@ -53,8 +53,11 @@
           </mat-label>
           <input min="50" max="89000" required type="number" placeholder="Write here" aria-label="Number" matInput
             [(ngModel)]="u_bedrag" [formControl]="myControl9" name="u_bedrag">
-          <pre *ngIf="!isOmschrijving" [@fadeInLeftOnEnter] (click)="enableSplitPo()"
-            style="color: red"><a routerLink="/po"><pre *ngIf="split">Disable</pre><pre *ngIf="!split">Enable</pre> Split PO</a></pre>
+          <div class="d-grid gap-2 d-md-block mt-3">
+            <button *ngIf="!isOmschrijving" [@fadeInLeftOnEnter] style="margin: 20px;" (click)="enableSplitPo()"
+              [ngClass]="[!split ? 'btn-dark' : 'btn-outline-dark']" class="btn" type="button">
+              <span *ngIf="!split">SPLIT</span><span *ngIf="split">NO SPLIT</span></button>
+          </div>
         </mat-form-field>
         <div *ngIf="split">
           <mat-form-field [@fadeInLeftOnEnter] style="width: 100%" appearance="fill">
@@ -66,22 +69,22 @@
             </mat-select>
           </mat-form-field>
           <div *ngIf="split2||split3" class="mybg2 text-white">
-          <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
-            <mat-label class="text-danger">Tweede bedrag</mat-label>
-            <input min="50" max="89000" required type="number" placeholder="Write here" aria-label="Number" matInput
-              [(ngModel)]="u_bedrag_2" [formControl]="myControl9_2" name="u_bedrag_2">
-          </mat-form-field>
-          <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
-            <mat-label class="text-danger">Tweede unit</mat-label>
-            <input required type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl3_2"
-              [matAutocomplete]="auto3_2" [(ngModel)]="u_merk_2" name="u_merk_2">
-            <mat-autocomplete #auto3_2="matAutocomplete">
-              <mat-option *ngFor="let klant of filteredOptions3_2 | async" [value]="klant">
-                {{klant}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </div>
+            <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+              <mat-label class="text-danger">Tweede bedrag</mat-label>
+              <input min="50" max="89000" required type="number" placeholder="Write here" aria-label="Number" matInput
+                [(ngModel)]="u_bedrag_2" [formControl]="myControl9_2" name="u_bedrag_2">
+            </mat-form-field>
+            <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+              <mat-label class="text-danger">Tweede unit</mat-label>
+              <input required type="text" placeholder="Pick one" aria-label="Number" matInput
+                [formControl]="myControl3_2" [matAutocomplete]="auto3_2" [(ngModel)]="u_merk_2" name="u_merk_2">
+              <mat-autocomplete #auto3_2="matAutocomplete">
+                <mat-option *ngFor="let klant of filteredOptions3_2 | async" [value]="klant">
+                  {{klant}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
           <div *ngIf="split3" class="mybg3 text-white">
             <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
               <mat-label class="text-danger">Derde bedrag</mat-label>
@@ -90,8 +93,8 @@
             </mat-form-field>
             <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
               <mat-label class="text-danger">Derde unit</mat-label>
-              <input required type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl3_3"
-                [matAutocomplete]="auto3_3" [(ngModel)]="u_merk_3" name="u_merk_3">
+              <input required type="text" placeholder="Pick one" aria-label="Number" matInput
+                [formControl]="myControl3_3" [matAutocomplete]="auto3_3" [(ngModel)]="u_merk_3" name="u_merk_3">
               <mat-autocomplete #auto3_3="matAutocomplete">
                 <mat-option *ngFor="let klant of filteredOptions3_3 | async" [value]="klant">
                   {{klant}}
@@ -107,7 +110,7 @@
             <input required type="text" placeholder="Write here" aria-label="Number" matInput
               [(ngModel)]="u_omschrijving" [formControl]="myControl10" name="u_omschrijving">
             <pre>Tot 40 tekens</pre>
-            </mat-form-field>
+          </mat-form-field>
           <mat-form-field [@fadeInLeftOnEnter] *ngIf="isOmschrijving&&isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker"
             style="width: 100%" matTooltip="Telt voor afleveringsdatum van de afspraak" matTooltipPosition="left"
             appearance="fill">
@@ -130,8 +133,8 @@
             <mat-label>{{'q7'|translate}}</mat-label>
             <input required type="text" placeholder="Write here" aria-label="Number" matInput
               [(ngModel)]="u_omschrijving" [formControl]="myControl10" name="u_omschrijving">
-              <pre>Tot 40 tekens</pre>
-            </mat-form-field>
+            <pre>Tot 40 tekens</pre>
+          </mat-form-field>
 
           <mat-form-field [@fadeInLeftOnEnter]
             *ngIf="isOmschrijving&&isBedrag_2&&isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker" style="width: 100%"
