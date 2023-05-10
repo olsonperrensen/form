@@ -1015,7 +1015,7 @@ app.put('/betaald', (req, res) => {
     } else {
       res.send('500');
     }
-  }, 6200);
+  }, 888);
   // client.query(
   //   `SELECT * from PO
   // where id = '${req.body.u_ID}'`,
