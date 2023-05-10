@@ -504,13 +504,20 @@ app.post('/po', (req, res) => {
 });
 
 app.get('/archive_po', (req, res) => {
-  client.query('SELECT * FROM archive_po;', (err, res) => {
-    if (err) throw err;
-    for (let row of res.rows) {
-      po.push(row);
+  req.body.requested_by === 'MARTIN VAN'
+    ? (req.body.requested_by = '%')
+    : (req.body.requested_by = req.body.requested_by);
+
+  client.query(
+    `SELECT * FROM APO WHERE REQUESTED_BY LIKE '${req.body.requested_by}' or manager LIKE '${req.body.requested_by}';`,
+    (err, res) => {
+      if (err) throw err;
+      for (let row of res.rows) {
+        po.push(row);
+      }
+      console.log(`Fetched PO's from DB by user ${req.body.requested_by}`);
     }
-    console.log("Fetched ARCHIVE PO's from DB");
-  });
+  );
   setTimeout(() => {
     res.send(po);
   }, 250);
@@ -988,7 +995,27 @@ app.put('/betaald', (req, res) => {
       }
     }
   );
-  isRecordInDB===true ? res.send('200') : res.send('500')
+  client.query(
+    `INSERT INTO apo SELECT * FROM po WHERE id = '${req.body.u_ID}';
+    DELETE FROM po USING apo WHERE po.id = '${req.body.u_ID}';`,
+    (err, res) => {
+      if (err) {
+        isRecordInDB = false;
+        console.log(`CANNOT PO delete: ${err}`);
+      } else {
+        isRecordInDB = true;
+        console.log(`PO record deleted ${req.body.u_ID}`);
+      }
+    }
+  );
+  setTimeout(() => {
+    console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`);
+    if (isRecordInDB) {
+      res.send('200');
+    } else {
+      res.send('500');
+    }
+  }, 6200);
   // client.query(
   //   `SELECT * from PO
   // where id = '${req.body.u_ID}'`,
