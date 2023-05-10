@@ -503,7 +503,7 @@ app.post('/po', (req, res) => {
   po = [];
 });
 
-app.get('/archive_po', (req, res) => {
+app.post('/archive_po', (req, res) => {
   req.body.requested_by === 'MARTIN VAN'
     ? (req.body.requested_by = '%')
     : (req.body.requested_by = req.body.requested_by);
