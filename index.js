@@ -988,7 +988,7 @@ app.put('/betaald', (req, res) => {
       }
     }
   );
-  isRecordInDB ? res.send('200') : res.send('500')
+  isRecordInDB===true ? res.send('200') : res.send('500')
   // client.query(
   //   `SELECT * from PO
   // where id = '${req.body.u_ID}'`,
