@@ -982,13 +982,14 @@ app.put('/betaald', (req, res) => {
       if (err) {
         isRecordInDB = false;
         console.log(`CANNOT PO update: ${err}`);
+        res.sendStatus('500')
       } else {
         isRecordInDB = true;
         console.log(`betaald record updated to: ${req.body.betaald}`);
+        res.sendStatus('200')
       }
     }
   );
-  res.send(200);
   // client.query(
   //   `SELECT * from PO
   // where id = '${req.body.u_ID}'`,
