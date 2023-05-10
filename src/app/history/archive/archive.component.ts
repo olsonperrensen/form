@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { AuthService } from 'src/app/auth.service';
 import { GetdataService } from '../../getdata.service';
 
 export interface UserData {
@@ -12,12 +13,15 @@ export interface UserData {
   company_code: string;
   short_text: string;
   po_quantity: number;
-  overall_limit: number;
+  overall_limit: string;
+  overall_limit_2: string;
+  overall_limit_3: string;
   gr_execution_date: string;
   sbu: string,
   status: string,
   gr: string,
   invoice: string,
+  betaald: boolean
 }
 
 
@@ -39,27 +43,32 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
     'sbu',
     'status',
     'gr',
-  'invoice'];
+    'invoice',
+    'betaald'];
   dataSource!: MatTableDataSource<UserData>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private getData: GetdataService) { }
+  constructor(private getData: GetdataService, private authService: AuthService) { }
 
   users!: any;
   isArchive = false;
   isChoosing = true;
+  u_worker = this.authService.getCredentials().naam
 
   ngOnInit(): void {
 
 
 
     // FETCH FROM DB
-    this.getData.getArchivePO().subscribe((res) => {
+    this.getData.getArchivePO(this.u_worker.toUpperCase()).subscribe((res) => {
       this.users = res;
       // Assign the data to the data source for the table to render
       this.dataSource = new MatTableDataSource(this.users);
+      this.dataSource.data.forEach(po => {
+        po.overall_limit = (parseFloat(po.overall_limit) + parseFloat(po.overall_limit_2) + parseFloat(po.overall_limit_3)).toString()
+      });
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     })

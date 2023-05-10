@@ -74,8 +74,8 @@ export class GetdataService {
   getVendor() {
     return this.http.get('https://formemail.herokuapp.com/vendor')
   }
-  getArchivePO() {
-    return this.http.get('https://formemail.herokuapp.com/archive_po')
+  getArchivePO(req: any) {
+    return this.http.post('https://formemail.herokuapp.com/archive_po', { requested_by: req })
   }
   editPO(req: any) {
     return this.http.put('https://formemail.herokuapp.com/po', req)
