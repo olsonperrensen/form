@@ -943,6 +943,131 @@ app.put('/po', (req, res) => {
     });
   }, 1000);
 });
+
+app.put('/clients', (req, res) => {
+  console.log(
+    `New edit came: "${req.body.old_client}" to be replaced with "${req.body.new_client}"`
+  );
+  client.query(
+    `UPDATE BIZ SET biz_name = '${req.body.new_client}'
+  where biz_name = '${req.body.old_client}'`,
+    (err, res) => {
+      if (err) {
+        isRecordInDB = false;
+        console.log(`CANNOT update: ${err}`);
+      } else {
+        isRecordInDB = true;
+        console.log(`record updated ${req.body.new_client}`);
+      }
+    }
+  );
+  setTimeout(() => {
+    console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`);
+    if (isRecordInDB) {
+      res.send('200');
+    } else {
+      res.send('500');
+    }
+  }, 6200);
+});
+
+app.put('/betaald', (req, res) => {
+  console.log(
+    `New betaald edit came: "${req.body.u_ID}" to be updated with "${req.body.betaald}" as payment status`
+  );
+  client.query(
+    `UPDATE PO SET betaald = ${req.body.betaald}
+  where id = '${req.body.u_ID}'`,
+    (err, res) => {
+      if (err) {
+        isRecordInDB = false;
+        console.log(`CANNOT PO update: ${err}`);
+      } else {
+        isRecordInDB = true;
+        console.log(`betaald record updated to: ${req.body.betaald}`);
+      }
+    }
+  );
+  res.send(200);
+  // client.query(
+  //   `SELECT * from PO
+  // where id = '${req.body.u_ID}'`,
+  //   (err, res) => {
+  //     if (err) {
+  //       isRecordInDB = false;
+  //       console.log(`CANNOT PO find: ${err}`);
+  //     } else {
+  //       isRecordInDB = true;
+  //       console.log(`PO Guy record found ${req.body.u_ID}`);
+  //       po_guy = res.rows[0].requested_by.split(' ');
+  //       po_guy = `${po_guy[0]}.${po_guy[1]}@sbdinc.com`;
+  //       tmp_company_po = res.rows[0].company.split(' ');
+  //       po_datum = res.rows[0].datum;
+  //       po_company_code = res.rows[0].company_code;
+  //       po_shortxt = res.rows[0].short_text;
+  //       po_overallmt = parseFloat(res.rows[0].overall_limit_3) + parseFloat(res.rows[0].overall_limit_2) + parseFloat(res.rows[0].overall_limit);
+  //       po_gr = res.rows[0].gr_execution_date;
+  //       po_sbu = res.rows[0].sbu;
+  //     }
+  //   }
+  // );
+  // setTimeout(() => {
+  //   const mailOptions = {
+  //     from: 'olsonperrensen@zohomail.eu',
+  //     to: po_guy,
+  //     cc: `students.benelux@sbdinc.com`,
+  //     subject: `PO #${req.body.u_ID} ${po_shortxt} ${tmp_company_po[1]} ${tmp_company_po[2]}`,
+  //     html: `
+  //     <p class=MsoNormal>PO <b><span style='font-size:13.5pt;font-family:"Arial",sans-serif;color:navy'>${req.body.new_client
+  //       }<o:p></o:p></span></b></p><p class=MsoNormal><o:p>&nbsp;</o:p></p><p class=MsoNormal><o:p>&nbsp;</o:p></p><p class=MsoNormal><span lang=NL>Met vriendelijke groeten<o:p></o:p></span></p><p class=MsoNormal><span lang=NL><o:p>&nbsp;</o:p></span></p><p class=MsoNormal><span lang=NL>Students Benelux<o:p></o:p></span></p>
+  //     <hr>
+  //     <ul>Requested by: ${po_guy}</ul>
+  //     <ul>Timestamp: ${po_datum}</ul>
+  //     <ul>Company: ${tmp_company_po.toString().replace(',', ' ')}</ul>
+  //     <ul>Purch. Org.: 0001</ul>
+  //     <ul>Purch. Group: LV4</ul>
+  //     <ul>Company Code: ${po_company_code}</ul>
+  //     <ul>A: f</ul>
+  //     <ul>I: d</ul>
+  //     <ul>Short text: ${po_shortxt}</ul>
+  //     <ul>PO Quantity: 1</ul>
+  //     <ul>Matl Group: level4</ul>
+  //     <ul>Plnt: ${po_company_code === 'be01' ? '1110' : '1510'}</ul>
+  //     <ul>Overall Limit: ${po_overallmt.toString().replace('.', ',')}</ul>
+  //     <ul>Expected value: ${po_overallmt.toString().replace('.', ',')}</ul>
+  //     <ul>GR Execution date: ${po_gr}</ul>
+  //     <ul>G/L Account: 47020000</ul>
+  //     <ul>Order: ${po_sbu}</ul>
+  //     `,
+  //   };
+  //   const sendMail = (user, callback) => {
+  //     const transporter = nodemailer.createTransport({
+  //       host: 'smtp.zoho.eu', // hostname
+  //       port: 465, // port for secure SMTP
+  //       secure: true,
+  //       auth: {
+  //         user: 'olsonperrensen@zohomail.eu',
+  //         pass: `${process.env.S3_BUCKET}`,
+  //       },
+  //     });
+  //     setTimeout(() => {
+  //       transporter.sendMail(mailOptions, callback);
+  //     }, 3000);
+  //   };
+  //   let user = req.body;
+  //   sendMail(user, (err, info) => {
+  //     if (err) {
+  //       console.log(err);
+  //       res.send('500');
+  //     } else {
+  //       console.log('Email has been sent');
+  //       res.send('200');
+  //     }
+  //   });
+  // }, 1000);
+});
+
+
 app.put('/salesrep', (req, res) => {
   console.log(
     `New SalesRep edit came: "${req.body.old_salesrep}" to be updated with "${req.body.new_salesrep}" as name and all extra info...`
