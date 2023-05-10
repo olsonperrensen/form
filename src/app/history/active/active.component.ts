@@ -21,6 +21,7 @@ export interface UserData {
   status: string,
   gr: string,
   invoice: string,
+  betaald: boolean
 }
 
 
@@ -42,7 +43,8 @@ export class ActiveComponent implements OnInit, AfterViewInit {
     'sbu',
     'status',
     'gr',
-    'invoice'];
+    'invoice',
+    'betaald'];
   dataSource!: MatTableDataSource<UserData>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -82,6 +84,21 @@ export class ActiveComponent implements OnInit, AfterViewInit {
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
+    }
+  }
+
+  payChange(event: any, row: any) {
+    this.getData.editBetaling({ u_ID: row.id, betaald: event.checked }).subscribe((res) => {
+      this.checkRes(res);
+    })
+  }
+  checkRes(res: any) {
+    console.log(res);
+    if (res == "500") {
+      alert("Could not process the request.");
+    }
+    else if (res == "200") {
+      alert("You have successfully edited the payment status of this PO.");
     }
   }
 }

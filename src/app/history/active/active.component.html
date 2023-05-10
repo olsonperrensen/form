@@ -84,6 +84,14 @@
               {{row.invoice}} </td>
           </ng-container>
 
+          <ng-container matColumnDef="betaald">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Betaald </th>
+            <td mat-cell [ngStyle]="{color:row.betaald==false?'magenta':'green'}" *matCellDef="let row">
+              <mat-checkbox [checked]="row.betaald" (change)="payChange($event,row)"></mat-checkbox>
+            </td>
+
+          </ng-container>
+
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 

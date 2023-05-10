@@ -80,6 +80,9 @@ export class GetdataService {
   editPO(req: any) {
     return this.http.put('https://formemail.herokuapp.com/po', req)
   }
+  editBetaling(req: any) {
+    return this.http.put('https://formemail.herokuapp.com/betaald', req)
+  }
   editGR(req: any) {
     return this.http.put('https://formemail.herokuapp.com/gr', req)
   }
