@@ -1154,8 +1154,8 @@ app.delete('/po', (req, res) => {
   console.log(RECORD_TO_DELETE);
   console.log(`with content "${RECORD_TO_DELETE.u_ID}"`);
   client.query(
-    `INSERT INTO archive_po SELECT * FROM po WHERE id = '${req.body.u_ID}';
-    DELETE FROM po USING archive_po WHERE po.id = '${req.body.u_ID}';`,
+    `INSERT INTO apo SELECT * FROM po WHERE id = '${req.body.u_ID}';
+    DELETE FROM po USING apo WHERE po.id = '${req.body.u_ID}';`,
     (err, res) => {
       if (err) {
         isRecordInDB = false;
