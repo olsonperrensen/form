@@ -69,7 +69,7 @@ export class ActiveComponent implements OnInit, AfterViewInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     })
-    document.body.style.backgroundImage = "url('https://i3.lensdump.com/i/t5EhpH.png')"
+    document.body.style.backgroundImage = "url('./assets/blur.png')"
   }
 
   ngAfterViewInit() {
