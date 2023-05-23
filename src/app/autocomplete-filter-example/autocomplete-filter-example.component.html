@@ -108,8 +108,13 @@
             class="example-full-width" appearance="fill">
             <mat-label>{{'q7'|translate}}</mat-label>
             <input required type="text" placeholder="Write here" aria-label="Number" matInput
-              [(ngModel)]="u_omschrijving" [formControl]="myControl10" name="u_omschrijving">
-            <pre>Tot 40 tekens / Jusqu'à 40 caractères</pre>
+              [(ngModel)]="u_omschrijving" [formControl]="myControl10" name="u_omschrijving" [matAutocomplete]="auto10">
+              <mat-autocomplete #auto10="matAutocomplete">
+                <mat-option *ngFor="let oms of filteredOptions10 | async" [value]="oms">
+                  {{oms}}
+                </mat-option>
+                </mat-autocomplete>
+              <pre>Tot 40 tekens / Jusqu'à 40 caractères</pre>
           </mat-form-field>
           <mat-form-field [@fadeInLeftOnEnter] *ngIf="isOmschrijving&&isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker"
             style="width: 100%" matTooltip="Telt voor afleveringsdatum van de afspraak" matTooltipPosition="left"

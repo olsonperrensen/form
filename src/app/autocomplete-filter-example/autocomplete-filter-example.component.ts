@@ -169,6 +169,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     "July", "August", "September", "October", "November", "December"];
   options5: string[] = ["België / Belgique", "Nederland / Pays Bas"];
   optionssplitn: string[] = ["2", "3"];
+  options10: string[] = [];
 
   deWALT_employees = [
     // DeWALT
@@ -207,6 +208,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   filteredOptions4!: Observable<string[]>;
   filteredOptions5!: Observable<string[]>;
   filteredOptionsSplitN!: Observable<string[]>;
+  filteredOptions10!: Observable<string[]>;
 
   ipAddress = '';
 
@@ -226,6 +228,14 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     }, (err) => {
       this.isBackendDown = true;
     });
+    // Get omschrijving(en)
+    setTimeout(() => {
+      this.getData.getPO(this.u_worker.toUpperCase()).subscribe((res: any) => {
+        res.forEach((po: any) => {
+          this.options10.push(po.short_text)
+        });
+      })
+    }, 400);
     document.body.style.backgroundImage = "url('https://i.postimg.cc/8NqcDrfY/Default-Wallpaper.png')"
     this.getIP();
     this.isBackendDown = this.getData.getBackendBoolean()
@@ -257,6 +267,10 @@ export class AutocompleteFilterExampleComponent implements OnInit {
       this.filteredOptionsSplitN = this.myControlsplitn.valueChanges.pipe(
         startWith(''),
         map(value => this._filtersplitn(value)),
+      );
+      this.filteredOptions10 = this.myControl10.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter10(value)),
       );
     }, 800);
 
@@ -590,6 +604,11 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     const filterValue = value.toLowerCase();
 
     return this.optionssplitn.filter(option => option.toLowerCase().includes(filterValue));
+  }
+  private _filter10(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options10.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   u_worker = this.authService.getCredentials().naam
