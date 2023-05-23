@@ -74,6 +74,7 @@ export class InvoiceComponent implements OnInit {
       }
       else {
         this.isID = false;
+        this.selected_files = [];
       }
     });
 
@@ -93,6 +94,12 @@ export class InvoiceComponent implements OnInit {
   onFileSelected(event: any) {
     this.isFormValidWithFile = true;
     this.selected_files.push(...event.addedFiles);
+  }
+  onFileRemoved(event:any,i:number) {
+    this.selected_files.splice(i, 1);
+    console.log(this.selected_files)
+    console.log(event)
+
   }
   onSubmitDrag(u_ID: any) {
     const fd = new FormData();
