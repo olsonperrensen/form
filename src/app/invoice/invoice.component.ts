@@ -30,10 +30,12 @@ export class InvoiceComponent implements OnInit {
   isFormValidWithFile = false;
   selected_files: File[] = [];
   myControl3 = new FormControl();
+  myControl3_multiple = new FormControl();
   filteredOptions3!: Observable<string[]>;
   options3 !: string[]
   res !: Res;
   u_ID = '';
+  selectedIDs!: any;
   ref = '';
   isBackendDown = false;
   isID = false;
@@ -79,7 +81,9 @@ export class InvoiceComponent implements OnInit {
         this.selected_files = [];
       }
     });
-
+    this.myControl3_multiple.valueChanges.subscribe((res) => {
+      res.length > 0 ? this.isID = true : this.isID = false;
+    })
   }
 
   onUserWantsOne() {
@@ -126,7 +130,33 @@ export class InvoiceComponent implements OnInit {
       this.isBezig = false;
     });
   }
-
+  onSubmitDragMultiple(selectedIDs: any) {
+    const fd = new FormData();
+    fd.append('u_IDs', selectedIDs);
+    this.selected_files.forEach((file, index) => {
+      fd.append(`file[${index}]`, file, file.name);
+    });
+    this.isBezig = true;
+    this.doCountdown();
+    fd.forEach((value, key) => {
+      console.log(`Key: ${key}, Value: ${value}`);
+    });
+    alert("UNDER MAINTAINANCE! Come back later...")
+    // this.sendVendors.sendInvoice(fd).subscribe((res) => {
+    //   this.res = <Res>res;
+    //   console.log(res)
+    //   if (this.res.response === "250 Message received") {
+    //     alert("Invoice naar AP gestuurd!")
+    //     this.selected_files = [];
+    //     this.u_ID = '';
+    //     this.postatus = 'Net bijgewerkt / Modifications effectuées'
+    //   }
+    //   else {
+    //     alert("Er ging iets mis.")
+    //   }
+    //   this.isBezig = false;
+    // });
+  }
 
   doCountdown() {
     const myInterval = setInterval(() => {

@@ -67,22 +67,22 @@
                   {{selectedPO.sbu}}
                 </mat-chip>
                 <hr>
-                    <div *ngIf="selectedPO.invoice!=='Pending'">
-                      <svg style="width:32px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <div *ngIf="selectedPO.invoice!=='Pending'">
+                  <svg style="width:32px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
 
-                        <path
-                          d="M243.8 339.8C232.9 350.7 215.1 350.7 204.2 339.8L140.2 275.8C129.3 264.9 129.3 247.1 140.2 236.2C151.1 225.3 168.9 225.3 179.8 236.2L224 280.4L332.2 172.2C343.1 161.3 360.9 161.3 371.8 172.2C382.7 183.1 382.7 200.9 371.8 211.8L243.8 339.8zM512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256zM256 48C141.1 48 48 141.1 48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48z" />
-                      </svg>
-                      <h3 style="color:green">{{postatus}}</h3>
-                    </div>
-                    <div class="" *ngIf="selectedPO.invoice==='Pending'">
-                      <svg style="width:32px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <path
+                      d="M243.8 339.8C232.9 350.7 215.1 350.7 204.2 339.8L140.2 275.8C129.3 264.9 129.3 247.1 140.2 236.2C151.1 225.3 168.9 225.3 179.8 236.2L224 280.4L332.2 172.2C343.1 161.3 360.9 161.3 371.8 172.2C382.7 183.1 382.7 200.9 371.8 211.8L243.8 339.8zM512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256zM256 48C141.1 48 48 141.1 48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48z" />
+                  </svg>
+                  <h3 style="color:green">{{postatus}}</h3>
+                </div>
+                <div class="" *ngIf="selectedPO.invoice==='Pending'">
+                  <svg style="width:32px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
 
-                        <path
-                          d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z" />
-                      </svg>
-                      <h3 style="color:goldenrod;">{{postatus}}</h3>
-                    </div>
+                    <path
+                      d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z" />
+                  </svg>
+                  <h3 style="color:goldenrod;">{{postatus}}</h3>
+                </div>
               </mat-chip-list>
               <mat-card-actions class="whiteish">
                 <ngx-dropzone (change)="onFileSelected($event)">
@@ -100,81 +100,32 @@
                 style="color: white;background: black;">Bezig... ({{s}}s)</pre>
             </div>
           </div>
-          <!-- <div *ngIf="wantsAll">
-            <h1>Under maintenance! Come back later...</h1>
-          </div> -->
-          <!-- TODO -->
           <div *ngIf="wantsAll">
-            <mat-grid-list cols="5" rowHeight="2:1">
-              <mat-card *ngFor="let po of allPO" class="example-card whiteish">
-                <mat-card-title-group class="whiteish">
-                  <mat-card-subtitle class="whiteish">Ref</mat-card-subtitle>
-                  <mat-card-title class="whiteish">{{po.id}}</mat-card-title>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
-                    <path
-                      d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM80 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm16 96H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V256c0-17.7 14.3-32 32-32zm0 32v64H288V256H96zM240 416h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H240c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
-                  </svg>
-                </mat-card-title-group>
-                <mat-card-content>
-                  <p class="whiteish">PO <strong>{{po.status}}</strong></p>
-                </mat-card-content>
-                <mat-divider inset></mat-divider>
-                <mat-card-actions class="whiteish">
-                  <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal">
-                    <mat-chip class="example-box" cdkDrag>
-                      {{po.requested_by}}
-                    </mat-chip>
-                    <mat-chip class="example-box" cdkDrag>
-                      {{po.datum}}
-                    </mat-chip>
-                    <mat-chip class="example-box short-txt" cdkDrag>
-                      {{po.company}}
-                    </mat-chip>
-                    <mat-chip class="example-box" cdkDrag>
-                      {{po.short_text}}
-                    </mat-chip>
-                    <mat-chip class="example-box" cdkDrag>
-                      €{{po.overall_limit}}
-                    </mat-chip>
-                    <mat-chip class="example-box" cdkDrag>
-                      {{po.sbu}}
-                    </mat-chip>
-                    <hr>
-                    <div *ngIf="po.invoice!=='Pending'">
-                      <svg style="width:32px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-
-                        <path
-                          d="M243.8 339.8C232.9 350.7 215.1 350.7 204.2 339.8L140.2 275.8C129.3 264.9 129.3 247.1 140.2 236.2C151.1 225.3 168.9 225.3 179.8 236.2L224 280.4L332.2 172.2C343.1 161.3 360.9 161.3 371.8 172.2C382.7 183.1 382.7 200.9 371.8 211.8L243.8 339.8zM512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256zM256 48C141.1 48 48 141.1 48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48z" />
-                      </svg>
-                      <h3 style="color:green">Sent!</h3>
-                    </div>
-                    <div class="" *ngIf="po.invoice==='Pending'">
-                      <svg style="width:32px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-
-                        <path
-                          d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z" />
-                      </svg>
-                      <h3 style="color:goldenrod;">Pending</h3>
-                    </div>
-                  </mat-chip-list>
-                </mat-card-actions>
-                <mat-card-actions class="whiteish">
-                  <ngx-dropzone (change)="onFileSelected($event)">
-                    <ngx-dropzone-label>Factuur inslepen / Déposez la facture</ngx-dropzone-label>
-                    <ngx-dropzone-preview *ngFor="let f of selected_files" [removable]="true">
-                      <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
-                    </ngx-dropzone-preview>
-                  </ngx-dropzone>
-                  <button [disabled]="!f.valid||!isFormValidWithFile" (click)="onSubmitDrag(po.status)"
-                    mat-raised-button color="primary">Send</button>
-                  <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
-                    style="color: white;background: black;">Bezig... ({{s}}s)</pre>
-                </mat-card-actions>
-                <mat-card-footer>
-                  <mat-progress-bar mode="buffer"></mat-progress-bar>
-                </mat-card-footer>
-              </mat-card>
-            </mat-grid-list>
+            <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+              <mat-label>Choose all POs you want to send PDFs</mat-label>
+              <mat-select [formControl]="myControl3_multiple" required multiple id="poNr" name="poNr"
+                [(ngModel)]="selectedIDs" #klantnaam>
+                <mat-option *ngFor="let ID of filteredOptions3 | async" [value]="ID">
+                  {{ID}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div *ngIf="isID">
+              <mat-card-actions class="whiteish">
+                <ngx-dropzone (change)="onFileSelected($event)">
+                  <ngx-dropzone-label>Factuur inslepen / Déposez la facture</ngx-dropzone-label>
+                  <ngx-dropzone-preview *ngFor="let f of selected_files; let i = index" [removable]="true">
+                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})
+                      <button (click)="onFileRemoved($event,i)">X</button>
+                    </ngx-dropzone-label>
+                  </ngx-dropzone-preview>
+                </ngx-dropzone>
+              </mat-card-actions>
+              <button [disabled]="!selected_files.length || !isFormValidWithFile || isBezig"
+                (click)="onSubmitDragMultiple(selectedIDs)" mat-raised-button color="primary">Send All</button>
+              <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
+                style="color: white;background: black;">Bezig... ({{s}}s)</pre>
+            </div>
           </div>
         </div>
       </form>
