@@ -499,8 +499,10 @@ export class AutocompleteFilterExampleComponent implements OnInit {
       if (res.length > 4 && res.length <= 40 && this.isBedrag) {
         this.isOmschrijving = true;
       }
-      else {
-        if (res.length < 4 && res.length > 40) this.invalidOmschrijving = true;
+      else if (res.length > 40) {
+        this.invalidOmschrijving = true;
+        this.myControl10.setValue(res.substr(0, 39), { emitEvent: false });
+        alert('Meer dan 40 letters niet toegestaan / Plus de 40 lettres non autorisées');
         this.isOmschrijving = false;
       }
     })
