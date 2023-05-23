@@ -24,6 +24,7 @@ import { PO } from './PO';
 export class InvoiceComponent implements OnInit {
   allPO: PO[] = [];
   selectedPO !: PO;
+  postatus = ''
   wantsOne = false;
   wantsAll = false;
   isFormValidWithFile = false;
@@ -65,6 +66,7 @@ export class InvoiceComponent implements OnInit {
             po.overall_limit = !this.found ? (parseFloat(po.overall_limit) + parseFloat(po.overall_limit_2) + parseFloat(po.overall_limit_3)).toString() : po.overall_limit
             this.found = true;
             this.selectedPO = po;
+            this.postatus = this.selectedPO.invoice !== 'Pending' ? 'Al gestuurd/Déjà envoyé' : 'Nog niet behandeld/Pas encore traité'
           }
           return po === res;
         })) {
@@ -95,7 +97,7 @@ export class InvoiceComponent implements OnInit {
     this.isFormValidWithFile = true;
     this.selected_files.push(...event.addedFiles);
   }
-  onFileRemoved(event:any,i:number) {
+  onFileRemoved(event: any, i: number) {
     this.selected_files.splice(i, 1);
     console.log(this.selected_files)
     console.log(event)
@@ -116,6 +118,7 @@ export class InvoiceComponent implements OnInit {
         alert("Invoice naar AP gestuurd!")
         this.selected_files = [];
         this.u_ID = '';
+        this.postatus = 'Net bijgewerkt / Modifications effectuées'
       }
       else {
         alert("Er ging iets mis.")
