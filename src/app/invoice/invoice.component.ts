@@ -114,6 +114,8 @@ export class InvoiceComponent implements OnInit {
       console.log(res)
       if (this.res.response === "250 Message received") {
         alert("Invoice naar AP gestuurd!")
+        this.selected_files = [];
+        this.u_ID = '';
       }
       else {
         alert("Er ging iets mis.")
