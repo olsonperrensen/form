@@ -90,6 +90,7 @@ export class ActiveComponent implements OnInit, AfterViewInit {
   payChange(event: any, row: any) {
     this.getData.editBetaling({ u_ID: row.id, betaald: event.checked }).subscribe((res) => {
       this.checkRes(res);
+      res == 200 ? event.source._inputElement.nativeElement.parentElement.parentElement.parentElement.parentElement.parentElement.remove() : undefined
     })
   }
   checkRes(res: any) {
