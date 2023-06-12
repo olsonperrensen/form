@@ -697,6 +697,11 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     }, 2000);
   }
 
+  onOpnieuw(){
+    this.sent = !this.sent
+    this.exit = !this.exit
+  }
+
   getIP() {
     this.ip.getIPAddress().subscribe((res: any) => {
       this.ipAddress = res.ip;
