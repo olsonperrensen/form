@@ -77,10 +77,10 @@ export class NgbdModalContent implements OnInit {
       event.target.value = event.target.value.replace(/\s+/g, '.')
     }
     if (event.target.id == 'cc1') {
-      CCEMAILS.set('cc1', event.target.value + DOMAIN)
+      CCEMAILS.set('cc1', event.target.value.split("@")[0] + DOMAIN)
     }
     else {
-      CCEMAILS.set('cc2', event.target.value + DOMAIN)
+      CCEMAILS.set('cc2', event.target.value.split("@")[0] + DOMAIN)
     }
   }
 
