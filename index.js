@@ -182,11 +182,11 @@ app.get('/clients', (req, res) => {
   nieuw_clients = [];
 });
 app.get('/log', (req, res) => {
-  client.query('SELECT company_code,requested_by,u.manager,datum,company,short_text,overall_limit,status,gr,invoice FROM po JOIN users u on po.requested_by = u.naam;', (err, res) => {
+  client.query('SELECT company_code,requested_by,u.manager,u.sbu,datum,company,short_text,overall_limit,status,gr,invoice FROM po JOIN users u on po.requested_by = u.naam;', (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
       let sbu = '';
-      switch (req.body.merk) {
+      switch (row.sbu) {
         case 'DeWALT – LENOX – BOSTITCH':
           sbu = 'DW';
           break;
