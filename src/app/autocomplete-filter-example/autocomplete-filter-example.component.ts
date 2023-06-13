@@ -195,7 +195,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   facom_employees = [
     "Piet Verstraete", "Vincent Broertjes", "Jean-Christophe Pintiaux", "Kim Maris", "Mario Reverse",
     "Peter Schaekers", "Robin Roels", "Stefan Sack", "Vincent Lenain", "Vincent Pireyn", "Yves DeWaal",
-    "Adriaan Arkeraats", "Arno DeJager", "Duncan DeWith"];
+    "Adriaan Arkeraats", "Arno DeJager", "Duncan DeWith", "Danielle Penninckx"];
   stanley_employees = ["Ken Leysen", "Martin Van Werkhoven", "Paul Kerkhoven", "Cedric Bicque",
     "Christian Fonteyn", "KlaasJan Bosgraaf", "Ammaar Basnoe", "Robert VanStraten", "Sven Pieters",
     "Niek Nijland", "Robby Cattellion"];
@@ -450,6 +450,9 @@ export class AutocompleteFilterExampleComponent implements OnInit {
             this.u_land = "Nederland / Pays Bas"
             break;
           case "Ludwig Vanhaute":
+            this.u_land = "België / Belgique"
+            break;
+          case "Danielle Penninckx":
             this.u_land = "België / Belgique"
             break;
           default:
