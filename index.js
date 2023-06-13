@@ -181,6 +181,35 @@ app.get('/clients', (req, res) => {
   }, 250);
   nieuw_clients = [];
 });
+app.get('/log', (req, res) => {
+  client.query('SELECT * FROM po;', (err, res) => {
+    if (err) throw err;
+    for (let row of res.rows) {
+      let sbu = '';
+      switch (req.body.merk) {
+        case 'DeWALT – LENOX – BOSTITCH':
+          sbu = 'DW';
+          break;
+        case 'STANLEY':
+          sbu = 'HDT';
+          break;
+        case 'FACOM':
+          sbu = 'IAR';
+          break;
+        default:
+          sbu = 'ERROR';
+          break;
+      }
+      // EXCEL LOG CTRL C + CTRL V
+      nieuw_clients.push(`${row.company_code}\tMa\t${row.requested_by.split(" ").map((n) => n[0]).join("")}\t${row.manager.split(" ").map((n) => n[0]).join("")}\tPRO\t${sbu}\t${row.datum.split(' ')[0]}\t${row.datum.split(' ')[0].split('/')[0]}\t${row.company.split(" ").at(-1)}\t${row.company}\t${row.short_text}\tYES\t${row.overall_limit.replace('.', ',')}\t${row.overall_limit.replace('.', ',')}\t${row.status}\t${row.gr}\t\t\t${row.invoice.split(" ")[8]}`);
+    }
+    console.log('Fetched from DB');
+  });
+  setTimeout(() => {
+    res.send(nieuw_clients);
+  }, 250);
+  nieuw_clients = [];
+});
 app.get('/nonvendors', (req, res) => {
   client.query('SELECT * FROM nonvendors;', (err, res) => {
     if (err) throw err;
