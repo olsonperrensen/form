@@ -9,6 +9,8 @@ const CryptoJS = require('crypto-js');
 const date = require('date-and-time');
 const multer = require('multer');
 const e = require('express');
+const jwt = require('jsonwebtoken');
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, './uploads/');
@@ -17,6 +19,10 @@ const storage = multer.diskStorage({
     cb(null, new Date().toISOString() + file.originalname);
   },
 });
+
+const secretKey = process.env.JWT_GEHEIM || '9__BvprarHTGluMH$XZHO0JRcGQAvsT-EFIlsOBetoxs#4';
+
+
 const fileFilter = (req, file, cb) => {
   if (
     file.mimetype === 'application/pdf' ||
@@ -595,6 +601,7 @@ app.post('/login', (req, res) => {
     sbu: '',
     land: '',
   };
+  let token;
   console.log(`Encrypted tmp_credentials: ${req.body.usr}`);
   const tmp_credentials = CryptoJS.AES.decrypt(req.body.usr, 'h#H@k*Bjp3SrwdLM')
     .toString(CryptoJS.enc.Utf8)
@@ -616,12 +623,20 @@ app.post('/login', (req, res) => {
         user.sbu = res.rows[0].sbu;
         user.username = res.rows[0].username;
         user.isAuthenticated = true;
+        token = jwt.sign({ user }, secretKey, { expiresIn: '1h' });
       }
     }
   );
   setTimeout(() => {
-    res.send({ u_user: user });
-  }, 800);
+    if (user.isAuthenticated) {
+      console.log("Proceeding to homepage...")
+      res.send({ u_user: user, token: token });
+      // VERVANG
+      // res.json({  });
+    } else {
+      res.status(401).json({ error: 'Unauthorized' });
+    }
+  }, 90);
 });
 
 app.post('/recover', (req, res) => {
@@ -1411,6 +1426,47 @@ function validateCookies(req, res, next) {
   next();
 }
 
-app.get('/signin', validateCookies, (req, res) => {
-  res.status(200).json({ msg: 'Logged In' });
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers.authorization;
+
+  if (authHeader) {
+    const token = authHeader.split(' ')[1]; // Extract the token from the "Bearer <token>" format
+
+    // Verify the token
+    jwt.verify(token, secretKey, (err, user) => {
+      if (err) {
+        return res.sendStatus(403); // Invalid token
+      }
+
+      req.user = user; // Attach the decoded user information to the request object
+      next();
+    });
+  } else {
+    res.sendStatus(401); // No token provided
+  }
+}
+
+app.get('/secret', authenticateToken, (req, res) => {
+  const authHeader = req.headers.authorization;
+  // Access the authenticated user's information from req.user
+  const { username } = req.user;
+
+  // Handle the protected endpoint logic here
+  res.send(`Protected endpoint for user: ${username}`);
+  if (authHeader) {
+    const token = authHeader.split(' ')[1]; // Extract the token from the "Bearer <token>" format
+
+    // Verify the token
+    jwt.verify(token, process.env.JWT_GEHEIM, (err, user) => {
+      if (err) {
+        return res.status(403).json({ error: 'Invalid token' });
+      }
+
+      req.user = user; // Attach the decoded user information to the request object
+      next();
+      return res.status(200)
+    });
+  } else {
+    res.status(401).json({ error: 'Unauthorized' });
+  }
 });
