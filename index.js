@@ -596,9 +596,10 @@ app.post('/login', (req, res) => {
     land: '',
   };
   console.log(`Encrypted tmp_credentials: ${req.body.usr} w/GEHEIM ${process.env.GEHEIM}`);
-  const tmp_credentials = CryptoJS.AES.decrypt(req.body.usr, process.env.GEHEIM)
+  const tmp_credentials = CryptoJS.AES.decrypt(req.body.usr, `${process.env.GEHEIM}`)
     .toString(CryptoJS.enc.Utf8)
     .split('"');
+  console.log(tmp_credentials)
   console.log(`Decrypted: ${tmp_credentials[3].toUpperCase()}`);
   client.query(
     `select id, username, naam, sbu, land from users where username = '${tmp_credentials[3].toUpperCase()}'
