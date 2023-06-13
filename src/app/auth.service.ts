@@ -1,16 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  apiUrl = environment.apiUrl;
   private dbUser = { isAuthenticated: false, id: 0, username: '', naam: '', sbu: '', land: "" };
   private guardStatus = false;
-  private URL = 'https://formemail.herokuapp.com/login';
-  private RECOVER_URL = 'https://formemail.herokuapp.com/recover';
-  private RESET_URL = 'https://formemail.herokuapp.com/reset'
+  private URL = `${this.apiUrl}/login`;
+  private RECOVER_URL = `${this.apiUrl}/recover`;
+  private RESET_URL = `${this.apiUrl}/reset`
   private loggedIn = false;
 
   isAuthenticated(secret: any) {
