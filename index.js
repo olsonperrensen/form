@@ -596,7 +596,7 @@ app.post('/login', (req, res) => {
     land: '',
   };
   console.log(`Encrypted tmp_credentials: ${req.body.usr}`);
-  const tmp_credentials = CryptoJS.AES.decrypt(req.body.usr, 'h#H@k*Bjp3SrwdLM')
+  const tmp_credentials = CryptoJS.AES.decrypt(req.body.usr, process.env.GEHEIM)
     .toString(CryptoJS.enc.Utf8)
     .split('"');
   console.log(`Decrypted: ${tmp_credentials[3].toUpperCase()}`);
