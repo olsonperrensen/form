@@ -595,7 +595,7 @@ app.post('/login', (req, res) => {
     sbu: '',
     land: '',
   };
-  console.log(`Encrypted tmp_credentials: ${req.body.usr}`);
+  console.log(`Encrypted tmp_credentials: ${req.body.usr} w/GEHEIM ${process.env.GEHEIM}`);
   const tmp_credentials = CryptoJS.AES.decrypt(req.body.usr, process.env.GEHEIM)
     .toString(CryptoJS.enc.Utf8)
     .split('"');
