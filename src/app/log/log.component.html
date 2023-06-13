@@ -6,9 +6,9 @@
           <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
         </mat-form-field> -->
             <div class="mat-elevation-z8">
-                <p *ngFor="let item of logArray; index as i;">
-                    <span *ngFor="let property of item">{{property}}&mdash;</span>
-                </p>
+                <span style="white-space: pre-wrap" *ngFor="let item of logArray; index as i;">
+                    {{item}}
+                </span>
             </div>
         </div>
     </div>

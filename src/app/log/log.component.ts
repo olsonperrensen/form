@@ -8,15 +8,13 @@ import { GetdataService } from '../getdata.service';
 })
 export class LogComponent implements OnInit {
 
-  logArray : any[] = []
+  logArray: any[] = []
 
   constructor(private getData: GetdataService) { }
 
   ngOnInit(): void {
     this.getData.getLog().subscribe((res: any) => {
-      res.forEach((element: any) => {
-        this.logArray.push(element.split("\t"))
-      });
+      this.logArray = res
     }, (err) => {
       alert("Backend is down")
     });
