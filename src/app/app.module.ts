@@ -27,6 +27,7 @@ import { ResetComponent } from './reset/reset.component';
 import { VendorHistoryComponent } from './vendor/vendor-history/vendor-history.component';
 import { VendorComponent } from './vendor/vendor.component';
 import { CommonModule } from '@angular/common';
+import { LogComponent } from './log/log.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -48,7 +49,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     PublicComponent,
     InvoiceComponent,
     ResetComponent,
-    ProfileComponent
+    ProfileComponent,
+    LogComponent
   ],
   imports: [
     BrowserModule,

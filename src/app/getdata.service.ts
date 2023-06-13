@@ -77,6 +77,11 @@ export class GetdataService {
   getArchivePO(req: any) {
     return this.http.post('https://formemail.herokuapp.com/archive_po', { requested_by: req })
   }
+
+  getLog(){
+    return this.http.get("https://formemail.herokuapp.com/log")
+  }
+
   editPO(req: any) {
     return this.http.put('https://formemail.herokuapp.com/po', req)
   }

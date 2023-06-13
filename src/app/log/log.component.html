@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- <mat-form-field appearance="standard">
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+        </mat-form-field> -->
+            <div class="mat-elevation-z8">
+                <p *ngFor="let item of logArray; index as i;">
+                    <span *ngFor="let property of item">{{property}}&mdash;</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
