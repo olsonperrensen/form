@@ -198,7 +198,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     "Adriaan Arkeraats", "Arno DeJager", "Duncan DeWith"];
   stanley_employees = ["Ken Leysen", "Martin Van Werkhoven", "Paul Kerkhoven", "Cedric Bicque",
     "Christian Fonteyn", "KlaasJan Bosgraaf", "Ammaar Basnoe", "Robert VanStraten", "Sven Pieters",
-    "Niek Nijland"];
+    "Niek Nijland", "Robby Cattellion"];
 
   filteredOptions!: Observable<string[]>;
   filteredOptions2!: Observable<string[]>;
@@ -303,6 +303,9 @@ export class AutocompleteFilterExampleComponent implements OnInit {
             this.u_land = "België / Belgique"
             break;
           case "Jean-Francois Forton":
+            this.u_land = "België / Belgique"
+            break;
+          case "Robby Cattellion":
             this.u_land = "België / Belgique"
             break;
           case "Marcel VandenBerge":
@@ -697,7 +700,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     }, 2000);
   }
 
-  onOpnieuw(){
+  onOpnieuw() {
     this.sent = !this.sent
     this.exit = !this.exit
   }
