@@ -182,7 +182,7 @@ app.get('/clients', (req, res) => {
   nieuw_clients = [];
 });
 app.get('/log', (req, res) => {
-  client.query('SELECT * FROM po;', (err, res) => {
+  client.query('SELECT company_code,requested_by,u.manager,datum,company,short_text,overall_limit,status,gr,invoice FROM po JOIN users u on po.requested_by = u.naam;', (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
       let sbu = '';
@@ -201,7 +201,7 @@ app.get('/log', (req, res) => {
           break;
       }
       // EXCEL LOG CTRL C + CTRL V
-      nieuw_clients.push(`${row.company_code}\tMa\t${row.requested_by.split(" ").map((n) => n[0]).join("")}\t${row.manager.split(" ").map((n) => n[0]).join("")}\tPRO\t${sbu}\t${row.datum.split(' ')[0]}\t${row.datum.split(' ')[0].split('/')[0]}\t${row.company.split(" ").at(-1)}\t${row.company}\t${row.short_text}\tYES\t${row.overall_limit.replace('.', ',')}\t${row.overall_limit.replace('.', ',')}\t${row.status}\t${row.gr}\t\t\t${row.invoice.split(" ")[8]}`);
+      nieuw_clients.push(`${row.company_code}\tMa\t${row.requested_by.split(" ").map((n) => n[0]).join("")}\t${row.manager.split(" ").map((n) => n[0]).join("")}\tPRO\t${sbu}\t${row.datum.split(' ')[0]}\t${row.datum.split(' ')[0].split('/')[0]}\t${row.company.split(" ").at(-1)}\t${row.company}\t${row.short_text}\tYES\t${String(row.overall_limit).replace('.', ',')}\t${String(row.overall_limit).replace('.', ',')}\t${row.status}\t${row.gr}\t\t\t${row.invoice !== "Pending" ? row.invoice.split(" ")[8] : row.invoice}\n`);
     }
     console.log('Fetched from DB');
   });
