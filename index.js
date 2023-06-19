@@ -20,8 +20,8 @@ const storage = multer.diskStorage({
   },
 });
 
-const secretKey = process.env.JWT_GEHEIM;
-
+const secretKey = process.env.JWT_GEHEIM || '9__BvprarHTGluMH$XZHO0JRcGQAvsT-EFIlsOBetoxs#4';
+let token;
 
 const fileFilter = (req, file, cb) => {
   if (
@@ -176,7 +176,7 @@ app.get('/img', (req, res) => {
   res.send(JSON.stringify(android));
   android = []
 });
-app.get('/clients', (req, res) => {
+app.get('/clients', authenticateToken,(req, res) => {
   client.query('SELECT * FROM biz;', (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
@@ -603,7 +603,6 @@ app.post('/login', (req, res) => {
     sbu: '',
     land: '',
   };
-  let token;
   console.log(`Encrypted tmp_credentials: ${req.body.usr}`);
   const tmp_credentials = CryptoJS.AES.decrypt(req.body.usr, 'h#H@k*Bjp3SrwdLM')
     .toString(CryptoJS.enc.Utf8)
