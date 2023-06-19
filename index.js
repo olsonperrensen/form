@@ -71,6 +71,8 @@ const client = new Client({
 });
 
 client.connect();
+const util = require('util');
+const query = util.promisify(client.query).bind(client);
 let po_guy = '';
 let po_shortxt = '';
 let po_requested_by;
@@ -176,23 +178,30 @@ app.get('/img', (req, res) => {
   res.send(JSON.stringify(android));
   android = []
 });
-app.get('/clients', authenticateToken, (req, res) => {
-  client.query('SELECT * FROM biz;', (err, res) => {
-    if (err) throw err;
-    for (let row of res.rows) {
+
+app.get('/clients', authenticateToken, async (req, res) => {
+  try {
+    const result = await query('SELECT * FROM biz;');
+    const nieuw_clients = [];
+
+    for (let row of result.rows) {
       nieuw_clients.push(row.biz_name);
     }
+
     console.log('Fetched from DB');
-  });
-  setTimeout(() => {
     res.send(nieuw_clients);
-  }, 250);
-  nieuw_clients = [];
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('An error occurred');
+  }
 });
-app.get('/log', authenticateToken, (req, res) => {
-  client.query('SELECT company_code,requested_by,u.manager,u.sbu,datum,company,short_text,overall_limit,status,gr,invoice FROM po JOIN users u on po.requested_by = u.naam ORDER BY datum desc;', (err, res) => {
-    if (err) throw err;
-    for (let row of res.rows) {
+
+app.get('/log', authenticateToken, async (req, res) => {
+  try {
+    const result = await query('SELECT company_code, requested_by, u.manager, u.sbu, datum, company, short_text, overall_limit, status, gr, invoice FROM po JOIN users u ON po.requested_by = u.naam ORDER BY datum DESC;');
+    const nieuw_clients = [];
+
+    for (let row of result.rows) {
       let sbu = '';
       switch (row.sbu) {
         case 'DeWALT – LENOX – BOSTITCH':
@@ -208,15 +217,17 @@ app.get('/log', authenticateToken, (req, res) => {
           sbu = 'ERROR';
           break;
       }
+
       // EXCEL LOG CTRL C + CTRL V
       nieuw_clients.push(`${row.company_code.toUpperCase()}\tMa\t${row.requested_by.split(" ").map((n) => n[0]).join("")}\t${row.manager.split(" ").map((n) => n[0]).join("")}\tPRO\t${sbu}\t${row.datum.split(' ')[0]}\t${row.datum.split(' ')[0].split('/')[0]}\t${row.company.split(" ").at(-1)}\t${row.company}\t${row.short_text}\tYES\t${String(row.overall_limit).replace('.', ',')}\t${String(row.overall_limit).replace('.', ',')}\t${row.status}\t${row.gr}\t\t\t\t${row.invoice !== "Pending" ? row.invoice.split(" ")[8] : row.invoice}\n`);
     }
+
     console.log('Fetched from DB');
-  });
-  setTimeout(() => {
     res.send(nieuw_clients);
-  }, 250);
-  nieuw_clients = [];
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('An error occurred');
+  }
 });
 app.get('/nonvendors', (req, res) => {
   client.query('SELECT * FROM nonvendors;', (err, res) => {
@@ -740,113 +751,113 @@ app.post('/invoice', upload.single('file'), authenticateToken, (req, res) => {
   let overall_limit = '';
   let PO = '';
   let salesrep = '';
-  client.query(
-    `select requested_by, company, overall_limit, overall_limit_2, overall_limit_3, 
-    status from po
-    where status = '${req.body.u_ID}'`,
-    (err, res) => {
-      if (err) {
-        isRecordInDB = false;
-        console.log(`CANNOT INVOICE update: ${err}`);
-      } else {
-        isRecordInDB = true;
-        console.log(`INVOICE record updated ${req.body.u_ID}`);
-        sales_per = res.rows[0].requested_by.split(' ');
-        company = res.rows[0].company;
-        overall_limit = parseFloat(res.rows[0].overall_limit_3) + parseFloat(res.rows[0].overall_limit_2) + parseFloat(res.rows[0].overall_limit);
-        ref = res.rows[0].id;
-        PO = res.rows[0].status;
-      }
-    }
-  );
+  // client.query(
+  //   `select requested_by, company, overall_limit, overall_limit_2, overall_limit_3, 
+  //   status from po
+  //   where status = '${req.body.u_ID}'`,
+  //   (err, res) => {
+  //     if (err) {
+  //       isRecordInDB = false;
+  //       console.log(`CANNOT INVOICE update: ${err}`);
+  //     } else {
+  //       isRecordInDB = true;
+  //       console.log(`INVOICE record updated ${req.body.u_ID}`);
+  //       sales_per = res.rows[0].requested_by.split(' ');
+  //       company = res.rows[0].company;
+  //       overall_limit = parseFloat(res.rows[0].overall_limit_3) + parseFloat(res.rows[0].overall_limit_2) + parseFloat(res.rows[0].overall_limit);
+  //       ref = res.rows[0].id;
+  //       PO = res.rows[0].status;
+  //     }
+  //   }
+  // );
 
-  client.query(
-    `UPDATE PO SET INVOICE = 'Sent to AP at 
-    ${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}'
-  where status = '${req.body.u_ID}'`,
-    (err, res) => {
-      if (err) {
-        isRecordInDB = false;
-        console.log(`CANNOT INVOICE update: ${err}`);
-      } else {
-        isRecordInDB = true;
-        console.log(`INVOICE record updated ${req.body.u_ID}`);
-      }
-    }
-  );
+  // client.query(
+  //   `UPDATE PO SET INVOICE = 'Sent to AP at 
+  //   ${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}'
+  // where status = '${req.body.u_ID}'`,
+  //   (err, res) => {
+  //     if (err) {
+  //       isRecordInDB = false;
+  //       console.log(`CANNOT INVOICE update: ${err}`);
+  //     } else {
+  //       isRecordInDB = true;
+  //       console.log(`INVOICE record updated ${req.body.u_ID}`);
+  //     }
+  //   }
+  // );
 
   console.log(`Invoice came: ${req.body.u_ID}`);
 
   console.log(req.file);
 
-  setTimeout(() => {
-    ref = req.body.u_ref;
-    console.log(sales_per);
-    const mailOptions = {
-      from: 'olsonperrensen@zohomail.eu',
-      to: [
-        `SBDInvoices@sbdinc.com`,
-        `S-GTS-APBelgium@sbdinc.com`,
-        `apnetherlands@sbdinc.com`,
-        'SVC-CRP-SBDe-Invoices@sbdinc.com',
-      ],
-      cc: [
-        'students.benelux@sbdinc.com',
-        `${sales_per[0]}.${sales_per[1]}@sbdinc.com`,
-      ],
-      subject: `#${ref} Process Invoice - ${PO} - ${company}`,
-      html: `
-      Hi,
-<br><br><br>
-In the attachment you will find the coop invoice. Please, process it.
-<br><br>
-<ul>
-      <li>Ref: ${ref}</li>
-      <li>PO: ${PO}</li>
-      <li>Client: ${company}</li>
-      <li>Overall Limit: ${overall_limit}</li>
-</ul>
-<br><br><br>
-Kind Regards.
-<br><br>
-${sales_per[0]} ${sales_per[1]}
-<br><br><br>
-This is an automated email. For any inquiries, please contact ${sales_per[0]}.${sales_per[1]}@sbdinc.com 
-`,
-      attachments: [
-        {
-          // utf-8 string as an attachment
-          filename: req.file.originalname,
-          content: req.file,
-        },
-      ],
-    };
-    const sendMail = (user, callback) => {
-      const transporter = nodemailer.createTransport({
-        host: 'smtp.zoho.eu', // hostname
-        port: 465, // port for secure SMTP
-        secure: true,
-        auth: {
-          user: 'olsonperrensen@zohomail.eu',
-          pass: `${process.env.S3_BUCKET}`,
-        },
-      });
-      setTimeout(() => {
-        transporter.sendMail(mailOptions, callback);
-      }, 3000);
-    };
-    let user = req.body;
-    sendMail(user, (err, info) => {
-      if (err) {
-        console.log(err);
-        res.status(400);
-        res.send({ error: 'Failed to send email' });
-      } else {
-        console.log('Email has been sent');
-        res.send(info);
-      }
-    });
-  }, 1000);
+  //   setTimeout(() => {
+  //     ref = req.body.u_ref;
+  //     console.log(sales_per);
+  //     const mailOptions = {
+  //       from: 'olsonperrensen@zohomail.eu',
+  //       to: [
+  //         `SBDInvoices@sbdinc.com`,
+  //         `S-GTS-APBelgium@sbdinc.com`,
+  //         `apnetherlands@sbdinc.com`,
+  //         'SVC-CRP-SBDe-Invoices@sbdinc.com',
+  //       ],
+  //       cc: [
+  //         'students.benelux@sbdinc.com',
+  //         `${sales_per[0]}.${sales_per[1]}@sbdinc.com`,
+  //       ],
+  //       subject: `#${ref} Process Invoice - ${PO} - ${company}`,
+  //       html: `
+  //       Hi,
+  // <br><br><br>
+  // In the attachment you will find the coop invoice. Please, process it.
+  // <br><br>
+  // <ul>
+  //       <li>Ref: ${ref}</li>
+  //       <li>PO: ${PO}</li>
+  //       <li>Client: ${company}</li>
+  //       <li>Overall Limit: ${overall_limit}</li>
+  // </ul>
+  // <br><br><br>
+  // Kind Regards.
+  // <br><br>
+  // ${sales_per[0]} ${sales_per[1]}
+  // <br><br><br>
+  // This is an automated email. For any inquiries, please contact ${sales_per[0]}.${sales_per[1]}@sbdinc.com 
+  // `,
+  //       attachments: [
+  //         {
+  //           // utf-8 string as an attachment
+  //           filename: req.file.originalname,
+  //           content: req.file,
+  //         },
+  //       ],
+  //     };
+  //     const sendMail = (user, callback) => {
+  //       const transporter = nodemailer.createTransport({
+  //         host: 'smtp.zoho.eu', // hostname
+  //         port: 465, // port for secure SMTP
+  //         secure: true,
+  //         auth: {
+  //           user: 'olsonperrensen@zohomail.eu',
+  //           pass: `${process.env.S3_BUCKET}`,
+  //         },
+  //       });
+  //       setTimeout(() => {
+  //         transporter.sendMail(mailOptions, callback);
+  //       }, 3000);
+  //     };
+  //     let user = req.body;
+  //     sendMail(user, (err, info) => {
+  //       if (err) {
+  //         console.log(err);
+  //         res.status(400);
+  //         res.send({ error: 'Failed to send email' });
+  //       } else {
+  //         console.log('Email has been sent');
+  //         res.send(info);
+  //       }
+  //     });
+  //   }, 1000);
 });
 
 app.post('/clients', authenticateToken, (req, res) => {
