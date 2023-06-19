@@ -6,9 +6,9 @@ import { Injectable } from '@angular/core';
 })
 export class GetdataService {
 
-  URL = 'http://localhost:3000/clients';
+  URL = 'https://formemail.herokuapp.com/clients';
   NONVENDORURL = 'https://formemail.herokuapp.com/nonvendors'
-  LOCAL_URL = 'http://localhost:3000/clients';
+  LOCAL_URL = 'https://formemail.herokuapp.com/clients';
   WORKERS_URL = 'https://formemail.herokuapp.com/workers'
 
   token = localStorage.getItem('jwtToken'); // Get the JWT token from storage
