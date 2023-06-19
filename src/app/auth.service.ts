@@ -22,6 +22,11 @@ export class AuthService {
     return this.http.post(this.URL, secret);
   }
 
+  setLocalStorageCredentials(u_user: any) {
+    localStorage.setItem('naam', this.dbUser.naam);
+    localStorage.setItem('land', this.dbUser.land);
+  }
+
   setCredentials(u_user: any) {
     this.dbUser.id = u_user.id;
     this.dbUser.isAuthenticated = u_user.isAuthenticated;
@@ -29,6 +34,7 @@ export class AuthService {
     this.dbUser.naam = u_user.naam;
     this.dbUser.sbu = u_user.sbu;
     this.dbUser.username = u_user.username;
+    this.setLocalStorageCredentials(u_user)
   }
 
   getCredentials() {
@@ -51,6 +57,10 @@ export class AuthService {
 
   public getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
+  }
+  public getLocalStorageCredentials(): any[] {
+    const A = [localStorage.getItem('land'), localStorage.getItem('naam')]
+    return A;
   }
 
   public removeToken(): void {

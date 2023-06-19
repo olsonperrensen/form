@@ -615,8 +615,8 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     return this.options10.filter(option => option.toLowerCase().includes(filterValue));
   }
 
-  u_worker = this.authService.getCredentials().naam
-  u_land = this.authService.getCredentials().land
+  u_worker = this.authService.getLocalStorageCredentials()[1]
+  u_land = this.authService.getLocalStorageCredentials()[0]
   u_klantnaam = ''
   u_klantnr = ''
   u_bedrag = ''
