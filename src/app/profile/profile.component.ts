@@ -15,9 +15,9 @@ export class ProfileComponent implements OnInit {
   constructor(private authService: AuthService) { }
   myControl6 = new FormControl();
   isEditing = false;
-  u_worker = this.authService.getCredentials().naam
-  u_land = this.authService.getCredentials().land
-  u_merk = this.authService.getCredentials().sbu
+  u_worker = this.authService.getLocalStorageCredentials()[1]
+  u_land = this.authService.getLocalStorageCredentials()[0]
+  u_merk = this.authService.getLocalStorageCredentials()[2]
   u_email: any
   ngOnInit(): void {
     this.u_email = this.u_worker.split(" ")

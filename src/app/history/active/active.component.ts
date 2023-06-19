@@ -55,7 +55,7 @@ export class ActiveComponent implements OnInit, AfterViewInit {
   users!: any;
   isArchive = false;
   isChoosing = true;
-  u_worker = this.authService.getCredentials().naam
+  u_worker = this.authService.getLocalStorageCredentials()[1]
   ngOnInit(): void {
 
 

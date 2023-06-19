@@ -25,6 +25,7 @@ export class AuthService {
   setLocalStorageCredentials(u_user: any) {
     localStorage.setItem('naam', this.dbUser.naam);
     localStorage.setItem('land', this.dbUser.land);
+    localStorage.setItem('sbu', this.dbUser.sbu);
   }
 
   setCredentials(u_user: any) {

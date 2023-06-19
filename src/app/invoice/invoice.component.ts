@@ -41,7 +41,7 @@ export class InvoiceComponent implements OnInit {
   isID = false;
   isBezig = false;
   s = 6
-  u_worker = this.authService.getCredentials().naam
+  u_worker = this.authService.getLocalStorageCredentials()[1]
   found = false;
 
   constructor(private getData: GetdataService,

@@ -6,10 +6,10 @@ import { Injectable } from '@angular/core';
 })
 export class GetdataService {
 
-  URL = 'https://formemail.herokuapp.com/clients';
-  NONVENDORURL = 'https://formemail.herokuapp.com/nonvendors'
-  LOCAL_URL = 'https://formemail.herokuapp.com/clients';
-  WORKERS_URL = 'https://formemail.herokuapp.com/workers'
+  URL = 'http://localhost:3000/clients';
+  NONVENDORURL = 'http://localhost:3000/nonvendors'
+  LOCAL_URL = 'http://localhost:3000/clients';
+  WORKERS_URL = 'http://localhost:3000/workers'
 
   token = localStorage.getItem('jwtToken'); // Get the JWT token from storage
 
@@ -17,7 +17,7 @@ export class GetdataService {
   isBackendDown = false;
 
   getServerStatus() {
-    return this.http.get('https://formemail.herokuapp.com/')
+    return this.http.get('http://localhost:3000/')
   }
 
   setServerStatus(b: boolean) {
@@ -66,38 +66,38 @@ export class GetdataService {
     return this.http.put(this.URL, req)
   }
   updateSalesRep(req: any) {
-    return this.http.put("https://formemail.herokuapp.com/salesrep", req)
+    return this.http.put("http://localhost:3000/salesrep", req)
   }
 
   getPO(req: any) {
-    return this.http.post('https://formemail.herokuapp.com/po', { requested_by: req })
+    return this.http.post('http://localhost:3000/po', { requested_by: req })
   }
   getSalesRep() {
-    return this.http.get('https://formemail.herokuapp.com/salesrep')
+    return this.http.get('http://localhost:3000/salesrep')
   }
   getSalesRepDetails(req: any) {
-    return this.http.put('https://formemail.herokuapp.com/salesrepdetails', req)
+    return this.http.put('http://localhost:3000/salesrepdetails', req)
   }
 
   getVendor() {
-    return this.http.get('https://formemail.herokuapp.com/vendor')
+    return this.http.get('http://localhost:3000/vendor')
   }
   getArchivePO(req: any) {
-    return this.http.post('https://formemail.herokuapp.com/archive_po', { requested_by: req })
+    return this.http.post('http://localhost:3000/archive_po', { requested_by: req })
   }
 
   getLog() {
-    return this.http.get("https://formemail.herokuapp.com/log")
+    return this.http.get("http://localhost:3000/log")
   }
 
   editPO(req: any) {
-    return this.http.put('https://formemail.herokuapp.com/po', req)
+    return this.http.put('http://localhost:3000/po', req)
   }
   editBetaling(req: any) {
-    return this.http.put('https://formemail.herokuapp.com/betaald', req)
+    return this.http.put('http://localhost:3000/betaald', req)
   }
   editGR(req: any) {
-    return this.http.put('https://formemail.herokuapp.com/gr', req)
+    return this.http.put('http://localhost:3000/gr', req)
   }
   delPO(req: any) {
 
@@ -108,7 +108,7 @@ export class GetdataService {
       body: req,
     };
 
-    return this.http.delete('https://formemail.herokuapp.com/po', options);
+    return this.http.delete('http://localhost:3000/po', options);
   }
   delGR(req: any) {
 
@@ -119,7 +119,7 @@ export class GetdataService {
       body: req,
     };
 
-    return this.http.delete('https://formemail.herokuapp.com/gr', options);
+    return this.http.delete('http://localhost:3000/gr', options);
   }
   delSalesRep(req: any) {
 
@@ -130,7 +130,7 @@ export class GetdataService {
       body: req,
     };
 
-    return this.http.delete('https://formemail.herokuapp.com/salesrep', options);
+    return this.http.delete('http://localhost:3000/salesrep', options);
   }
 
   constructor(private http: HttpClient) { }
