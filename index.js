@@ -646,27 +646,29 @@ app.post('/login', async (req, res) => {
 });
 
 
-app.post('/recover', (req, res) => {
+app.post('/recover', async (req, res) => {
   let pwd = '';
   let pwd_id;
   console.log(req.body.u_username.toUpperCase());
-  client.query(
-    `select id, password from users where username = '${req.body.u_username.toUpperCase()}'`,
-    (err, res) => {
-      if (res.rowCount < 1) {
-        console.log(`WRONG CREDENTIALS!`);
-        is_authenticated = false;
-      } else {
-        console.log(`VALID CREDENTIALS...`);
-        is_authenticated = true;
-        pwd = res.rows[0].password;
-        pwd_id = res.rows[0].id;
-        console.log(pwd);
-      }
+
+  try {
+    const selectQuery = `SELECT id, password FROM users WHERE username = '${req.body.u_username.toUpperCase()}'`;
+    const result = await client.query(selectQuery);
+
+    if (result.rowCount < 1) {
+      console.log(`WRONG CREDENTIALS!`);
+      res.status(401);
+      res.send({ error: 'Invalid credentials' });
+      return;
     }
-  );
-  console.log(`Sending email to ${req.body.u_username} to recover PWD...`);
-  setTimeout(() => {
+
+    console.log(`VALID CREDENTIALS...`);
+    pwd = result.rows[0].password;
+    pwd_id = result.rows[0].id;
+    console.log(pwd);
+
+    console.log(`Sending email to ${req.body.u_username} to recover PWD...`);
+
     const mailOptions = {
       from: 'olsonperrensen@zohomail.eu',
       to: `${req.body.u_username}`,
@@ -693,53 +695,53 @@ Sincerely,
 The Sbdinc Forms Team
 `,
     };
-    const sendMail = (user, callback) => {
+
+    const sendMail = async (user) => {
       const transporter = nodemailer.createTransport({
-        host: 'smtp.zoho.eu', // hostname
-        port: 465, // port for secure SMTP
+        host: 'smtp.zoho.eu',
+        port: 465,
         secure: true,
         auth: {
           user: 'olsonperrensen@zohomail.eu',
           pass: `${process.env.S3_BUCKET}`,
         },
       });
-      setTimeout(() => {
-        transporter.sendMail(mailOptions, callback);
-      }, 3000);
+
+      await transporter.sendMail(mailOptions);
+      console.log('Email has been sent');
+      res.send({ success: 'Email has been sent' });
     };
-    let user = req.body;
-    sendMail(user, (err, info) => {
-      if (err) {
-        console.log(err);
-        res.status(400);
-        res.send({ error: 'Failed to send email' });
-      } else {
-        console.log('Email has been sent');
-        res.send(info);
-      }
-    });
-  }, 1000);
+
+    await sendMail(req.body);
+  } catch (error) {
+    console.log(error);
+    res.status(500);
+    res.send({ error: 'Failed to send email' });
+  }
 });
 
-app.post('/reset', (req, res) => {
-  let pwd_status = 0;
-  console.log(`Request came: ID ${req.body.u_id} to reset PWD.`);
-  client.query(
-    `update users set password = '${req.body.u_pwd}' where id = ${req.body.u_id}`,
-    (err, res) => {
-      if (err) {
-        pwd_status = 500;
-        console.log(`CANNOT RESET PWD : ${err}`);
-      } else {
-        pwd_status = 200;
-        console.log(`PWD reset! ${req.body.u_pwd}`);
-      }
-    }
-  );
-  setTimeout(() => {
+
+
+app.post('/reset', async (req, res) => {
+  try {
+    let pwd_status = 0;
+    console.log(`Request came: ID ${req.body.u_id} to reset PWD.`);
+
+    const queryText = `update users set password = '${req.body.u_pwd}' where id = ${req.body.u_id}`;
+    await query(queryText);
+
+    pwd_status = 200;
+    console.log(`PWD reset! ${req.body.u_pwd}`);
+
     res.send({ status: pwd_status });
-  }, 800);
+  } catch (err) {
+    pwd_status = 500;
+    console.log(`CANNOT RESET PWD: ${err}`);
+
+    res.send({ status: pwd_status });
+  }
 });
+
 
 app.post('/invoice', upload.single('file'), authenticateToken, (req, res) => {
   let company = '';
@@ -855,58 +857,51 @@ app.post('/invoice', upload.single('file'), authenticateToken, (req, res) => {
   //   }, 1000);
 });
 
-app.post('/clients', authenticateToken, (req, res) => {
-  // Add a client
-  console.log(`New client came: "${req.body.new_client}"`);
-  let isRecordInDB = false;
-  client.query(
-    `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`,
-    (err, res) => {
-      if (err) {
-        isRecordInDB = false;
-        console.log(`CANNOT insert: ${err}`);
-      } else {
-        isRecordInDB = true;
-        console.log(`record inserted ${req.body.new_client}`);
-      }
-    }
-  );
-  setTimeout(() => {
+app.post('/clients', authenticateToken, async (req, res) => {
+  try {
+    // Add a client
+    console.log(`New client came: "${req.body.new_client}"`);
+    let isRecordInDB = false;
+
+    const queryText = `INSERT INTO BIZ(biz_name) VALUES('${req.body.new_client}')`;
+    await query(queryText);
+
+    isRecordInDB = true;
+    console.log(`Record inserted: ${req.body.new_client}`);
+
     console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`);
     if (isRecordInDB) {
       res.send('200');
     } else {
       res.send('500');
     }
-  }, 6200);
+  } catch (err) {
+    isRecordInDB = false;
+    console.log(`CANNOT insert: ${err}`);
+    res.send('500');
+  }
 });
 
-app.put('/clients', authenticateToken, (req, res) => {
-  console.log(
-    `New edit came: "${req.body.old_client}" to be replaced with "${req.body.new_client}"`
-  );
-  client.query(
-    `UPDATE BIZ SET biz_name = '${req.body.new_client}'
-  where biz_name = '${req.body.old_client}'`,
-    (err, res) => {
-      if (err) {
-        isRecordInDB = false;
-        console.log(`CANNOT update: ${err}`);
-      } else {
-        isRecordInDB = true;
-        console.log(`record updated ${req.body.new_client}`);
-      }
-    }
-  );
-  setTimeout(() => {
+
+app.put('/clients', authenticateToken, async (req, res) => {
+  try {
+    console.log(
+      `New edit came: "${req.body.old_client}" to be replaced with "${req.body.new_client}"`
+    );
+
+    const queryText = `UPDATE BIZ SET biz_name = '${req.body.new_client}' WHERE biz_name = '${req.body.old_client}'`;
+    await query(queryText);
+
+    console.log(`Record updated: ${req.body.new_client}`);
+
     console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`);
-    if (isRecordInDB) {
-      res.send('200');
-    } else {
-      res.send('500');
-    }
-  }, 6200);
+    res.send('200');
+  } catch (err) {
+    console.log(`CANNOT update: ${err}`);
+    res.send('500');
+  }
 });
+
 
 app.put('/po', authenticateToken, (req, res) => {
   console.log(
@@ -1003,256 +998,149 @@ app.put('/po', authenticateToken, (req, res) => {
   }, 1000);
 });
 
-app.put('/clients', authenticateToken, (req, res) => {
-  console.log(
-    `New edit came: "${req.body.old_client}" to be replaced with "${req.body.new_client}"`
-  );
-  client.query(
-    `UPDATE BIZ SET biz_name = '${req.body.new_client}'
-  where biz_name = '${req.body.old_client}'`,
-    (err, res) => {
-      if (err) {
-        isRecordInDB = false;
-        console.log(`CANNOT update: ${err}`);
-      } else {
-        isRecordInDB = true;
-        console.log(`record updated ${req.body.new_client}`);
-      }
-    }
-  );
-  setTimeout(() => {
-    console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`);
-    if (isRecordInDB) {
-      res.send('200');
-    } else {
-      res.send('500');
-    }
-  }, 6200);
-});
+app.put('/clients', authenticateToken, async (req, res) => {
+  try {
+    console.log(
+      `New edit came: "${req.body.old_client}" to be replaced with "${req.body.new_client}"`
+    );
 
-app.put('/betaald', authenticateToken, (req, res) => {
-  console.log(
-    `New betaald edit came: "${req.body.u_ID}" to be updated with "${req.body.betaald}" as payment status`
-  );
-  client.query(
-    `UPDATE PO SET betaald = ${req.body.betaald}
-  where id = '${req.body.u_ID}'`,
-    (err, res) => {
-      if (err) {
-        isRecordInDB = false;
-        console.log(`CANNOT PO update: ${err}`);
-      } else {
-        isRecordInDB = true;
-        console.log(`betaald record updated to: ${req.body.betaald}`);
-      }
-    }
-  );
-  client.query(
-    `INSERT INTO apo SELECT * FROM po WHERE id = '${req.body.u_ID}';
-    DELETE FROM po USING apo WHERE po.id = '${req.body.u_ID}';`,
-    (err, res) => {
-      if (err) {
-        isRecordInDB = false;
-        console.log(`CANNOT PO delete: ${err}`);
-      } else {
-        isRecordInDB = true;
-        console.log(`PO record deleted ${req.body.u_ID}`);
-      }
-    }
-  );
-  setTimeout(() => {
+    const queryText = `UPDATE BIZ SET biz_name = '${req.body.new_client}' WHERE biz_name = '${req.body.old_client}'`;
+    await query(queryText);
+
+    console.log(`Record updated: ${req.body.new_client}`);
+
     console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`);
-    if (isRecordInDB) {
-      res.send('200');
-    } else {
-      res.send('500');
-    }
-  }, 888);
-  // client.query(
-  //   `SELECT * from PO
-  // where id = '${req.body.u_ID}'`,
-  //   (err, res) => {
-  //     if (err) {
-  //       isRecordInDB = false;
-  //       console.log(`CANNOT PO find: ${err}`);
-  //     } else {
-  //       isRecordInDB = true;
-  //       console.log(`PO Guy record found ${req.body.u_ID}`);
-  //       po_guy = res.rows[0].requested_by.split(' ');
-  //       po_guy = `${po_guy[0]}.${po_guy[1]}@sbdinc.com`;
-  //       tmp_company_po = res.rows[0].company.split(' ');
-  //       po_datum = res.rows[0].datum;
-  //       po_company_code = res.rows[0].company_code;
-  //       po_shortxt = res.rows[0].short_text;
-  //       po_overallmt = parseFloat(res.rows[0].overall_limit_3) + parseFloat(res.rows[0].overall_limit_2) + parseFloat(res.rows[0].overall_limit);
-  //       po_gr = res.rows[0].gr_execution_date;
-  //       po_sbu = res.rows[0].sbu;
-  //     }
-  //   }
-  // );
-  // setTimeout(() => {
-  //   const mailOptions = {
-  //     from: 'olsonperrensen@zohomail.eu',
-  //     to: po_guy,
-  //     cc: `students.benelux@sbdinc.com`,
-  //     subject: `PO #${req.body.u_ID} ${po_shortxt} ${tmp_company_po[1]} ${tmp_company_po[2]}`,
-  //     html: `
-  //     <p class=MsoNormal>PO <b><span style='font-size:13.5pt;font-family:"Arial",sans-serif;color:navy'>${req.body.new_client
-  //       }<o:p></o:p></span></b></p><p class=MsoNormal><o:p>&nbsp;</o:p></p><p class=MsoNormal><o:p>&nbsp;</o:p></p><p class=MsoNormal><span lang=NL>Met vriendelijke groeten<o:p></o:p></span></p><p class=MsoNormal><span lang=NL><o:p>&nbsp;</o:p></span></p><p class=MsoNormal><span lang=NL>Students Benelux<o:p></o:p></span></p>
-  //     <hr>
-  //     <ul>Requested by: ${po_guy}</ul>
-  //     <ul>Timestamp: ${po_datum}</ul>
-  //     <ul>Company: ${tmp_company_po.toString().replace(',', ' ')}</ul>
-  //     <ul>Purch. Org.: 0001</ul>
-  //     <ul>Purch. Group: LV4</ul>
-  //     <ul>Company Code: ${po_company_code}</ul>
-  //     <ul>A: f</ul>
-  //     <ul>I: d</ul>
-  //     <ul>Short text: ${po_shortxt}</ul>
-  //     <ul>PO Quantity: 1</ul>
-  //     <ul>Matl Group: level4</ul>
-  //     <ul>Plnt: ${po_company_code === 'be01' ? '1110' : '1510'}</ul>
-  //     <ul>Overall Limit: ${po_overallmt.toString().replace('.', ',')}</ul>
-  //     <ul>Expected value: ${po_overallmt.toString().replace('.', ',')}</ul>
-  //     <ul>GR Execution date: ${po_gr}</ul>
-  //     <ul>G/L Account: 47020000</ul>
-  //     <ul>Order: ${po_sbu}</ul>
-  //     `,
-  //   };
-  //   const sendMail = (user, callback) => {
-  //     const transporter = nodemailer.createTransport({
-  //       host: 'smtp.zoho.eu', // hostname
-  //       port: 465, // port for secure SMTP
-  //       secure: true,
-  //       auth: {
-  //         user: 'olsonperrensen@zohomail.eu',
-  //         pass: `${process.env.S3_BUCKET}`,
-  //       },
-  //     });
-  //     setTimeout(() => {
-  //       transporter.sendMail(mailOptions, callback);
-  //     }, 3000);
-  //   };
-  //   let user = req.body;
-  //   sendMail(user, (err, info) => {
-  //     if (err) {
-  //       console.log(err);
-  //       res.send('500');
-  //     } else {
-  //       console.log('Email has been sent');
-  //       res.send('200');
-  //     }
-  //   });
-  // }, 1000);
+    res.send('200');
+  } catch (err) {
+    console.log(`CANNOT update: ${err}`);
+    res.send('500');
+  }
 });
 
 
-app.put('/salesrep', authenticateToken, (req, res) => {
-  console.log(
-    `New SalesRep edit came: "${req.body.old_salesrep}" to be updated with "${req.body.new_salesrep}" as name and all extra info...`
-  );
-  client.query(
-    `UPDATE users SET username = '${req.body.new_email}', password= '${req.body.new_pwd}', naam = '${req.body.new_salesrep}', sbu = '${req.body.new_sbu}', land = '${req.body.new_land}'
-  where naam = '${req.body.old_salesrep}'`,
-    (err, res) => {
-      if (err) {
-        isRecordInDB = false;
-        console.log(`CANNOT SalesRep update: ${err}`);
-      } else {
-        isRecordInDB = true;
-        console.log(`SalesRep record updated ${req.body.new_salesrep}`);
-      }
-    }
-  );
-  setTimeout(() => {
+app.put('/betaald', authenticateToken, async (req, res) => {
+  try {
+    console.log(
+      `New betaald edit came: "${req.body.u_ID}" to be updated with "${req.body.betaald}" as payment status`
+    );
+
+    const updateQuery = `UPDATE PO SET betaald = ${req.body.betaald} WHERE id = '${req.body.u_ID}'`;
+    await query(updateQuery);
+
+    console.log(`Betaald record updated to: ${req.body.betaald}`);
+
+    const insertDeleteQuery = `
+      INSERT INTO apo SELECT * FROM po WHERE id = '${req.body.u_ID}';
+      DELETE FROM po USING apo WHERE po.id = '${req.body.u_ID}';
+    `;
+    await query(insertDeleteQuery);
+
+    console.log(`PO record deleted: ${req.body.u_ID}`);
+
     console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`);
-    if (isRecordInDB) {
-      res.send('200');
-    } else {
-      res.send('500');
-    }
-  }, 6200);
+    res.send('200');
+  } catch (err) {
+    console.log(`Error occurred: ${err}`);
+    res.send('500');
+  }
 });
 
-app.delete('/clients', authenticateToken, (req, res) => {
-  const RECORD_TO_DELETE = req.body;
-  console.log(
-    `New delete came: "${RECORD_TO_DELETE}" with content "${RECORD_TO_DELETE.old_client}"`
-  );
-  client.query(
-    `DELETE FROM BIZ WHERE biz_name = '${req.body.old_client}'`,
-    (err, res) => {
-      if (err) {
-        isRecordInDB = false;
-        console.log(`CANNOT delete: ${err}`);
-      } else {
-        isRecordInDB = true;
-        console.log(`record deleted ${req.body.old_client}`);
-      }
-    }
-  );
-  setTimeout(() => {
+
+
+app.put('/salesrep', authenticateToken, async (req, res) => {
+  try {
+    console.log(
+      `New SalesRep edit came: "${req.body.old_salesrep}" to be updated with "${req.body.new_salesrep}" as name and all extra info...`
+    );
+
+    const updateQuery = `
+      UPDATE users 
+      SET username = '${req.body.new_email}', 
+          password = '${req.body.new_pwd}', 
+          naam = '${req.body.new_salesrep}', 
+          sbu = '${req.body.new_sbu}', 
+          land = '${req.body.new_land}'
+      WHERE naam = '${req.body.old_salesrep}'
+    `;
+    await query(updateQuery);
+
+    console.log(`SalesRep record updated: ${req.body.new_salesrep}`);
+
     console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`);
-    if (isRecordInDB) {
-      res.send('200');
-    } else {
-      res.send('500');
-    }
-  }, 6200);
+    res.send('200');
+  } catch (err) {
+    console.log(`CANNOT SalesRep update: ${err}`);
+    res.send('500');
+  }
 });
-app.delete('/po', authenticateToken, (req, res) => {
-  const RECORD_TO_DELETE = req.body;
-  console.log(`New delete came: `);
-  console.log(RECORD_TO_DELETE);
-  console.log(`with content "${RECORD_TO_DELETE.u_ID}"`);
-  client.query(
-    `INSERT INTO apo SELECT * FROM po WHERE id = '${req.body.u_ID}';
-    DELETE FROM po USING apo WHERE po.id = '${req.body.u_ID}';`,
-    (err, res) => {
-      if (err) {
-        isRecordInDB = false;
-        console.log(`CANNOT PO delete: ${err}`);
-      } else {
-        isRecordInDB = true;
-        console.log(`PO record deleted ${req.body.u_ID}`);
-      }
-    }
-  );
-  setTimeout(() => {
+
+
+app.delete('/clients', authenticateToken, async (req, res) => {
+  try {
+    const RECORD_TO_DELETE = req.body;
+    console.log(
+      `New delete came: "${RECORD_TO_DELETE}" with content "${RECORD_TO_DELETE.old_client}"`
+    );
+
+    const deleteQuery = `
+      DELETE FROM BIZ 
+      WHERE biz_name = '${req.body.old_client}'
+    `;
+    await query(deleteQuery);
+
+    console.log(`Record deleted: ${req.body.old_client}`);
+
     console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`);
-    if (isRecordInDB) {
-      res.send('200');
-    } else {
-      res.send('500');
-    }
-  }, 6200);
+    res.send('200');
+  } catch (err) {
+    console.log(`CANNOT delete: ${err}`);
+    res.send('500');
+  }
 });
-app.delete('/salesrep', authenticateToken, (req, res) => {
-  const RECORD_TO_DELETE = req.body;
-  console.log(`New delete came for Sales Rep: `);
-  console.log(RECORD_TO_DELETE);
-  console.log(`with content "${RECORD_TO_DELETE.u_salesrep}"`);
-  client.query(
-    `DELETE FROM users WHERE naam = '${req.body.u_salesrep}';`,
-    (err, res) => {
-      if (err) {
-        isRecordInDB = false;
-        console.log(`CANNOT SALES REP delete: ${err}`);
-      } else {
-        isRecordInDB = true;
-        console.log(`SALES REP record deleted ${req.body.u_salesrep}`);
-      }
-    }
-  );
-  setTimeout(() => {
+
+app.delete('/po', authenticateToken, async (req, res) => {
+  try {
+    const RECORD_TO_DELETE = req.body;
+    console.log(`New delete came: `);
+    console.log(RECORD_TO_DELETE);
+    console.log(`with content "${RECORD_TO_DELETE.u_ID}"`);
+
+    const deleteQuery = `
+      INSERT INTO apo SELECT * FROM po WHERE id = '${req.body.u_ID}';
+      DELETE FROM po USING apo WHERE po.id = '${req.body.u_ID}';
+    `;
+    await query(deleteQuery);
+
+    console.log(`PO record deleted ${req.body.u_ID}`);
+
     console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`);
-    if (isRecordInDB) {
-      res.send('200');
-    } else {
-      res.send('500');
-    }
-  }, 6200);
+    res.send('200');
+  } catch (err) {
+    console.log(`CANNOT PO delete: ${err}`);
+    res.send('500');
+  }
 });
+
+app.delete('/salesrep', authenticateToken, async (req, res) => {
+  try {
+    const RECORD_TO_DELETE = req.body;
+    console.log(`New delete came for Sales Rep: `);
+    console.log(RECORD_TO_DELETE);
+    console.log(`with content "${RECORD_TO_DELETE.u_salesrep}"`);
+
+    const deleteQuery = `DELETE FROM users WHERE naam = '${req.body.u_salesrep}';`;
+    await query(deleteQuery);
+
+    console.log(`SALES REP record deleted ${req.body.u_salesrep}`);
+
+    console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`);
+    res.send('200');
+  } catch (err) {
+    console.log(`CANNOT SALES REP delete: ${err}`);
+    res.send('500');
+  }
+});
+
 
 app.post('/vendor', upload.single('v_file'), authenticateToken, (req, res) => {
   let db_id = 0;
@@ -1363,58 +1251,46 @@ app.post('/vendor', upload.single('v_file'), authenticateToken, (req, res) => {
   }, 1000);
 });
 
-app.put('/gr', authenticateToken, (req, res) => {
-  const RECORD_TO_UPDATE = req.body;
-  console.log(`New GR update came: `);
-  console.log(RECORD_TO_UPDATE);
-  console.log(`with content "${RECORD_TO_DELETE.u_ID}"`);
-  client.query(
-    `UPDATE po SET gr = '${req.body.new_gr}' WHERE id = '${req.body.u_ID}';`,
-    (err, res) => {
-      if (err) {
-        isRecordInDB = false;
-        console.log(`CANNOT PO delete: ${err}`);
-      } else {
-        isRecordInDB = true;
-        console.log(`GR record updated ${req.body.u_ID}`);
-      }
-    }
-  );
-  setTimeout(() => {
+app.put('/gr', authenticateToken, async (req, res) => {
+  try {
+    const RECORD_TO_UPDATE = req.body;
+    console.log(`New GR update came: `);
+    console.log(RECORD_TO_UPDATE);
+    console.log(`with content "${RECORD_TO_DELETE.u_ID}"`);
+
+    const updateQuery = `UPDATE po SET gr = '${req.body.new_gr}' WHERE id = '${req.body.u_ID}';`;
+    await query(updateQuery);
+
+    console.log(`GR record updated ${req.body.u_ID}`);
+
     console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`);
-    if (isRecordInDB) {
-      res.send('200');
-    } else {
-      res.send('500');
-    }
-  }, 6200);
+    res.send('200');
+  } catch (err) {
+    console.log(`CANNOT PO delete: ${err}`);
+    res.send('500');
+  }
 });
-app.delete('/gr', authenticateToken, (req, res) => {
-  const RECORD_TO_DELETE = req.body;
-  console.log(`New GR delete came: `);
-  console.log(RECORD_TO_DELETE);
-  console.log(`with content "${RECORD_TO_DELETE.u_ID}"`);
-  client.query(
-    `DELETE FROM po WHERE po.id = '${req.body.u_ID}';`,
-    (err, res) => {
-      if (err) {
-        isRecordInDB = false;
-        console.log(`CANNOT GR delete: ${err}`);
-      } else {
-        isRecordInDB = true;
-        console.log(`GR record deleted ${req.body.u_ID}`);
-      }
-    }
-  );
-  setTimeout(() => {
+
+app.delete('/gr', authenticateToken, async (req, res) => {
+  try {
+    const RECORD_TO_DELETE = req.body;
+    console.log(`New GR delete came: `);
+    console.log(RECORD_TO_DELETE);
+    console.log(`with content "${RECORD_TO_DELETE.u_ID}"`);
+
+    const deleteQuery = `DELETE FROM po WHERE po.id = '${req.body.u_ID}';`;
+    await query(deleteQuery);
+
+    console.log(`GR record deleted ${req.body.u_ID}`);
+
     console.log(`LOG after Promise, now isRecordInDB is ${isRecordInDB}`);
-    if (isRecordInDB) {
-      res.send('200');
-    } else {
-      res.send('500');
-    }
-  }, 6200);
+    res.send('200');
+  } catch (err) {
+    console.log(`CANNOT GR delete: ${err}`);
+    res.send('500');
+  }
 });
+
 // JWT
 function authenticateToken(req, res, next) {
   const authHeader = req.headers.authorization;
