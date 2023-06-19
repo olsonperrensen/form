@@ -104,7 +104,7 @@
               <input required type="text" placeholder="Pick one" aria-label="Number" matInput #edit_klantnaam="ngModel"
                 [(ngModel)]="u_new_klantnaam" name="u_edit_klantnaam">
             </mat-form-field>
-            <button (click)="onUserAddClick()" [disabled]="!f.valid" type="button" mat-raised-button
+            <button (click)="onUserAddClick()" [disabled]="!f.valid || isBezig" type="button" mat-raised-button
               color="primary">Toevoegen</button>
             <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
               style="color: white;background: black;">Bezig / Attendre quelques instants</pre>
@@ -127,12 +127,12 @@
                 <input required type="text" placeholder="Pick one" aria-label="Number" matInput
                   #edit_klantnaam="ngModel" [(ngModel)]="u_new_klantnaam" name="u_edit_klantnaam">
               </mat-form-field>
-              <button (click)="onUserEditClick()" [disabled]="!f.valid" type="button" mat-raised-button
+              <button (click)="onUserEditClick()" [disabled]="!f.valid || isBezig" type="button" mat-raised-button
                 color="primary">Verzenden</button>
             </div>
             <button (click)="onUserClick()" [disabled]="!f.valid" type="button" mat-raised-button
               color="accent">Aanpassen</button>
-            <button (click)="onUserDeleteClick()" [disabled]="!f.valid" type="button" mat-raised-button
+            <button (click)="onUserDeleteClick()" [disabled]="!f.valid || isBezig" type="button" mat-raised-button
               color="warn">Verwijderen</button>
             <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
               style="color: white;background: black;">Bezig / Attendre quelques instants</pre>
@@ -156,12 +156,13 @@
                 <input required type="text" placeholder="Pick one" aria-label="Number" matInput
                   #edit_klantnaam="ngModel" [(ngModel)]="u_new_klantnaam" name="u_edit_klantnaam">
               </mat-form-field>
-              <button (click)="onUserPOEditClick()" [disabled]="!f.valid" type="button" mat-raised-button
+              <button (click)="onUserPOEditClick()" [disabled]="!f.valid || isBezig" type="button" mat-raised-button
                 color="primary">Send</button>
             </div>
-            <button (click)="onUserPOClick()" [disabled]="!f.valid" type="button" mat-raised-button color="accent">PO
+            <button (click)="onUserPOClick()" [disabled]="!f.valid || isBezig" type="button" mat-raised-button
+              color="accent">PO
               Nr.</button>
-            <button (click)="onUserPODeleteClick()" [disabled]="!f.valid" type="button" mat-raised-button
+            <button (click)="onUserPODeleteClick()" [disabled]="!f.valid || isBezig" type="button" mat-raised-button
               color="warn">PO Archiveren</button>
             <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
               style="color: white;background: black;">Bezig / Attendre quelques instants</pre>
@@ -185,12 +186,12 @@
                 <input required type="text" placeholder="Pick one" aria-label="Number" matInput #edit_gr="ngModel"
                   [(ngModel)]="u_new_gr" name="u_edit_gr">
               </mat-form-field>
-              <button (click)="onUserGREditClick()" [disabled]="!f.valid" type="button" mat-raised-button
+              <button (click)="onUserGREditClick()" [disabled]="!f.valid || isBezig" type="button" mat-raised-button
                 color="primary">Send</button>
             </div>
             <button (click)="onUserGRClick()" [disabled]="!f.valid" type="button" mat-raised-button color="accent">GR
               Nr.</button>
-            <button (click)="onUserGRDeleteClick()" [disabled]="!f.valid" type="button" mat-raised-button
+            <button (click)="onUserGRDeleteClick()" [disabled]="!f.valid || isBezig" type="button" mat-raised-button
               color="warn">GR Verwijderen</button>
             <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
               style="color: white;background: black;">Bezig / Attendre quelques instants</pre>
@@ -236,7 +237,7 @@
                     [(ngModel)]="u_new_land" name="u_new_land">
                 </mat-form-field>
 
-                <button (click)="onUserSalesRepEditClick()" [disabled]="!f.valid" type="button" mat-raised-button
+                <button (click)="onUserSalesRepEditClick()" [disabled]="!f.valid  || isBezig" type="button" mat-raised-button
                   color="primary">Send</button>
               </div>
               <div *ngIf="askforSalesRepModification">
