@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const secretKey = process.env.JWT_GEHEIM || '9__BvprarHTGluMH$XZHO0JRcGQAvsT-EFIlsOBetoxs#4';
+const secretKey = process.env.JWT_GEHEIM;
 
 
 const fileFilter = (req, file, cb) => {
@@ -156,6 +156,8 @@ let managers = [
   [{ NAME: 'MALVIN PUTS', MANAGER: 'ERIC NIEUWMANS' }],
   [{ NAME: 'NIELS GROTERS', MANAGER: 'ERIC NIEUWMANS' }],
   [{ NAME: 'REMCO ROZING', MANAGER: 'ERIC NIEUWMANS' }],
+  [{ NAME: 'ROBBY CATTELLION', MANAGER: 'KEN LEYSEN' }],
+  [{ NAME: 'LUDWIG VANHAUTE', MANAGER: 'HILDE VERBEEK' }],
   [{ NAME: 'ERIC NIEUWMANS', MANAGER: 'PATRICK DIEPENBACH' }],
 ];
 let android = [];
