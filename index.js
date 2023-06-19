@@ -743,119 +743,104 @@ app.post('/reset', async (req, res) => {
 });
 
 
-app.post('/invoice', upload.single('file'), authenticateToken, (req, res) => {
+app.post('/invoice', upload.single('file'), authenticateToken, async (req, res) => {
   let company = '';
   let overall_limit = '';
   let PO = '';
   let salesrep = '';
-  // client.query(
-  //   `select requested_by, company, overall_limit, overall_limit_2, overall_limit_3, 
-  //   status from po
-  //   where status = '${req.body.u_ID}'`,
-  //   (err, res) => {
-  //     if (err) {
-  //       isRecordInDB = false;
-  //       console.log(`CANNOT INVOICE update: ${err}`);
-  //     } else {
-  //       isRecordInDB = true;
-  //       console.log(`INVOICE record updated ${req.body.u_ID}`);
-  //       sales_per = res.rows[0].requested_by.split(' ');
-  //       company = res.rows[0].company;
-  //       overall_limit = parseFloat(res.rows[0].overall_limit_3) + parseFloat(res.rows[0].overall_limit_2) + parseFloat(res.rows[0].overall_limit);
-  //       ref = res.rows[0].id;
-  //       PO = res.rows[0].status;
-  //     }
-  //   }
-  // );
 
-  // client.query(
-  //   `UPDATE PO SET INVOICE = 'Sent to AP at 
-  //   ${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}'
-  // where status = '${req.body.u_ID}'`,
-  //   (err, res) => {
-  //     if (err) {
-  //       isRecordInDB = false;
-  //       console.log(`CANNOT INVOICE update: ${err}`);
-  //     } else {
-  //       isRecordInDB = true;
-  //       console.log(`INVOICE record updated ${req.body.u_ID}`);
-  //     }
-  //   }
-  // );
+  try {
+    const selectQuery = `SELECT requested_by, company, overall_limit, overall_limit_2, overall_limit_3, 
+      status FROM po WHERE status = '${req.body.u_ID}'`;
 
-  console.log(`Invoice came: ${req.body.u_ID}`);
+    const result = await client.query(selectQuery);
 
-  console.log(req.file);
+    if (result.rowCount < 1) {
+      console.log(`No record found for INVOICE update`);
+      res.status(404);
+      res.send({ error: 'Record not found' });
+      return;
+    }
 
-  //   setTimeout(() => {
-  //     ref = req.body.u_ref;
-  //     console.log(sales_per);
-  //     const mailOptions = {
-  //       from: 'olsonperrensen@zohomail.eu',
-  //       to: [
-  //         `SBDInvoices@sbdinc.com`,
-  //         `S-GTS-APBelgium@sbdinc.com`,
-  //         `apnetherlands@sbdinc.com`,
-  //         'SVC-CRP-SBDe-Invoices@sbdinc.com',
-  //       ],
-  //       cc: [
-  //         'students.benelux@sbdinc.com',
-  //         `${sales_per[0]}.${sales_per[1]}@sbdinc.com`,
-  //       ],
-  //       subject: `#${ref} Process Invoice - ${PO} - ${company}`,
-  //       html: `
-  //       Hi,
-  // <br><br><br>
-  // In the attachment you will find the coop invoice. Please, process it.
-  // <br><br>
-  // <ul>
-  //       <li>Ref: ${ref}</li>
-  //       <li>PO: ${PO}</li>
-  //       <li>Client: ${company}</li>
-  //       <li>Overall Limit: ${overall_limit}</li>
-  // </ul>
-  // <br><br><br>
-  // Kind Regards.
-  // <br><br>
-  // ${sales_per[0]} ${sales_per[1]}
-  // <br><br><br>
-  // This is an automated email. For any inquiries, please contact ${sales_per[0]}.${sales_per[1]}@sbdinc.com 
-  // `,
-  //       attachments: [
-  //         {
-  //           // utf-8 string as an attachment
-  //           filename: req.file.originalname,
-  //           content: req.file,
-  //         },
-  //       ],
-  //     };
-  //     const sendMail = (user, callback) => {
-  //       const transporter = nodemailer.createTransport({
-  //         host: 'smtp.zoho.eu', // hostname
-  //         port: 465, // port for secure SMTP
-  //         secure: true,
-  //         auth: {
-  //           user: 'olsonperrensen@zohomail.eu',
-  //           pass: `${process.env.S3_BUCKET}`,
-  //         },
-  //       });
-  //       setTimeout(() => {
-  //         transporter.sendMail(mailOptions, callback);
-  //       }, 3000);
-  //     };
-  //     let user = req.body;
-  //     sendMail(user, (err, info) => {
-  //       if (err) {
-  //         console.log(err);
-  //         res.status(400);
-  //         res.send({ error: 'Failed to send email' });
-  //       } else {
-  //         console.log('Email has been sent');
-  //         res.send(info);
-  //       }
-  //     });
-  //   }, 1000);
+    console.log(`INVOICE record updated ${req.body.u_ID}`);
+    sales_per = result.rows[0].requested_by.split(' ');
+    company = result.rows[0].company;
+    overall_limit = parseFloat(result.rows[0].overall_limit_3) + parseFloat(result.rows[0].overall_limit_2) + parseFloat(result.rows[0].overall_limit);
+    ref = result.rows[0].id;
+    PO = result.rows[0].status;
+
+    const updateQuery = `UPDATE po SET invoice = 'Sent to AP at 
+      ${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}' WHERE status = '${req.body.u_ID}'`;
+
+    await client.query(updateQuery);
+
+    console.log(`Invoice came: ${req.body.u_ID}`);
+    console.log(req.file);
+
+    ref = req.body.u_ref;
+    const mailOptions = {
+      from: 'olsonperrensen@zohomail.eu',
+      to: [
+        'SBDInvoices@sbdinc.com',
+        'S-GTS-APBelgium@sbdinc.com',
+        'apnetherlands@sbdinc.com',
+        'SVC-CRP-SBDe-Invoices@sbdinc.com',
+      ],
+      cc: [
+        'students.benelux@sbdinc.com',
+        `${sales_per[0]}.${sales_per[1]}@sbdinc.com`,
+      ],
+      subject: `#${ref} Process Invoice - ${PO} - ${company}`,
+      html: `
+        Hi,
+        <br><br><br>
+        In the attachment you will find the coop invoice. Please, process it.
+        <br><br>
+        <ul>
+          <li>Ref: ${ref}</li>
+          <li>PO: ${PO}</li>
+          <li>Client: ${company}</li>
+          <li>Overall Limit: ${overall_limit}</li>
+        </ul>
+        <br><br><br>
+        Kind Regards.
+        <br><br>
+        ${sales_per[0]} ${sales_per[1]}
+        <br><br><br>
+        This is an automated email. For any inquiries, please contact ${sales_per[0]}.${sales_per[1]}@sbdinc.com 
+      `,
+      attachments: [
+        {
+          filename: req.file.originalname,
+          content: req.file.buffer,
+        },
+      ],
+    };
+
+    const sendMail = async (options) => {
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.zoho.eu',
+        port: 465,
+        secure: true,
+        auth: {
+          user: 'olsonperrensen@zohomail.eu',
+          pass: `${process.env.S3_BUCKET}`,
+        },
+      });
+
+      await transporter.sendMail(options);
+      console.log('Email has been sent');
+      res.send({ success: 'Email has been sent' });
+    };
+
+    await sendMail(mailOptions);
+  } catch (error) {
+    console.log(error);
+    res.status(500);
+    res.send({ error: 'Failed to send email' });
+  }
 });
+
 
 app.post('/clients', authenticateToken, async (req, res) => {
   try {
