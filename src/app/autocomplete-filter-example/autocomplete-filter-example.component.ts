@@ -690,7 +690,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
 
     setTimeout(() => {
       this.router.navigate(['/homepage']);
-    }, 2000);
+    }, 1200);
   }
 
   onOpnieuw() {
