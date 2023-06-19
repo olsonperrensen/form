@@ -229,49 +229,42 @@ app.get('/log', authenticateToken, async (req, res) => {
     res.status(500).send('An error occurred');
   }
 });
-app.get('/nonvendors', (req, res) => {
-  client.query('SELECT * FROM nonvendors;', (err, res) => {
-    if (err) throw err;
-    for (let row of res.rows) {
-      nieuw_clients.push(row.biz_name);
-    }
-    console.log('Fetched from DB');
-  });
-  setTimeout(() => {
-    res.send(nieuw_clients);
-  }, 250);
-  nieuw_clients = [];
-});
-app.get('/sendmail', authenticateToken, (req, res) =>
-  res.send('Send me a JSON object via POST. (Works with Zoho now).')
-);
-app.get('/vendor', authenticateToken, (req, res) => {
-  client.query('SELECT * FROM VENDOR;', (err, res) => {
-    if (err) throw err;
-    for (let row of res.rows) {
+
+app.get('/vendor', authenticateToken, async (req, res) => {
+  try {
+    const result = await query('SELECT * FROM VENDOR;');
+    const po = [];
+
+    for (let row of result.rows) {
       po.push(row);
     }
+
     console.log('Fetched VENDORS from DB');
-  });
-  setTimeout(() => {
     res.send(po);
-  }, 250);
-  po = [];
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('An error occurred');
+  }
 });
 
-app.get('/workers', authenticateToken, (req, res) => {
-  client.query('SELECT * FROM users order by CHAR_LENGTH(naam) asc;', (err, res) => {
-    if (err) throw err;
-    for (let row of res.rows) {
+
+app.get('/workers', authenticateToken, async (req, res) => {
+  try {
+    const result = await query('SELECT * FROM users ORDER BY CHAR_LENGTH(naam) ASC;');
+    const nieuw_workers = [];
+
+    for (let row of result.rows) {
       nieuw_workers.push(row);
     }
+
     console.log('Fetched workers from DB');
-  });
-  setTimeout(() => {
     res.send(nieuw_workers);
-  }, 250);
-  nieuw_workers = [];
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('An error occurred');
+  }
 });
+
 
 // define a sendmail endpoint, which will send emails and response with the corresponding status
 app.post('/sendmail', (req, res) => {
@@ -530,126 +523,128 @@ app.get('/po', authenticateToken, (req, res) => {
   po = [];
 });
 
-app.post('/po', authenticateToken, (req, res) => {
-  req.body.requested_by === 'MARTIN VAN'
-    ? (req.body.requested_by = '%')
-    : (req.body.requested_by = req.body.requested_by);
+app.post('/po', authenticateToken, async (req, res) => {
+  try {
+    let requestedBy = req.body.requested_by === 'MARTIN VAN' ? '%' : req.body.requested_by;
 
-  client.query(
-    `SELECT * FROM PO WHERE REQUESTED_BY LIKE '${req.body.requested_by}' or manager LIKE '${req.body.requested_by}';`,
-    (err, res) => {
-      if (err) throw err;
-      for (let row of res.rows) {
-        po.push(row);
-      }
-      console.log(`Fetched PO's from DB by user ${req.body.requested_by}`);
+    const queryText = `SELECT * FROM PO WHERE REQUESTED_BY LIKE '${requestedBy}' or manager LIKE '${requestedBy}';`;
+    const result = await query(queryText);
+
+    const po = [];
+    for (let row of result.rows) {
+      po.push(row);
     }
-  );
-  setTimeout(() => {
+
+    console.log(`Fetched PO's from DB by user ${requestedBy}`);
     res.send(po);
-  }, 250);
-  po = [];
+  } catch (err) {
+    throw err;
+  }
 });
 
-app.post('/archive_po', authenticateToken, (req, res) => {
-  req.body.requested_by === 'MARTIN VAN'
-    ? (req.body.requested_by = '%')
-    : (req.body.requested_by = req.body.requested_by);
+app.post('/archive_po', authenticateToken, async (req, res) => {
+  try {
+    let requestedBy = req.body.requested_by === 'MARTIN VAN' ? '%' : req.body.requested_by;
 
-  client.query(
-    `SELECT * FROM APO WHERE REQUESTED_BY LIKE '${req.body.requested_by}' or manager LIKE '${req.body.requested_by}';`,
-    (err, res) => {
-      if (err) throw err;
-      for (let row of res.rows) {
-        po.push(row);
-      }
-      console.log(`Fetched PO's from DB by user ${req.body.requested_by}`);
+    const queryText = `SELECT * FROM APO WHERE REQUESTED_BY LIKE '${requestedBy}' or manager LIKE '${requestedBy}';`;
+    const result = await query(queryText);
+
+    const po = [];
+    for (let row of result.rows) {
+      po.push(row);
     }
-  );
-  setTimeout(() => {
+
+    console.log(`Fetched PO's from DB by user ${requestedBy}`);
     res.send(po);
-  }, 250);
-  po = [];
+  } catch (err) {
+    throw err;
+  }
 });
-app.get('/salesrep', (req, res) => {
-  client.query('SELECT naam FROM users;', (err, res) => {
-    if (err) throw err;
-    for (let row of res.rows) {
+
+app.get('/salesrep', async (req, res) => {
+  try {
+    const queryText = 'SELECT naam FROM users;';
+    const result = await query(queryText);
+
+    const salesrep = [];
+    for (let row of result.rows) {
       salesrep.push(row);
     }
+
     console.log('Fetched salesrep from DB');
-  });
-  setTimeout(() => {
     res.send(salesrep);
-  }, 250);
-  salesrep = [];
-});
-app.put('/salesrepdetails', authenticateToken, (req, res) => {
-  const SALESMAN = req.body;
-  console.log(`Details requested for`);
-  console.log(`${SALESMAN.old_salesrep}`);
-
-  client.query(
-    `SELECT * FROM users where naam = '${SALESMAN.old_salesrep}';`,
-    (err, res) => {
-      if (err) throw err;
-      for (let row of res.rows) {
-        salesrep.push(row);
-      }
-      console.log('Fetched salesrep from DB');
-    }
-  );
-  setTimeout(() => {
-    res.send(salesrep);
-  }, 250);
-  salesrep = [];
+  } catch (err) {
+    throw err;
+  }
 });
 
-app.post('/login', (req, res) => {
-  let user = {
-    isAuthenticated: false,
-    id: 0,
-    username: '',
-    naam: '',
-    sbu: '',
-    land: '',
-  };
-  console.log(`Encrypted tmp_credentials: ${req.body.usr}`);
-  const tmp_credentials = CryptoJS.AES.decrypt(req.body.usr, 'h#H@k*Bjp3SrwdLM')
-    .toString(CryptoJS.enc.Utf8)
-    .split('"');
-  console.log(tmp_credentials)
-  console.log(`Decrypted: ${tmp_credentials[3].toUpperCase()}`);
-  client.query(
-    `select id, username, naam, sbu, land from users where username = '${tmp_credentials[3].toUpperCase()}'
-    and password = '${tmp_credentials[7]}'`,
-    (err, res) => {
-      if (res.rowCount < 1) {
-        console.log(`WRONG CREDENTIALS!`);
-        user.isAuthenticated = false;
-      } else {
-        console.log(`VALID CREDENTIALS...`);
-        user.id = res.rows[0].id;
-        user.land = res.rows[0].land;
-        user.naam = res.rows[0].naam;
-        user.sbu = res.rows[0].sbu;
-        user.username = res.rows[0].username;
-        user.isAuthenticated = true;
-        token = jwt.sign({ user }, secretKey, { expiresIn: '1h' });
-      }
+app.put('/salesrepdetails', authenticateToken, async (req, res) => {
+  try {
+    const SALESMAN = req.body;
+    console.log(`Details requested for`);
+    console.log(`${SALESMAN.old_salesrep}`);
+
+    const queryText = `SELECT * FROM users where naam = '${SALESMAN.old_salesrep}';`;
+    const result = await query(queryText);
+
+    const salesrep = [];
+    for (let row of result.rows) {
+      salesrep.push(row);
     }
-  );
-  setTimeout(() => {
+
+    console.log('Fetched salesrep from DB');
+    res.send(salesrep);
+  } catch (err) {
+    throw err;
+  }
+});
+
+
+app.post('/login', async (req, res) => {
+  try {
+    let user = {
+      isAuthenticated: false,
+      id: 0,
+      username: '',
+      naam: '',
+      sbu: '',
+      land: '',
+    };
+    console.log(`Encrypted tmp_credentials: ${req.body.usr}`);
+    const tmp_credentials = CryptoJS.AES.decrypt(req.body.usr, 'h#H@k*Bjp3SrwdLM')
+      .toString(CryptoJS.enc.Utf8)
+      .split('"');
+    console.log(tmp_credentials)
+    console.log(`Decrypted: ${tmp_credentials[3].toUpperCase()}`);
+
+    const queryText = `select id, username, naam, sbu, land from users where username = '${tmp_credentials[3].toUpperCase()}' and password = '${tmp_credentials[7]}'`;
+    const result = await query(queryText);
+
+    if (result.rowCount < 1) {
+      console.log(`WRONG CREDENTIALS!`);
+      user.isAuthenticated = false;
+    } else {
+      console.log(`VALID CREDENTIALS...`);
+      user.id = result.rows[0].id;
+      user.land = result.rows[0].land;
+      user.naam = result.rows[0].naam;
+      user.sbu = result.rows[0].sbu;
+      user.username = result.rows[0].username;
+      user.isAuthenticated = true;
+      token = jwt.sign({ user }, secretKey, { expiresIn: '1h' });
+    }
+
     if (user.isAuthenticated) {
       console.log("Proceeding to homepage...")
       res.send({ u_user: user, token: token });
-      // VERVANG
-      // res.json({  });
     } else {
       res.status(401).json({ error: 'Unauthorized' });
     }
-  }, 90);
+  } catch (err) {
+    throw err;
+  }
 });
+
 
 app.post('/recover', (req, res) => {
   let pwd = '';
