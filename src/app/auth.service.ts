@@ -75,6 +75,7 @@ export class AuthService {
     }
   }
   getGuardStatus() {
-    return this.guardStatus
+    if (this.guardStatus) return this.guardStatus
+    else return this.isJWTAuthenticated()
   }
 }
