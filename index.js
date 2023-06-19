@@ -209,7 +209,7 @@ app.get('/log', (req, res) => {
           break;
       }
       // EXCEL LOG CTRL C + CTRL V
-      nieuw_clients.push(`${row.company_code}\tMa\t${row.requested_by.split(" ").map((n) => n[0]).join("")}\t${row.manager.split(" ").map((n) => n[0]).join("")}\tPRO\t${sbu}\t${row.datum.split(' ')[0]}\t${row.datum.split(' ')[0].split('/')[0]}\t${row.company.split(" ").at(-1)}\t${row.company}\t${row.short_text}\tYES\t${String(row.overall_limit).replace('.', ',')}\t${String(row.overall_limit).replace('.', ',')}\t${row.status}\t${row.gr}\t\t\t${row.invoice !== "Pending" ? row.invoice.split(" ")[8] : row.invoice}\n`);
+      nieuw_clients.push(`${row.company_code.toUpperCase()}\tMa\t${row.requested_by.split(" ").map((n) => n[0]).join("")}\t${row.manager.split(" ").map((n) => n[0]).join("")}\tPRO\t${sbu}\t${row.datum.split(' ')[0]}\t${row.datum.split(' ')[0].split('/')[0]}\t${row.company.split(" ").at(-1)}\t${row.company}\t${row.short_text}\tYES\t${String(row.overall_limit).replace('.', ',')}\t${String(row.overall_limit).replace('.', ',')}\t${row.status}\t${row.gr}\t\t\t\t${row.invoice !== "Pending" ? row.invoice.split(" ")[8] : row.invoice}\n`);
     }
     console.log('Fetched from DB');
   });
