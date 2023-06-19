@@ -104,28 +104,35 @@ export class InvoiceComponent implements OnInit {
   onFileRemoved(event: any, i: number) {
     this.selected_files.splice(i, 1);
   }
-  onSubmitDrag(u_ID: any) {
+  async onSubmitDrag(u_ID: any) {
     const fd = new FormData();
     this.ref = this.selectedPO.id;
     fd.append('u_ID', u_ID);
     fd.append('u_ref', this.ref);
     fd.append('file', this.selected_files[0], this.selected_files[0].name);
     this.isBezig = true;
-    this.doCountdown();
-    this.sendVendors.sendInvoice(fd).subscribe((res) => {
+
+    try {
+      const res = await this.sendVendors.sendInvoice(fd).toPromise();
       this.res = <Res>res;
+
       if (this.res.response === "250 Message received") {
-        alert("Invoice naar AP gestuurd!")
+        alert("Invoice naar AP gestuurd!");
         this.selected_files = [];
         this.u_ID = '';
-        this.postatus = 'Net bijgewerkt / Modifications effectuées'
+        this.postatus = 'Net bijgewerkt / Modifications effectuées';
+      } else {
+        alert("Er ging iets mis.");
       }
-      else {
-        alert("Er ging iets mis.")
-      }
+
       this.isBezig = false;
-    });
+    } catch (err) {
+      console.error(err);
+      alert("Er ging iets mis.");
+      this.isBezig = false;
+    }
   }
+
   onSubmitDragMultiple(selectedIDs: any) {
     const fd = new FormData();
     fd.append('u_IDs', selectedIDs);
@@ -133,31 +140,7 @@ export class InvoiceComponent implements OnInit {
       fd.append(`file[${index}]`, file, file.name);
     });
     this.isBezig = true;
-    this.doCountdown();
+    // TODO
     alert("UNDER MAINTAINANCE! Come back later...")
-    // this.sendVendors.sendInvoice(fd).subscribe((res) => {
-    //   this.res = <Res>res;
-    //   if (this.res.response === "250 Message received") {
-    //     alert("Invoice naar AP gestuurd!")
-    //     this.selected_files = [];
-    //     this.u_ID = '';
-    //     this.postatus = 'Net bijgewerkt / Modifications effectuées'
-    //   }
-    //   else {
-    //     alert("Er ging iets mis.")
-    //   }
-    //   this.isBezig = false;
-    // });
-  }
-
-  doCountdown() {
-    const myInterval = setInterval(() => {
-      this.s--;
-      if (this.s < 1) {
-        clearInterval(myInterval); setTimeout(() => {
-          this.s = 6
-        }, 3000);
-      }
-    }, 1000);
   }
 }

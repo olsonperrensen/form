@@ -68,6 +68,7 @@ export class ManageComponent implements OnInit {
   askforSalesRepModification = false;
   s = 6;
   modify_counter = 0;
+  clientsRes!: any
 
   constructor(private getData: GetdataService, private sendForms: SendFormsService, private router: Router) { }
 
@@ -189,73 +190,81 @@ export class ManageComponent implements OnInit {
     this.modify_counter++;
   }
 
-  onUserAddClick() {
+  async onUserAddClick() {
     this.u_new_klantnaam = this.u_new_klantnaam.replace(/[^a-zA-Z0-9\s]/gi, '');
+
     if (this.u_new_klantnaam === "") {
       alert("Client cannot be empty! Use the right characters and try again.");
-    }
-    else {
-      this.isBezig = true;
-      this.doCountdown();
-      this.getData.postClient(
-        { new_client: `${this.u_new_klantnaam}` })
-        .subscribe((res) => {
-          this.checkRes(res);
-          this.isBezig = false;
-        })
-    }
-
-  }
-  onUserEditClick() {
-    this.u_new_klantnaam = this.u_new_klantnaam.replace(/[^a-zA-Z0-9\s]/gi, '');
-    if (this.u_new_klantnaam === "") {
-      alert("Client cannot be empty! Use the right characters and try again.");
-    }
-    else {
-      this.isBezig = true;
-      this.doCountdown();
-      this.getData.updateClient(
-        { old_client: `${this.u_klantnaam}`, new_client: `${this.u_new_klantnaam}` })
-        .subscribe((res) => {
-          this.checkRes(res);
-          this.isBezig = false;
-          this.getData.getClients().subscribe((res: any) => {
-            this.options2 = res.sort()
-          }, (err: any) => {
-            this.isBackendDown = true;
-          });
-        })
-    }
-
-  }
-  onUserDeleteClick() {
-    this.isBezig = true;
-    this.doCountdown()
-    this.getData.delClient(this.u_klantnaam)
-      .subscribe((res) => {
-        this.isBezig = false;
+    } else {
+      try {
+        this.isBezig = true;
+        const res = await this.getData.postClient({ new_client: `${this.u_new_klantnaam}` }).toPromise();
         this.checkRes(res);
-      });
-
+        this.isBezig = false;
+      } catch (err) {
+        console.error(err);
+        this.isBezig = false;
+      }
+    }
   }
-  onUserPODeleteClick() {
-    this.isBezig = true;
-    this.doCountdown();
-    this.getData.delPO({ u_ID: this.u_ID }).subscribe((res) => {
+
+  async onUserEditClick() {
+    this.u_new_klantnaam = this.u_new_klantnaam.replace(/[^a-zA-Z0-9\s]/gi, '');
+
+    if (this.u_new_klantnaam === "") {
+      alert("Client cannot be empty! Use the right characters and try again.");
+    } else {
+      try {
+        this.isBezig = true;
+        const res = await this.getData.updateClient({ old_client: `${this.u_klantnaam}`, new_client: `${this.u_new_klantnaam}` }).toPromise();
+        this.checkRes(res);
+        this.isBezig = false;
+        this.clientsRes = await this.getData.getClients().toPromise();
+        this.options2 = this.clientsRes.sort();
+      } catch (err) {
+        console.error(err);
+        this.isBezig = false;
+        this.isBackendDown = true;
+      }
+    }
+  }
+
+  async onUserDeleteClick() {
+    try {
+      this.isBezig = true;
+      const res = await this.getData.delClient(this.u_klantnaam).toPromise();
       this.isBezig = false;
       this.checkRes(res);
-    })
-
+    } catch (err) {
+      console.error(err);
+      this.isBezig = false;
+    }
   }
-  onUserGRDeleteClick() {
-    this.isBezig = true;
-    this.doCountdown();
-    this.getData.delGR({ u_ID: this.u_ID }).subscribe((res) => {
+
+  async onUserPODeleteClick() {
+    try {
+      this.isBezig = true;
+      const res = await this.getData.delPO({ u_ID: this.u_ID }).toPromise();
       this.isBezig = false;
       this.checkRes(res);
-    })
-
+    } catch (err) {
+      console.error(err);
+      this.isBezig = false;
+    }
   }
+
+  async onUserGRDeleteClick() {
+    try {
+      this.isBezig = true;
+      const res = await this.getData.delGR({ u_ID: this.u_ID }).toPromise();
+      this.isBezig = false;
+      this.checkRes(res);
+    } catch (err) {
+      console.error(err);
+      this.isBezig = false;
+    }
+  }
+
   onUserSalesRepDeleteClick() {
     if (this.modify_counter % 2 === 0) {
       this.getData.getSalesRepDetails({ old_salesrep: `${this.u_salesrep}` }).subscribe((res: any) => {
@@ -268,54 +277,66 @@ export class ManageComponent implements OnInit {
     }
     this.modify_counter++;
   }
-  onUserSalesRepDeleteConfirmClick() {
-    this.isBezig = true;
-    this.doCountdown();
-    this.getData.delSalesRep({ u_salesrep: this.u_salesrep }).subscribe((res) => {
+  async onUserSalesRepDeleteConfirmClick() {
+    try {
+      this.isBezig = true;
+      const res = await this.getData.delSalesRep({ u_salesrep: this.u_salesrep }).toPromise();
       this.isBezig = false;
       this.checkRes(res);
-    })
+    } catch (err) {
+      console.error(err);
+      this.isBezig = false;
+    }
+  }
 
-  }
-  onUserPOEditClick() {
-    this.isBezig = true;
-    this.doCountdown();
-    this.getData.editPO({ u_ID: this.u_ID, new_client: `${this.u_new_klantnaam}` }).subscribe((res) => {
+  async onUserPOEditClick() {
+    try {
+      this.isBezig = true;
+      const res = await this.getData.editPO({ u_ID: this.u_ID, new_client: `${this.u_new_klantnaam}` }).toPromise();
       this.isBezig = false;
       this.checkRes(res);
-    })
+    } catch (err) {
+      console.error(err);
+      this.isBezig = false;
+    }
   }
-  onUserGREditClick() {
-    this.isBezig = true;
-    this.doCountdown();
-    this.getData.editGR({ u_ID: this.u_ID, new_gr: `${this.u_new_gr}` }).subscribe((res) => {
+
+  async onUserGREditClick() {
+    try {
+      this.isBezig = true;
+      const res = await this.getData.editGR({ u_ID: this.u_ID, new_gr: `${this.u_new_gr}` }).toPromise();
       this.isBezig = false;
       this.checkRes(res);
-    })
+    } catch (err) {
+      console.error(err);
+      this.isBezig = false;
+    }
   }
-  onUserSalesRepEditClick() {
+
+  async onUserSalesRepEditClick() {
     this.u_new_salesrep = this.u_new_salesrep.replace(/[^a-zA-Z0-9\s]/gi, '');
     if (this.u_new_salesrep === "") {
       alert("Sales Rep. cannot be empty! Use the right characters and try again.");
-    }
-    else {
-      this.isBezig = true;
-      this.doCountdown();
-      this.getData.updateSalesRep(
-        {
+    } else {
+      try {
+        this.isBezig = true;
+        const res = await this.getData.updateSalesRep({
           old_salesrep: `${this.u_salesrep}`,
           new_email: this.u_new_email,
           new_pwd: this.u_new_pwd,
           new_salesrep: `${this.u_new_salesrep}`,
           new_sbu: this.u_new_sbu,
           new_land: this.u_new_land
-        })
-        .subscribe((res) => {
-          this.checkRes(res);
-          this.isBezig = false;
-        })
+        }).toPromise();
+        this.checkRes(res);
+        this.isBezig = false;
+      } catch (err) {
+        console.error(err);
+        this.isBezig = false;
+      }
     }
   }
+
   onUserWantsToEdit() {
     this.wantsToEdit = true;
   }
@@ -338,21 +359,8 @@ export class ManageComponent implements OnInit {
     }
     else if (res == "200") {
       alert("Client was successfully processed to the list!");
-      setTimeout(() => {
-        this.u_klantnaam = ""
-        this.u_new_klantnaam = ""
-      }, 2888);
+      this.u_klantnaam = ""
+      this.u_new_klantnaam = ""
     }
-  }
-
-  doCountdown() {
-    const myInterval = setInterval(() => {
-      this.s--;
-      if (this.s < 1) {
-        clearInterval(myInterval); setTimeout(() => {
-          this.s = 6;
-        }, 3000);
-      }
-    }, 1000);
   }
 }

@@ -47,8 +47,8 @@ export class PublicComponent implements OnInit {
         // Get autocomplete for POs
         this.authService.setCredentials(res.u_user);
         setTimeout(() => {
-          this.router.navigate(['/','homepage'])
-        }, 400);
+          this.router.navigate(['/', 'homepage'])
+        }, 180);
       }
       else {
         this.onLogout()
@@ -56,7 +56,7 @@ export class PublicComponent implements OnInit {
         this.isInvalid = true;
         setTimeout(() => {
           this.router.navigate(['/'])
-        }, 400);
+        }, 180);
       }
     })
   }

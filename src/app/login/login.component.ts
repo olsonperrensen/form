@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
 
         setTimeout(() => {
           this.router.navigate(['/', 'manage'])
-        }, 2000);
+        }, 1200);
       }
       else {
         this.onLogout()
@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
         this.isInvalid = true;
         setTimeout(() => {
           this.router.navigate(['/'])
-        }, 2000);
+        }, 1200);
       }
     })
   }

@@ -27,9 +27,7 @@ export class ResetComponent implements OnInit {
     f.value.password.length >= 4 ? this.authService.resetPWD(this.u_id, f.value.password).subscribe((res: any) => {
       if (res.status == 200) {
         alert("Password has been successfully changed! You can now log in.");
-        setTimeout(() => {
-          this.router.navigate(['/']);
-        }, 1000);
+        this.router.navigate(['/']);
       }
       else if (res.status == 500) {
         alert("ERROR. Password could NOT be changed!")

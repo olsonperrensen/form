@@ -227,13 +227,13 @@ export class AutocompleteFilterExampleComponent implements OnInit {
       this.isBackendDown = true;
     });
     // Get omschrijving(en)
-    setTimeout(() => {
-      this.getData.getPO(this.u_worker.toUpperCase()).subscribe((res: any) => {
-        res.forEach((po: any) => {
-          this.options10.push(po.short_text)
-        });
-      })
-    }, 400);
+
+    this.getData.getPO(this.u_worker.toUpperCase()).subscribe((res: any) => {
+      res.forEach((po: any) => {
+        this.options10.push(po.short_text)
+      });
+    })
+
     document.body.style.backgroundImage = "url('https://i.postimg.cc/8NqcDrfY/Default-Wallpaper.png')"
     this.getIP();
     this.isBackendDown = this.getData.getBackendBoolean()
@@ -632,8 +632,10 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   myJSONForm = {
   }
 
-  onSubmit(f: NgForm) {
-    this.open().then(() => {
+  async onSubmit(f: NgForm) {
+    try {
+      await this.open();
+
       const now = new Date();
 
       this.myJSONForm = {
@@ -655,22 +657,19 @@ export class AutocompleteFilterExampleComponent implements OnInit {
         worker: this.u_worker
       };
 
-      this.sendForms.sendForm(this.myJSONForm).subscribe(
-        (res) => {
-          alert(`U heeft met succes een aanvraag naar de verantwoordelijke gestuurd.
-
-      Controleer uw e-mail voor het PO-nummer / Vous avez envoyé avec succès une demande à la personne responsable.
-
-      Veuillez vérifier votre e-mail pour le numéro de PO`);
-          this.exit = true;
-        }, (err) => { alert(`Er is iets fout gegaan. Probeer het opnieuw. / Quelque chose s'est mal passé. Réessayer.`) }
-      );
-
-      setTimeout(() => {
-        this.sent = true;
-      }, 500);
-    })
+      await this.sendForms.sendForm(this.myJSONForm).toPromise();
+      alert(`U heeft met succes een aanvraag naar de verantwoordelijke gestuurd.
+      
+  Controleer uw e-mail voor het PO-nummer / Vous avez envoyé avec succès une demande à la personne responsable.
+      
+  Veuillez vérifier votre e-mail pour le numéro de PO`);
+      this.sent = true;
+      this.exit = true;
+    } catch (err) {
+      alert(`Er is iets fout gegaan. Probeer het opnieuw. / Quelque chose s'est mal passé. Réessayer.`);
+    }
   }
+
 
 
   onCancel(f: NgForm) {
