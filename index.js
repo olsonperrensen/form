@@ -888,46 +888,37 @@ app.put('/clients', authenticateToken, async (req, res) => {
 });
 
 
-app.put('/po', authenticateToken, (req, res) => {
+app.put('/po', authenticateToken, async (req, res) => {
   console.log(
     `New PO edit came: "${req.body.u_ID}" to be updated with "${req.body.new_client}" as PO status`
   );
-  client.query(
-    `UPDATE PO SET status = '${req.body.new_client}'
-  where id = '${req.body.u_ID}'`,
-    (err, res) => {
-      if (err) {
-        isRecordInDB = false;
-        console.log(`CANNOT PO update: ${err}`);
-      } else {
-        isRecordInDB = true;
-        console.log(`PO record updated ${req.body.new_client}`);
-      }
-    }
-  );
-  client.query(
-    `SELECT * from PO
-  where id = '${req.body.u_ID}'`,
-    (err, res) => {
-      if (err) {
-        isRecordInDB = false;
-        console.log(`CANNOT PO find: ${err}`);
-      } else {
-        isRecordInDB = true;
-        console.log(`PO Guy record found ${req.body.u_ID}`);
-        po_guy = res.rows[0].requested_by.split(' ');
-        po_guy = `${po_guy[0]}.${po_guy[1]}@sbdinc.com`;
-        tmp_company_po = res.rows[0].company.split(' ');
-        po_datum = res.rows[0].datum;
-        po_company_code = res.rows[0].company_code;
-        po_shortxt = res.rows[0].short_text;
-        po_overallmt = parseFloat(res.rows[0].overall_limit_3) + parseFloat(res.rows[0].overall_limit_2) + parseFloat(res.rows[0].overall_limit);
-        po_gr = res.rows[0].gr_execution_date;
-        po_sbu = res.rows[0].sbu;
-      }
-    }
-  );
-  setTimeout(() => {
+
+  try {
+    // Update PO status
+    await query(
+      `UPDATE PO SET status = '${req.body.new_client}' where id = '${req.body.u_ID}'`
+    );
+
+    // Fetch PO details
+    const poDetails = await query(
+      `SELECT * from PO where id = '${req.body.u_ID}'`
+    );
+    console.log(`PO Guy record found ${req.body.u_ID}`);
+    const po_guy = poDetails.rows[0].requested_by.split(' ');
+    const tmp_company_po = poDetails.rows[0].company.split(' ');
+    const po_datum = poDetails.rows[0].datum;
+    const po_company_code = poDetails.rows[0].company_code;
+    const po_shortxt = poDetails.rows[0].short_text;
+    const po_overallmt =
+      parseFloat(poDetails.rows[0].overall_limit_3) +
+      parseFloat(poDetails.rows[0].overall_limit_2) +
+      parseFloat(poDetails.rows[0].overall_limit);
+    const po_gr = poDetails.rows[0].gr_execution_date;
+    const po_sbu = poDetails.rows[0].sbu;
+
+    // Wait for a specified duration
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     const mailOptions = {
       from: 'olsonperrensen@zohomail.eu',
       to: po_guy,
@@ -956,7 +947,8 @@ app.put('/po', authenticateToken, (req, res) => {
       <ul>Order: ${po_sbu}</ul>
       `,
     };
-    const sendMail = (user, callback) => {
+
+    const sendMail = util.promisify((user, callback) => {
       const transporter = nodemailer.createTransport({
         host: 'smtp.zoho.eu', // hostname
         port: 465, // port for secure SMTP
@@ -966,21 +958,17 @@ app.put('/po', authenticateToken, (req, res) => {
           pass: `${process.env.S3_BUCKET}`,
         },
       });
-      setTimeout(() => {
-        transporter.sendMail(mailOptions, callback);
-      }, 3000);
-    };
-    let user = req.body;
-    sendMail(user, (err, info) => {
-      if (err) {
-        console.log(err);
-        res.send('500');
-      } else {
-        console.log('Email has been sent');
-        res.send('200');
-      }
+
+      transporter.sendMail(mailOptions, callback);
     });
-  }, 1000);
+
+    // Send email
+    await sendMail(req.body);
+
+    res.send('200');
+  } catch (err) {
+    res.send('500');
+  }
 });
 
 app.put('/clients', authenticateToken, async (req, res) => {
