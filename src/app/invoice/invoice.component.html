@@ -84,7 +84,7 @@
                   <h3 style="color:goldenrod;">{{postatus}}</h3>
                 </div>
               </mat-chip-list>
-              <mat-card-actions class="whiteish">
+              <mat-card-actions *ngIf="postatus!='Al gestuurd/Déjà envoyé'" class="whiteish">
                 <ngx-dropzone (change)="onFileSelected($event)">
                   <ngx-dropzone-label>Factuur inslepen / Déposez la facture</ngx-dropzone-label>
                   <ngx-dropzone-preview *ngFor="let f of selected_files; let i = index" [removable]="true">
@@ -94,7 +94,11 @@
                   </ngx-dropzone-preview>
                 </ngx-dropzone>
               </mat-card-actions>
-              <button [disabled]="!selected_files.length || !isFormValidWithFile || isBezig"
+              <mat-card-actions *ngIf="postatus=='Al gestuurd/Déjà envoyé'" class="whiteish">
+                <h2>Invoice already sent... Cannot re-send it.</h2>
+              </mat-card-actions>
+              <button
+                [disabled]="!selected_files.length || !isFormValidWithFile || isBezig || postatus=='Al gestuurd/Déjà envoyé'"
                 (click)="onSubmitDrag(u_ID)" mat-raised-button color="primary">Send</button>
               <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
                 style="color: white;background: black;">Bezig / Attendre quelques instants</pre>
