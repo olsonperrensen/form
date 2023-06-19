@@ -18,7 +18,6 @@ export class HomepageComponent implements OnInit {
 
   ngOnInit(): void {
     document.body.style.backgroundImage = "url('https://i.postimg.cc/8NqcDrfY/Default-Wallpaper.png')";
-    console.log(this.authService.getCredentials())
   }
 
 }

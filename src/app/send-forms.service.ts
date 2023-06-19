@@ -12,7 +12,6 @@ export class SendFormsService {
   private url = 'https://formemail.herokuapp.com/sendmail';
 
   public sendForm(form_data: any) {
-    console.log(form_data)
     return this.http.post(this.url, form_data)
   }
 }

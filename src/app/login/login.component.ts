@@ -27,10 +27,10 @@ export class LoginComponent implements OnInit {
   }
   onSubmit(f: NgForm) {
     const secret = CryptoJS.AES.encrypt(JSON.stringify(f.value), 'h#H@k*Bjp3SrwdLM').toString();
-    console.log(secret)
     this.authService.isAuthenticated({ usr: secret }).subscribe((res: any) => {
-      console.log(res)
       if (res.u_user.isAuthenticated === true) {
+        const token = res.token; // Extract the JWT token from the login response
+        this.authService.setToken(token); // Store the JWT token in local storage
         this.onLogin()
         this.isLoggedIn = true;
 

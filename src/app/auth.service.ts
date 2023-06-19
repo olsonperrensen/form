@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 
@@ -7,6 +8,8 @@ import { environment } from '../environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
+  token!: any;
+  private tokenKey = '9__BvprarHTGluMH$XZHO0JRcGQAvsT-EFIlsOBetoxs#4';
   apiUrl = environment.apiUrl;
   private dbUser = { isAuthenticated: false, id: 0, username: '', naam: '', sbu: '', land: "" };
   private guardStatus = false;
@@ -40,7 +43,24 @@ export class AuthService {
     return this.http.post(this.RESET_URL, { u_id: u_id, u_pwd: u_pwd });
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { }
+
+  public setToken(token: string): void {
+    localStorage.setItem(this.tokenKey, token);
+  }
+
+  public getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
+  }
+
+  public removeToken(): void {
+    localStorage.removeItem(this.tokenKey);
+  }
+
+  public isJWTAuthenticated(): boolean {
+    this.token = this.getToken();
+    return this.token && !this.jwtHelper.isTokenExpired(this.token);
+  }
 
   login() {
     this.loggedIn = true;

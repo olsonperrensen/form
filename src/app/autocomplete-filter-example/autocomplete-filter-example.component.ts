@@ -220,9 +220,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     this.getData.getClients().subscribe((res: any) => {
       this.options2 = res.sort();
       this.isBackendDown = false;
-      console.log(`BackEnd is up! ${this.options2.length} All good!`);
       if (this.options2.length < 1000) {
-        console.log(`Backend down: this.options2.length ${this.options2.length}`)
         this.isBackendDown = true;
       }
     }, (err) => {
@@ -657,11 +655,6 @@ export class AutocompleteFilterExampleComponent implements OnInit {
         worker: this.u_worker
       };
 
-      console.log(this.options2.includes(this.u_klantnaam));
-
-      // console.log(this.myJSONForm)
-
-
       this.sendForms.sendForm(this.myJSONForm).subscribe(
         (res) => {
           alert(`U heeft met succes een aanvraag naar de verantwoordelijke gestuurd.
@@ -672,8 +665,6 @@ export class AutocompleteFilterExampleComponent implements OnInit {
           this.exit = true;
         }, (err) => { alert(`Er is iets fout gegaan. Probeer het opnieuw. / Quelque chose s'est mal passé. Réessayer.`) }
       );
-
-      // console.log(this.myJSONForm)
 
       setTimeout(() => {
         this.sent = true;

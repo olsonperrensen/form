@@ -94,7 +94,6 @@ export class ActiveComponent implements OnInit, AfterViewInit {
     })
   }
   checkRes(res: any) {
-    console.log(res);
     if (res == "500") {
       alert("Could not process the request.");
     }

@@ -73,15 +73,10 @@ export class VendorComponent implements OnInit {
         fd.append('v_klantnr', this.v_klantnr)
         fd.append('v_file', this.selected_file, this.selected_file.name)
         fd.append('v_worker', this.v_worker)
-
-        console.log(`About to send:`)
-        console.log(this.myJSONForm)
-        console.log("Information above.")
         this.isBezig = true;
         this.doCountdown();
         this.sendVendors.sendVendor(fd).subscribe((res) => {
           this.res = <Res>res;
-          console.log(res)
           if (this.res.response === "250 Message received") {
             alert("Vendor aanvraag gestuurd!")
             setTimeout(() => {

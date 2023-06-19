@@ -103,9 +103,6 @@ export class InvoiceComponent implements OnInit {
   }
   onFileRemoved(event: any, i: number) {
     this.selected_files.splice(i, 1);
-    console.log(this.selected_files)
-    console.log(event)
-
   }
   onSubmitDrag(u_ID: any) {
     const fd = new FormData();
@@ -117,7 +114,6 @@ export class InvoiceComponent implements OnInit {
     this.doCountdown();
     this.sendVendors.sendInvoice(fd).subscribe((res) => {
       this.res = <Res>res;
-      console.log(res)
       if (this.res.response === "250 Message received") {
         alert("Invoice naar AP gestuurd!")
         this.selected_files = [];
@@ -138,13 +134,9 @@ export class InvoiceComponent implements OnInit {
     });
     this.isBezig = true;
     this.doCountdown();
-    fd.forEach((value, key) => {
-      console.log(`Key: ${key}, Value: ${value}`);
-    });
     alert("UNDER MAINTAINANCE! Come back later...")
     // this.sendVendors.sendInvoice(fd).subscribe((res) => {
     //   this.res = <Res>res;
-    //   console.log(res)
     //   if (this.res.response === "250 Message received") {
     //     alert("Invoice naar AP gestuurd!")
     //     this.selected_files = [];

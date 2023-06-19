@@ -29,27 +29,24 @@ export class PublicComponent implements OnInit {
   ngOnInit(): void {
     this.getData.getServerStatus().subscribe(
       (res: any) => {
-        console.log(`Home res:`)
-        console.log(res)
-        if (res.myMsg === "Hello world!") { console.log(res.myMsg); this.getData.setServerStatus(false) }
-        else { console.log("Server didn't gave helloworld."); this.getData.setServerStatus(true) }
+        if (res.myMsg === "Hello world!") this.getData.setServerStatus(false)
+        else this.getData.setServerStatus(true)
       }, (err) => {
-        console.log(`Home err: ${err.body}`)
         this.getData.setServerStatus(true)
       }
     )
   }
   onSubmit(f: NgForm) {
     const secret = CryptoJS.AES.encrypt(JSON.stringify(f.value), 'h#H@k*Bjp3SrwdLM').toString();
-    console.log(secret)
     this.authService.isAuthenticated({ usr: secret }).subscribe((res: any) => {
-      console.log(res)
-      if (res.u_user.isAuthenticated === true) {
+      if (res.u_user.isAuthenticated == true) {
+        const token = res.token; // Extract the JWT token from the login response
+        this.authService.setToken(token); // Store the JWT token in local storage
         this.onLogin()
         this.isLoggedIn = true;
-        this.authService.setCredentials(res.u_user);
+
         setTimeout(() => {
-          this.router.navigate(['/', 'homepage'])
+          this.router.navigate(['/', 'manage'])
         }, 2000);
       }
       else {
@@ -74,14 +71,12 @@ export class PublicComponent implements OnInit {
   onRecoverPWD() {
     if (this.u_username.endsWith('@sbdinc.com')) {
       this.authService.recoverPWD(this.u_username).subscribe((res: any) => {
-        console.log(res)
         if (res.response === "250 Message received") {
           alert("Your password has been sent! Please, check your email for instructions.")
         }
       });
     }
     else {
-      console.log(`Non-domain request: ${this.u_username}`)
       alert("You are not authorized to use this email provider. Please, use the official domain instead.")
     }
   }

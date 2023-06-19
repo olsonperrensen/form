@@ -24,8 +24,6 @@ export class ResetComponent implements OnInit {
     this.u_id = this.route.snapshot.queryParams['id'];
   }
   onSubmit(f: NgForm) {
-    console.log(`Requesting from ID ${this.u_id}`)
-    console.log(f.value.password)
     f.value.password.length >= 4 ? this.authService.resetPWD(this.u_id, f.value.password).subscribe((res: any) => {
       if (res.status == 200) {
         alert("Password has been successfully changed! You can now log in.");

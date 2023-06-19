@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -28,6 +28,8 @@ import { VendorHistoryComponent } from './vendor/vendor-history/vendor-history.c
 import { VendorComponent } from './vendor/vendor.component';
 import { CommonModule } from '@angular/common';
 import { LogComponent } from './log/log.component';
+import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { AuthInterceptor } from './auth.interceptor';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -72,7 +74,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgxDropzoneModule,
     CommonModule
   ],
-  providers: [AuthService, AuthGuardService],
+  providers: [AuthService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    JwtHelperService, AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

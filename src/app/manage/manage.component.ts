@@ -77,13 +77,10 @@ export class ManageComponent implements OnInit {
     this.options4 = [];
     this.getData.getClients().subscribe((res: any) => {
       this.options2 = res.sort();
-      console.log("BackEnd is up! All good!");
       if (this.options2.length < 2) {
-        console.log(`Backend down: this.options2.length ${this.options2.length}`);
         this.isBackendDown = true;
       }
     }, (err: any) => {
-      console.log(`Backend down: ${err}`)
       this.isBackendDown = true;
     });
     this.getData.getPO("%").subscribe((res: any) => {
@@ -183,7 +180,6 @@ export class ManageComponent implements OnInit {
     if (this.modify_counter % 2 === 0) {
       this.getData.getSalesRepDetails({ old_salesrep: `${this.u_salesrep}` }).subscribe((res: any) => {
         this.salesRepDetails = res;
-        console.log(`fetches sales rep details: ${this.salesRepDetails}`)
       });
       this.askforSalesRepModification = true;
     }
@@ -195,7 +191,6 @@ export class ManageComponent implements OnInit {
 
   onUserAddClick() {
     this.u_new_klantnaam = this.u_new_klantnaam.replace(/[^a-zA-Z0-9\s]/gi, '');
-    console.log(`New client cleansed ${this.u_new_klantnaam}`);
     if (this.u_new_klantnaam === "") {
       alert("Client cannot be empty! Use the right characters and try again.");
     }
@@ -213,7 +208,6 @@ export class ManageComponent implements OnInit {
   }
   onUserEditClick() {
     this.u_new_klantnaam = this.u_new_klantnaam.replace(/[^a-zA-Z0-9\s]/gi, '');
-    console.log(`Client edit cleansed ${this.u_new_klantnaam}`);
     if (this.u_new_klantnaam === "") {
       alert("Client cannot be empty! Use the right characters and try again.");
     }
@@ -227,9 +221,7 @@ export class ManageComponent implements OnInit {
           this.isBezig = false;
           this.getData.getClients().subscribe((res: any) => {
             this.options2 = res.sort()
-            console.log("BackEnd is up! All good!");
           }, (err: any) => {
-            console.log(`Backend down: ${err}`)
             this.isBackendDown = true;
           });
         })
@@ -268,7 +260,6 @@ export class ManageComponent implements OnInit {
     if (this.modify_counter % 2 === 0) {
       this.getData.getSalesRepDetails({ old_salesrep: `${this.u_salesrep}` }).subscribe((res: any) => {
         this.salesRepDetails = res;
-        console.log(`fetches sales rep details: ${this.salesRepDetails}`)
       });
       this.askforSalesRepModification = true;
     }
@@ -280,7 +271,6 @@ export class ManageComponent implements OnInit {
   onUserSalesRepDeleteConfirmClick() {
     this.isBezig = true;
     this.doCountdown();
-    console.log(`Sent request to delete Sales Rep. ${this.u_salesrep}`)
     this.getData.delSalesRep({ u_salesrep: this.u_salesrep }).subscribe((res) => {
       this.isBezig = false;
       this.checkRes(res);
@@ -305,7 +295,6 @@ export class ManageComponent implements OnInit {
   }
   onUserSalesRepEditClick() {
     this.u_new_salesrep = this.u_new_salesrep.replace(/[^a-zA-Z0-9\s]/gi, '');
-    console.log(`Sales Rep edit cleansed ${this.u_new_salesrep}`);
     if (this.u_new_salesrep === "") {
       alert("Sales Rep. cannot be empty! Use the right characters and try again.");
     }
@@ -344,7 +333,6 @@ export class ManageComponent implements OnInit {
   }
 
   checkRes(res: any) {
-    console.log(res);
     if (res == "500") {
       alert("Client could NOT be processed! Try again later.");
     }

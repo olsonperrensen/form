@@ -6,10 +6,13 @@ import { Injectable } from '@angular/core';
 })
 export class GetdataService {
 
-  URL = 'https://formemail.herokuapp.com/clients';
+  URL = 'http://localhost:3000/clients';
   NONVENDORURL = 'https://formemail.herokuapp.com/nonvendors'
   LOCAL_URL = 'http://localhost:3000/clients';
   WORKERS_URL = 'https://formemail.herokuapp.com/workers'
+
+  token = localStorage.getItem('jwtToken'); // Get the JWT token from storage
+
 
   isBackendDown = false;
 
@@ -25,7 +28,12 @@ export class GetdataService {
   }
 
   getClients() {
-    return this.http.get(this.URL);
+    // Create the headers object with Authorization header containing the token
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token}`
+    });
+    return this.http.get(this.URL, { headers });
   }
 
   getNonVendorClients() {
@@ -78,7 +86,7 @@ export class GetdataService {
     return this.http.post('https://formemail.herokuapp.com/archive_po', { requested_by: req })
   }
 
-  getLog(){
+  getLog() {
     return this.http.get("https://formemail.herokuapp.com/log")
   }
 
