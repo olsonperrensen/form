@@ -44,10 +44,11 @@ export class PublicComponent implements OnInit {
         this.authService.setToken(token); // Store the JWT token in local storage
         this.onLogin()
         this.isLoggedIn = true;
-
+        // Get autocomplete for POs
+        this.authService.setCredentials(res.u_user);
         setTimeout(() => {
-          this.router.navigate(['/', 'manage'])
-        }, 2000);
+          this.router.navigate(['/','homepage'])
+        }, 400);
       }
       else {
         this.onLogout()
@@ -55,7 +56,7 @@ export class PublicComponent implements OnInit {
         this.isInvalid = true;
         setTimeout(() => {
           this.router.navigate(['/'])
-        }, 2000);
+        }, 400);
       }
     })
   }
