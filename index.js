@@ -162,7 +162,7 @@ let managers = [
 ];
 let android = [];
 let android_BASE_URL = 'https://randomuser.me/api/portraits/';
-app.get('/', (req, res) => res.send(JSON.stringify({ myMsg: 'Hello world!' })));
+app.get('/', authenticateToken, (req, res) => res.send(JSON.stringify({ myMsg: 'Hello world!' })));
 app.get('/img', (req, res) => {
   let counter = 0;
   while (counter < 100) {
@@ -176,7 +176,7 @@ app.get('/img', (req, res) => {
   res.send(JSON.stringify(android));
   android = []
 });
-app.get('/clients', authenticateToken,(req, res) => {
+app.get('/clients', authenticateToken, (req, res) => {
   client.query('SELECT * FROM biz;', (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
@@ -189,7 +189,7 @@ app.get('/clients', authenticateToken,(req, res) => {
   }, 250);
   nieuw_clients = [];
 });
-app.get('/log', (req, res) => {
+app.get('/log', authenticateToken, (req, res) => {
   client.query('SELECT company_code,requested_by,u.manager,u.sbu,datum,company,short_text,overall_limit,status,gr,invoice FROM po JOIN users u on po.requested_by = u.naam ORDER BY datum desc;', (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
@@ -231,10 +231,10 @@ app.get('/nonvendors', (req, res) => {
   }, 250);
   nieuw_clients = [];
 });
-app.get('/sendmail', (req, res) =>
+app.get('/sendmail', authenticateToken, (req, res) =>
   res.send('Send me a JSON object via POST. (Works with Zoho now).')
 );
-app.get('/vendor', (req, res) => {
+app.get('/vendor', authenticateToken, (req, res) => {
   client.query('SELECT * FROM VENDOR;', (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
@@ -248,7 +248,7 @@ app.get('/vendor', (req, res) => {
   po = [];
 });
 
-app.get('/workers', (req, res) => {
+app.get('/workers', authenticateToken, (req, res) => {
   client.query('SELECT * FROM users order by CHAR_LENGTH(naam) asc;', (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
@@ -505,7 +505,7 @@ app.post('/sendmail', (req, res) => {
 });
 
 // ANDROID
-app.get('/po', (req, res) => {
+app.get('/po', authenticateToken, (req, res) => {
   client.query(`SELECT * FROM PO;`, (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
@@ -519,7 +519,7 @@ app.get('/po', (req, res) => {
   po = [];
 });
 
-app.post('/po', (req, res) => {
+app.post('/po', authenticateToken, (req, res) => {
   req.body.requested_by === 'MARTIN VAN'
     ? (req.body.requested_by = '%')
     : (req.body.requested_by = req.body.requested_by);
@@ -540,7 +540,7 @@ app.post('/po', (req, res) => {
   po = [];
 });
 
-app.post('/archive_po', (req, res) => {
+app.post('/archive_po', authenticateToken, (req, res) => {
   req.body.requested_by === 'MARTIN VAN'
     ? (req.body.requested_by = '%')
     : (req.body.requested_by = req.body.requested_by);
@@ -573,7 +573,7 @@ app.get('/salesrep', (req, res) => {
   }, 250);
   salesrep = [];
 });
-app.put('/salesrepdetails', (req, res) => {
+app.put('/salesrepdetails', authenticateToken, (req, res) => {
   const SALESMAN = req.body;
   console.log(`Details requested for`);
   console.log(`${SALESMAN.old_salesrep}`);
@@ -735,7 +735,7 @@ app.post('/reset', (req, res) => {
   }, 800);
 });
 
-app.post('/invoice', upload.single('file'), (req, res) => {
+app.post('/invoice', upload.single('file'), authenticateToken, (req, res) => {
   let company = '';
   let overall_limit = '';
   let PO = '';
@@ -849,7 +849,7 @@ This is an automated email. For any inquiries, please contact ${sales_per[0]}.${
   }, 1000);
 });
 
-app.post('/clients', (req, res) => {
+app.post('/clients', authenticateToken, (req, res) => {
   // Add a client
   console.log(`New client came: "${req.body.new_client}"`);
   let isRecordInDB = false;
@@ -875,7 +875,7 @@ app.post('/clients', (req, res) => {
   }, 6200);
 });
 
-app.put('/clients', (req, res) => {
+app.put('/clients', authenticateToken, (req, res) => {
   console.log(
     `New edit came: "${req.body.old_client}" to be replaced with "${req.body.new_client}"`
   );
@@ -902,7 +902,7 @@ app.put('/clients', (req, res) => {
   }, 6200);
 });
 
-app.put('/po', (req, res) => {
+app.put('/po', authenticateToken, (req, res) => {
   console.log(
     `New PO edit came: "${req.body.u_ID}" to be updated with "${req.body.new_client}" as PO status`
   );
@@ -997,7 +997,7 @@ app.put('/po', (req, res) => {
   }, 1000);
 });
 
-app.put('/clients', (req, res) => {
+app.put('/clients', authenticateToken, (req, res) => {
   console.log(
     `New edit came: "${req.body.old_client}" to be replaced with "${req.body.new_client}"`
   );
@@ -1024,7 +1024,7 @@ app.put('/clients', (req, res) => {
   }, 6200);
 });
 
-app.put('/betaald', (req, res) => {
+app.put('/betaald', authenticateToken, (req, res) => {
   console.log(
     `New betaald edit came: "${req.body.u_ID}" to be updated with "${req.body.betaald}" as payment status`
   );
@@ -1141,7 +1141,7 @@ app.put('/betaald', (req, res) => {
 });
 
 
-app.put('/salesrep', (req, res) => {
+app.put('/salesrep', authenticateToken, (req, res) => {
   console.log(
     `New SalesRep edit came: "${req.body.old_salesrep}" to be updated with "${req.body.new_salesrep}" as name and all extra info...`
   );
@@ -1168,7 +1168,7 @@ app.put('/salesrep', (req, res) => {
   }, 6200);
 });
 
-app.delete('/clients', (req, res) => {
+app.delete('/clients', authenticateToken, (req, res) => {
   const RECORD_TO_DELETE = req.body;
   console.log(
     `New delete came: "${RECORD_TO_DELETE}" with content "${RECORD_TO_DELETE.old_client}"`
@@ -1194,7 +1194,7 @@ app.delete('/clients', (req, res) => {
     }
   }, 6200);
 });
-app.delete('/po', (req, res) => {
+app.delete('/po', authenticateToken, (req, res) => {
   const RECORD_TO_DELETE = req.body;
   console.log(`New delete came: `);
   console.log(RECORD_TO_DELETE);
@@ -1221,7 +1221,7 @@ app.delete('/po', (req, res) => {
     }
   }, 6200);
 });
-app.delete('/salesrep', (req, res) => {
+app.delete('/salesrep', authenticateToken, (req, res) => {
   const RECORD_TO_DELETE = req.body;
   console.log(`New delete came for Sales Rep: `);
   console.log(RECORD_TO_DELETE);
@@ -1248,7 +1248,7 @@ app.delete('/salesrep', (req, res) => {
   }, 6200);
 });
 
-app.post('/vendor', upload.single('v_file'), (req, res) => {
+app.post('/vendor', upload.single('v_file'), authenticateToken, (req, res) => {
   let db_id = 0;
   client.query(
     `INSERT INTO VENDOR(
@@ -1357,7 +1357,7 @@ app.post('/vendor', upload.single('v_file'), (req, res) => {
   }, 1000);
 });
 
-app.put('/gr', (req, res) => {
+app.put('/gr', authenticateToken, (req, res) => {
   const RECORD_TO_UPDATE = req.body;
   console.log(`New GR update came: `);
   console.log(RECORD_TO_UPDATE);
@@ -1383,7 +1383,7 @@ app.put('/gr', (req, res) => {
     }
   }, 6200);
 });
-app.delete('/gr', (req, res) => {
+app.delete('/gr', authenticateToken, (req, res) => {
   const RECORD_TO_DELETE = req.body;
   console.log(`New GR delete came: `);
   console.log(RECORD_TO_DELETE);
@@ -1409,24 +1409,7 @@ app.delete('/gr', (req, res) => {
     }
   }, 6200);
 });
-
-function validateCookies(req, res, next) {
-  const { cookies } = req;
-  if ('session_id' in cookies) {
-    console.log('Session ID Exists.');
-    // Retrieve worker from .db
-
-    // Send vars to client
-  } else {
-    console.log('No cookie');
-    res.cookie('session_id', new Date().getTime(), {
-      expires: new Date(253402300000000),
-    });
-    console.log('Cookie inserted');
-  }
-  next();
-}
-
+// JWT
 function authenticateToken(req, res, next) {
   const authHeader = req.headers.authorization;
 
@@ -1446,28 +1429,3 @@ function authenticateToken(req, res, next) {
     res.sendStatus(401); // No token provided
   }
 }
-
-app.get('/secret', authenticateToken, (req, res) => {
-  const authHeader = req.headers.authorization;
-  // Access the authenticated user's information from req.user
-  const { username } = req.user;
-
-  // Handle the protected endpoint logic here
-  res.send(`Protected endpoint for user: ${username}`);
-  if (authHeader) {
-    const token = authHeader.split(' ')[1]; // Extract the token from the "Bearer <token>" format
-
-    // Verify the token
-    jwt.verify(token, process.env.JWT_GEHEIM, (err, user) => {
-      if (err) {
-        return res.status(403).json({ error: 'Invalid token' });
-      }
-
-      req.user = user; // Attach the decoded user information to the request object
-      next();
-      return res.status(200)
-    });
-  } else {
-    res.status(401).json({ error: 'Unauthorized' });
-  }
-});
