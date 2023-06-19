@@ -32,7 +32,7 @@ export class VendorComponent implements OnInit {
   selected_file!: File;
   res !: Res;
   isBezig = false;
-  s = 6
+  
 
   constructor(private router: Router, private sendVendors: SendVendorsService, private authService: AuthService) { }
 

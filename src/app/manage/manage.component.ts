@@ -66,7 +66,7 @@ export class ManageComponent implements OnInit {
   wantsToGR = false;
   wantsToSalesRep = false;
   askforSalesRepModification = false;
-  s = 6;
+  ;
   modify_counter = 0;
   clientsRes!: any
 

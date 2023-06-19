@@ -97,7 +97,7 @@
               <button [disabled]="!selected_files.length || !isFormValidWithFile || isBezig"
                 (click)="onSubmitDrag(u_ID)" mat-raised-button color="primary">Send</button>
               <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
-                style="color: white;background: black;">Bezig... ({{s}}s)</pre>
+                style="color: white;background: black;">Bezig / Attendre quelques instants</pre>
             </div>
           </div>
           <div *ngIf="wantsAll">
@@ -124,7 +124,7 @@
               <button [disabled]="!selected_files.length || !isFormValidWithFile || isBezig"
                 (click)="onSubmitDragMultiple(selectedIDs)" mat-raised-button color="primary">Send All</button>
               <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
-                style="color: white;background: black;">Bezig... ({{s}}s)</pre>
+                style="color: white;background: black;">Bezig / Attendre quelques instants</pre>
             </div>
           </div>
         </div>

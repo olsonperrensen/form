@@ -107,7 +107,7 @@
             <button (click)="onUserAddClick()" [disabled]="!f.valid" type="button" mat-raised-button
               color="primary">Toevoegen</button>
             <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
-              style="color: white;background: black;">Bezig... ({{s}}s)</pre>
+              style="color: white;background: black;">Bezig / Attendre quelques instants</pre>
           </div>
           <mat-form-field [@fadeInLeftOnEnter] *ngIf="wantsToEdit" class="example-full-width" appearance="fill">
             <mat-label>{{'q5'|translate}}</mat-label>
@@ -135,7 +135,7 @@
             <button (click)="onUserDeleteClick()" [disabled]="!f.valid" type="button" mat-raised-button
               color="warn">Verwijderen</button>
             <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
-              style="color: white;background: black;">Bezig... ({{s}}s)</pre>
+              style="color: white;background: black;">Bezig / Attendre quelques instants</pre>
           </div>
           <!-- PO -->
           <mat-form-field [@fadeInLeftOnEnter] *ngIf="wantsToPO" class="example-full-width" appearance="fill">
@@ -164,7 +164,7 @@
             <button (click)="onUserPODeleteClick()" [disabled]="!f.valid" type="button" mat-raised-button
               color="warn">PO Archiveren</button>
             <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
-              style="color: white;background: black;">Bezig... ({{s}}s)</pre>
+              style="color: white;background: black;">Bezig / Attendre quelques instants</pre>
           </div>
           <!-- GR -->
           <mat-form-field [@fadeInLeftOnEnter] *ngIf="wantsToGR" class="example-full-width" appearance="fill">
@@ -193,7 +193,7 @@
             <button (click)="onUserGRDeleteClick()" [disabled]="!f.valid" type="button" mat-raised-button
               color="warn">GR Verwijderen</button>
             <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
-              style="color: white;background: black;">Bezig... ({{s}}s)</pre>
+              style="color: white;background: black;">Bezig / Attendre quelques instants</pre>
           </div>
           <!-- Sales Rep -->
           <div *ngIf="wantsToSalesRep">
@@ -268,7 +268,7 @@
               <button (click)="onUserSalesRepDeleteClick()" [disabled]="!f.valid" type="button" mat-raised-button
                 color="warn">Verwijderen</button>
               <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"
-                style="color: white;background: black;">Bezig... ({{s}}s)</pre>
+                style="color: white;background: black;">Bezig / Attendre quelques instants</pre>
             </div>
           </div>
         </div>

@@ -40,7 +40,7 @@ export class InvoiceComponent implements OnInit {
   isBackendDown = false;
   isID = false;
   isBezig = false;
-  s = 6
+  
   u_worker = this.authService.getLocalStorageCredentials()[1]
   found = false;
 
