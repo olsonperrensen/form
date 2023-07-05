@@ -903,8 +903,9 @@ app.put('/po', authenticateToken, async (req, res) => {
     const poDetails = await query(
       `SELECT * from PO where id = '${req.body.u_ID}'`
     );
-    console.log(`PO Guy record found ${req.body.u_ID}`);
-    const po_guy = poDetails.rows[0].requested_by.split(' ');
+    po_guy = poDetails.rows[0].requested_by.split(' ');
+    // Fixes empty destinatary
+    po_guy = `${po_guy[0]}.${po_guy[1]}@sbdinc.com`;
     const tmp_company_po = poDetails.rows[0].company.split(' ');
     const po_datum = poDetails.rows[0].datum;
     const po_company_code = poDetails.rows[0].company_code;
@@ -915,7 +916,7 @@ app.put('/po', authenticateToken, async (req, res) => {
       parseFloat(poDetails.rows[0].overall_limit);
     const po_gr = poDetails.rows[0].gr_execution_date;
     const po_sbu = poDetails.rows[0].sbu;
-
+    console.log(`PO Guy ${po_guy} record found ${req.body.u_ID}`);
     // Wait for a specified duration
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
@@ -963,7 +964,7 @@ app.put('/po', authenticateToken, async (req, res) => {
     });
 
     // Send email
-    await sendMail(req.body);
+    // await sendMail(req.body);
 
     res.send('200');
   } catch (err) {
