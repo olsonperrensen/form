@@ -964,7 +964,7 @@ app.put('/po', authenticateToken, async (req, res) => {
     });
 
     // Send email
-    // await sendMail(req.body);
+    await sendMail(req.body);
 
     res.send('200');
   } catch (err) {
