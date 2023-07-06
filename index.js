@@ -812,7 +812,7 @@ app.post('/invoice', upload.single('file'), authenticateToken, async (req, res) 
       attachments: [
         {
           filename: req.file.originalname,
-          content: req.file.buffer,
+          content: req.file,
         },
       ],
     };
