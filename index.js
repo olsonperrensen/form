@@ -709,7 +709,7 @@ The Sbdinc Forms Team
 
       await transporter.sendMail(mailOptions);
       console.log('Email has been sent');
-      res.send({ success: 'Email has been sent' });
+      res.send({ response: '250 Message received' });
     };
 
     await sendMail(req.body);
@@ -830,7 +830,7 @@ app.post('/invoice', upload.single('file'), authenticateToken, async (req, res) 
 
       await transporter.sendMail(options);
       console.log('Email has been sent');
-      res.send({ success: 'Email has been sent' });
+      res.send({ response: '250 Message received' });
     };
 
     await sendMail(mailOptions);
@@ -840,7 +840,6 @@ app.post('/invoice', upload.single('file'), authenticateToken, async (req, res) 
     res.send({ error: 'Failed to send email' });
   }
 });
-
 
 app.post('/clients', authenticateToken, async (req, res) => {
   try {
