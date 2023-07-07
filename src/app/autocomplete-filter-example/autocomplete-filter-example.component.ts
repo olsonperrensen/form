@@ -694,6 +694,9 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   }
 
   onOpnieuw() {
+    this.u_omschrijving = ''
+    this.u_bedrag = ''
+
     this.sent = !this.sent
     this.exit = !this.exit
   }
