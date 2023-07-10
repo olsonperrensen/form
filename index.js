@@ -10,6 +10,8 @@ const date = require('date-and-time');
 const multer = require('multer');
 const e = require('express');
 const jwt = require('jsonwebtoken');
+const tesseract = require('tesseract.js');
+
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -742,8 +744,26 @@ app.post('/reset', async (req, res) => {
   }
 });
 
-app.post('/ocr', upload.single('mfile'),async (req, res) => {
-  console.log(req.file)
+app.post('/ocr', upload.single('mfile'), async (req, res) => {
+  const path = require('path');
+  const pdf = require('pdf-poppler');
+
+  let file = 'C:\\Projects\\express\\uploads\\16889886780342152_001.pdf'
+
+  let opts = {
+    format: 'png',
+    out_dir: path.dirname(file),
+    out_prefix: Date.now() + req.file.originalname,
+    page: null
+  }
+
+  pdf.convert(file, opts)
+    .then(res => {
+      console.log('Successfully converted');
+    })
+    .catch(error => {
+      console.error(error);
+    })
 })
 
 app.post('/invoice', upload.single('file'), authenticateToken, async (req, res) => {
