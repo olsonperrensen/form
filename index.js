@@ -10,6 +10,7 @@ const date = require('date-and-time');
 const multer = require('multer');
 const e = require('express');
 const jwt = require('jsonwebtoken');
+const Tesseract = require('tesseract.js');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -1262,6 +1263,21 @@ app.delete('/gr', authenticateToken, async (req, res) => {
     console.log(`CANNOT GR delete: ${err}`);
     res.send('500');
   }
+});
+
+app.get('/ocr', async (req, res) => {
+  console.log(req.query.age)
+  const worker = await Tesseract.createWorker({
+    logger: m => console.log(m)
+  });
+  (async () => {
+    await worker.loadLanguage('eng');
+    await worker.initialize('eng');
+    const { data: { text } } = await worker.recognize(req.query.age);
+    console.log(text);
+    await worker.terminate();
+    res.send(text)
+  })();
 });
 
 // JWT
