@@ -10,7 +10,7 @@ const date = require('date-and-time');
 const multer = require('multer');
 const e = require('express');
 const jwt = require('jsonwebtoken');
-const tesseract = require('tesseract.js');
+const Tesseract = require('tesseract.js');
 
 
 const storage = multer.diskStorage({
@@ -745,6 +745,8 @@ app.post('/reset', async (req, res) => {
 });
 
 app.post('/ocr', upload.single('mfile'), async (req, res) => {
+  let final_txt
+  const PNGPATH = Date.now() + req.file.originalname
   const path = require('path');
   const pdf = require('pdf-poppler');
 
@@ -753,13 +755,23 @@ app.post('/ocr', upload.single('mfile'), async (req, res) => {
   let opts = {
     format: 'png',
     out_dir: path.dirname(file),
-    out_prefix: Date.now() + req.file.originalname,
+    out_prefix: PNGPATH,
     page: null
   }
 
   pdf.convert(file, opts)
-    .then(res => {
+    .then(response => {
       console.log('Successfully converted');
+      // OCR GOES HERE
+      Tesseract.recognize(
+        `./uploads/16889911402352152_001.pdf-1.png`,
+        'eng',
+        { logger: m => console.log(m) }
+      ).then(({ data: { text } }) => {
+        console.log(text);
+        final_txt = text
+        res.send(final_txt)
+      })
     })
     .catch(error => {
       console.error(error);
