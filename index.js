@@ -748,7 +748,7 @@ app.post('/ocr', upload.single('mfile'), async (req, res) => {
   const path = require('path');
   const pdf = require('pdf-poppler');
 
-  let file = 'C:\\Projects\\express\\uploads\\16889886780342152_001.pdf'
+  let file = `./uploads/${req.file.filename}`
 
   let opts = {
     format: 'png',
