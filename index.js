@@ -764,7 +764,7 @@ app.post('/ocr', upload.single('mfile'), async (req, res) => {
       console.log('Successfully converted');
       // OCR GOES HERE
       Tesseract.recognize(
-        `./uploads/16889911402352152_001.pdf-1.png`,
+        `./uploads/${PNGPATH}-1.png`,
         'eng',
         { logger: m => console.log(m) }
       ).then(({ data: { text } }) => {
