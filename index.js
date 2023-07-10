@@ -746,6 +746,11 @@ app.post('/reset', async (req, res) => {
 
 app.post('/ocr', upload.single('mfile'), async (req, res) => {
   let final_txt
+
+  const worker = await Tesseract.createWorker({
+    logger: m => console.log(m)
+  });
+
   const PNGPATH = Date.now() + req.file.originalname
   const path = require('path');
   const pdf = require('pdf-poppler');
@@ -763,15 +768,15 @@ app.post('/ocr', upload.single('mfile'), async (req, res) => {
     .then(response => {
       console.log('Successfully converted');
       // OCR GOES HERE
-      Tesseract.recognize(
-        `./uploads/${PNGPATH}-1.png`,
-        'eng',
-        { logger: m => console.log(m) }
-      ).then(({ data: { text } }) => {
+      (async () => {
+        await worker.loadLanguage('nld');
+        await worker.initialize('nld');
+        const { data: { text } } = await worker.recognize(`./uploads/${PNGPATH}-1.png`);
         console.log(text);
         final_txt = text
         res.send(final_txt)
-      })
+        await worker.terminate();
+      })();
     })
     .catch(error => {
       console.error(error);
