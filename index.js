@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
     cb(null, './uploads/');
   },
   filename: (req, file, cb) => {
-    cb(null, new Date().toISOString() + file.originalname);
+    cb(null, Date.now() + file.originalname);
   },
 });
 
@@ -742,6 +742,9 @@ app.post('/reset', async (req, res) => {
   }
 });
 
+app.post('/ocr', upload.single('mfile'),async (req, res) => {
+  console.log(req.file)
+})
 
 app.post('/invoice', upload.single('file'), authenticateToken, async (req, res) => {
   let company = '';
