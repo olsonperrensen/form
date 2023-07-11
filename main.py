@@ -19,3 +19,8 @@ async def read_root(file: UploadFile = File(...)):
 
     # Print or use the extracted text as needed
     print(text)
+    my_set = set(text)
+    substring = "450"
+    matching_elements = [element for element in my_set if substring in element]
+    if len(matching_elements) > 0:
+        return {"result": matching_elements}
