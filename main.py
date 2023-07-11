@@ -1,6 +1,6 @@
 from fastapi import FastAPI, UploadFile, File
 import cv2,pytesseract, numpy as np
-# Needs OCR to be installed on Linux as well
+
 app = FastAPI()
 
 @app.post("/")
