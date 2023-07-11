@@ -3,5 +3,5 @@ uvicorn
 easyocr
 python-multipart
 -f https://download.pytorch.org/whl/torch_stable.html
-torch+cpu
-torchvision+cpu
+torch==2.0.1+cpu
+torchvision==0.14.1+cpu
