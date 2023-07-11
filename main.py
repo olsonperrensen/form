@@ -1,5 +1,6 @@
 from fastapi import FastAPI, UploadFile, File
 import easyocr
+# 20
 
 app = FastAPI()
 reader = easyocr.Reader(['nl', 'fr', 'en'])
