@@ -1,17 +1,15 @@
-from fastapi import FastAPI, UploadFile, File
-import easyocr
-# 20
+import cv2
+import pytesseract
 
-app = FastAPI()
-reader = easyocr.Reader(['nl', 'fr', 'en'])
+# Load the image using OpenCV
+image = cv2.imread('sample.png')
 
+# Preprocess the image
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+gray = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
 
-@app.post("/")
-async def read_root(file: UploadFile = File(...)):
-    contents = await file.read()
-    res = reader.readtext(contents, detail=0, paragraph=True)
-    my_set = set(res)
-    substring = "450"
-    matching_elements = [element for element in my_set if substring in element]
-    if len(matching_elements) > 0:
-        return {"result": matching_elements}
+# Perform OCR using Tesseract
+text = pytesseract.image_to_string(gray)
+
+# Print or use the extracted text as needed
+print(text)
