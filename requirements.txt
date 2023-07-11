@@ -1,3 +1,5 @@
 fastapi
 uvicorn
 easyocr
+python-multipart
+Pillow==9.5.0
