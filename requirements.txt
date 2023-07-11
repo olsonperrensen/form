@@ -6,3 +6,4 @@ python-multipart
 Pillow==9.5.0
 -f https://download.pytorch.org/whl/torch_stable.html
 torch==2.0.1+cpu
+torchvision
