@@ -1,8 +1,17 @@
 from fastapi import FastAPI, UploadFile, File,Response
+from fastapi.middleware.cors import CORSMiddleware
 from pytesseract import Output
 import cv2,pytesseract, re, numpy as np
 
 app = FastAPI()
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/")
 async def read_root(file: UploadFile = File(...)):
