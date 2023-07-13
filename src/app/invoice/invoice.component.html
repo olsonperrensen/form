@@ -128,7 +128,6 @@
                   </ngx-dropzone-preview>
                 </ngx-dropzone>
               </mat-card-actions>
-              <img [src]="imageUrl" alt="Processed Image">
               <button [disabled]="!selected_files.length || !isFormValidWithFile || isBezig"
                 (click)="onSubmitDragMultiple(selectedIDs)" mat-raised-button color="primary">Send All</button>
               <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"

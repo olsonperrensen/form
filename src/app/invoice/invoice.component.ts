@@ -1,4 +1,4 @@
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component, Input, NgModule, OnInit } from '@angular/core';
 import { FormControl, NgForm, NgModel } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -12,6 +12,86 @@ import { AuthService } from '../auth.service';
 import { PO } from './PO';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+const CCEMAILS = new Map<string, any>();
+
+
+@Component({
+  selector: 'ngbd-modal-content',
+  template: `
+		<div class="modal-header">
+			<h4 class="modal-title">One last step</h4>
+			<button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+		</div>
+    <div class="modal-init">
+		<div class="modal-body">
+			<p>Would you like to include the other Sales Representatives in CC?</p>
+      <img [src]="sbu2" alt="">
+		</div>
+		<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="ccInput()">Yes</button>
+			<button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">No</button>
+		</div>
+    </div>
+    <div style='display:none;' class="modal-cc">
+		<div class="modal-body">
+    <div class="input-group mb-3 cc1group">
+  <input type="text" 
+  class="form-control cc-1" 
+  placeholder="{{sbu2}} Salesman (name.surname)" 
+  id="cc1"
+  (change)="store($event)"
+  aria-label="Recipient's username" aria-describedby="basic-addon2">
+  <span class="input-group-text" id="basic-addon2">@sbdinc.com</span>
+</div>
+<div class="input-group mb-3 cc2group">
+  <input type="text" 
+  class="form-control cc-2" 
+  placeholder="{{sbu3}} Salesman (name.surname)" 
+  id='cc2'
+  (change)="store($event)"
+  aria-label="Recipient's username" aria-describedby="basic-addon2">
+  <span class="input-group-text" id="basic-addon2">@sbdinc.com</span>
+</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-dark" (click)="activeModal.close('Close click')">Save</button>
+		</div>
+    </div>
+	`,
+})
+
+export class NgbdModalContent implements OnInit {
+  @Input() sbu2: any;
+  @Input() sbu3: any;
+  wantsCC = false;
+  ccInput() {
+    const element = <HTMLElement>document.getElementsByClassName('modal-init')[0];
+    const elementcc = <HTMLElement>document.getElementsByClassName('modal-cc')[0];
+    element.style.display = 'none';
+    elementcc.style.display = 'block';
+    if (this.sbu3.length < 1) {
+      const cc2group = <HTMLElement>document.getElementsByClassName('cc2group')[0];
+      cc2group.style.display = 'none';
+    }
+  }
+  store(event: any) {
+    const DOMAIN = '@sbdinc.com'
+    if (event.target.value.includes(' ')) {
+      event.target.value = event.target.value.replace(/\s+/g, '.')
+    }
+    if (event.target.id == 'cc1') {
+      CCEMAILS.set('cc1', event.target.value.split("@")[0] + DOMAIN)
+    }
+    else {
+      CCEMAILS.set('cc2', event.target.value.split("@")[0] + DOMAIN)
+    }
+  }
+  constructor(public activeModal: NgbActiveModal) { }
+  ngOnInit(): void {
+  }
+}
 
 @Component({
   selector: 'app-invoice',
@@ -24,6 +104,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 
 export class InvoiceComponent implements OnInit {
+  open(url: any) {
+    const modalRef = this.modalService.open(NgbdModalContent);
+    modalRef.componentInstance.sbu2 = url;
+    modalRef.componentInstance.sbu3 = 2;
+    return modalRef.result
+  }
   allPO: PO[] = [];
   selectedPO !: PO;
   postatus = ''
@@ -51,7 +137,7 @@ export class InvoiceComponent implements OnInit {
   constructor(private http: HttpClient, private getData: GetdataService,
     private sendForms: SendFormsService,
     private router: Router, private sendVendors: SendVendorsService,
-    private authService: AuthService, private sanitizer: DomSanitizer) { }
+    private authService: AuthService, private sanitizer: DomSanitizer, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     // CALL MOTHERSHIP FASTAPI
@@ -139,6 +225,8 @@ export class InvoiceComponent implements OnInit {
           if (reader.result !== null) { // Null check
             const base64data = reader.result.toString();
             this.imageUrl = 'data:image/jpeg;base64,' + base64data;
+            console.log(this.imageUrl)
+            this.open(this.imageUrl);
           }
         };
         reader.readAsDataURL(res);
