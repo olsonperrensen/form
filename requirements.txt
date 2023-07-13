@@ -3,4 +3,5 @@ opencv-python-headless
 fastapi
 python-multipart
 uvicorn
+PyMuPDF
 gunicorn

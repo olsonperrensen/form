@@ -5,6 +5,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pytesseract import Output
 import cv2
+import fitz
 import pytesseract
 import re
 import numpy as np
@@ -28,10 +29,16 @@ app.add_middleware(
 @app.post("/")
 async def read_root(file: UploadFile = File(...)):
     try:
+        FILEPROVIDED = f"./static/{file.filename}"
+        temp_pdf_path = FILEPROVIDED
+        with open(temp_pdf_path, "wb") as temp_pdf_file:
+            temp_pdf_file.write(await file.read())
+        doc = fitz.open(temp_pdf_path)  # open document
+        pix = doc[0].get_pixmap(dpi=600)  # render page to an image
+        pix.save(FILEPROVIDED+'.png')  # store image as a PNG
         fximg = None
-        contents = await file.read()
-        nparr = np.frombuffer(contents, np.uint8)
-        rawimg = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+        image_path = FILEPROVIDED+'.png'  # Replace with the path to your image file
+        rawimg = cv2.imread(image_path)
 
         d = pytesseract.image_to_data(rawimg, output_type=Output.DICT)
 
@@ -44,7 +51,7 @@ async def read_root(file: UploadFile = File(...)):
                     (x, y, w, h) = (d['left'][i], d['top']
                                     [i], d['width'][i], d['height'][i])
                     fximg = cv2.rectangle(
-                        rawimg, (x-7, y-7), (x + w+7, y + h+7), (0, 255, 0), 2)
+                        rawimg, (x-12, y-12), (x + w+12, y + h+12), (0, 255, 0), 3)
 
         _, img_encoded = cv2.imencode('.jpeg', fximg)
         img_bytes = img_encoded.tobytes()
