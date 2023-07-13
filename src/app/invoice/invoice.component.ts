@@ -40,15 +40,23 @@ export class InvoiceComponent implements OnInit {
   isBackendDown = false;
   isID = false;
   isBezig = false;
-  
+
   u_worker = this.authService.getLocalStorageCredentials()[1]
   found = false;
+  logArray: any[] = []
 
   constructor(private getData: GetdataService,
     private sendForms: SendFormsService,
     private router: Router, private sendVendors: SendVendorsService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    // CALL MOTHERSHIP FASTAPI
+    this.getData.getFastLog().subscribe((res: any) => {
+      this.logArray = res
+    }, (err) => {
+      alert("FASTAPI is down")
+    });
+
     this.options3 = [];
     this.getData.getPO(this.u_worker.toUpperCase()).subscribe((res: any) => {
       res.forEach((element: any) => {

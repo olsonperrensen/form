@@ -90,6 +90,10 @@ export class GetdataService {
     return this.http.get("https://formemail.herokuapp.com/log")
   }
 
+  getFastLog() {
+    return this.http.get("https://fourfivezero-a8246d817a17.herokuapp.com/")
+  }
+
   editPO(req: any) {
     return this.http.put('https://formemail.herokuapp.com/po', req)
   }
