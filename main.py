@@ -1,9 +1,19 @@
-from fastapi import FastAPI, UploadFile, File,Response
+from fastapi import FastAPI, UploadFile, File, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pytesseract import Output
-import cv2,pytesseract, re, numpy as np
+import cv2
+import pytesseract
+import re
+import numpy as np
+from pydantic import BaseModel
 
 app = FastAPI()
+
+
+class Data(BaseModel):
+    file: UploadFile = File(...)
+
+
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
@@ -13,11 +23,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.post("/")
-async def read_root(file: UploadFile = File(...)):
+async def read_root(data: Data):
     try:
         fximg = None
-        contents = await file.read()
+        contents = await data.file.read()
         nparr = np.frombuffer(contents, np.uint8)
         rawimg = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
@@ -29,8 +40,10 @@ async def read_root(file: UploadFile = File(...)):
         for i in range(n_boxes):
             if int(d['conf'][i]) > 60:
                 if re.match(date_pattern, d['text'][i]):
-                    (x, y, w, h) = (d['left'][i], d['top'][i], d['width'][i], d['height'][i])
-                    fximg = cv2.rectangle(rawimg, (x-7, y-7), (x + w+7, y + h+7), (0, 255, 0), 2)
+                    (x, y, w, h) = (d['left'][i], d['top']
+                                    [i], d['width'][i], d['height'][i])
+                    fximg = cv2.rectangle(
+                        rawimg, (x-7, y-7), (x + w+7, y + h+7), (0, 255, 0), 2)
 
         _, img_encoded = cv2.imencode('.png', fximg)
         img_bytes = img_encoded.tobytes()
@@ -40,6 +53,7 @@ async def read_root(file: UploadFile = File(...)):
     except Exception as e:
         return {"error": str(e)}
 
+
 @app.get("/")
 async def pingMe():
-    return {"status":200}
+    return {"status": 200}
