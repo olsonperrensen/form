@@ -34,7 +34,7 @@ async def read_root(file: UploadFile = File(...)):
         with open(temp_pdf_path, "wb") as temp_pdf_file:
             temp_pdf_file.write(await file.read())
         doc = fitz.open(temp_pdf_path)  # open document
-        pix = doc[0].get_pixmap(dpi=279)  # render page to an image
+        pix = doc[0].get_pixmap(dpi=100)  # render page to an image
         pix.save(FILEPROVIDED+'.png')  # store image as a PNG
         fximg = None
         image_path = FILEPROVIDED+'.png'  # Replace with the path to your image file
@@ -53,7 +53,8 @@ async def read_root(file: UploadFile = File(...)):
                     fximg = cv2.rectangle(
                         rawimg, (x-12, y-12), (x + w+12, y + h+12), (0, 255, 0), 3)
 
-        _, img_encoded = cv2.imencode('.jpeg', fximg)
+        resized_img = cv2.resize(fximg, (0, 0), fx=0.5, fy=0.5)
+        _, img_encoded = cv2.imencode('.jpeg', resized_img)
         img_bytes = img_encoded.tobytes()
         unix_time = int(time.time())
         with open(f"static/{unix_time}ocr.jpeg", "wb") as f:
