@@ -22,7 +22,7 @@ app.add_middleware(
 
 
 @app.post("/")
-async def read_root(u_ID: Annotated[str, Form()], u_ref: Annotated[str, Form()],file:UploadFile = Form(...)):
+async def read_root(file: UploadFile = File(...)):
     try:
         fximg = None
         contents = await file.read()
