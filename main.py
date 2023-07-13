@@ -34,7 +34,7 @@ async def read_root(file: UploadFile = File(...)):
         with open(temp_pdf_path, "wb") as temp_pdf_file:
             temp_pdf_file.write(await file.read())
         doc = fitz.open(temp_pdf_path)  # open document
-        pix = doc[0].get_pixmap(dpi=600)  # render page to an image
+        pix = doc[0].get_pixmap(dpi=279)  # render page to an image
         pix.save(FILEPROVIDED+'.png')  # store image as a PNG
         fximg = None
         image_path = FILEPROVIDED+'.png'  # Replace with the path to your image file
