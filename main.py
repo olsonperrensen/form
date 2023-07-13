@@ -39,3 +39,7 @@ async def read_root(file: UploadFile = File(...)):
 
     except Exception as e:
         return {"error": str(e)}
+
+@app.get("/")
+async def pingMe():
+    return {"status":200}
