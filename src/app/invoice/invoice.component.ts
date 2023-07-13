@@ -224,8 +224,7 @@ export class InvoiceComponent implements OnInit {
         reader.onloadend = () => {
           if (reader.result !== null) { // Null check
             const base64data = reader.result.toString();
-            this.imageUrl = 'data:image/jpeg;base64,' + base64data;
-            console.log(this.imageUrl)
+            this.imageUrl = base64data;
             this.open(this.imageUrl);
           }
         };
