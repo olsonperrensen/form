@@ -1,4 +1,5 @@
-from fastapi import FastAPI, UploadFile, File, Response
+from typing import Annotated
+from fastapi import FastAPI, UploadFile, File, Response,Form
 from fastapi.middleware.cors import CORSMiddleware
 from pytesseract import Output
 import cv2
@@ -8,11 +9,6 @@ import numpy as np
 from pydantic import BaseModel
 
 app = FastAPI()
-
-
-class Data(BaseModel):
-    file: UploadFile = File(...)
-
 
 # Configure CORS
 app.add_middleware(
@@ -25,10 +21,10 @@ app.add_middleware(
 
 
 @app.post("/")
-async def read_root(data: Data):
+async def read_root(u_ID: Annotated[str, Form()], u_ref: Annotated[str, Form()],file:UploadFile = Form(...)):
     try:
         fximg = None
-        contents = await data.file.read()
+        contents = await file.read()
         nparr = np.frombuffer(contents, np.uint8)
         rawimg = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
