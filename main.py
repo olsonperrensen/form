@@ -1,19 +1,24 @@
 from typing import Annotated
-from fastapi import FastAPI, UploadFile, File, Response,Form
+from fastapi import FastAPI, UploadFile, File, Response, Form
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pytesseract import Output
 import cv2
 import pytesseract
 import re
 import numpy as np
 from pydantic import BaseModel
+import time
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Replace with your frontend URL or '*' to allow all origins
+    # Replace with your frontend URL or '*' to allow all origins
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],  # You can restrict the methods if needed
     allow_headers=["*"],  # You can restrict the headers if needed
@@ -41,10 +46,13 @@ async def read_root(file: UploadFile = File(...)):
                     fximg = cv2.rectangle(
                         rawimg, (x-7, y-7), (x + w+7, y + h+7), (0, 255, 0), 2)
 
-        _, img_encoded = cv2.imencode('.png', fximg)
+        _, img_encoded = cv2.imencode('.jpeg', fximg)
         img_bytes = img_encoded.tobytes()
+        unix_time = int(time.time())
+        with open(f"static/{unix_time}ocr.jpeg", "wb") as f:
+            f.write(img_bytes)
 
-        return Response(content=img_bytes, media_type="image/png")
+        return FileResponse(f"static/{unix_time}ocr.jpeg", media_type="image/jpeg")
 
     except Exception as e:
         return {"error": str(e)}
