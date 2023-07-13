@@ -13,10 +13,11 @@ app = FastAPI()
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=["*"],  # Replace with your desired list of allowed origins
+    allow_methods=["GET", "POST", "PUT", "DELETE"],  # The HTTP methods allowed for CORS requests
+    allow_headers=["*"],  # The headers allowed for CORS requests
+    allow_credentials=True,  # Whether to allow sending credentials (cookies, etc.) in CORS requests
+    expose_headers=[],  # The headers exposed in the response to CORS requests
 )
 
 
