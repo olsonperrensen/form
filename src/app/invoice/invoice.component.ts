@@ -26,8 +26,21 @@ const CCEMAILS = new Map<string, any>();
 		</div>
     <div class="modal-init">
 		<div class="modal-body">
-			<p>Would you like to include the other Sales Representatives in CC?</p>
-      <img [src]="sbu2" alt="">
+    <div class="bg-image">
+  <img
+    [src]="sbu2"
+    class="img-fluid"
+    alt="Sample"
+  />
+  <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
+    <div class="d-flex justify-content-center align-items-center h-100">
+      <p class="text-white mb-0">We have detected a Purchase Order number inside this document.
+        This saves time and takes care that no unneccesary delays occur in case this document gets
+        detached from its accompanying information. You can now proceed by clicking 'Yes'.
+      </p>
+    </div>
+  </div>
+</div>
 		</div>
 		<div class="modal-footer">
     <button type="button" class="btn btn-primary" (click)="ccInput()">Yes</button>
@@ -105,7 +118,7 @@ export class NgbdModalContent implements OnInit {
 
 export class InvoiceComponent implements OnInit {
   open(url: any) {
-    const modalRef = this.modalService.open(NgbdModalContent);
+    const modalRef = this.modalService.open(NgbdModalContent, { fullscreen: true });
     modalRef.componentInstance.sbu2 = url;
     modalRef.componentInstance.sbu3 = 2;
     return modalRef.result
