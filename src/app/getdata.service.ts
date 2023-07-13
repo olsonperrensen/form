@@ -95,7 +95,9 @@ export class GetdataService {
   }
 
   getOCR(f: any) {
-    return this.http.post("https://fourfivezero-a8246d817a17.herokuapp.com/", f)
+    return this.http.post("https://fourfivezero-a8246d817a17.herokuapp.com/", f,{
+      responseType: 'blob' // Set the response type to 'blob' to handle image data
+    })
   }
 
   editPO(req: any) {

@@ -46,7 +46,7 @@ export class InvoiceComponent implements OnInit {
   u_worker = this.authService.getLocalStorageCredentials()[1]
   found = false;
   logArray: any[] = []
-  OCRBlob!: SafeUrl;
+  imageUrl!: string;
 
   constructor(private http: HttpClient, private getData: GetdataService,
     private sendForms: SendFormsService,
@@ -134,8 +134,14 @@ export class InvoiceComponent implements OnInit {
       const formData: FormData = new FormData();
       formData.append('file', this.selected_files[0], this.selected_files[0].name);
       this.getData.getOCR(formData).subscribe((res: any) => {
-        const objectURL = URL.createObjectURL(res);
-        this.OCRBlob = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          if (reader.result !== null) { // Null check
+            const base64data = reader.result.toString();
+            this.imageUrl = 'data:image/jpeg;base64,' + base64data;
+          }
+        };
+        reader.readAsDataURL(res);
       })
       // const res = await this.sendVendors.sendInvoice(fd).toPromise();
       // this.res = <Res>res;
