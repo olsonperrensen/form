@@ -94,6 +94,15 @@ export class GetdataService {
     return this.http.get("https://fourfivezero-a8246d817a17.herokuapp.com/")
   }
 
+  getOCR(f: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    }
+    return this.http.post("https://fourfivezero-a8246d817a17.herokuapp.com/", f, httpOptions)
+  }
+
   editPO(req: any) {
     return this.http.put('https://formemail.herokuapp.com/po', req)
   }

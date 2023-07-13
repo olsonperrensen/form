@@ -89,7 +89,7 @@
                   <ngx-dropzone-label>Factuur inslepen / Déposez la facture</ngx-dropzone-label>
                   <ngx-dropzone-preview *ngFor="let f of selected_files; let i = index" [removable]="true">
                     <ngx-dropzone-label>{{ f.name }} ({{ f.type }})
-                      <button (click)="onFileRemoved($event,i)">X</button>
+                      <button (click)="onFileRemoved($event,i)">❌</button>
                     </ngx-dropzone-label>
                   </ngx-dropzone-preview>
                 </ngx-dropzone>
@@ -123,11 +123,12 @@
                   <ngx-dropzone-label>Factuur inslepen / Déposez la facture</ngx-dropzone-label>
                   <ngx-dropzone-preview *ngFor="let f of selected_files; let i = index" [removable]="true">
                     <ngx-dropzone-label>{{ f.name }} ({{ f.type }})
-                      <button (click)="onFileRemoved($event,i)">X</button>
+                      <button (click)="onFileRemoved($event,i)">❌</button>
                     </ngx-dropzone-label>
                   </ngx-dropzone-preview>
                 </ngx-dropzone>
               </mat-card-actions>
+              <img [src]="OCRBlob" alt="Image" *ngIf="OCRBlob">
               <button [disabled]="!selected_files.length || !isFormValidWithFile || isBezig"
                 (click)="onSubmitDragMultiple(selectedIDs)" mat-raised-button color="primary">Send All</button>
               <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBezig"

@@ -10,6 +10,7 @@ import { SendVendorsService } from '../send-vendors.service';
 import { Res } from './../vendor/res';
 import { AuthService } from '../auth.service';
 import { PO } from './PO';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-invoice',
@@ -44,17 +45,24 @@ export class InvoiceComponent implements OnInit {
   u_worker = this.authService.getLocalStorageCredentials()[1]
   found = false;
   logArray: any[] = []
+  OCRBlob!: SafeUrl;
 
   constructor(private getData: GetdataService,
     private sendForms: SendFormsService,
-    private router: Router, private sendVendors: SendVendorsService, private authService: AuthService) { }
+    private router: Router, private sendVendors: SendVendorsService,
+    private authService: AuthService, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     // CALL MOTHERSHIP FASTAPI
     this.getData.getFastLog().subscribe((res: any) => {
-      this.logArray = res
+      if (res.status == 200) {
+        this.logArray = res
+        console.log(this.logArray)
+      }
     }, (err) => {
-      alert("FASTAPI is down")
+      alert(`At this moment the PO scanner tool is offline. You can still use all other parts of the site,
+      however checking whether a PO nr has been attached to your invoice will not be possible. 
+      Please come back in a few minutes.`)
     });
 
     this.options3 = [];
@@ -121,17 +129,22 @@ export class InvoiceComponent implements OnInit {
     this.isBezig = true;
 
     try {
-      const res = await this.sendVendors.sendInvoice(fd).toPromise();
-      this.res = <Res>res;
+      // PO AANWEZIGHEIDSCONTROLE (PDF) [FASTAPI]
+      this.getData.getOCR(fd).subscribe((res: any) => {
+        const objectURL = URL.createObjectURL(res);
+        this.OCRBlob = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+      })
+      // const res = await this.sendVendors.sendInvoice(fd).toPromise();
+      // this.res = <Res>res;
 
-      if (this.res.response === "250 Message received") {
-        alert("Invoice naar AP gestuurd!");
-        this.selected_files = [];
-        this.u_ID = '';
-        this.postatus = 'Net bijgewerkt / Modifications effectuées';
-      } else {
-        alert("Er ging iets mis.");
-      }
+      // if (this.res.response === "250 Message received") {
+      //   alert("Invoice naar AP gestuurd!");
+      //   this.selected_files = [];
+      //   this.u_ID = '';
+      //   this.postatus = 'Net bijgewerkt / Modifications effectuées';
+      // } else {
+      //   alert("Er ging iets mis.");
+      // }
 
       this.isBezig = false;
     } catch (err) {
