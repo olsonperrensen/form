@@ -1,4 +1,4 @@
-<div class="container">
+<div *ngIf="!sent" class="container">
   <div class="row">
     <div class="col-xs-12">
       <form #f="ngForm" class="example-form">
@@ -139,3 +139,42 @@
     </div>
   </div>
 </div>
+<div style="margin-top: 10%" *ngIf="sent&&!fakemodal" class="container loading">
+  <div class="row justify-content-center">
+    <div *ngIf="!exit" class="lds-grid">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <svg *ngIf="exit" class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+      <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+      <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+    </svg>
+    <h1 *ngIf="!exit">Aan het laden...</h1>
+    <h1 *ngIf="exit">Geladen.</h1>
+  </div>
+</div>
+<div *ngIf="fakemodal" class="fakemodal">
+  <div class="modal-init">
+    <div class="modal-body">
+      <mat-card class="example-card">
+        <mat-card-header class="d-block mx-auto">
+          <mat-card-title>Optical Character Recognition for PO</mat-card-title>
+          <mat-card-subtitle>Legitimate invoice (PO detected in Green)</mat-card-subtitle>
+        </mat-card-header>
+        <img class="d-block mx-auto" mat-card-image [src]="imageSafeUrl" alt="Photo of a Shiba Inu">
+        <mat-card-actions>
+          <button mat-button>Send</button>
+          <button mat-button>Cancel</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
+<!-- <button type="button" (click)="onOpnieuwFactuur()" mat-raised-button color="accent">Nieuwe aanvraag / Autre Demande</button> -->

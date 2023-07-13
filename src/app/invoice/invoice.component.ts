@@ -19,59 +19,7 @@ const CCEMAILS = new Map<string, any>();
 
 @Component({
   selector: 'ngbd-modal-content',
-  template: `
-		<div class="modal-header">
-			<h4 class="modal-title">One last step</h4>
-			<button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
-		</div>
-    <div class="modal-init">
-		<div class="modal-body">
-    <div class="bg-image">
-  <img
-    [src]="sbu2"
-    class="img-fluid"
-    alt="Sample"
-  />
-  <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
-    <div class="d-flex justify-content-center align-items-center h-100">
-      <p class="text-white mb-0">We have detected a Purchase Order number inside this document.
-        This saves time and takes care that no unneccesary delays occur in case this document gets
-        detached from its accompanying information. You can now proceed by clicking 'Yes'.
-      </p>
-    </div>
-  </div>
-</div>
-		</div>
-		<div class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="ccInput()">Yes</button>
-			<button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">No</button>
-		</div>
-    </div>
-    <div style='display:none;' class="modal-cc">
-		<div class="modal-body">
-    <div class="input-group mb-3 cc1group">
-  <input type="text" 
-  class="form-control cc-1" 
-  placeholder="{{sbu2}} Salesman (name.surname)" 
-  id="cc1"
-  (change)="store($event)"
-  aria-label="Recipient's username" aria-describedby="basic-addon2">
-  <span class="input-group-text" id="basic-addon2">@sbdinc.com</span>
-</div>
-<div class="input-group mb-3 cc2group">
-  <input type="text" 
-  class="form-control cc-2" 
-  placeholder="{{sbu3}} Salesman (name.surname)" 
-  id='cc2'
-  (change)="store($event)"
-  aria-label="Recipient's username" aria-describedby="basic-addon2">
-  <span class="input-group-text" id="basic-addon2">@sbdinc.com</span>
-</div>
-		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-dark" (click)="activeModal.close('Close click')">Save</button>
-		</div>
-    </div>
+  template: `<a>todo</a>
 	`,
 })
 
@@ -109,7 +57,7 @@ export class NgbdModalContent implements OnInit {
 @Component({
   selector: 'app-invoice',
   templateUrl: './invoice.component.html',
-  styleUrls: ['./invoice.component.css'],
+  styleUrls: ['./invoice.component.scss'],
   animations:
     [a.fadeInLeftOnEnterAnimation(),
     a.bounceOutOnLeaveAnimation(),
@@ -123,6 +71,10 @@ export class InvoiceComponent implements OnInit {
     modalRef.componentInstance.sbu3 = 2;
     return modalRef.result
   }
+  sent = false
+  exit = false
+  fakemodal = false
+  imageSafeUrl!: SafeUrl;
   allPO: PO[] = [];
   selectedPO !: PO;
   postatus = ''
@@ -220,7 +172,13 @@ export class InvoiceComponent implements OnInit {
   onFileRemoved(event: any, i: number) {
     this.selected_files.splice(i, 1);
   }
+
+  onOpnieuwFactuur() {
+    console.log("TODO")
+  }
+
   async onSubmitDrag(u_ID: any) {
+    this.sent = true;
     const fd = new FormData();
     this.ref = this.selectedPO.id;
     fd.append('u_ID', u_ID);
@@ -233,12 +191,14 @@ export class InvoiceComponent implements OnInit {
       const formData: FormData = new FormData();
       formData.append('file', this.selected_files[0], this.selected_files[0].name);
       this.getData.getOCR(formData).subscribe((res: any) => {
+        this.exit = true;
         const reader = new FileReader();
         reader.onloadend = () => {
           if (reader.result !== null) { // Null check
             const base64data = reader.result.toString();
             this.imageUrl = base64data;
-            this.open(this.imageUrl);
+            this.imageSafeUrl = this.sanitizer.bypassSecurityTrustUrl(this.imageUrl);
+            this.fakemodal = true;
           }
         };
         reader.readAsDataURL(res);
