@@ -95,12 +95,7 @@ export class GetdataService {
   }
 
   getOCR(f: any) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      })
-    }
-    return this.http.post("https://fourfivezero-a8246d817a17.herokuapp.com/", f, httpOptions)
+    return this.http.post("https://fourfivezero-a8246d817a17.herokuapp.com/", f)
   }
 
   editPO(req: any) {

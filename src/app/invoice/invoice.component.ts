@@ -11,6 +11,7 @@ import { Res } from './../vendor/res';
 import { AuthService } from '../auth.service';
 import { PO } from './PO';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-invoice',
@@ -47,7 +48,7 @@ export class InvoiceComponent implements OnInit {
   logArray: any[] = []
   OCRBlob!: SafeUrl;
 
-  constructor(private getData: GetdataService,
+  constructor(private http: HttpClient, private getData: GetdataService,
     private sendForms: SendFormsService,
     private router: Router, private sendVendors: SendVendorsService,
     private authService: AuthService, private sanitizer: DomSanitizer) { }
@@ -130,7 +131,9 @@ export class InvoiceComponent implements OnInit {
 
     try {
       // PO AANWEZIGHEIDSCONTROLE (PDF) [FASTAPI]
-      this.getData.getOCR(fd).subscribe((res: any) => {
+      const formData: FormData = new FormData();
+      formData.append('file', this.selected_files[0], this.selected_files[0].name);
+      this.getData.getOCR(formData).subscribe((res: any) => {
         const objectURL = URL.createObjectURL(res);
         this.OCRBlob = this.sanitizer.bypassSecurityTrustUrl(objectURL);
       })
