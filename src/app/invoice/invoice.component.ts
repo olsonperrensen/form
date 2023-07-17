@@ -74,6 +74,7 @@ export class InvoiceComponent implements OnInit {
   sent = false
   exit = false
   fakemodal = false
+  fakemodalFailure = false;
   imageSafeUrl!: SafeUrl;
   allPO: PO[] = [];
   selectedPO !: PO;
@@ -157,6 +158,15 @@ export class InvoiceComponent implements OnInit {
   onUserWantsOne() {
     this.wantsOne = true;
   }
+
+  onUsrReset() {
+    this.fakemodal = false;
+    this.fakemodalFailure = false;
+    this.sent = false;
+    // Clear attachments
+    this.onFileRemoved('internal_trigger', 0)
+  }
+
   onUserWantsAll() {
     this.wantsAll = true;
   }
@@ -170,7 +180,7 @@ export class InvoiceComponent implements OnInit {
     this.selected_files.push(...event.addedFiles);
   }
   onFileRemoved(event: any, i: number) {
-    this.selected_files.splice(i, 1);
+    this.selected_files = this.selected_files.splice(i, -1);
   }
 
   onOpnieuwFactuur() {
@@ -199,6 +209,10 @@ export class InvoiceComponent implements OnInit {
             this.imageUrl = base64data;
             this.imageSafeUrl = this.sanitizer.bypassSecurityTrustUrl(this.imageUrl);
             this.fakemodal = true;
+            // Detect if OCR fails
+            if (res.size < 200) {
+              this.fakemodalFailure = true;
+            }
           }
         };
         reader.readAsDataURL(res);
