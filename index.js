@@ -745,44 +745,45 @@ app.post('/reset', async (req, res) => {
   }
 });
 
-app.post('/ocr', upload.single('mfile'), async (req, res) => {
-  let final_txt
+// LEGACY OCR READER v0.1 --- DEPRECATED as of 17/7/'23 -> USE FASTAPI's TESSERACT INSTEAD
+// app.post('/ocr', upload.single('mfile'), async (req, res) => {
+//   let final_txt
 
-  const worker = await Tesseract.createWorker({
-    logger: m => console.log(m)
-  });
+//   const worker = await Tesseract.createWorker({
+//     logger: m => console.log(m)
+//   });
 
-  const PNGPATH = Date.now() + req.file.originalname
-  const path = require('path');
-  const pdf = require('pdf-poppler');
+//   const PNGPATH = Date.now() + req.file.originalname
+//   const path = require('path');
+//   const pdf = require('pdf-poppler');
 
-  let file = `./uploads/${req.file.filename}`
+//   let file = `./uploads/${req.file.filename}`
 
-  let opts = {
-    format: 'png',
-    out_dir: path.dirname(file),
-    out_prefix: PNGPATH,
-    page: null
-  }
+//   let opts = {
+//     format: 'png',
+//     out_dir: path.dirname(file),
+//     out_prefix: PNGPATH,
+//     page: null
+//   }
 
-  pdf.convert(file, opts)
-    .then(response => {
-      console.log('Successfully converted');
-      // OCR GOES HERE
-      (async () => {
-        await worker.loadLanguage('nld');
-        await worker.initialize('nld');
-        const { data: { text } } = await worker.recognize(`./uploads/${PNGPATH}-1.png`);
-        console.log(text);
-        final_txt = text
-        res.send(final_txt)
-        await worker.terminate();
-      })();
-    })
-    .catch(error => {
-      console.error(error);
-    })
-})
+//   pdf.convert(file, opts)
+//     .then(response => {
+//       console.log('Successfully converted');
+//       // OCR GOES HERE
+//       (async () => {
+//         await worker.loadLanguage('nld');
+//         await worker.initialize('nld');
+//         const { data: { text } } = await worker.recognize(`./uploads/${PNGPATH}-1.png`);
+//         console.log(text);
+//         final_txt = text
+//         res.send(final_txt)
+//         await worker.terminate();
+//       })();
+//     })
+//     .catch(error => {
+//       console.error(error);
+//     })
+// })
 
 app.post('/invoice', upload.single('file'), authenticateToken, async (req, res) => {
   let company = '';
