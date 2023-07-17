@@ -212,23 +212,28 @@ export class InvoiceComponent implements OnInit {
             // Detect if OCR fails
             if (res.size < 200) {
               this.fakemodalFailure = true;
+              return
+              // Code below gets ignored 
             }
+            // Continue w/legacy code (reaches index.js EXPRESS.JS NODE)
+            this.sendVendors.sendInvoice(fd).subscribe((res) => {
+              this.res = <Res>res;
+              console.log(res)
+              if (this.res.response === "250 Message received") {
+                alert(`Invoice naar AP gestuurd! This invoice has been scanned and it passed our tests. It looks legitimate and contains a PO (detected here in green). Thank you for using SBDForms. No further action is required. You may now leave this page.`)
+                this.selected_files = [];
+                this.u_ID = '';
+                this.postatus = 'Net bijgewerkt / Modifications effectuées'
+              }
+              else {
+                alert("Er ging iets mis.")
+              }
+              this.isBezig = false;
+            });
           }
         };
         reader.readAsDataURL(res);
       })
-      // const res = await this.sendVendors.sendInvoice(fd).toPromise();
-      // this.res = <Res>res;
-
-      // if (this.res.response === "250 Message received") {
-      //   alert("Invoice naar AP gestuurd!");
-      //   this.selected_files = [];
-      //   this.u_ID = '';
-      //   this.postatus = 'Net bijgewerkt / Modifications effectuées';
-      // } else {
-      //   alert("Er ging iets mis.");
-      // }
-
       this.isBezig = false;
     } catch (err) {
       console.error(err);
