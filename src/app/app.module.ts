@@ -30,6 +30,7 @@ import { CommonModule } from '@angular/common';
 import { LogComponent } from './log/log.component';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { AuthInterceptor } from './auth.interceptor';
+import { ChangelogComponent } from './changelog/changelog.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -52,7 +53,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     InvoiceComponent,
     ResetComponent,
     ProfileComponent,
-    LogComponent
+    LogComponent,
+    ChangelogComponent
   ],
   imports: [
     BrowserModule,

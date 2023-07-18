@@ -16,6 +16,7 @@ import { InvoiceComponent } from './invoice/invoice.component';
 import { ResetComponent } from './reset/reset.component';
 import { ProfileComponent } from './profile/profile.component';
 import { LogComponent } from './log/log.component';
+import { ChangelogComponent } from './changelog/changelog.component';
 
 const routes: Routes = [
   { path: '', component: PublicComponent },
@@ -31,7 +32,8 @@ const routes: Routes = [
   { path: 'invoice', component: InvoiceComponent, canActivate: [AuthGuardService] },
   { path: 'reset', component: ResetComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
-  { path: 'log', component: LogComponent, canActivate: [AuthGuardService] }
+  { path: 'log', component: LogComponent, canActivate: [AuthGuardService] },
+  { path: 'changelog', component: ChangelogComponent, canActivate: [AuthGuardService] }
 ];
 
 @NgModule({
