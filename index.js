@@ -785,6 +785,11 @@ app.post('/reset', async (req, res) => {
 //     })
 // })
 
+// TODO: INSERT HISTOGRAM W/MOST COMMON WORDS
+
+// UPDATE histogram
+// SET frequency = histogram.frequency + 1
+// WHERE word = ;
 app.post('/invoice', upload.single('file'), authenticateToken, async (req, res) => {
   let company = '';
   let overall_limit = '';
