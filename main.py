@@ -42,27 +42,23 @@ async def read_root(file: UploadFile = File(...)):
 
         d = pytesseract.image_to_data(rawimg, output_type=Output.DICT)
 
-        date_pattern = r'450[0-9]{7}'
-        prefix_pattern = r'PO450[0-9]{7}'
-        bt_pattern = r'\b450[0-9]{7}\b'
-
+        date_pattern = r'.*450[0-9]{7}.*'
 
         n_boxes = len(d['text'])
         for i in range(n_boxes):
-            if int(d['conf'][i]) > 60:
-                if re.match(date_pattern, d['text'][i]) or re.match(prefix_pattern, d['text'][i]) or re.match(bt_pattern, d['text'][i]):
-                    # FOUND PATTERN
-                    print(f"found PO with value: {d['text'][i]}")
-                    (x, y, w, h) = (d['left'][i], d['top']
-                                    [i], d['width'][i], d['height'][i])
-                    fximg = cv2.rectangle(
-                        rawimg, (x-12, y-12), (x + w+12, y + h+12), (0, 255, 0), 3)
-                    resized_img = cv2.resize(fximg, (0, 0), fx=0.5, fy=0.5)
-                    _, img_encoded = cv2.imencode('.jpeg', resized_img)
-                    img_bytes = img_encoded.tobytes()
-                    unix_time = int(time.time())
-                    with open(f"static/{unix_time}ocr.jpeg", "wb") as f:
-                        f.write(img_bytes)
+            if re.match(date_pattern, d['text'][i]):
+                # FOUND PATTERN
+                print(f"found PO with value: {d['text'][i]}")
+                (x, y, w, h) = (d['left'][i], d['top']
+                                [i], d['width'][i], d['height'][i])
+                fximg = cv2.rectangle(
+                    rawimg, (x-12, y-12), (x + w+12, y + h+12), (0, 255, 0), 3)
+                resized_img = cv2.resize(fximg, (0, 0), fx=0.5, fy=0.5)
+                _, img_encoded = cv2.imencode('.jpeg', resized_img)
+                img_bytes = img_encoded.tobytes()
+                unix_time = int(time.time())
+                with open(f"static/{unix_time}ocr.jpeg", "wb") as f:
+                    f.write(img_bytes)
         return FileResponse(f"static/{unix_time}ocr.jpeg", media_type="image/jpeg")
 
     except Exception as e:
