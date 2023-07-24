@@ -46,8 +46,8 @@ async def read_root(file: UploadFile = File(...)):
         prefix_pattern = r'PO450[0-9]{7}'
         bt_pattern = r'\b450[0-9]{7}\b'
 
-
-        n_boxes = len(d['text'])
+        words = [item for item in d['text'] if len(item) >= 3]
+        n_boxes = len(words)
         for i in range(n_boxes):
             if int(d['conf'][i]) > 60:
                 if re.match(date_pattern, d['text'][i]) or re.match(prefix_pattern, d['text'][i]) or re.match(bt_pattern, d['text'][i]):
@@ -63,6 +63,8 @@ async def read_root(file: UploadFile = File(...)):
                     unix_time = int(time.time())
                     with open(f"static/{unix_time}ocr.jpeg", "wb") as f:
                         f.write(img_bytes)
+        # IMPLEMENT HISTOGRAM + FILE RETURN IN THE FUTURE
+        # return {"words":words,"file":FileResponse(f"static/{unix_time}ocr.jpeg", media_type="image/jpeg")}
         return FileResponse(f"static/{unix_time}ocr.jpeg", media_type="image/jpeg")
 
     except Exception as e:
