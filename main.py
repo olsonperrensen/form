@@ -1,19 +1,38 @@
-from typing import Annotated
-from fastapi import FastAPI, UploadFile, File, Response, Form
+from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pytesseract import Output
-import cv2
-import fitz
-import pytesseract
-import re
-import numpy as np
-from pydantic import BaseModel
-import time
+import cv2,fitz,pytesseract,re,time,os
+from dotenv import load_dotenv
+from sqlalchemy import create_engine, create_engine, Column, Integer, String
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+load_dotenv()
+db_connection_string = os.getenv('DB_CONNECTION_STRING')
+
+if not db_connection_string:
+    raise ValueError("DB_CONNECTION_STRING environment variable is not set")
+else:
+    print("env is set-up! Starting conn to db...")
+
+engine = create_engine(db_connection_string)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
+
+
+class WordCounter(Base):
+    __tablename__ = 'histogram'
+    id = Column(Integer, primary_key=True, unique=True, index=True)
+    word = Column(String)
+    counter = Column(Integer, default=1)
+
+
+Base.metadata.create_all(bind=engine)
 
 # Configure CORS
 app.add_middleware(
@@ -59,11 +78,32 @@ async def read_root(file: UploadFile = File(...)):
                 unix_time = int(time.time())
                 with open(f"static/{unix_time}ocr.jpeg", "wb") as f:
                     f.write(img_bytes)
+                await histogram_to_db([item for item in d['text'] if len(item) >= 3])
         return FileResponse(f"static/{unix_time}ocr.jpeg", media_type="image/jpeg")
 
     except Exception as e:
         return {"error": str(e)}
 
+@app.post("/db")
+async def histogram_to_db(words:list):
+    db = SessionLocal()
+    ft_w,pp_w = 0,0
+    for word in words:
+        record = db.query(WordCounter).filter(
+            WordCounter.word == word).first()
+        if record:
+            # If the word exists, increment the counter
+            record.counter += 1
+            pp_w+=1
+        else:
+            # If the word doesn't exist, create a new record
+            new_record = WordCounter(word=word)
+            db.add(new_record)
+            ft_w+=1
+    db.commit()
+    db.flush()
+    db.close()
+    print(f"{pp_w} words ++, {ft_w} first-timed in db.")
 
 @app.get("/")
 async def pingMe():

@@ -5,3 +5,8 @@ python-multipart
 uvicorn
 PyMuPDF
 gunicorn
+async-exit-stack
+async-generator
+sqlalchemy
+psycopg2
+python-dotenv
