@@ -6,6 +6,10 @@ import { Route, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { GetdataService } from '../getdata.service';
 
+const STATUSZERO = "Request your Password";
+const STATUSONE = "Please wait";
+const STATUSTWO = "CHECK EMAIL";
+
 @Component({
   selector: 'app-public',
   templateUrl: './public.component.html',
@@ -19,6 +23,7 @@ import { GetdataService } from '../getdata.service';
 })
 export class PublicComponent implements OnInit {
 
+  pwdHelpTxt = STATUSZERO
   isLoggedIn: boolean = false;
   isInvalid = false;
   u_username = ""
@@ -69,10 +74,19 @@ export class PublicComponent implements OnInit {
     this.authService.logout()
   }
 
-  onRecoverPWD() {
+  onRecoverPWD(txt: string) {
+    if (txt == STATUSONE || txt == STATUSTWO) {
+      const element = document.querySelector(`#aresetLink`) as HTMLElement;
+      if (element) {
+        element.style.pointerEvents = 'none';
+      }
+      return
+    }
     if (this.u_username.endsWith('@sbdinc.com')) {
+      this.pwdHelpTxt = "Please wait";
       this.authService.recoverPWD(this.u_username).subscribe((res: any) => {
         if (res.response === "250 Message received") {
+          this.pwdHelpTxt = STATUSTWO;
           alert("Your password has been sent! Please, check your email for instructions.")
         }
       });

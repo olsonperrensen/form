@@ -20,8 +20,8 @@
         <div [@bounceInRightOnEnter] class="forms-inputs mb-4">
           <span>Password</span>
           <input class="form-control" type="password" ngModel name="password" placeholder="************" required>
-          <a (click)="onRecoverPWD()" style="color:gray;float:right" routerLink="/">
-            <p [@fadeInOnEnter] class="ffs">Request your Password</p>
+          <a id="aresetLink" (click)="onRecoverPWD(pwdHelpTxt)" style="color:gray;float:right" routerLink="/">
+            <p [@fadeInOnEnter] class="ffs">{{pwdHelpTxt}}</p>
           </a>
         </div>
         <div class="mb-3">
