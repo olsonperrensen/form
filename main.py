@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File,Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -104,6 +104,10 @@ async def histogram_to_db(words:list):
     db.flush()
     db.close()
     print(f"{pp_w} words ++, {ft_w} first-timed in db.")
+
+@app.get("/ip")
+async def get_client_ip(request: Request):
+    return {"UA": request.headers['user-agent']}
 
 @app.get("/")
 async def pingMe():
