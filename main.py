@@ -108,6 +108,7 @@ async def histogram_to_db(words:list):
 @app.get("/ip")
 async def get_client_ip(request: Request):
     return {"UA": request.headers['user-agent']}
+    # TODO record from where req are being accessed.  
 
 @app.get("/")
 async def pingMe():
