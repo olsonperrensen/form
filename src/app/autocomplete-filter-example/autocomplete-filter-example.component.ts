@@ -703,7 +703,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
 
   getIP() {
     this.ip.getIPAddress().subscribe((res: any) => {
-      this.ipAddress = res.ip;
+      this.ipAddress = res.UA;
     });
   }
 }
