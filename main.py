@@ -78,7 +78,7 @@ async def read_root(file: UploadFile = File(...)):
                 unix_time = int(time.time())
                 with open(f"static/{unix_time}ocr.jpeg", "wb") as f:
                     f.write(img_bytes)
-                await histogram_to_db([item for item in d['text'] if len(item) >= 3])
+                # await histogram_to_db([item for item in d['text'] if len(item) >= 3])
         return FileResponse(f"static/{unix_time}ocr.jpeg", media_type="image/jpeg")
 
     except Exception as e:
