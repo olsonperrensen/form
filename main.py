@@ -2,6 +2,7 @@ from fastapi import FastAPI, UploadFile, File,Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
 from pytesseract import Output
 import cv2,fitz,pytesseract,re,time,os
 from dotenv import load_dotenv
@@ -44,19 +45,28 @@ app.add_middleware(
     allow_headers=["*"],  # You can restrict the headers if needed
 )
 
-
 @app.post("/")
 async def read_root(file: UploadFile = File(...)):
     try:
         FILEPROVIDED = f"./static/{file.filename}"
-        temp_pdf_path = FILEPROVIDED
-        with open(temp_pdf_path, "wb") as temp_pdf_file:
-            temp_pdf_file.write(await file.read())
-        doc = fitz.open(temp_pdf_path)  # open document
-        pix = doc[0].get_pixmap(dpi=250)  # render page to an image
-        pix.save(FILEPROVIDED+'.png')  # store image as a PNG
-        fximg = None
-        image_path = FILEPROVIDED+'.png'  # Replace with the path to your image file
+        temp_file_path = FILEPROVIDED
+
+        # Save the file
+        with open(temp_file_path, "wb") as temp_file:
+            temp_file.write(await file.read())
+
+        file_type = file.filename.split('.')[-1]
+
+        if file_type == 'pdf':
+            # If it's a PDF, convert it to an image
+            doc = fitz.open(temp_file_path)  # open document
+            pix = doc[0].get_pixmap(dpi=255)  # render page to an image
+            pix.save(FILEPROVIDED+'.png')  # store image as a PNG
+            image_path = FILEPROVIDED+'.png'
+        else:
+            # If it's an image, use it as is
+            image_path = temp_file_path
+
         rawimg = cv2.imread(image_path)
 
         d = pytesseract.image_to_data(rawimg, output_type=Output.DICT)
@@ -64,6 +74,7 @@ async def read_root(file: UploadFile = File(...)):
         date_pattern = r'.*450[0-9]{7}.*'
 
         n_boxes = len(d['text'])
+
         for i in range(n_boxes):
             if re.match(date_pattern, d['text'][i]):
                 # FOUND PATTERN
@@ -83,7 +94,7 @@ async def read_root(file: UploadFile = File(...)):
 
     except Exception as e:
         return {"error": str(e)}
-
+        
 @app.post("/db")
 async def histogram_to_db(words:list):
     db = SessionLocal()
