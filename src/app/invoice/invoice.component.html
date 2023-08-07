@@ -173,14 +173,16 @@
           <hr>
           <img class="d-block mx-auto" mat-card-image [src]="imageSafeUrl" alt="Photo of a Shiba Inu">
           <mat-card-actions>
-            <a mat-button routerLink="/homepage">Homepage</a>
+            <a mat-raised-button color="accent" routerLink="/homepage">Homepage</a>
           </mat-card-actions>
         </div>
         <div *ngIf="fakemodalFailure" class="noFailure">
-          <p>Your document is either too blurry or does not contain a PO. Upload a better quality version of it and try
-            again.</p>
+          <p>Uw document is te wazig of bevat geen PO.</p>
           <mat-card-actions>
-            <button (click)="onUsrReset()" mat-button>Try again</button>
+          <button
+            (click)="onPlakken(u_ID)" mat-raised-button color="primary">PO plakken</button>
+          <button
+            (click)="onUsrReset()" mat-raised-button color="accent">Wissel bestand</button>
           </mat-card-actions>
         </div>
       </mat-card>
