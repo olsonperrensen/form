@@ -165,7 +165,7 @@
     <div class="modal-body">
       <mat-card class="example-card">
         <mat-card-header class="d-block mx-auto">
-          <mat-card-title *ngIf="!fakemodalFailure">Sent to Invoices!</mat-card-title>
+          <mat-card-title *ngIf="!fakemodalFailure&&poStatusFinal">Sent to Invoices!</mat-card-title>
           <mat-card-title *ngIf="fakemodalFailure">Er is iets foutgegaan...</mat-card-title>
         </mat-card-header>
         <hr>

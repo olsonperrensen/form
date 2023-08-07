@@ -80,6 +80,7 @@ export class InvoiceComponent implements OnInit {
   allPO: PO[] = [];
   selectedPO !: PO;
   postatus = ''
+  poStatusFinal = false;
   wantsOne = false;
   wantsAll = false;
   isFormValidWithFile = false;
@@ -198,13 +199,16 @@ export class InvoiceComponent implements OnInit {
 
     this.fd = new FormData();
 
+    this.isBezig=true;
+    this.sent=true;
+    this.fakemodal = false;
+    this.fakemodalFailure = false;
+    this.exit = false;
 
-    this.sent = true;
     this.ref = this.selectedPO.id;
     this.fd.append('u_ID', u_ID);
     this.fd.append('u_ref', this.ref);
     this.fd.append('file', this.selected_files[0], this.selected_files[0].name);
-    this.isBezig = true;
 
 
     try {
@@ -227,20 +231,21 @@ export class InvoiceComponent implements OnInit {
               // Code below gets ignored 
             }
             // Continue w/legacy code (reaches index.js EXPRESS.JS NODE)
-            // this.sendVendors.sendInvoice(this.fd).subscribe((res) => {
-            //   this.res = <Res>res;
-            //   console.log(res)
-            //   if (this.res.response === "250 Message received") {
-            //     alert(`Invoice naar AP gestuurd! This invoice has been scanned and it passed our tests. It looks legitimate and contains a PO (detected here in green). Thank you for using SBDForms. No further action is required. You may now leave this page.`)
-            //     this.selected_files = [];
-            //     this.u_ID = '';
-            //     this.postatus = 'Net bijgewerkt / Modifications effectuées'
-            //   }
-            //   else {
-            //     alert("Er ging iets mis.")
-            //   }
-            //   this.isBezig = false;
-            // });
+            this.sendVendors.sendInvoice(this.fd).subscribe((res) => {
+              this.res = <Res>res;
+              console.log(res)
+              if (this.res.response === "250 Message received") {
+                alert(`Invoice naar AP gestuurd! This invoice has been scanned and it passed our tests. It looks legitimate and contains a PO (detected here in green). Thank you for using SBDForms. No further action is required. You may now leave this page.`)
+                this.selected_files = [];
+                this.u_ID = '';
+                this.postatus = 'Net bijgewerkt / Modifications effectuées'
+                this.poStatusFinal = true;
+              }
+              else {
+                alert("Er ging iets mis.")
+              }
+              this.isBezig = false;
+            });
           }
         };
         reader.readAsDataURL(res);
@@ -253,6 +258,11 @@ export class InvoiceComponent implements OnInit {
     }
   }
   async onPlakken(u_ID: any) {
+    this.isBezig=true;
+    this.sent=true;
+    this.fakemodal = false;
+    this.fakemodalFailure = false;
+    this.exit = false;
     const pdfBytesIN = await this.selected_files[0].arrayBuffer();
     this.pdfDoc = await PDFDocument.load(pdfBytesIN);
     const helveticaFont = await this.pdfDoc.embedFont(StandardFonts.Helvetica)
@@ -288,61 +298,60 @@ export class InvoiceComponent implements OnInit {
     // Almost idem to onSubmitDrag but now with edited bestand! 
     // Wipe before retrying
 
-    // this.fd = new FormData();
+    this.fd = new FormData();
+
+    this.ref = this.selectedPO.id;
+    this.fd.append('u_ID', u_ID);
+    this.fd.append('u_ref', this.ref);
+    this.fd.append('file', pdfBlob, this.selected_files[0].name);
 
 
-    // this.sent = true;
-    // this.ref = this.selectedPO.id;
-    // this.fd.append('u_ID', u_ID);
-    // this.fd.append('u_ref', this.ref);
-    // this.fd.append('file', pdfBlob, this.selected_files[0].name);
-    // this.isBezig = true;
-
-
-    // try {
-    //   // PO AANWEZIGHEIDSCONTROLE (PDF) [FASTAPI]
-    //   const formData: FormData = new FormData();
-    //   formData.append('file', pdfBlob, this.selected_files[0].name);
-    //   this.getData.getOCR(formData).subscribe((res: any) => {
-    //     this.exit = true;
-    //     const reader = new FileReader();
-    //     reader.onloadend = () => {
-    //       if (reader.result !== null) { // Null check
-    //         const base64data = reader.result.toString();
-    //         this.imageUrl = base64data;
-    //         this.imageSafeUrl = this.sanitizer.bypassSecurityTrustUrl(this.imageUrl);
-    //         this.fakemodal = true;
-    //         // Detect if OCR fails
-    //         if (res.size < 200) {
-    //           this.fakemodalFailure = true;
-    //           return
-    //           // Code below gets ignored 
-    //         }
-    //         // Continue w/legacy code (reaches index.js EXPRESS.JS NODE)
-    //         // this.sendVendors.sendInvoice(this.fd).subscribe((res) => {
-    //         //   this.res = <Res>res;
-    //         //   console.log(res)
-    //         //   if (this.res.response === "250 Message received") {
-    //         //     alert(`Invoice naar AP gestuurd! This invoice has been scanned and it passed our tests. It looks legitimate and contains a PO (detected here in green). Thank you for using SBDForms. No further action is required. You may now leave this page.`)
-    //         //     this.selected_files = [];
-    //         //     this.u_ID = '';
-    //         //     this.postatus = 'Net bijgewerkt / Modifications effectuées'
-    //         //   }
-    //         //   else {
-    //         //     alert("Er ging iets mis.")
-    //         //   }
-    //         //   this.isBezig = false;
-    //         // });
-    //       }
-    //     };
-    //     reader.readAsDataURL(res);
-    //   })
-    //   this.isBezig = false;
-    // } catch (err) {
-    //   console.error(err);
-    //   alert("Er ging iets mis.");
-    //   this.isBezig = false;
-    // }
+    try {
+      // PO AANWEZIGHEIDSCONTROLE (PDF) [FASTAPI]
+      const formData: FormData = new FormData();
+      formData.append('file', pdfBlob, this.selected_files[0].name);
+      this.getData.getOCR(formData).subscribe((res: any) => {
+        this.exit = true;
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          if (reader.result !== null) { // Null check
+            const base64data = reader.result.toString();
+            this.imageUrl = base64data;
+            this.imageSafeUrl = this.sanitizer.bypassSecurityTrustUrl(this.imageUrl);
+            this.fakemodal = true;
+            // Detect if OCR fails
+            if (res.size < 200) {
+              this.fakemodalFailure = true;
+              return
+              // Code below gets ignored 
+            }
+            // Continue w/legacy code (reaches index.js EXPRESS.JS NODE)
+            
+            this.sendVendors.sendInvoice(this.fd).subscribe((res) => {
+              this.res = <Res>res;
+              console.log(res)
+              if (this.res.response === "250 Message received") {
+                alert(`Invoice naar AP gestuurd! This invoice has been scanned and it passed our tests. It looks legitimate and contains a PO (detected here in green). Thank you for using SBDForms. No further action is required. You may now leave this page.`)
+                this.selected_files = [];
+                this.u_ID = '';
+                this.postatus = 'Net bijgewerkt / Modifications effectuées';
+                this.poStatusFinal = true;
+              }
+              else {
+                alert("Er ging iets mis.")
+              }
+              this.isBezig = false;
+            });
+          }
+        };
+        reader.readAsDataURL(res);
+      })
+      this.isBezig = false;
+    } catch (err) {
+      console.error(err);
+      alert("Er ging iets mis.");
+      this.isBezig = false;
+    }
   }
 
   onSubmitDragMultiple(selectedIDs: any) {
