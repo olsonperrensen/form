@@ -91,6 +91,7 @@ let nieuw_workers = [];
 let po = [];
 let sales_per = [];
 let sales_man = [];
+let dbSalesManager = "";
 let isRecordInDB = false;
 let attached_file;
 let managers = [
@@ -374,6 +375,13 @@ app.post('/sendmail', (req, res) => {
         break;
     }
   }
+   // LINK Sales Rep. with zijn manager.
+   managers.forEach((element) => {
+    if (req.body.worker === element[0].NAME) {
+      sales_man = element[0].MANAGER.split(' ');
+      dbSalesManager = element[0].MANAGER;
+    }
+  });
   client.query(
     `INSERT INTO PO(
       REQUESTED_BY,
@@ -391,7 +399,8 @@ app.post('/sendmail', (req, res) => {
       SBU_3,
       STATUS,
       GR,
-      INVOICE) VALUES(
+      INVOICE,
+      MANAGER) VALUES(
         '${req.body.worker}',
         '${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}',
         '${req.body.klantnaam}',
@@ -407,7 +416,8 @@ app.post('/sendmail', (req, res) => {
         '${order_3}',
         '${'Pending'}',
         '${'Pending'}',
-        '${'Pending'}')
+        '${'Pending'}',
+        '${dbSalesManager}')
         RETURNING id;`,
     (err, res) => {
       if (err) {
@@ -420,12 +430,6 @@ app.post('/sendmail', (req, res) => {
       }
     }
   );
-  // LINK Sales Rep. with zijn manager.
-  managers.forEach((element) => {
-    if (req.body.worker === element[0].NAME) {
-      sales_man = element[0].MANAGER.split(' ');
-    }
-  });
 
   sales_per = req.body.worker.split(' ');
   subject_klant = req.body.klantnaam.split(' ');
