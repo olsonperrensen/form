@@ -257,6 +257,19 @@ export class InvoiceComponent implements OnInit {
       this.isBezig = false;
     }
   }
+  getRandomPosition(max: number, initialPos: number) {
+    const minDifference = -70; // Minimum difference in position
+    const maxDifference = 70; // Maximum difference in position
+
+    let newPosition;
+    if (Math.random() < 0.5) { // Randomly choose whether to increase or decrease
+        newPosition = initialPos + Math.floor(Math.random() * (maxDifference - minDifference + 1)) + minDifference;
+    } else {
+        newPosition = initialPos - Math.floor(Math.random() * (maxDifference - minDifference + 1)) + minDifference;
+    }
+
+    return Math.max(0, Math.min(newPosition, max)); // Ensure the new position is within bounds
+}
   async onPlakken(u_ID: any) {
     this.isBezig=true;
     this.sent=true;
@@ -269,14 +282,16 @@ export class InvoiceComponent implements OnInit {
     const pages = this.pdfDoc.getPages()
     const firstPage = pages[0]
     const { width, height } = firstPage.getSize()
-
+    const voorlopigw = this.getRandomPosition(width, width/2+width/22);
+    const voorlopigh = this.getRandomPosition(height, height/2+height/24);
     firstPage.drawText(`PO ${this.u_ID}`, {
-      x: 55,
-      y: 444,
+      x: voorlopigw,
+      y: voorlopigh,
       size: 33,
       font: helveticaFont,
       color: rgb(0.95, 0.1, 0.1)
     });
+  
 
     const pdfBytesOUT = await this.pdfDoc.save()
     const pdfBlob = new Blob([pdfBytesOUT], { type: 'application/pdf' });
