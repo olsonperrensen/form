@@ -638,6 +638,10 @@ export class AutocompleteFilterExampleComponent implements OnInit {
 
       const now = new Date();
 
+      // include sbu as prefix in omschrijving
+      let pre = '';
+      this.u_merk=='DeWALT – LENOX – BOSTITCH'?pre='D~':this.u_merk=='STANLEY'?pre='S~':this.u_merk=='FACOM'?pre='F~':pre='error~';
+
       this.myJSONForm = {
         timestamp: dateFormat(now, "dddd, mmmm dS, yyyy, h:MM:ss TT"),
         land: this.u_land,
@@ -646,7 +650,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
         bedrag: this.u_bedrag,
         bedrag_2: this.u_bedrag_2,
         bedrag_3: this.u_bedrag_3,
-        omschijving: this.u_omschrijving.replace(/'/g, ''),
+        omschijving: pre+this.u_omschrijving.replace(/'/g, ''),
         merk: this.u_merk,
         merk_2: this.u_merk_2,
         merk_3: this.u_merk_3,
@@ -656,7 +660,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
         potype: this.u_potype,
         worker: this.u_worker
       };
-
+      
       await this.sendForms.sendForm(this.myJSONForm).toPromise();
       alert(`U heeft met succes een aanvraag naar de verantwoordelijke gestuurd.
       
