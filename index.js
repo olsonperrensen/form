@@ -554,7 +554,8 @@ app.post('/archive_po', authenticateToken, async (req, res) => {
   try {
     let requestedBy = req.body.requested_by === 'MARTIN VAN' ? '%' : req.body.requested_by;
 
-    const queryText = `SELECT * FROM APO WHERE REQUESTED_BY LIKE '${requestedBy}' or manager LIKE '${requestedBy}';`;
+    const queryText = `SELECT * FROM APO WHERE REQUESTED_BY LIKE '${requestedBy}' or manager LIKE '${requestedBy}'
+    ORDER BY ID DESC;`;
     const result = await query(queryText);
 
     const po = [];
