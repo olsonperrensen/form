@@ -69,12 +69,12 @@ async def read_root(file: UploadFile = File(...)):
         with open(temp_file_path, "wb") as temp_file:
             temp_file.write(await file.read())
 
-        file_type = file.filename.split('.')[-1]
+        file_type = file.filename.split('.')[-1].lower()
 
         if file_type == 'pdf':
             # If it's a PDF, convert it to an image
             doc = fitz.open(temp_file_path)  # open document
-            pix = doc[0].get_pixmap(dpi=255)  # render page to an image
+            pix = doc[0].get_pixmap(dpi=265)  # render page to an image
             pix.save(FILEPROVIDED+'.png')  # store image as a PNG
             image_path = FILEPROVIDED+'.png'
         else:
@@ -116,9 +116,9 @@ async def read_root(file: UploadFile = File(...)):
                     f.write(img_bytes)
             # FACTUURDATUM 
             if re.match(d1, d['text'][i]) or re.match(d2, d['text'][i]) or re.match(d3, d['text'][i]) or re.match(d4, d['text'][i]) or re.match(d5, d['text'][i]):
-                # FOUND PATTERN
-                print(f"found DATE with value: {d['text'][i]}")
                 if d['text'][i] not in found_dates:
+                    # FOUND PATTERN
+                    print(f"found DATE with value: {d['text'][i]}")
                     found_dates.append(d['text'][i])
                 (x, y, w, h) = (d['left'][i], d['top']
                                 [i], d['width'][i], d['height'][i])
