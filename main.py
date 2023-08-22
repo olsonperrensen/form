@@ -120,14 +120,13 @@ async def read_root(file: UploadFile = File(...)):
                     # FOUND PATTERN
                     print(f"found DATE with value: {d['text'][i]}")
                     found_dates.append(d['text'][i])
-                (x, y, w, h) = (d['left'][i], d['top']
-                                [i], d['width'][i], d['height'][i])
-                fximg = cv2.rectangle(
-                    rawimg, (x-12, y-12), (x + w+12, y + h+12), (0, 255, 0), 3)
-                resized_img = cv2.resize(fximg, (0, 0), fx=0.5, fy=0.5)
-                _, img_encoded = cv2.imencode('.jpeg', resized_img)
-                img_bytes = img_encoded.tobytes()
-                unix_time = int(time.time())
+                    (x, y, w, h) = (d['left'][i], d['top']
+                                    [i], d['width'][i], d['height'][i])
+                    fximg = cv2.rectangle(
+                        rawimg, (x-12, y-12), (x + w+12, y + h+12), (0, 255, 0), 3)
+                    resized_img = cv2.resize(fximg, (0, 0), fx=0.5, fy=0.5)
+                    _, img_encoded = cv2.imencode('.jpeg', resized_img)
+                    img_bytes = img_encoded.tobytes()
             
                 # await histogram_to_db([item for item in d['text'] if len(item) >= 3])
         # TODO give found dates and numbers text back
