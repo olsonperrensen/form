@@ -11,14 +11,6 @@ from sqlalchemy.orm import Session
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Configure CORS
@@ -113,10 +105,13 @@ async def read_root(file: UploadFile = File(...)):
                     resized_img = cv2.resize(fximg, (0, 0), fx=0.5, fy=0.5)
                     _, img_encoded = cv2.imencode('.jpeg', resized_img)
                     img_bytes = img_encoded.tobytes()
-            
-                # await histogram_to_db([item for item in d['text'] if len(item) >= 3])
-        # TODO give found dates and numbers text back
-        # sorted_dates = sorted(found_dates, key=convert_date)
+        sorted_dates = sorted(found_dates, key=convert_date)
+        # TODO what if only 1 date gevonden
+        created_invoice = create_invoice(invoice=models.Invoice(**{
+        "nr": unix_time,
+        "beg": sorted_dates[0],
+        "einde": sorted_dates[1]
+        }))
         return FileResponse(f"static/{unix_time}ocr.jpeg", media_type="image/jpeg")
 
     except Exception as e:
@@ -124,17 +119,17 @@ async def read_root(file: UploadFile = File(...)):
 
 
 @app.get("/iocr", response_model=list[schemas.Invoice])
-def read_iocr(db: Session = Depends(get_db)):
-    invoices = crud.get_invoices(db)
+def read_iocr():
+    invoices = crud.get_invoices()
     return invoices
 
 
 @app.post("/iocr", response_model=schemas.Invoice)
-def create_invoice(invoice: schemas.InvoiceCreate, db: Session = Depends(get_db)):
-    db_invoice = crud.get_invoice_by_nr(db, nr=invoice.nr)
+def create_invoice(invoice: schemas.InvoiceCreate):
+    db_invoice = crud.get_invoice_by_nr(nr=invoice.nr)
     if db_invoice:
         raise HTTPException(status_code=400, detail="Invoice already registered")
-    return crud.create_invoice(db=db, invoice=invoice)
+    return crud.create_invoice(invoice=invoice)
 
 @app.get("/ip")
 async def get_client_ip(request: Request):

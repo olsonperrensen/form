@@ -1,17 +1,29 @@
 from sqlalchemy.orm import Session
-
+from database import SessionLocal
 import models, schemas
 
 
-def get_invoices(db: Session):
-    return db.query(models.Invoice).all()
+def get_invoices():
+    db = SessionLocal()
+    try:
+        return db.query(models.Invoice).all()
+    finally:
+        db.close()
 
-def get_invoice_by_nr(db: Session, nr: int):
-    return db.query(models.Invoice).filter(models.Invoice.nr == nr).first()
+def get_invoice_by_nr(nr: int):
+    db = SessionLocal()
+    try:
+        return db.query(models.Invoice).filter(models.Invoice.nr == nr).first()
+    finally:
+        db.close()
 
-def create_invoice(db: Session, invoice: schemas.InvoiceCreate):
-    db_invoice = models.Invoice(nr=invoice.nr, beg=invoice.beg, einde=invoice.einde)
-    db.add(db_invoice)
-    db.commit()
-    db.refresh(db_invoice)
-    return db_invoice
+def create_invoice(invoice: schemas.InvoiceCreate):
+    db = SessionLocal()
+    try:
+        db_invoice = models.Invoice(nr=invoice.nr, beg=invoice.beg, einde=invoice.einde)
+        db.add(db_invoice)
+        db.commit()
+        db.refresh(db_invoice)
+        return db_invoice
+    finally:
+        db.close()
