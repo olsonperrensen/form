@@ -45,6 +45,20 @@ app.add_middleware(
     allow_headers=["*"],  # You can restrict the headers if needed
 )
 
+def convert_date(date):
+    if '/' in date:
+        return tuple(map(int, date.split('/')[::-1]))
+    elif '-' in date:
+        return tuple(map(int, date.split('-')[::-1]))
+    elif '.' in date:
+        return tuple(map(int, date.split('.')[::-1]))
+    else:
+        # Assuming d-m-yyyy format
+        day, month, year = map(int, re.findall(r'\d+', date))
+        if len(str(year)) == 2:  # Convert yy to yyyy
+            year += 2000
+        return (year, month, day)
+
 @app.post("/")
 async def read_root(file: UploadFile = File(...)):
     try:
@@ -73,20 +87,18 @@ async def read_root(file: UploadFile = File(...)):
 
         po_pattern = r'.*450[0-9]{7}.*'
         # dd/mm/yy
-        d1 = r'^\d{2}/\d{2}/\d{2}$'
+        d1 = r'^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/(\d{2})$'
         # d/m/yyyy
-        d2 = r'^\d{1,2}/\d{1,2}/\d{4}$'
+        d2 = r'^(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/(\d{4})$'
         # dd-mm-yyyy
-        d3 = r'^\d{2}-\d{2}-20\d{2}$'
+        d3 = r'^(0[1-9]|1\d|2\d|30|31)-(0[13578]|10|12)-20\d{2}$'
         # dd.mm.yy
-        d4 = r'^\d{2}.\d{2}.\d{2}$'
+        d4 = r'^(?:(0[1-9]|[12][0-9]|3[01]).(0[1-9]|1[012]).([0-9]{2}))$'
         # d-m-yyyy
-        d5 = r'^\d{1}-\d{1}-20\d{2}$'
+        d5 = r'^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[012])-20\d{2}$'
         found_dates = list()
 
         n_boxes = len(d['text'])
-
-
 
         for i in range(n_boxes):
             if re.match(po_pattern, d['text'][i]):
@@ -106,7 +118,8 @@ async def read_root(file: UploadFile = File(...)):
             if re.match(d1, d['text'][i]) or re.match(d2, d['text'][i]) or re.match(d3, d['text'][i]) or re.match(d4, d['text'][i]) or re.match(d5, d['text'][i]):
                 # FOUND PATTERN
                 print(f"found DATE with value: {d['text'][i]}")
-                found_dates.append(d['text'][i])
+                if d['text'][i] not in found_dates:
+                    found_dates.append(d['text'][i])
                 (x, y, w, h) = (d['left'][i], d['top']
                                 [i], d['width'][i], d['height'][i])
                 fximg = cv2.rectangle(
@@ -118,6 +131,7 @@ async def read_root(file: UploadFile = File(...)):
             
                 # await histogram_to_db([item for item in d['text'] if len(item) >= 3])
         # TODO give found dates and numbers text back
+        # sorted_dates = sorted(found_dates, key=convert_date)
         return FileResponse(f"static/{unix_time}ocr.jpeg", media_type="image/jpeg")
 
     except Exception as e:
