@@ -74,7 +74,7 @@ async def read_root(file: UploadFile = File(...)):
         if file_type == 'pdf':
             # If it's a PDF, convert it to an image
             doc = fitz.open(temp_file_path)  # open document
-            pix = doc[0].get_pixmap(dpi=265)  # render page to an image
+            pix = doc[0].get_pixmap(dpi=262)  # render page to an image
             pix.save(FILEPROVIDED+'.png')  # store image as a PNG
             image_path = FILEPROVIDED+'.png'
         else:
