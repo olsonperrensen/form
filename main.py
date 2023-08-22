@@ -71,12 +71,25 @@ async def read_root(file: UploadFile = File(...)):
 
         d = pytesseract.image_to_data(rawimg, output_type=Output.DICT)
 
-        date_pattern = r'.*450[0-9]{7}.*'
+        po_pattern = r'.*450[0-9]{7}.*'
+        # dd/mm/yy
+        d1 = r'^\d{2}/\d{2}/\d{2}$'
+        # d/m/yyyy
+        d2 = r'^\d{1,2}/\d{1,2}/\d{4}$'
+        # dd-mm-yyyy
+        d3 = r'^\d{2}-\d{2}-20\d{2}$'
+        # dd.mm.yy
+        d4 = r'^\d{2}.\d{2}.\d{2}$'
+        # d-m-yyyy
+        d5 = r'^\d{1}-\d{1}-20\d{2}$'
+        found_dates = list()
 
         n_boxes = len(d['text'])
 
+
+
         for i in range(n_boxes):
-            if re.match(date_pattern, d['text'][i]):
+            if re.match(po_pattern, d['text'][i]):
                 # FOUND PATTERN
                 print(f"found PO with value: {d['text'][i]}")
                 (x, y, w, h) = (d['left'][i], d['top']
@@ -89,7 +102,22 @@ async def read_root(file: UploadFile = File(...)):
                 unix_time = int(time.time())
                 with open(f"static/{unix_time}ocr.jpeg", "wb") as f:
                     f.write(img_bytes)
+            # FACTUURDATUM 
+            if re.match(d1, d['text'][i]) or re.match(d2, d['text'][i]) or re.match(d3, d['text'][i]) or re.match(d4, d['text'][i]) or re.match(d5, d['text'][i]):
+                # FOUND PATTERN
+                print(f"found DATE with value: {d['text'][i]}")
+                found_dates.append(d['text'][i])
+                (x, y, w, h) = (d['left'][i], d['top']
+                                [i], d['width'][i], d['height'][i])
+                fximg = cv2.rectangle(
+                    rawimg, (x-12, y-12), (x + w+12, y + h+12), (0, 255, 0), 3)
+                resized_img = cv2.resize(fximg, (0, 0), fx=0.5, fy=0.5)
+                _, img_encoded = cv2.imencode('.jpeg', resized_img)
+                img_bytes = img_encoded.tobytes()
+                unix_time = int(time.time())
+            
                 # await histogram_to_db([item for item in d['text'] if len(item) >= 3])
+        # TODO give found dates and numbers text back
         return FileResponse(f"static/{unix_time}ocr.jpeg", media_type="image/jpeg")
 
     except Exception as e:
