@@ -6,6 +6,7 @@ class InvoiceBase(BaseModel):
     nr: int
     beg: str
     einde: str
+    vandaag: str
 
 class InvoiceCreate(InvoiceBase):
     pass
