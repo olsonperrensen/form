@@ -74,8 +74,8 @@ def enhance_ocr(image_path):
  
     return data
 
-@app.post("/raw")
-async def raw(file:UploadFile=File(...)):
+@app.post("/t")
+async def text(file:UploadFile=File(...)):
     try:
         FILEPROVIDED = f"./static/{file.filename}"
         temp_file_path = FILEPROVIDED
@@ -101,8 +101,8 @@ async def raw(file:UploadFile=File(...)):
     except Exception as e:
      return {"error": str(e)}
 
-@app.post("/o")
-async def read_date_and_factuurnummer(file:UploadFile=File(...)):
+@app.post("/f")
+async def factuurnr(file:UploadFile=File(...)):
     try:
         FILEPROVIDED = f"./static/{file.filename}"
         temp_file_path = FILEPROVIDED
@@ -205,7 +205,7 @@ async def read_date_and_factuurnummer(file:UploadFile=File(...)):
      return {"error": str(e)}
 
 @app.post("/")
-async def read_root(file: UploadFile = File(...)):
+async def root(file: UploadFile = File(...)):
     try:
         FILEPROVIDED = f"./static/{file.filename}"
         temp_file_path = FILEPROVIDED
@@ -255,8 +255,8 @@ async def read_root(file: UploadFile = File(...)):
         return {"error": str(e)}
 
 
-@app.get("/all", response_model=list[schemas.Invoice])
-def all_invoices():
+@app.get("/a", response_model=list[schemas.Invoice])
+def alles():
     invoices = crud.get_invoices()
     return invoices
 
@@ -267,7 +267,7 @@ def create_invoice(invoice: schemas.InvoiceCreate):
     return crud.create_invoice(invoice=invoice)
 
 @app.get("/ip")
-async def get_public_ip():
+async def surveil():
     try:
         response = requests.get('http://ip-api.com/json')
         data = response.json()
