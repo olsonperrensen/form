@@ -825,7 +825,7 @@ app.post('/invoice', upload.single('file'), authenticateToken, async (req, res) 
       pmt = "Invoice should be paid out to the vendor"
     }
     else if(betal=="Mindering (openstaande factuur)"){
-      pmt = "The vendor will offset the invoice from opened-invoice"
+      pmt = "The vendor will offset the value from outstanding-invoice"
     }
     else{
       pmt = "Unspecified. Consult."
