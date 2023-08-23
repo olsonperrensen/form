@@ -26,6 +26,7 @@ app.add_middleware(
 )
 
 def convert_date(date):
+    print(f"conveting date... {date}")
     if isinstance(date, str):  # Check if date is a string
         if '/' in date:
             return tuple(map(int, date.split('/')[::-1]))
@@ -135,7 +136,7 @@ async def factuurnr(file:UploadFile=File(...)):
         # dd-mm-yyyy
         d3 = r'^(0[1-9]|1\d|2\d|30|31)-(0[13578]|10|12)-20\d{2}$'
         # dd.mm.yy
-        d4 = r'^(?:(0[1-9]|[12][0-9]|3[01]).(0[1-9]|1[012]).([0-9]{2}))$'
+        d4 = r"^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.([0-9]{2})$"
         # d-m-yyyy
         d5 = r'^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[012])-20\d{2}$'
         found_dates = list()
