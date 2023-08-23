@@ -159,6 +159,7 @@ async def factuurnr(file:UploadFile=File(...)):
         # Indirect matches
         LECOT = r"V2$"
         GENERIC = r"(?i)factuur(?:nummer|nr)?|facture$|DEBETNOTA$|n°$"
+        OUTLIERS = r".*:$"
 
         n_boxes = len(d['text'])
 
@@ -191,6 +192,17 @@ async def factuurnr(file:UploadFile=File(...)):
             elif (re.match(LECOT, d['text'][i]) or re.match(GENERIC,d['text'][i])) and re.match(r"\d{5,}",d['text'][i+1]):
                 # FOUND indirect
                 print(f"found indirect NR with value: {d['text'][i+1]}")
+                found_nr = d['text'][i+1]
+                (x, y, w, h) = (d['left'][i+1], d['top']
+                                [i+1], d['width'][i+1], d['height'][i+1])
+                fximg = cv2.rectangle(
+                    rawimg, (x-12, y-12), (x + w+12, y + h+12), (0, 255, 0), 3)
+                resized_img = cv2.resize(fximg, (0, 0), fx=0.5, fy=0.5)
+                _, img_encoded = cv2.imencode('.jpeg', resized_img)
+                img_bytes = img_encoded.tobytes()
+            elif re.match(OUTLIERS, d['text'][i]) and re.match(r"^Nr$",d['text'][i-1]) and re.match(r"\d{5,}",d['text'][i+1]):
+                # FOUND outliers
+                print(f"found outlier NR with value: {d['text'][i+1]}")
                 found_nr = d['text'][i+1]
                 (x, y, w, h) = (d['left'][i+1], d['top']
                                 [i+1], d['width'][i+1], d['height'][i+1])
