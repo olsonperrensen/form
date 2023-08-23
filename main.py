@@ -149,7 +149,7 @@ async def factuurnr(file:UploadFile=File(...)):
         NIJHOF = r"N\d{7}"
         # Indirect matches
         LECOT = r"V2$"
-        GENERIC = r"(?i)factuur(?:nummer|nr)?|facture$"
+        GENERIC = r"(?i)factuur(?:nummer|nr)?|facture$|DEBETNOTA$|n°$"
 
         n_boxes = len(d['text'])
 
