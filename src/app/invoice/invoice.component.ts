@@ -84,6 +84,7 @@ export class InvoiceComponent implements OnInit {
   wantsOne = false;
   wantsAll = false;
   isFormValidWithFile = false;
+  manueelNr!: any;
 
 
   selected_files: File[] = [];
@@ -199,8 +200,8 @@ export class InvoiceComponent implements OnInit {
 
     this.fd = new FormData();
 
-    this.isBezig=true;
-    this.sent=true;
+    this.isBezig = true;
+    this.sent = true;
     this.fakemodal = false;
     this.fakemodalFailure = false;
     this.exit = false;
@@ -215,41 +216,53 @@ export class InvoiceComponent implements OnInit {
       // PO AANWEZIGHEIDSCONTROLE (PDF) [FASTAPI]
       const formData: FormData = new FormData();
       formData.append('file', this.selected_files[0], this.selected_files[0].name);
-      this.getData.getOCR(formData).subscribe((res: any) => {
+      // FIRST PART - figure out factuurnr + datum
+      this.getData.getMeta(formData).subscribe((res: any) => {
         this.exit = true;
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          if (reader.result !== null) { // Null check
-            const base64data = reader.result.toString();
-            this.imageUrl = base64data;
-            this.imageSafeUrl = this.sanitizer.bypassSecurityTrustUrl(this.imageUrl);
-            this.fakemodal = true;
-            // Detect if OCR fails
-            if (res.size < 200) {
-              this.fakemodalFailure = true;
-              return
-              // Code below gets ignored 
+        if (res.nr === "manually control in .PDF") {
+          this.manueelNr = prompt("Please enter factuur nummer:")
+          res.nr = this.manueelNr;
+        }
+        console.log(res)
+        this.fd.append('u_fnr', res.nr);
+        this.fd.append('u_fdatum', res.datum);
+        // SECOND PART - figure out PO
+        this.getData.getOCR(formData).subscribe((res: any) => {
+          this.exit = true;
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            if (reader.result !== null) { // Null check
+              const base64data = reader.result.toString();
+              this.imageUrl = base64data;
+              this.imageSafeUrl = this.sanitizer.bypassSecurityTrustUrl(this.imageUrl);
+              this.fakemodal = true;
+              // Detect if OCR fails
+              if (res.size < 200) {
+                this.fakemodalFailure = true;
+                return
+                // Code below gets ignored 
+              }
+              // Continue w/legacy code (reaches index.js EXPRESS.JS NODE)
+              this.sendVendors.sendInvoice(this.fd).subscribe((res) => {
+                this.res = <Res>res;
+                console.log(res)
+                if (this.res.response === "250 Message received") {
+                  alert(`Invoice naar AP gestuurd! This invoice has been scanned and it passed our tests. It looks legitimate and contains a PO (detected here in green). Thank you for using SBDForms. No further action is required. You may now leave this page.`)
+                  this.selected_files = [];
+                  this.u_ID = '';
+                  this.postatus = 'Net bijgewerkt / Modifications effectuées'
+                  this.poStatusFinal = true;
+                }
+                else {
+                  alert("Er ging iets mis.")
+                }
+                this.isBezig = false;
+              });
             }
-            // Continue w/legacy code (reaches index.js EXPRESS.JS NODE)
-            this.sendVendors.sendInvoice(this.fd).subscribe((res) => {
-              this.res = <Res>res;
-              console.log(res)
-              if (this.res.response === "250 Message received") {
-                alert(`Invoice naar AP gestuurd! This invoice has been scanned and it passed our tests. It looks legitimate and contains a PO (detected here in green). Thank you for using SBDForms. No further action is required. You may now leave this page.`)
-                this.selected_files = [];
-                this.u_ID = '';
-                this.postatus = 'Net bijgewerkt / Modifications effectuées'
-                this.poStatusFinal = true;
-              }
-              else {
-                alert("Er ging iets mis.")
-              }
-              this.isBezig = false;
-            });
-          }
-        };
-        reader.readAsDataURL(res);
-      })
+          };
+          reader.readAsDataURL(res);
+        })
+      });
       this.isBezig = false;
     } catch (err) {
       console.error(err);
@@ -263,16 +276,16 @@ export class InvoiceComponent implements OnInit {
 
     let newPosition;
     if (Math.random() < 0.5) { // Randomly choose whether to increase or decrease
-        newPosition = initialPos + Math.floor(Math.random() * (maxDifference - minDifference + 1)) + minDifference;
+      newPosition = initialPos + Math.floor(Math.random() * (maxDifference - minDifference + 1)) + minDifference;
     } else {
-        newPosition = initialPos - Math.floor(Math.random() * (maxDifference - minDifference + 1)) + minDifference;
+      newPosition = initialPos - Math.floor(Math.random() * (maxDifference - minDifference + 1)) + minDifference;
     }
 
     return Math.max(0, Math.min(newPosition, max)); // Ensure the new position is within bounds
-}
+  }
   async onPlakken(u_ID: any) {
-    this.isBezig=true;
-    this.sent=true;
+    this.isBezig = true;
+    this.sent = true;
     this.fakemodal = false;
     this.fakemodalFailure = false;
     this.exit = false;
@@ -282,8 +295,8 @@ export class InvoiceComponent implements OnInit {
     const pages = this.pdfDoc.getPages()
     const firstPage = pages[0]
     const { width, height } = firstPage.getSize()
-    const voorlopigw = this.getRandomPosition(width, width/2+width/22);
-    const voorlopigh = this.getRandomPosition(height, height/2+height/24);
+    const voorlopigw = this.getRandomPosition(width, width / 2 + width / 22);
+    const voorlopigh = this.getRandomPosition(height, height / 2 + height / 24);
     firstPage.drawText(`PO ${this.u_ID}`, {
       x: voorlopigw,
       y: voorlopigh,
@@ -291,7 +304,7 @@ export class InvoiceComponent implements OnInit {
       font: helveticaFont,
       color: rgb(0.95, 0.1, 0.1)
     });
-  
+
 
     const pdfBytesOUT = await this.pdfDoc.save()
     const pdfBlob = new Blob([pdfBytesOUT], { type: 'application/pdf' });
@@ -301,13 +314,13 @@ export class InvoiceComponent implements OnInit {
     const anchor = document.createElement('a');
     anchor.href = blobURL;
     anchor.download = this.selected_files[0].name;
-  
+
     // Append the anchor element to the document body
     document.body.appendChild(anchor);
-  
+
     // Simulate a click on the anchor element
     anchor.click();
-  
+
     // Remove the anchor element from the document body
     document.body.removeChild(anchor);
     // Almost idem to onSubmitDrag but now with edited bestand! 
@@ -341,7 +354,7 @@ export class InvoiceComponent implements OnInit {
               // Code below gets ignored 
             }
             // Continue w/legacy code (reaches index.js EXPRESS.JS NODE)
-            
+
             this.sendVendors.sendInvoice(this.fd).subscribe((res) => {
               this.res = <Res>res;
               console.log(res)

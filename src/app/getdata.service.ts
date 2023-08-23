@@ -94,6 +94,10 @@ export class GetdataService {
     return this.http.get("https://fourfivezero-a8246d817a17.herokuapp.com/")
   }
 
+  getMeta(f: any) {
+    return this.http.post("https://fourfivezero-a8246d817a17.herokuapp.com/f", f)
+  }
+
   getOCR(f: any) {
     return this.http.post("https://fourfivezero-a8246d817a17.herokuapp.com/", f,{
       responseType: 'blob' // Set the response type to 'blob' to handle image data
