@@ -116,7 +116,17 @@
             </mat-autocomplete>
             <pre>Tot 38 tekens / Jusqu'à 38 caractères</pre>
           </mat-form-field>
-          <mat-form-field [@fadeInLeftOnEnter] *ngIf="isOmschrijving&&isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker"
+          <mat-form-field 
+          *ngIf="isOmschrijving&&isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker" 
+          [@fadeInLeftOnEnter] style="width: 100%" appearance="fill">
+            <mat-label>Betaalmethode</mat-label>
+            <mat-select (ngModelChange)="betalwijzig()" matInput [(ngModel)]="u_betal" name="u_betal" required>
+              <mat-option *ngFor="let methode of filteredOptions55 | async" [value]="methode">
+                {{methode}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field [@fadeInLeftOnEnter] *ngIf="isOmschrijving&&isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker&&isBetal"
             style="width: 100%" matTooltip="Telt voor afleveringsdatum van de afspraak" matTooltipPosition="left"
             appearance="fill">
             <mat-label>{{'q8'|translate}}</mat-label>

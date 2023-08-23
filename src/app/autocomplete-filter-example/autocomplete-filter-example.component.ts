@@ -135,6 +135,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   isBedrag = false;
   isBedrag_2 = false;
   isOmschrijving = false;
+  isBetal = false;
   invalidOmschrijving = false;
 
   isNewVendor = false;
@@ -153,6 +154,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   myControl3_3 = new FormControl();
   myControl4 = new FormControl();
   myControl5 = new FormControl();
+  myControl55 = new FormControl();
   myControl6 = new FormControl();
   myControl8 = new FormControl();
   myControl9 = new FormControl();
@@ -168,6 +170,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   options4: string[] = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"];
   options5: string[] = ["België / Belgique", "Nederland / Pays Bas"];
+  options55: string[] = ["Uitbetaald", "Mindering (openstaande factuur)"];
   optionssplitn: string[] = ["2", "3"];
   options10: string[] = [];
 
@@ -207,6 +210,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   filteredOptions3_3!: Observable<string[]>;
   filteredOptions4!: Observable<string[]>;
   filteredOptions5!: Observable<string[]>;
+  filteredOptions55!: Observable<string[]>;
   filteredOptionsSplitN!: Observable<string[]>;
   filteredOptions10!: Observable<string[]>;
 
@@ -261,6 +265,10 @@ export class AutocompleteFilterExampleComponent implements OnInit {
       this.filteredOptions5 = this.myControl5.valueChanges.pipe(
         startWith(''),
         map(value => this._filter5(value)),
+      );
+      this.filteredOptions55 = this.myControl55.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter55(value)),
       );
       this.filteredOptionsSplitN = this.myControlsplitn.valueChanges.pipe(
         startWith(''),
@@ -523,7 +531,11 @@ export class AutocompleteFilterExampleComponent implements OnInit {
         alert('Meer dan 40 letters niet toegestaan / Plus de 40 lettres non autorisées');
         this.isOmschrijving = false;
       }
-    })
+    });
+
+    this.myControl55.valueChanges.subscribe((res) => {
+      alert(res)
+    });
   }
 
   potype() {
@@ -557,6 +569,9 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     if (this.isVerkoper) {
       this.isLand = true;
     }
+  }
+  betalwijzig(){
+    this.isBetal = true;
   }
 
   split_n() {
@@ -604,6 +619,11 @@ export class AutocompleteFilterExampleComponent implements OnInit {
 
     return this.options5.filter(option => option.toLowerCase().includes(filterValue));
   }
+  private _filter55(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options55.filter(option => option.toLowerCase().includes(filterValue));
+  }
   private _filtersplitn(value: string): string[] {
     const filterValue = value.toLowerCase();
 
@@ -617,6 +637,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
 
   u_worker = this.authService.getLocalStorageCredentials()[1]
   u_land = this.authService.getLocalStorageCredentials()[0]
+  u_betal = ''
   u_klantnaam = ''
   u_klantnr = ''
   u_bedrag = ''
@@ -640,17 +661,18 @@ export class AutocompleteFilterExampleComponent implements OnInit {
 
       // include sbu as prefix in omschrijving
       let pre = '';
-      this.u_merk=='DeWALT – LENOX – BOSTITCH'?pre='D~':this.u_merk=='STANLEY'?pre='S~':this.u_merk=='FACOM'?pre='F~':pre='error~';
+      this.u_merk == 'DeWALT – LENOX – BOSTITCH' ? pre = 'D~' : this.u_merk == 'STANLEY' ? pre = 'S~' : this.u_merk == 'FACOM' ? pre = 'F~' : pre = 'error~';
 
       this.myJSONForm = {
         timestamp: dateFormat(now, "dddd, mmmm dS, yyyy, h:MM:ss TT"),
         land: this.u_land,
+        betal: this.u_betal,
         klantnaam: this.u_klantnaam,
         klantnr: this.u_klantnr,
         bedrag: this.u_bedrag,
         bedrag_2: this.u_bedrag_2,
         bedrag_3: this.u_bedrag_3,
-        omschijving: pre+this.u_omschrijving.replace(/'/g, ''),
+        omschijving: pre + this.u_omschrijving.replace(/'/g, ''),
         merk: this.u_merk,
         merk_2: this.u_merk_2,
         merk_3: this.u_merk_3,
@@ -660,7 +682,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
         potype: this.u_potype,
         worker: this.u_worker
       };
-      
+
       await this.sendForms.sendForm(this.myJSONForm).toPromise();
       alert(`U heeft met succes een aanvraag naar de verantwoordelijke gestuurd.
       
@@ -684,6 +706,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     this.u_klantnaam = ''
     this.u_klantnr = ''
     this.u_land = ''
+    this.u_betal = ''
     this.u_merk = ''
     this.u_merk_2 = ''
     this.u_split_n = NaN
