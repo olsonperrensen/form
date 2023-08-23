@@ -152,6 +152,7 @@ async def factuurnr(file:UploadFile=File(...)):
         # Direct matches
         MULTIPLES = r"VF\d{2}-\d{6}|VF[A-Z]?\d{8}"
         CRESPIN = r"FV\d{9}"
+        DE_KINDER = r"SI\d{8}|S1\d{8}|\$I\d{8}|\$1\d{8}"
         BE_PRO_TOOLS = r"DBS-\d{9}"
         DE_DONCKER = r"VVF\d{2}/\d{6}"
         NIJHOF = r"N\d{7}"
@@ -177,7 +178,7 @@ async def factuurnr(file:UploadFile=File(...)):
                     _, img_encoded = cv2.imencode('.jpeg', resized_img)
                     img_bytes = img_encoded.tobytes()
                     unix_time = int(time.time())
-            if re.match(MULTIPLES, d['text'][i]) or re.match(CRESPIN, d['text'][i]) or re.match(BE_PRO_TOOLS, d['text'][i]) or re.match(DE_DONCKER, d['text'][i]) or re.match(NIJHOF, d['text'][i]):
+            if re.match(MULTIPLES, d['text'][i]) or re.match(CRESPIN, d['text'][i]) or re.match(DE_KINDER, d['text'][i]) or re.match(BE_PRO_TOOLS, d['text'][i]) or re.match(DE_DONCKER, d['text'][i]) or re.match(NIJHOF, d['text'][i]):
                 # FOUND DIRECT
                 print(f"found direct NR with value: {d['text'][i]}")
                 found_nr = d['text'][i]
