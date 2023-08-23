@@ -14,7 +14,6 @@ models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 ascii_pattern = re.compile(r'\A[\x00-\x7F]+\Z')
-VASTE_DPI_NIVEAU = 272
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -96,7 +95,7 @@ async def text(file:UploadFile=File(...)):
         if file_type == 'pdf':
             # If it's a PDF, convert it to an image
             doc = fitz.open(temp_file_path)  # open document
-            pix = doc[0].get_pixmap(dpi=VASTE_DPI_NIVEAU)  # render page to an image
+            pix = doc[0].get_pixmap(dpi=264)  # render page to an image
             pix.save(FILEPROVIDED+'.png')  # store image as a PNG
             image_path = FILEPROVIDED+'.png'
         else:
@@ -126,7 +125,7 @@ async def factuurnr(file:UploadFile=File(...)):
         if file_type == 'pdf':
             # If it's a PDF, convert it to an image
             doc = fitz.open(temp_file_path)  # open document
-            pix = doc[0].get_pixmap(dpi=VASTE_DPI_NIVEAU)  # render page to an image
+            pix = doc[0].get_pixmap(dpi=264)  # render page to an image
             pix.save(FILEPROVIDED+'.png')  # store image as a PNG
             image_path = FILEPROVIDED+'.png'
         else:
@@ -138,15 +137,15 @@ async def factuurnr(file:UploadFile=File(...)):
 
         d = enhance_ocr(image_path)
         # dd/mm/yy(yy)
-        d1 = r'^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(\d{2}|20\d{2})$'
+        d1 = r'^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(23|2023)$'
         # d/m/yyyy
-        d2 = r'^(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/(\d{2}|20\d{2})$'
+        d2 = r'^(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/(23|2023)$'
         # dd-mm-yy(yy)
-        d3 = r'^(0[1-9]|1\d|2\d|30|31)-(0[1234567890]|10|11|12)-((?:20)?\d{2})$'
+        d3 = r'^(0[1-9]|1\d|2\d|30|31)-(0[1234567890]|10|11|12)-((?:20)?23)$'
         # dd.mm.yy
         d4 = r"^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.([0-9]{2})$"
         # d-m-yyyy
-        d5 = r'^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[012])-20\d{2}$'
+        d5 = r'^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[012])-(23|2023)$'
         found_dates = list()
         found_nr = "manually control in .PDF"
 
@@ -246,7 +245,7 @@ async def root(file: UploadFile = File(...)):
         if file_type == 'pdf':
             # If it's a PDF, convert it to an image
             doc = fitz.open(temp_file_path)  # open document
-            pix = doc[0].get_pixmap(dpi=VASTE_DPI_NIVEAU)  # render page to an image
+            pix = doc[0].get_pixmap(dpi=264)  # render page to an image
             pix.save(FILEPROVIDED+'.png')  # store image as a PNG
             image_path = FILEPROVIDED+'.png'
         else:
