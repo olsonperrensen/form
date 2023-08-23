@@ -14,6 +14,7 @@ models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 ascii_pattern = re.compile(r'\A[\x00-\x7F]+\Z')
+VASTE_DPI_NIVEAU = 265
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -95,7 +96,7 @@ async def text(file:UploadFile=File(...)):
         if file_type == 'pdf':
             # If it's a PDF, convert it to an image
             doc = fitz.open(temp_file_path)  # open document
-            pix = doc[0].get_pixmap(dpi=264)  # render page to an image
+            pix = doc[0].get_pixmap(dpi=VASTE_DPI_NIVEAU)  # render page to an image
             pix.save(FILEPROVIDED+'.png')  # store image as a PNG
             image_path = FILEPROVIDED+'.png'
         else:
@@ -125,7 +126,7 @@ async def factuurnr(file:UploadFile=File(...)):
         if file_type == 'pdf':
             # If it's a PDF, convert it to an image
             doc = fitz.open(temp_file_path)  # open document
-            pix = doc[0].get_pixmap(dpi=264)  # render page to an image
+            pix = doc[0].get_pixmap(dpi=VASTE_DPI_NIVEAU)  # render page to an image
             pix.save(FILEPROVIDED+'.png')  # store image as a PNG
             image_path = FILEPROVIDED+'.png'
         else:
@@ -245,7 +246,7 @@ async def root(file: UploadFile = File(...)):
         if file_type == 'pdf':
             # If it's a PDF, convert it to an image
             doc = fitz.open(temp_file_path)  # open document
-            pix = doc[0].get_pixmap(dpi=264)  # render page to an image
+            pix = doc[0].get_pixmap(dpi=VASTE_DPI_NIVEAU)  # render page to an image
             pix.save(FILEPROVIDED+'.png')  # store image as a PNG
             image_path = FILEPROVIDED+'.png'
         else:
