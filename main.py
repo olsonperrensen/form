@@ -137,15 +137,15 @@ async def factuurnr(file:UploadFile=File(...)):
 
         d = enhance_ocr(image_path)
         # dd/mm/yy(yy)
-        d1 = fr'^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|[12][0-9]|3[01])/(\d{2}|20\d{2})$'
+        d1 = r'^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(\d{2}|20\d{2})$'
         # d/m/yyyy
-        d2 = fr'^(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/(\d{2}|20\d{2})$'
+        d2 = r'^(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/(\d{2}|20\d{2})$'
         # dd-mm-yyyy
-        d3 = fr'^(0[1-9]|1\d|2\d|30|31)-(0[13578]|10|12)-20\d{2}$'
+        d3 = r'^(0[1-9]|1\d|2\d|30|31)-(0[13578]|10|12)-20\d{2}$'
         # dd.mm.yy
-        d4 = fr"^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.([0-9]{2})$"
+        d4 = r"^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.([0-9]{2})$"
         # d-m-yyyy
-        d5 = fr'^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[012])-20\d{2}$'
+        d5 = r'^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[012])-20\d{2}$'
         found_dates = list()
         found_nr = 0
 
@@ -219,7 +219,7 @@ async def factuurnr(file:UploadFile=File(...)):
         sorted_dates = sorted(found_dates, key=convert_date)
         
         if len(sorted_dates)>0:
-            return [sorted_dates[0],found_nr]
+            return {"datum":sorted_dates[0],"nr":found_nr}
             # return create_invoice(invoice=models.Invoice(**{"nr": unix_time,"beg": sorted_dates[0],
             #     "vandaag":datetime.today().strftime('%d/%m/%Y')
             #     }))
