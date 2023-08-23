@@ -20,7 +20,7 @@ def get_invoice_by_nr(nr: int):
 def create_invoice(invoice: schemas.InvoiceCreate):
     db = SessionLocal()
     try:
-        db_invoice = models.Invoice(nr=invoice.nr, beg=invoice.beg, einde=invoice.einde,vandaag=invoice.vandaag)
+        db_invoice = models.Invoice(nr=invoice.nr, beg=invoice.beg,vandaag=invoice.vandaag)
         db.add(db_invoice)
         db.commit()
         db.refresh(db_invoice)

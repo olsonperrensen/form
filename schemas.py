@@ -5,7 +5,6 @@ from pydantic import BaseModel
 class InvoiceBase(BaseModel):
     nr: int
     beg: str
-    einde: str
     vandaag: str
 
 class InvoiceCreate(InvoiceBase):

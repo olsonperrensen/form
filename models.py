@@ -9,5 +9,4 @@ class Invoice(Base):
 
     nr = Column(Integer, primary_key=True)
     beg = Column(String(20))
-    einde = Column(String(20))
     vandaag = Column(String(20))
