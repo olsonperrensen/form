@@ -148,6 +148,7 @@ async def factuurnr(file:UploadFile=File(...)):
         NIJHOF = r"N\d{7}"
         # Indirect matches
         LECOT = r"V2$"
+        GENERIC = r"(?i)factuu(?:rn)?(?:\s*(?:nummer|nr))?$|(?i)facture$"
 
         n_boxes = len(d['text'])
 
@@ -177,7 +178,7 @@ async def factuurnr(file:UploadFile=File(...)):
                 resized_img = cv2.resize(fximg, (0, 0), fx=0.5, fy=0.5)
                 _, img_encoded = cv2.imencode('.jpeg', resized_img)
                 img_bytes = img_encoded.tobytes()
-            if re.match(LECOT, d['text'][i]):
+            elif re.match(LECOT, d['text'][i]) or re.match(GENERIC,d['text'][i]):
                 # FOUND indirect
                 print(f"found indirect NR with value: {d['text'][i+1]}")
                 found_nr = d['text'][i+1]
