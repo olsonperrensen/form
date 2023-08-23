@@ -10,3 +10,4 @@ async-generator
 sqlalchemy
 psycopg2
 python-dotenv
+requests
