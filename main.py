@@ -56,21 +56,21 @@ def enhance_ocr(image_path):
     bilateral = cv2.bilateralFilter(denoised, 9, 75, 75)
  
     # Global thresholding
-    _, global_thresh = cv2.threshold(bilateral, 128, 255, cv2.THRESH_BINARY)
+    # _, global_thresh = cv2.threshold(bilateral, 128, 255, cv2.THRESH_BINARY)
  
     # Adaptive thresholding
-    adaptive_thresh = cv2.adaptiveThreshold(bilateral, 255, 
-                                            cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
-                                            cv2.THRESH_BINARY, 11, 2)
+    # adaptive_thresh = cv2.adaptiveThreshold(bilateral, 255, 
+                                            # cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
+                                            # cv2.THRESH_BINARY, 11, 2)
  
     # Combine global and adaptive thresholding
-    combined_thresh = cv2.bitwise_and(global_thresh, adaptive_thresh)
+    # combined_thresh = cv2.bitwise_and(global_thresh, adaptive_thresh)
  
     # Scaling
-    scaled = cv2.resize(combined_thresh, None, fx=1.5, fy=1.5, interpolation=cv2.INTER_CUBIC)
+    # scaled = cv2.resize(combined_thresh, None, fx=1.5, fy=1.5, interpolation=cv2.INTER_CUBIC)
  
     # Perform OCR on the preprocessed image
-    data = pytesseract.image_to_data(scaled, output_type=pytesseract.Output.DICT)
+    data = pytesseract.image_to_data(bilateral, output_type=pytesseract.Output.DICT)
  
     return data
 
