@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pytesseract import Output
-import cv2,fitz,pytesseract,re,time
+import cv2,fitz,pytesseract,re,time,numpy as np
 import crud, models, schemas,requests
 from database import SessionLocal, engine
 from sqlalchemy.orm import Session
@@ -42,8 +42,40 @@ def convert_date(date):
     else:  # If not a string (single value), assume it's already in the correct format and return as is
         return (date,)  
 
-@app.post("/check")
-async def read_chars(file:UploadFile=File(...)):
+def enhance_ocr(image_path):
+    # Load the image using OpenCV
+    img = cv2.imread(image_path)
+ 
+    # Convert to grayscale
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+ 
+    # Denoising
+    denoised = cv2.fastNlMeansDenoising(gray, None, h=30)
+ 
+    # Bilateral filtering
+    bilateral = cv2.bilateralFilter(denoised, 9, 75, 75)
+ 
+    # Global thresholding
+    _, global_thresh = cv2.threshold(bilateral, 128, 255, cv2.THRESH_BINARY)
+ 
+    # Adaptive thresholding
+    adaptive_thresh = cv2.adaptiveThreshold(bilateral, 255, 
+                                            cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
+                                            cv2.THRESH_BINARY, 11, 2)
+ 
+    # Combine global and adaptive thresholding
+    combined_thresh = cv2.bitwise_and(global_thresh, adaptive_thresh)
+ 
+    # Scaling
+    scaled = cv2.resize(combined_thresh, None, fx=1.5, fy=1.5, interpolation=cv2.INTER_CUBIC)
+ 
+    # Perform OCR on the preprocessed image
+    data = pytesseract.image_to_data(scaled, output_type=pytesseract.Output.DICT)
+ 
+    return data
+
+@app.post("/raw")
+async def raw(file:UploadFile=File(...)):
     try:
         FILEPROVIDED = f"./static/{file.filename}"
         temp_file_path = FILEPROVIDED
@@ -64,9 +96,38 @@ async def read_chars(file:UploadFile=File(...)):
             # If it's an image, use it as is
             image_path = temp_file_path
 
+        d = enhance_ocr(image_path)
+        return d['text']
+    except Exception as e:
+     return {"error": str(e)}
+
+@app.post("/o")
+async def read_date_and_factuurnummer(file:UploadFile=File(...)):
+    try:
+        FILEPROVIDED = f"./static/{file.filename}"
+        temp_file_path = FILEPROVIDED
+
+        # Save the file
+        with open(temp_file_path, "wb") as temp_file:
+            temp_file.write(await file.read())
+
+        file_type = file.filename.split('.')[-1].lower()
+
+        if file_type == 'pdf':
+            # If it's a PDF, convert it to an image
+            doc = fitz.open(temp_file_path)  # open document
+            pix = doc[0].get_pixmap(dpi=264)  # render page to an image
+            pix.save(FILEPROVIDED+'.png')  # store image as a PNG
+            image_path = FILEPROVIDED+'.png'
+        else:
+            # If it's an image, use it as is
+            image_path = temp_file_path
+
+        # Leave this just for legacy code to work...
         rawimg = cv2.imread(image_path)
 
-        d = pytesseract.image_to_data(rawimg, output_type=Output.DICT)
+        d = enhance_ocr(image_path)
+
         # dd/mm/yy
         d1 = r'^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/(\d{2})$'
         # d/m/yyyy
@@ -78,6 +139,15 @@ async def read_chars(file:UploadFile=File(...)):
         # d-m-yyyy
         d5 = r'^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[012])-20\d{2}$'
         found_dates = list()
+        found_nr = 0
+
+        # Direct matches
+        SANTENS = r"VF\d{8}"
+        CRESPIN = r"FV\d{9}"
+        DE_DONCKER = r"VVF\d{2}/\d{6}"
+        ASAMCO = r"VFA\d{8}"
+        # Indirect matches
+        LECOT = r"V2$"
 
         n_boxes = len(d['text'])
 
@@ -96,6 +166,29 @@ async def read_chars(file:UploadFile=File(...)):
                     _, img_encoded = cv2.imencode('.jpeg', resized_img)
                     img_bytes = img_encoded.tobytes()
                     unix_time = int(time.time())
+            if re.match(SANTENS, d['text'][i]) or re.match(CRESPIN, d['text'][i]) or re.match(DE_DONCKER, d['text'][i])  or re.match(ASAMCO, d['text'][i]):
+                # FOUND DIRECT
+                print(f"found direct NR with value: {d['text'][i]}")
+                found_nr = d['text'][i]
+                (x, y, w, h) = (d['left'][i], d['top']
+                                [i], d['width'][i], d['height'][i])
+                fximg = cv2.rectangle(
+                    rawimg, (x-12, y-12), (x + w+12, y + h+12), (0, 255, 0), 3)
+                resized_img = cv2.resize(fximg, (0, 0), fx=0.5, fy=0.5)
+                _, img_encoded = cv2.imencode('.jpeg', resized_img)
+                img_bytes = img_encoded.tobytes()
+            if re.match(LECOT, d['text'][i]):
+                # FOUND indirect
+                print(f"found indirect NR with value: {d['text'][i+1]}")
+                found_nr = d['text'][i+1]
+                (x, y, w, h) = (d['left'][i+1], d['top']
+                                [i+1], d['width'][i+1], d['height'][i+1])
+                fximg = cv2.rectangle(
+                    rawimg, (x-12, y-12), (x + w+12, y + h+12), (0, 255, 0), 3)
+                resized_img = cv2.resize(fximg, (0, 0), fx=0.5, fy=0.5)
+                _, img_encoded = cv2.imencode('.jpeg', resized_img)
+                img_bytes = img_encoded.tobytes()
+                    
         
         with open(f"static/{unix_time}ocr.jpeg", "wb") as f:
             f.write(img_bytes)
@@ -103,9 +196,10 @@ async def read_chars(file:UploadFile=File(...)):
         sorted_dates = sorted(found_dates, key=convert_date)
         
         if len(sorted_dates)>0:
-            return create_invoice(invoice=models.Invoice(**{"nr": unix_time,"beg": sorted_dates[0],
-                "vandaag":datetime.today().strftime('%d/%m/%Y')
-                }))
+            return [sorted_dates[0],found_nr]
+            # return create_invoice(invoice=models.Invoice(**{"nr": unix_time,"beg": sorted_dates[0],
+            #     "vandaag":datetime.today().strftime('%d/%m/%Y')
+            #     }))
 
     except Exception as e:
      return {"error": str(e)}
@@ -161,8 +255,8 @@ async def read_root(file: UploadFile = File(...)):
         return {"error": str(e)}
 
 
-@app.get("/i", response_model=list[schemas.Invoice])
-def read_iocr():
+@app.get("/all", response_model=list[schemas.Invoice])
+def all_invoices():
     invoices = crud.get_invoices()
     return invoices
 
