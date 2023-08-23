@@ -400,6 +400,7 @@ app.post('/sendmail', (req, res) => {
       STATUS,
       GR,
       INVOICE,
+      HOEBETAALD,
       MANAGER) VALUES(
         '${req.body.worker}',
         '${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}',
@@ -417,6 +418,7 @@ app.post('/sendmail', (req, res) => {
         '${'Pending'}',
         '${'Pending'}',
         '${'Pending'}',
+        '${req.body.betal}',
         '${dbSalesManager}')
         RETURNING id;`,
     (err, res) => {
@@ -796,9 +798,11 @@ app.post('/invoice', upload.single('file'), authenticateToken, async (req, res) 
   let overall_limit = '';
   let PO = '';
   let salesrep = '';
+  let betal = '';
+  let pmt = '';
 
   try {
-    const selectQuery = `SELECT requested_by, company, overall_limit, overall_limit_2, overall_limit_3, 
+    const selectQuery = `SELECT requested_by, company, overall_limit, overall_limit_2, overall_limit_3,HOEBETAALD, 
       status FROM po WHERE status = '${req.body.u_ID}'`;
 
     const result = await client.query(selectQuery);
@@ -816,6 +820,16 @@ app.post('/invoice', upload.single('file'), authenticateToken, async (req, res) 
     overall_limit = parseFloat(result.rows[0].overall_limit_3) + parseFloat(result.rows[0].overall_limit_2) + parseFloat(result.rows[0].overall_limit);
     ref = result.rows[0].id;
     PO = result.rows[0].status;
+    betal = result.rows[0].hoebetaald
+    if(betal=='Uitbetaald'){
+      pmt = "Invoice should be paid out to the vendor"
+    }
+    else if(betal=="Mindering (openstaande factuur)"){
+      pmt = "The vendor will offset the invoice from opened-invoice"
+    }
+    else{
+      pmt = "Unspecified. Consult."
+    }
 
     const updateQuery = `UPDATE po SET invoice = '${req.body.u_fnr} Sent to AP at 
       ${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}' WHERE status = '${req.body.u_ID}'`;
@@ -851,6 +865,7 @@ app.post('/invoice', upload.single('file'), authenticateToken, async (req, res) 
           <li>Overall Limit: ${overall_limit}</li>
           <li>Invoice number: ${req.body.u_fnr}</li>
           <li>Invoice date: ${req.body.u_fdatum}</li>
+          <li>Payment method: ${pmt}</li>
         </ul>
         <br><br><br>
         Kind Regards.
