@@ -791,11 +791,6 @@ app.post('/reset', async (req, res) => {
 //     })
 // })
 
-// TODO: INSERT HISTOGRAM W/MOST COMMON WORDS
-
-// UPDATE histogram
-// SET frequency = histogram.frequency + 1
-// WHERE word = ;
 app.post('/invoice', upload.single('file'), authenticateToken, async (req, res) => {
   let company = '';
   let overall_limit = '';
@@ -822,7 +817,7 @@ app.post('/invoice', upload.single('file'), authenticateToken, async (req, res) 
     ref = result.rows[0].id;
     PO = result.rows[0].status;
 
-    const updateQuery = `UPDATE po SET invoice = 'Sent to AP at 
+    const updateQuery = `UPDATE po SET invoice = '${req.body.u_fnr} Sent to AP at 
       ${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}' WHERE status = '${req.body.u_ID}'`;
 
     await client.query(updateQuery);
@@ -854,6 +849,8 @@ app.post('/invoice', upload.single('file'), authenticateToken, async (req, res) 
           <li>PO: ${PO}</li>
           <li>Client: ${company}</li>
           <li>Overall Limit: ${overall_limit}</li>
+          <li>Invoice number: ${req.body.u_fnr}</li>
+          <li>Invoice date: ${req.body.u_fdatum}</li>
         </ul>
         <br><br><br>
         Kind Regards.
