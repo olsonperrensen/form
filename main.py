@@ -140,17 +140,17 @@ async def factuurnr(file:UploadFile=File(...)):
         d1 = r'^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(\d{2}|20\d{2})$'
         # d/m/yyyy
         d2 = r'^(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/(\d{2}|20\d{2})$'
-        # dd-mm-yyyy
-        d3 = r'^(0[1-9]|1\d|2\d|30|31)-(0[13578]|10|12)-20\d{2}$'
+        # dd-mm-yy(yy)
+        d3 = r'^(0[1-9]|1\d|2\d|30|31)-(0[1234567890]|10|11|12)-((?:20)?\d{2})$'
         # dd.mm.yy
         d4 = r"^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.([0-9]{2})$"
         # d-m-yyyy
         d5 = r'^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[012])-20\d{2}$'
         found_dates = list()
-        found_nr = 0
+        found_nr = "manually control in .PDF"
 
         # Direct matches
-        MULTIPLES = r"VF\d{2}-\d{6}|VF[A-Z]?\d{8}"
+        MULTIPLES = r"VF\d{2}-\d{6}|VF[A-Z]?\d{8}|VF\d{4}-\d{4}"
         CRESPIN = r"FV\d{9}"
         DE_KINDER = r"SI\d{8}|S1\d{8}|\$I\d{8}|\$1\d{8}"
         BE_PRO_TOOLS = r"DBS-\d{9}"
@@ -158,7 +158,7 @@ async def factuurnr(file:UploadFile=File(...)):
         NIJHOF = r"N\d{7}"
         # Indirect matches
         LECOT = r"V2$"
-        GENERIC = r"(?i)factuur(?:nummer|nr)?|facture$|DEBETNOTA$|n°$"
+        GENERIC = r"(?i)factuur(?:nummer|nr)?|facture$|DEBETNOTA$|.*n°.*|nr\.$"
         OUTLIERS = r".*:$"
 
         n_boxes = len(d['text'])
