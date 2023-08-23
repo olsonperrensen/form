@@ -13,6 +13,8 @@ from datetime import datetime
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
+ascii_pattern = re.compile(r'\A[\x00-\x7F]+\Z')
+
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Configure CORS
@@ -79,6 +81,9 @@ def enhance_ocr(image_path):
 async def text(file:UploadFile=File(...)):
     try:
         FILEPROVIDED = f"./static/{file.filename}"
+        # REJECT UNICODE
+        if not ascii_pattern.match(FILEPROVIDED):
+            raise ValueError("Filename contains non-ASCII characters.")
         temp_file_path = FILEPROVIDED
 
         # Save the file
@@ -106,6 +111,9 @@ async def text(file:UploadFile=File(...)):
 async def factuurnr(file:UploadFile=File(...)):
     try:
         FILEPROVIDED = f"./static/{file.filename}"
+        # REJECT UNICODE
+        if not ascii_pattern.match(FILEPROVIDED):
+            raise ValueError("Filename contains non-ASCII characters.")
         temp_file_path = FILEPROVIDED
 
         # Save the file
@@ -210,6 +218,9 @@ async def factuurnr(file:UploadFile=File(...)):
 async def root(file: UploadFile = File(...)):
     try:
         FILEPROVIDED = f"./static/{file.filename}"
+        # REJECT UNICODE
+        if not ascii_pattern.match(FILEPROVIDED):
+            raise ValueError("Filename contains non-ASCII characters.")
         temp_file_path = FILEPROVIDED
 
         # Save the file
