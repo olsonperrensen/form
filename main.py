@@ -14,7 +14,7 @@ models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 ascii_pattern = re.compile(r'\A[\x00-\x7F]+\Z')
-VASTE_DPI_NIVEAU = 265
+VASTE_DPI_NIVEAU = 272
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
