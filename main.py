@@ -150,7 +150,7 @@ async def factuurnr(file:UploadFile=File(...)):
         found_nr = "manually control in .PDF"
 
         # Direct matches
-        MULTIPLES = r"VF\d{2}-\d{6}|VF[A-Z]?\d{8}|VF\d{4}-\d{4}"
+        MULTIPLES = r"VF\d{2}-\d{6}|VF[A-Z]?\d{8}|VF\d{4}-\d{4}|(VAF.\d{2}.\d{5})"
         CRESPIN = r"FV\d{9}"
         DE_KINDER = r"SI\d{8}|S1\d{8}|\$I\d{8}|\$1\d{8}"
         BE_PRO_TOOLS = r"DBS-\d{9}"
