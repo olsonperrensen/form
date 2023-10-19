@@ -295,12 +295,12 @@ export class InvoiceComponent implements OnInit {
     const pages = this.pdfDoc.getPages()
     const firstPage = pages[0]
     const { width, height } = firstPage.getSize()
-    const voorlopigw = this.getRandomPosition(width, width / 2 + width / 22);
+    const voorlopigw = this.getRandomPosition(width, width / 2.4 + width / 22);
     const voorlopigh = this.getRandomPosition(height, height / 2 + height / 24);
     firstPage.drawText(`PO ${this.u_ID}`, {
       x: voorlopigw,
       y: voorlopigh,
-      size: 33,
+      size: 18,
       font: helveticaFont,
       color: rgb(0.95, 0.1, 0.1)
     });
