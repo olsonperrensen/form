@@ -3,3 +3,80 @@ node_modules/
 .idea/
 dist/
 .env
+# Angular Build Output
+/dist/
+
+# .NET Build Output
+/bin/
+/obj/
+
+# Visual Studio files
+.vscode/
+*.sln
+*.suo
+*.user
+*.userprefs
+*.usertasks
+*.vspscc
+*_i.c
+*_p.c
+*.pidb
+*.log
+*.tlog
+*.cache
+*.ilk
+*.tlog
+*.lib
+*.sbr
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.opendb
+*.sln.docstates
+
+# Gitignore files
+.gitignore
+
+# Node.js dependencies
+/node_modules/
+
+# Compiled TypeScript files
+*.js
+*.js.map
+
+# Package lock file
+package-lock.json
+
+# IDE-specific files
+/.idea
+/.vs
+
+# Angular CLI configuration
+/angular.json
+
+# Environment configuration
+/src/environments/environment.ts
+/src/environments/environment.prod.ts
+
+# Angular serve configuration
+/angular-cli.json
+/angular-cli-build.js
+/ng_config.json
+
+# Angular E2E tests
+/e2e/protractor.conf.js
+/e2e/tsconfig.json
+
+# Angular testing
+/karma.conf.js
+/tsconfig.spec.json
+
+# Angular coverage reports
+/coverage/
+
+# System Files
+.DS_Store
+Thumbs.db
+
+
+/uploads
