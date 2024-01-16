@@ -554,9 +554,13 @@ app.post('/po', authenticateToken, async (req, res) => {
 });
 
 app.post('/filterpo', authenticateToken, async (req, res) => {
+    console.log(`filter req came in with body: ${req.body}`)
     try {
         let requestedBy = req.body.requested_by === 'MARTIN VAN' ? '%' : req.body.requested_by;
         let jaar = req.body.year;
+        let biz = req.body.biz;
+
+        console.log(`Got the following information: ${requestedBy}, filtering year: ${jaar}, biz: ${biz}`);
 
         const queryText = `select * from PO
          WHERE (REQUESTED_BY LIKE '${requestedBy}' or manager LIKE '${requestedBy}')
