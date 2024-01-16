@@ -558,7 +558,10 @@ app.post('/filterpo', authenticateToken, async (req, res) => {
         let requestedBy = req.body.requested_by === 'MARTIN VAN' ? '%' : req.body.requested_by;
         let jaar = req.body.year;
 
-        const queryText = `select * from PO;`;
+        const queryText = `select * from PO
+         WHERE (REQUESTED_BY LIKE '${requestedBy}' or manager LIKE '${requestedBy}')
+         AND EXTRACT(YEAR FROM TO_TIMESTAMP(datum, 'YYYY/MM/DD HH24:MI:SS')) = '${jaar}'
+order by id desc;`;
         const result = await query(queryText);
 
         const po = [];
