@@ -560,7 +560,7 @@ app.post('/filterpo', authenticateToken, async (req, res) => {
         let jaar = req.body.jaar;
         let biz = req.body.biz;
 
-        console.log(`Got the following information: ${requestedBy}, filtering year: ${jaar}, biz: ${biz}`);
+        console.log(`Got the following information: ${requestedBy}, filtering year: ${jaar}, biz: ${biz} (${biz.len} chars long)`);
 
         const queryText = `select * from PO
          WHERE (REQUESTED_BY LIKE '${requestedBy}' or manager LIKE '${requestedBy}')
