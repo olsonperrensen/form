@@ -31,6 +31,7 @@ import { LogComponent } from './log/log.component';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { AuthInterceptor } from './auth.interceptor';
 import { ChangelogComponent } from './changelog/changelog.component';
+import { FilterpoComponent } from './history/filterpo/filterpo.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -54,7 +55,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ResetComponent,
     ProfileComponent,
     LogComponent,
-    ChangelogComponent
+    ChangelogComponent,
+    FilterpoComponent
   ],
   imports: [
     BrowserModule,

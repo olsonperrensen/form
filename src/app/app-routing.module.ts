@@ -17,6 +17,7 @@ import { ResetComponent } from './reset/reset.component';
 import { ProfileComponent } from './profile/profile.component';
 import { LogComponent } from './log/log.component';
 import { ChangelogComponent } from './changelog/changelog.component';
+import { FilterpoComponent } from './history/filterpo/filterpo.component';
 
 const routes: Routes = [
   { path: '', component: PublicComponent },
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'history', component: HistoryComponent, canActivate: [AuthGuardService] },
   { path: 'active', component: ActiveComponent, canActivate: [AuthGuardService] },
   { path: 'archive', component: ArchiveComponent, canActivate: [AuthGuardService] },
+  { path: 'filterpo', component: FilterpoComponent, canActivate: [AuthGuardService] },
   { path: 'vendor-history', component: VendorHistoryComponent, canActivate: [AuthGuardService] },
   { path: 'invoice', component: InvoiceComponent, canActivate: [AuthGuardService] },
   { path: 'reset', component: ResetComponent },
