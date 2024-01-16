@@ -8,3 +8,10 @@
     padding: 10px;
     margin: 20% 10px;
   }
+.logout-button {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  border-radius: 50%;
+  z-index: 100;
+}
