@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from 'src/app/auth.service';
 import { GetdataService } from '../../getdata.service';
+import { Location } from '@angular/common';
 
 export interface UserData {
   id: string;
@@ -50,7 +51,7 @@ export class ActiveComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private getData: GetdataService, private authService: AuthService) { }
+  constructor(private getData: GetdataService, private authService: AuthService, private location: Location) { }
 
   users!: any;
   isArchive = false;
@@ -100,5 +101,9 @@ export class ActiveComponent implements OnInit, AfterViewInit {
     else if (res == "200") {
       alert("You have successfully edited the payment status of this PO.");
     }
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }

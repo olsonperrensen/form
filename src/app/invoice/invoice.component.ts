@@ -14,6 +14,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import { Location } from '@angular/common';
 
 const CCEMAILS = new Map<string, any>();
 
@@ -111,7 +112,7 @@ export class InvoiceComponent implements OnInit {
   constructor(private http: HttpClient, private getData: GetdataService,
     private sendForms: SendFormsService,
     private router: Router, private sendVendors: SendVendorsService,
-    private authService: AuthService, private sanitizer: DomSanitizer, private modalService: NgbModal) { }
+    private authService: AuthService, private sanitizer: DomSanitizer, private modalService: NgbModal, private location: Location) { }
 
   ngOnInit(): void {
     // CALL MOTHERSHIP FASTAPI
@@ -391,5 +392,8 @@ export class InvoiceComponent implements OnInit {
     this.isBezig = true;
     // TODO
     alert("UNDER MAINTAINANCE! Come back later...")
+  }
+  goBack(): void {
+    this.location.back();
   }
 }

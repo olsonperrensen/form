@@ -3,6 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from 'src/app/auth.service';
+import { Location } from '@angular/common';
 import { GetdataService } from '../../getdata.service';
 
 export interface UserData {
@@ -50,7 +51,8 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private getData: GetdataService, private authService: AuthService) { }
+  constructor(private getData: GetdataService, private authService: AuthService,
+    private location: Location) { }
 
   users!: any;
   isArchive = false;
@@ -86,5 +88,8 @@ export class ArchiveComponent implements OnInit, AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+  goBack(): void {
+    this.location.back();
   }
 }

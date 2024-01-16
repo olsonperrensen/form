@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
+import { Location } from '@angular/common';
 
 export interface UserData {
   id: string;
@@ -71,7 +72,7 @@ export class FilterpoComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private getData: GetdataService, private authService: AuthService, private _formBuilder: FormBuilder) { }
+  constructor(private getData: GetdataService, private location: Location,private authService: AuthService, private _formBuilder: FormBuilder) { }
 
   users!: any;
   isArchive = false;
@@ -115,5 +116,8 @@ export class FilterpoComponent implements OnInit, AfterViewInit {
   anotherSearch() {
     this.stepper.reset();
     this.filteringComplete = false;
+  }
+  goBack(): void {
+    this.location.back();
   }
 }

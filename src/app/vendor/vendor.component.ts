@@ -5,6 +5,7 @@ import * as a from 'angular-animations';
 import { AuthService } from '../auth.service';
 import { SendVendorsService } from '../send-vendors.service';
 import { Res } from './res';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-vendor',
@@ -34,7 +35,8 @@ export class VendorComponent implements OnInit {
   isBezig = false;
   
 
-  constructor(private router: Router, private sendVendors: SendVendorsService, private authService: AuthService) { }
+  constructor(private router: Router, private sendVendors: SendVendorsService,
+    private location: Location,private authService: AuthService) { }
 
   ngOnInit(): void {
     this.v_worker = this.authService.getCredentials().naam
@@ -123,5 +125,8 @@ export class VendorComponent implements OnInit {
   onFileSelected(event: any) {
     this.isFormValidWithFile = true;
     this.selected_file = <File>event.target.files[0]
+  }
+  goBack(): void {
+    this.location.back();
   }
 }

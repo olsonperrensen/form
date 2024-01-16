@@ -10,6 +10,7 @@ import { AuthService } from '../auth.service';
 import { GetdataService } from '../getdata.service';
 import { IpServiceService } from '../ip-service.service';
 import { SendFormsService } from '../send-forms.service';
+import { Location } from '@angular/common';
 
 const CCEMAILS = new Map<string, any>();
 
@@ -218,7 +219,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
 
   constructor(private sendForms: SendFormsService, private ip: IpServiceService,
     private getData: GetdataService, private router: Router,
-    private authService: AuthService, private modalService: NgbModal) { }
+    private authService: AuthService, private modalService: NgbModal, private location: Location) { }
 
   ngOnInit() {
     this.getData.getClients().subscribe((res: any) => {
@@ -735,5 +736,8 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     this.ip.getIPAddress().subscribe((res: any) => {
       this.ipAddress = res;
     });
+  }
+  goBack(): void {
+    this.location.back();
   }
 }

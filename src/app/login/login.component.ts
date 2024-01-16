@@ -4,6 +4,7 @@ import * as CryptoJS from 'crypto-js';
 import * as a from 'angular-animations';
 import { Route, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit {
   isLoggedIn: boolean = false;
   isInvalid = false;
 
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(private router: Router, private authService: AuthService, private location: Location) { }
 
   ngOnInit(): void {
   }
@@ -56,5 +57,7 @@ export class LoginComponent implements OnInit {
   onLogout() {
     this.authService.logout()
   }
-
+  goBack(): void {
+    this.location.back();
+  }
 }

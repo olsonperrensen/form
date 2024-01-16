@@ -9,3 +9,10 @@
   th {
     width: 1%;
   }
+.terug-button {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  border-radius: 50%;
+  z-index: 100;
+}

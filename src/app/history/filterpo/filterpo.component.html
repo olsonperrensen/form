@@ -32,7 +32,7 @@
       <p>Your results are available.</p>
       <div>
         <button *ngIf="!filteringComplete" mat-button (click)="f()">Show</button>
-        <button mat-button (click)="anotherSearch()">Another search</button>
+        <button  mat-button (click)="anotherSearch()">Another search</button>
       </div>
     </mat-step>
   </mat-stepper>
@@ -149,3 +149,6 @@
     </div>
   </div>
 </div>
+<button mat-fab color="accent" class="terug-button" (click)="goBack()">
+  <mat-icon>arrow_back</mat-icon>
+</button>

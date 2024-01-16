@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { GetdataService } from '../../getdata.service';
-
+import { Location } from '@angular/common';
 export interface UserData {
   id: string;
   external_id: string;
@@ -41,7 +41,7 @@ export class VendorHistoryComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private getData: GetdataService) { }
+  constructor(private getData: GetdataService, private location: Location) { }
 
   users!: any;
   isArchive = false;
@@ -73,5 +73,8 @@ export class VendorHistoryComponent implements OnInit, AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+  goBack(): void {
+    this.location.back();
   }
 }

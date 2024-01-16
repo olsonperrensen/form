@@ -5,6 +5,14 @@
   background: #ffe0c8;
 }
 
+.terug-button {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  border-radius: 50%;
+  z-index: 100;
+}
+
 .example-form {
   min-width: 150px;
   max-width: 500px;
