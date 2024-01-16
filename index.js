@@ -558,7 +558,7 @@ app.post('/filterpo', authenticateToken, async (req, res) => {
     try {
         let requestedBy = req.body.requested_by === 'MARTIN VAN' ? '%' : req.body.requested_by;
         let jaar = req.body.jaar;
-        let biz = req.body.biz;
+        let biz = req.body.biz ?? '';
 
         console.log(`Got the following information: ${requestedBy}, filtering year: ${jaar}, biz: ${biz} (${biz.len} chars long)`);
 
