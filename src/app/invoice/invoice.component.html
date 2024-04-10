@@ -47,24 +47,24 @@
             </mat-form-field>
             <div *ngIf="isID">
               <mat-chip-listbox class="example-chip" cdkDropList cdkDropListOrientation="horizontal">
-                <mat-chip class="example-box" cdkDrag>
+                <mat-chip-option color="accent" selected class="example-box" cdkDrag>
                   {{selectedPO.requested_by}}
-                </mat-chip>
-                <mat-chip class="example-box" cdkDrag>
+                </mat-chip-option>
+                <mat-chip-option color="accent" selected class="example-box" cdkDrag>
                   {{selectedPO.datum}}
-                </mat-chip>
-                <mat-chip class="example-box short-txt" cdkDrag>
+                </mat-chip-option>
+                <mat-chip-option color="accent" selected class="example-box short-txt" cdkDrag>
                   {{selectedPO.company}}
-                </mat-chip>
-                <mat-chip class="example-box" cdkDrag>
+                </mat-chip-option>
+                <mat-chip-option color="accent" selected class="example-box" cdkDrag>
                   {{selectedPO.short_text}}
-                </mat-chip>
-                <mat-chip class="example-box" cdkDrag>
+                </mat-chip-option>
+                <mat-chip-option color="accent" selected class="example-box" cdkDrag>
                   €{{selectedPO.overall_limit}}
-                </mat-chip>
-                <mat-chip class="example-box" cdkDrag>
+                </mat-chip-option>
+                <mat-chip-option color="accent" selected class="example-box" cdkDrag>
                   {{selectedPO.sbu}}
-                </mat-chip>
+                </mat-chip-option>
                 <hr>
                 <div *ngIf="selectedPO.invoice!=='Pending'">
                   <svg style="width:32px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
