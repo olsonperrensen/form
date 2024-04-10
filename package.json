@@ -24,7 +24,7 @@
     "@auth0/angular-jwt": "^5.1.2",
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "@ng-bootstrap/ng-bootstrap": "^14.2.0",
+    "@ng-bootstrap/ng-bootstrap": "^15.1.2",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
     "@popperjs/core": "^2.11.8",
