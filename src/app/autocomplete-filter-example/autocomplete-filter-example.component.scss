@@ -143,6 +143,11 @@ form {
   animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
 }
 
+mat-option {
+  padding: 16px 16px !important;
+  font-size: 12px !important;
+}
+
 .checkmark__check {
   transform-origin: 50% 50%;
   stroke-dasharray: 48;
