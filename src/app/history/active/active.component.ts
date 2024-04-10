@@ -1,10 +1,12 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
 import { AuthService } from 'src/app/auth.service';
 import { GetdataService } from '../../getdata.service';
 import { Location } from '@angular/common';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 export interface UserData {
   id: string;
@@ -29,7 +31,8 @@ export interface UserData {
 @Component({
   selector: 'app-active',
   templateUrl: './active.component.html',
-  styleUrls: ['./active.component.css']
+  styleUrls: ['./active.component.css'],
+
 })
 export class ActiveComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['id',
@@ -46,7 +49,8 @@ export class ActiveComponent implements OnInit, AfterViewInit {
     'gr',
     'invoice',
     'betaald'];
-  // dataSource!: MatTableDataSource<UserData>;
+  dataSource = new MatTableDataSource();
+
 
   // @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -61,18 +65,18 @@ export class ActiveComponent implements OnInit, AfterViewInit {
 
 
 
-    // // FETCH FROM DB
-    // this.getData.getPO(this.u_worker.toUpperCase()).subscribe((res) => {
-    //   this.users = res;
-    //   // Assign the data to the data source for the table to render
-    //   this.dataSource = new MatTableDataSource(this.users);
-    //   this.dataSource.data.forEach((po: any) => {
-    //     po.overall_limit = (parseFloat(po.overall_limit) + parseFloat(po.overall_limit_2) + parseFloat(po.overall_limit_3)).toString()
-    //   });
-    //   this.dataSource.paginator = this.paginator;
-    //   this.dataSource.sort = this.sort;
-    // })
-    // document.body.style.backgroundImage = "url('./assets/blur.png')"
+    // FETCH FROM DB
+    this.getData.getPO(this.u_worker.toUpperCase()).subscribe((res) => {
+      this.users = res;
+      // Assign the data to the data source for the table to render
+      this.dataSource = new MatTableDataSource(this.users);
+      this.dataSource.data.forEach((po: any) => {
+        po.overall_limit = (parseFloat(po.overall_limit) + parseFloat(po.overall_limit_2) + parseFloat(po.overall_limit_3)).toString()
+      });
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    })
+    document.body.style.backgroundImage = "url('./assets/blur.png')"
   }
 
   ngAfterViewInit() {
