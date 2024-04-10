@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import * as CryptoJS from 'crypto-js';
-import * as a from 'angular-animations';
+
 import { Route, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { Location } from '@angular/common';
@@ -10,12 +10,7 @@ import { Location } from '@angular/common';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  animations: [
-    a.bounceInLeftOnEnterAnimation(),
-    a.bounceInRightOnEnterAnimation(),
-    a.fadeInOnEnterAnimation(),
-    a.flipOnEnterAnimation(),
-  ]
+
 })
 export class LoginComponent implements OnInit {
 

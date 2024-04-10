@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import * as a from 'angular-animations'
 import { AuthService } from '../auth.service';
 import { GetdataService } from '../getdata.service';
 import { Location } from '@angular/common';
@@ -8,9 +7,6 @@ import { Location } from '@angular/common';
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.css'],
-  animations: [
-    a.fadeInLeftBigOnEnterAnimation()
-  ]
 })
 export class HomepageComponent implements OnInit {
 

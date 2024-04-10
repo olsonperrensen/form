@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import * as CryptoJS from 'crypto-js';
-import * as a from 'angular-animations';
+
 import { Route, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { GetdataService } from '../getdata.service';
@@ -14,12 +14,7 @@ const STATUSTWO = "CHECK EMAIL";
   selector: 'app-public',
   templateUrl: './public.component.html',
   styleUrls: ['./public.component.css'],
-  animations: [
-    a.bounceInLeftOnEnterAnimation(),
-    a.bounceInRightOnEnterAnimation(),
-    a.fadeInOnEnterAnimation(),
-    a.flipOnEnterAnimation(),
-  ]
+  
 })
 export class PublicComponent implements OnInit {
 

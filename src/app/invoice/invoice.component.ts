@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { GetdataService } from '../getdata.service';
 import { SendFormsService } from '../send-forms.service';
-import * as a from 'angular-animations'
 import { Router } from '@angular/router';
 import { SendVendorsService } from '../send-vendors.service';
 import { Res } from './../vendor/res';
@@ -60,10 +59,6 @@ export class NgbdModalContent implements OnInit {
   selector: 'app-invoice',
   templateUrl: './invoice.component.html',
   styleUrls: ['./invoice.component.scss'],
-  animations:
-    [a.fadeInLeftOnEnterAnimation(),
-    a.bounceOutOnLeaveAnimation(),
-    a.bounceOnEnterAnimation()]
 })
 
 export class InvoiceComponent implements OnInit {

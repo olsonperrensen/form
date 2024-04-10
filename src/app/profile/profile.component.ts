@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import * as a from 'angular-animations';
+
 import { Location } from '@angular/common';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
-  animations: [
-    a.fadeInLeftOnEnterAnimation()
-  ]
 })
 export class ProfileComponent implements OnInit {
 

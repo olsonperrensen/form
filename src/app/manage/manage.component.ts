@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { elementAt, map, startWith } from 'rxjs/operators';
 import { GetdataService } from '../getdata.service';
 import { SendFormsService } from '../send-forms.service';
-import * as a from 'angular-animations'
 import { Router } from '@angular/router';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Location } from '@angular/common';
@@ -21,11 +20,7 @@ export interface SalesRep {
 @Component({
   selector: 'app-manage',
   templateUrl: './manage.component.html',
-  styleUrls: ['./manage.component.css'],
-  animations:
-    [a.fadeInLeftOnEnterAnimation(),
-    a.bounceOutOnLeaveAnimation(),
-    a.bounceOnEnterAnimation()]
+  styleUrls: ['./manage.component.css']
 })
 export class ManageComponent implements OnInit {
   salesRepDetails !: SalesRep[];

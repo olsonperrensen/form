@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, NgModel } from '@angular/forms';
 import { Router } from '@angular/router';
-import * as a from 'angular-animations';
+
 import { AuthService } from '../auth.service';
 import { SendVendorsService } from '../send-vendors.service';
 import { Res } from './res';
@@ -11,11 +11,7 @@ import { Location } from '@angular/common';
   selector: 'app-vendor',
   templateUrl: './vendor.component.html',
   styleUrls: ['./vendor.component.css'],
-  animations: [
-    a.fadeInLeftOnEnterAnimation(),
-    a.bounceOnEnterAnimation(),
-    a.bounceOutOnLeaveAnimation()
-  ]
+  
 })
 export class VendorComponent implements OnInit {
   isFormInvalid = false;

@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormControl, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import * as a from 'angular-animations';
 import dateFormat from "dateformat";
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -95,13 +94,7 @@ export class NgbdModalContent implements OnInit {
   selector: 'app-autocomplete-filter-example',
   templateUrl: './autocomplete-filter-example.component.html',
   styleUrls: ['./autocomplete-filter-example.component.scss'],
-  animations: [
-    a.fadeInLeftOnEnterAnimation(),
-    a.fadeInOnEnterAnimation(),
-    a.fadeInRightOnEnterAnimation(),
-    a.bounceOnEnterAnimation(),
-    a.bounceOutOnLeaveAnimation()
-  ]
+  
 })
 export class AutocompleteFilterExampleComponent implements OnInit {
 
@@ -202,7 +195,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     "Adriaan Arkeraats", "Arno DeJager", "Duncan DeWith", "Danielle Penninckx"];
   stanley_employees = ["Ken Leysen", "Martin Van Werkhoven", "Paul Kerkhoven", "Cedric Bicque",
     "Christian Fonteyn", "KlaasJan Bosgraaf", "Ammaar Basnoe", "Robert VanStraten", "Sven Pieters",
-    "Niek Nijland", "Robby Cattellion","Bert VanBael"];
+    "Niek Nijland", "Robby Cattellion", "Bert VanBael"];
 
   filteredOptions!: Observable<string[]>;
   filteredOptions2!: Observable<string[]>;
@@ -316,8 +309,8 @@ export class AutocompleteFilterExampleComponent implements OnInit {
             this.u_land = "België / Belgique"
             break;
           case "Bert VanBael":
-          this.u_land = "België / Belgique"
-          break;
+            this.u_land = "België / Belgique"
+            break;
           case "Marcel VandenBerge":
             this.u_land = "Nederland / Pays Bas"
             break;
@@ -574,7 +567,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
       this.isLand = true;
     }
   }
-  betalwijzig(){
+  betalwijzig() {
     this.isBetal = true;
   }
 
