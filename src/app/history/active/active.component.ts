@@ -1,113 +1,111 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { AuthService } from 'src/app/auth.service';
-import { GetdataService } from '../../getdata.service';
-import { Location } from '@angular/common';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { Location } from '@angular/common';
+import { GetdataService } from 'src/app/getdata.service';
+import { AuthService } from 'src/app/auth.service';
 
 export interface UserData {
   id: string;
-  requested_by: string;
-  datum: string;
-  company: string;
-  company_code: string;
-  short_text: string;
-  po_quantity: number;
-  overall_limit: string;
-  overall_limit_2: string;
-  overall_limit_3: string;
-  gr_execution_date: string;
-  sbu: string,
-  status: string,
-  gr: string,
-  invoice: string,
-  betaald: boolean
+  name: string;
+  progress: string;
+  fruit: string;
 }
 
+/** Constants used to fill up our data base. */
+const FRUITS: string[] = [
+  'blueberry',
+  'lychee',
+  'kiwi',
+  'mango',
+  'peach',
+  'lime',
+  'pomegranate',
+  'pineapple',
+];
+const NAMES: string[] = [
+  'Maia',
+  'Asher',
+  'Olivia',
+  'Atticus',
+  'Amelia',
+  'Jack',
+  'Charlotte',
+  'Theodore',
+  'Isla',
+  'Oliver',
+  'Isabella',
+  'Jasper',
+  'Cora',
+  'Levi',
+  'Violet',
+  'Arthur',
+  'Mia',
+  'Thomas',
+  'Elizabeth',
+];
 
+/**
+ * @title Data table with sorting, pagination, and filtering.
+ */
 @Component({
   selector: 'app-active',
   templateUrl: './active.component.html',
   styleUrls: ['./active.component.css'],
-
 })
-export class ActiveComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['id',
-    'requested_by',
-    'datum',
-    'company',
-    'company_code',
-    'short_text',
-    'po_quantity',
-    'overall_limit',
-    'gr_execution_date',
-    'sbu',
-    'status',
-    'gr',
-    'invoice',
-    'betaald'];
-  dataSource = new MatTableDataSource();
+export class ActiveComponent implements AfterViewInit {
+  displayedColumns: string[] = ['id', 'name', 'progress', 'fruit'];
+  dataSource: MatTableDataSource<UserData>;
 
-
-  // @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private getData: GetdataService, private authService: AuthService, private location: Location) { }
+  constructor(
+    private getData: GetdataService,
+    private authService: AuthService,
+    private location: Location
+  ) {
+    // Create 100 users
+    const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
 
-  users!: any;
-  isArchive = false;
-  isChoosing = true;
-  u_worker = this.authService.getLocalStorageCredentials()[1]
-  ngOnInit(): void {
-
-
-
-    // FETCH FROM DB
-    this.getData.getPO(this.u_worker.toUpperCase()).subscribe((res) => {
-      this.users = res;
-      // Assign the data to the data source for the table to render
-      this.dataSource = new MatTableDataSource(this.users);
-      this.dataSource.data.forEach((po: any) => {
-        po.overall_limit = (parseFloat(po.overall_limit) + parseFloat(po.overall_limit_2) + parseFloat(po.overall_limit_3)).toString()
-      });
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    })
-    document.body.style.backgroundImage = "url('./assets/blur.png')"
+    // Assign the data to the data source for the table to render
+    this.dataSource = new MatTableDataSource(users);
   }
 
   ngAfterViewInit() {
-
-  }
-
-  applyFilter(event: Event) {
-    // const filterValue = (event.target as HTMLInputElement).value;
-    // this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    // if (this.dataSource.paginator) {
-    //   this.dataSource.paginator.firstPage();
-    // }
-  }
-
-  payChange(event: any, row: any) {
-    this.getData.editBetaling({ u_ID: row.id, betaald: event.checked }).subscribe((res) => {
-      this.checkRes(res);
-      res == 200 ? event.source._inputElement.nativeElement.parentElement.parentElement.parentElement.parentElement.parentElement.remove() : undefined
-    })
-  }
-  checkRes(res: any) {
-    if (res == "500") {
-      alert("Could not process the request.");
-    }
-    else if (res == "200") {
-      alert("You have successfully edited the payment status of this PO.");
-    }
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   goBack(): void {
     this.location.back();
   }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+}
+
+/** Builds and returns a new User. */
+function createNewUser(id: number): UserData {
+  const name =
+    NAMES[Math.round(Math.random() * (NAMES.length - 1))] +
+    ' ' +
+    NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) +
+    '.';
+
+  return {
+    id: id.toString(),
+    name: name,
+    progress: Math.round(Math.random() * 100).toString(),
+    fruit: FRUITS[Math.round(Math.random() * (FRUITS.length - 1))],
+  };
 }

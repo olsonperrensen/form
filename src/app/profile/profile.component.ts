@@ -9,18 +9,19 @@ import { Location } from '@angular/common';
   styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
-
-  constructor(private authService: AuthService,
-    private location: Location) { }
+  constructor(private authService: AuthService, private location: Location) {}
   myControl6 = new UntypedFormControl();
   isEditing = false;
-  u_worker = this.authService.getLocalStorageCredentials()[1]
-  u_land = this.authService.getLocalStorageCredentials()[0]
-  u_merk = this.authService.getLocalStorageCredentials()[2]
-  u_email: any
+  u_worker!: any;
+  u_land!: any;
+  u_merk!: any;
+  u_email: any;
   ngOnInit(): void {
-    this.u_email = this.u_worker.split(" ")
-    this.u_email = `${this.u_email[0]}.${this.u_email[1]}@sbdinc.com`
+    this.u_worker = this.authService.getLocalStorageCredentials()[1];
+    this.u_land = this.authService.getLocalStorageCredentials()[0];
+    this.u_merk = this.authService.getLocalStorageCredentials()[2];
+    this.u_email = this.u_worker.split(' ');
+    this.u_email = `${this.u_email[0]}.${this.u_email[1]}@sbdinc.com`;
   }
   onUserEdit() {
     this.isEditing = !this.isEditing;
