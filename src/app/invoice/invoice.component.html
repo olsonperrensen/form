@@ -2,8 +2,7 @@
   <div class="row">
     <div class="col-xs-12">
       <form #f="ngForm" class="example-form">
-        <pre   *ngIf="isBackendDown"
-          style="color: red">Krijg je niks? Laad de pagina opnieuw... (F5)</pre>
+        <pre *ngIf="isBackendDown" style="color: red">Krijg je niks? Laad de pagina opnieuw... (F5)</pre>
         <div class="container">
           <div *ngIf="!wantsOne&&!wantsAll">
             <mat-grid-list cols="2" rowHeight="2:1">
@@ -36,7 +35,7 @@
           </div>
           <!-- PO -->
           <div *ngIf="wantsOne">
-            <mat-form-field  class="example-full-width" appearance="fill">
+            <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>PO Nr</mat-label>
               <input required type="text" placeholder="Pick one" aria-label="Number" matInput #klantnaam
                 [(ngModel)]="u_ID" name="u_ID" [formControl]="myControl3" [matAutocomplete]="auto3">
@@ -47,7 +46,7 @@
               </mat-autocomplete>
             </mat-form-field>
             <div *ngIf="isID">
-              <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal">
+              <mat-chip-listbox class="example-chip" cdkDropList cdkDropListOrientation="horizontal">
                 <mat-chip class="example-box" cdkDrag>
                   {{selectedPO.requested_by}}
                 </mat-chip>
@@ -83,7 +82,7 @@
                   </svg>
                   <h3 style="color:goldenrod;">{{postatus}}</h3>
                 </div>
-              </mat-chip-list>
+              </mat-chip-listbox>
               <mat-card-actions *ngIf="postatus!='Al gestuurd/Déjà envoyé'" class="whiteish">
                 <ngx-dropzone (change)="onFileSelected($event)">
                   <ngx-dropzone-label>Factuur inslepen / Déposez la facture</ngx-dropzone-label>
@@ -103,12 +102,11 @@
               <button
                 [disabled]="!selected_files.length || !isFormValidWithFile || isBezig || postatus=='Al gestuurd/Déjà envoyé'"
                 (click)="onSubmitDrag(u_ID)" mat-raised-button color="primary">Send</button>
-              <pre   *ngIf="isBezig"
-                style="color: white;background: black;">Bezig / Attendre quelques instants</pre>
+              <pre *ngIf="isBezig" style="color: white;background: black;">Bezig / Attendre quelques instants</pre>
             </div>
           </div>
           <div *ngIf="wantsAll">
-            <mat-form-field  class="example-full-width" appearance="fill">
+            <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>Choose all POs you want to send PDFs</mat-label>
               <mat-select [formControl]="myControl3_multiple" required multiple id="poNr" name="poNr"
                 [(ngModel)]="selectedIDs" #klantnaam>
@@ -130,8 +128,7 @@
               </mat-card-actions>
               <button [disabled]="!selected_files.length || !isFormValidWithFile || isBezig"
                 (click)="onSubmitDragMultiple(selectedIDs)" mat-raised-button color="primary">Send All</button>
-              <pre   *ngIf="isBezig"
-                style="color: white;background: black;">Bezig / Attendre quelques instants</pre>
+              <pre *ngIf="isBezig" style="color: white;background: black;">Bezig / Attendre quelques instants</pre>
             </div>
           </div>
         </div>
@@ -179,10 +176,8 @@
         <div *ngIf="fakemodalFailure" class="noFailure">
           <p>Uw document is te wazig of bevat geen PO.</p>
           <mat-card-actions>
-          <button
-            (click)="onPlakken(u_ID)" mat-raised-button color="primary">PO plakken</button>
-          <button
-            (click)="onUsrReset()" mat-raised-button color="accent">Wissel bestand</button>
+            <button (click)="onPlakken(u_ID)" mat-raised-button color="primary">PO plakken</button>
+            <button (click)="onUsrReset()" mat-raised-button color="accent">Wissel bestand</button>
           </mat-card-actions>
         </div>
       </mat-card>

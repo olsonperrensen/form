@@ -46,9 +46,9 @@ export class ActiveComponent implements OnInit, AfterViewInit {
     'gr',
     'invoice',
     'betaald'];
-  dataSource!: MatTableDataSource<UserData>;
+  // dataSource!: MatTableDataSource<UserData>;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  // @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private getData: GetdataService, private authService: AuthService, private location: Location) { }
@@ -61,18 +61,18 @@ export class ActiveComponent implements OnInit, AfterViewInit {
 
 
 
-    // FETCH FROM DB
-    this.getData.getPO(this.u_worker.toUpperCase()).subscribe((res) => {
-      this.users = res;
-      // Assign the data to the data source for the table to render
-      this.dataSource = new MatTableDataSource(this.users);
-      this.dataSource.data.forEach((po: any) => {
-        po.overall_limit = (parseFloat(po.overall_limit) + parseFloat(po.overall_limit_2) + parseFloat(po.overall_limit_3)).toString()
-      });
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    })
-    document.body.style.backgroundImage = "url('./assets/blur.png')"
+    // // FETCH FROM DB
+    // this.getData.getPO(this.u_worker.toUpperCase()).subscribe((res) => {
+    //   this.users = res;
+    //   // Assign the data to the data source for the table to render
+    //   this.dataSource = new MatTableDataSource(this.users);
+    //   this.dataSource.data.forEach((po: any) => {
+    //     po.overall_limit = (parseFloat(po.overall_limit) + parseFloat(po.overall_limit_2) + parseFloat(po.overall_limit_3)).toString()
+    //   });
+    //   this.dataSource.paginator = this.paginator;
+    //   this.dataSource.sort = this.sort;
+    // })
+    // document.body.style.backgroundImage = "url('./assets/blur.png')"
   }
 
   ngAfterViewInit() {
@@ -80,12 +80,12 @@ export class ActiveComponent implements OnInit, AfterViewInit {
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    // const filterValue = (event.target as HTMLInputElement).value;
+    // this.dataSource.filter = filterValue.trim().toLowerCase();
 
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+    // if (this.dataSource.paginator) {
+    //   this.dataSource.paginator.firstPage();
+    // }
   }
 
   payChange(event: any, row: any) {
