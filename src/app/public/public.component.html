@@ -1,7 +1,7 @@
 <div class="container-fluid datepicker w-25 p-3">
   <div class="row">
     <div class="col-xs-12">
-      <h3 [@flipOnEnter]>
+      <h3>
         Internal login
       </h3>
       <p>Please log in :</p>
@@ -12,22 +12,22 @@
   <div class="row">
     <div class="col-xs-12 form-group">
       <form #f="ngForm" (ngSubmit)="onSubmit(f)">
-        <div [@bounceInLeftOnEnter] class="forms-inputs mb-4">
+        <div class="forms-inputs mb-4">
           <span>Email or username</span>
-          <input class="form-control" type="text" [(ngModel)]="u_username" name="username" placeholder="Jan.Peeters@domein.com"
-            required>
+          <input class="form-control" type="text" [(ngModel)]="u_username" name="username"
+            placeholder="Jan.Peeters@domein.com" required>
         </div>
-        <div [@bounceInRightOnEnter] class="forms-inputs mb-4">
+        <div class="forms-inputs mb-4">
           <span>Password</span>
           <input class="form-control" type="password" ngModel name="password" placeholder="************" required>
           <a id="aresetLink" (click)="onRecoverPWD(pwdHelpTxt)" style="color:gray;float:right" routerLink="/">
-            <p [@fadeInOnEnter] class="ffs">{{pwdHelpTxt}}</p>
+            <p class="ffs">{{pwdHelpTxt}}</p>
           </a>
         </div>
         <div class="mb-3">
           <button class="btn btn-dark w-100" [disabled]="!f.valid">Login</button>
-          <p [@fadeInOnEnter] *ngIf="isLoggedIn" class="ffs">Logged in. <em>Redirecting...</em></p>
-          <p [@fadeInOnEnter] *ngIf="isInvalid" class="ffs">You do not have access. <em>Redirecting...</em></p>
+          <p *ngIf="isLoggedIn" class="ffs">Logged in. <em>Redirecting...</em></p>
+          <p *ngIf="isInvalid" class="ffs">You do not have access. <em>Redirecting...</em></p>
         </div>
       </form>
     </div>

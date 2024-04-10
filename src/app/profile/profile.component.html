@@ -41,7 +41,7 @@
                                 <p class="text-muted mb-0">{{u_worker}}</p>
                             </div>
                             <div *ngIf="isEditing" class="col-sm-9">
-                                <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+                                <mat-form-field  class="example-full-width" appearance="fill">
                                     <mat-label>{{'q2'|translate}}</mat-label>
                                     <input required type="text" placeholder="Pick one" aria-label="Number" matInput
                                         [(ngModel)]="u_worker" name="u_worker" [formControl]="myControl6">

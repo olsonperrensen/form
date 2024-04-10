@@ -1,4 +1,4 @@
-<div [@fadeInLeftOnEnter] *ngIf="!sent" class="container">
+<div  *ngIf="!sent" class="container">
   <div class="row">
     <div class="col-xs-12">
       <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="example-form">
@@ -6,12 +6,12 @@
         <div class="container">
           <p><em style="font-size:xx-small;">{{'subtitleKey'|translate}}{{ipAddress}}</em></p>
         </div>
-        <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+        <mat-form-field  class="example-full-width" appearance="fill">
           <mat-label>{{'q2'|translate}}</mat-label>
           <input required type="text" placeholder="Pick one" aria-label="Number" matInput [(ngModel)]="u_worker"
             name="u_worker" [formControl]="myControl6">
         </mat-form-field>
-        <mat-form-field [@fadeInLeftOnEnter] *ngIf="isWorker" class="example-full-width" appearance="fill">
+        <mat-form-field  *ngIf="isWorker" class="example-full-width" appearance="fill">
           <mat-label>{{'q3'|translate}}</mat-label>
           <input required type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl3"
             [matAutocomplete]="auto3" [(ngModel)]="u_merk" name="u_merk">
@@ -21,7 +21,7 @@
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
-        <mat-form-field [@fadeInLeftOnEnter] style="width: 100%" appearance="fill">
+        <mat-form-field  style="width: 100%" appearance="fill">
           <mat-label>{{'q4'|translate}}</mat-label>
           <mat-select matInput [(ngModel)]="u_land" (ngModelChange)="landtype()" name="u_land" required>
             <mat-option *ngFor="let land of filteredOptions5 | async" [value]="land">
@@ -29,7 +29,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+        <mat-form-field  class="example-full-width" appearance="fill">
           <mat-label>{{'q5'|translate}}</mat-label>
           <input required type="text" placeholder="Pick one" aria-label="Number" matInput #klantnaam
             [(ngModel)]="u_klantnaam" (ngModelChange)="klant()" name="u_klantnaam" [formControl]="myControl2"
@@ -40,12 +40,12 @@
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
-        <pre [@bounceOnEnter] [@bounceOutOnLeave] *ngIf="isBackendDown"
+        <pre   *ngIf="isBackendDown"
           style="color: red">Krijg je niks? Laad de pagina opnieuw... (F5)</pre>
         <pre style="color: red; font-weight:bold"
           *ngIf="isNewVendor&&isLand&&isVerkoper&&isWorker">"{{u_klantnaam}}" <br> {{'h1'|translate}} <a routerLink="/vendor">{{'h2'|translate}}</a>. </pre>
         <pre style="color: red;" *ngIf="isOutdatedVendor&&isLand&&isVerkoper&&isWorker">{{'h3'|translate}}</pre>
-        <mat-form-field *ngIf="isKlant&&isLand&&isVerkoper&&isWorker" [@fadeInLeftOnEnter] class="example-full-width"
+        <mat-form-field *ngIf="isKlant&&isLand&&isVerkoper&&isWorker"  class="example-full-width"
           appearance="fill">
           <mat-label>
             <div *ngIf="!split">{{'q6'|translate}}</div>
@@ -54,13 +54,13 @@
           <input min="50" max="89000" required type="number" placeholder="Write here" aria-label="Number" matInput
             [(ngModel)]="u_bedrag" [formControl]="myControl9" name="u_bedrag">
           <div class="d-grid gap-2 d-md-block mt-3">
-            <button *ngIf="!isOmschrijving" [@fadeInLeftOnEnter] style="margin: 20px;" (click)="enableSplitPo()"
+            <button *ngIf="!isOmschrijving"  style="margin: 20px;" (click)="enableSplitPo()"
               [ngClass]="[!split ? 'btn-dark' : 'btn-outline-dark']" class="btn" type="button">
               <span *ngIf="!split">SPLIT</span><span *ngIf="split">NO SPLIT</span></button>
           </div>
         </mat-form-field>
         <div *ngIf="split">
-          <mat-form-field [@fadeInLeftOnEnter] style="width: 100%" appearance="fill">
+          <mat-form-field  style="width: 100%" appearance="fill">
             <mat-label>Hoeveel splits?</mat-label>
             <mat-select matInput [(ngModel)]="u_split_n" (ngModelChange)="split_n()" name="u_split_n" required>
               <mat-option *ngFor="let n of filteredOptionsSplitN | async" [value]="n">
@@ -69,12 +69,12 @@
             </mat-select>
           </mat-form-field>
           <div *ngIf="split2||split3" class="mybg2 text-white">
-            <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+            <mat-form-field  class="example-full-width" appearance="fill">
               <mat-label class="text-danger">Tweede bedrag</mat-label>
               <input min="50" max="89000" required type="number" placeholder="Write here" aria-label="Number" matInput
                 [(ngModel)]="u_bedrag_2" [formControl]="myControl9_2" name="u_bedrag_2">
             </mat-form-field>
-            <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+            <mat-form-field  class="example-full-width" appearance="fill">
               <mat-label class="text-danger">Tweede unit</mat-label>
               <input required type="text" placeholder="Pick one" aria-label="Number" matInput
                 [formControl]="myControl3_2" [matAutocomplete]="auto3_2" [(ngModel)]="u_merk_2" name="u_merk_2">
@@ -86,12 +86,12 @@
             </mat-form-field>
           </div>
           <div *ngIf="split3" class="mybg3 text-white">
-            <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+            <mat-form-field  class="example-full-width" appearance="fill">
               <mat-label class="text-danger">Derde bedrag</mat-label>
               <input min="50" max="89000" required type="number" placeholder="Write here" aria-label="Number" matInput
                 [(ngModel)]="u_bedrag_3" [formControl]="myControl9_3" name="u_bedrag_3">
             </mat-form-field>
-            <mat-form-field [@fadeInLeftOnEnter] class="example-full-width" appearance="fill">
+            <mat-form-field  class="example-full-width" appearance="fill">
               <mat-label class="text-danger">Derde unit</mat-label>
               <input required type="text" placeholder="Pick one" aria-label="Number" matInput
                 [formControl]="myControl3_3" [matAutocomplete]="auto3_3" [(ngModel)]="u_merk_3" name="u_merk_3">
@@ -104,7 +104,7 @@
           </div>
         </div>
         <div *ngIf="!split">
-          <mat-form-field *ngIf="isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker" [@fadeInLeftOnEnter]
+          <mat-form-field *ngIf="isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker" 
             class="example-full-width" appearance="fill">
             <mat-label>{{'q7'|translate}}</mat-label>
             <input required type="text" placeholder="Write here" aria-label="Number" matInput
@@ -118,7 +118,7 @@
           </mat-form-field>
           <mat-form-field 
           *ngIf="isOmschrijving&&isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker" 
-          [@fadeInLeftOnEnter] style="width: 100%" appearance="fill">
+           style="width: 100%" appearance="fill">
             <mat-label>Betaalmethode</mat-label>
             <mat-select (ngModelChange)="betalwijzig()" matInput [(ngModel)]="u_betal" name="u_betal" required>
               <mat-option *ngFor="let methode of filteredOptions55 | async" [value]="methode">
@@ -126,7 +126,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field [@fadeInLeftOnEnter] *ngIf="isOmschrijving&&isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker&&isBetal"
+          <mat-form-field  *ngIf="isOmschrijving&&isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker&&isBetal"
             style="width: 100%" matTooltip="Telt voor afleveringsdatum van de afspraak" matTooltipPosition="left"
             appearance="fill">
             <mat-label>{{'q8'|translate}}</mat-label>
@@ -143,7 +143,7 @@
             (click)="onCancel(f)">{{'q10'|translate}}</button>
         </div>
         <div *ngIf="split">
-          <mat-form-field *ngIf="isBedrag_2&&isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker" [@fadeInLeftOnEnter]
+          <mat-form-field *ngIf="isBedrag_2&&isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker" 
             class="example-full-width" appearance="fill">
             <mat-label>{{'q7'|translate}}</mat-label>
             <input required type="text" placeholder="Write here" aria-label="Number" matInput
@@ -151,7 +151,7 @@
             <pre>Tot 38 tekens</pre>
           </mat-form-field>
 
-          <mat-form-field [@fadeInLeftOnEnter]
+          <mat-form-field 
             *ngIf="isOmschrijving&&isBedrag_2&&isBedrag&&isKlant&&isLand&&isVerkoper&&isWorker" style="width: 100%"
             matTooltip="Telt voor afleveringsdatum van de afspraak" matTooltipPosition="left" appearance="fill">
             <mat-label>{{'q8'|translate}}</mat-label>
