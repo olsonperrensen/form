@@ -1,13 +1,20 @@
 .example-card {
-    max-width: 400px;
-    margin-bottom: 8px;
-  }
-  .child
-  {
-    float:left;
-    padding: 10px;
-    margin: 20% 10px;
-  }
+  max-width: 400px;
+  margin-bottom: 8px;
+  padding: 16px; /* Increased padding */
+}
+
+.child {
+  float: left;
+  padding: 20px; /* Increased padding */
+  margin: 20% 20px; /* Increased margin */
+}
+
+a {
+  text-decoration: none; /* Remove default blue styling */
+  color: inherit; /* Inherit text color */
+}
+
 .logout-button {
   position: fixed;
   bottom: 24px;
