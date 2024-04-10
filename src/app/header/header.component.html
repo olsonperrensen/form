@@ -1,7 +1,10 @@
 <header>
-  <button mat-button class="menu-button" (click)="sidenav.toggle()">
-    <mat-icon>{{ isMenuOpen ? 'menu_open' : 'menu' }}</mat-icon>
-  </button>
+  <div class="example-button-container">
+    <button mat-fab color="warn" aria-label="Example icon button with a home icon" (click)="sidenav.toggle()">
+      <mat-icon>{{ isMenuOpen ? 'menu_open' : 'menu' }}</mat-icon>
+    </button>
+  </div>
+
 
   <a class="lang" routerLink="/homepage"><span (click)="onLang()"><img src="https://i.ibb.co/bHFdVXW/NL.png"> / <img
         src="https://i.ibb.co/p1dH7rY/FR.png" alt=""></span></a>
@@ -18,7 +21,9 @@
     <a mat-button routerLink="/vendor-history">Vendor History</a>
     <a mat-button routerLink="/profile">Profile</a>
     <a mat-button routerLink="/login">Manage</a>
-    <a mat-button routerLink="/changelog"><pre>Changelog</pre></a>
+    <a mat-button routerLink="/changelog">
+      <pre>Changelog</pre>
+    </a>
   </mat-sidenav>
   <mat-sidenav-content>
     <main>

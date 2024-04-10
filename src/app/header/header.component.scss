@@ -54,9 +54,11 @@ header {
 
     a {
       display: block;
-      padding: 6px 24px;
+      padding: 21px 28px;
       width: 100%;
       text-align: left;
+      height: auto;
+      line-height: normal;
     }
   }
 
@@ -65,7 +67,6 @@ header {
 
   }
 }
-
 // 
 
 img {
