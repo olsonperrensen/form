@@ -32,6 +32,7 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { AuthInterceptor } from './auth.interceptor';
 import { ChangelogComponent } from './changelog/changelog.component';
 import { FilterpoComponent } from './history/filterpo/filterpo.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -81,7 +82,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [AuthService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
-    JwtHelperService, AuthGuardService],
+    JwtHelperService, AuthGuardService, provideAnimationsAsync()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
