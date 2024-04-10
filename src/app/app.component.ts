@@ -1,5 +1,7 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { inject } from '@vercel/analytics';
+
 @Component({
   selector: 'ngbd-modal-content',
   template: `
@@ -16,9 +18,9 @@ import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
   `
 })
 export class NgbdModalContent {
-  @Input() name:any;
+  @Input() name: any;
 
-  constructor(public activeModal: NgbActiveModal) {}
+  constructor(public activeModal: NgbActiveModal) { }
 }
 
 @Component({
@@ -28,7 +30,9 @@ export class NgbdModalContent {
 })
 
 export class AppComponent {
-  constructor(private modalService: NgbModal) {}
+  constructor(private modalService: NgbModal) {
+    inject()
+  }
 
   open() {
     const modalRef = this.modalService.open(NgbdModalContent);
