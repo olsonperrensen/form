@@ -1,14 +1,14 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableModule } from '@angular/material/table';
 import { AuthService } from 'src/app/auth.service';
 import { GetdataService } from '../../getdata.service';
 import { UntypedFormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { Location } from '@angular/common';
 
@@ -35,7 +35,7 @@ export interface UserData {
   selector: 'app-filterpo',
   templateUrl: './filterpo.component.html',
   styleUrls: ['./filterpo.component.css'],
- providers: [
+  providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { showError: true },
@@ -67,12 +67,12 @@ export class FilterpoComponent implements OnInit, AfterViewInit {
     'gr',
     'invoice',
     'betaald'];
-  dataSource!: MatTableDataSource<UserData>;
+  dataSource!: MatTableModule<UserData>;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginatorModule) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private getData: GetdataService, private location: Location,private authService: AuthService, private _formBuilder: UntypedFormBuilder) { }
+  constructor(private getData: GetdataService, private location: Location, private authService: AuthService, private _formBuilder: UntypedFormBuilder) { }
 
   users!: any;
   isArchive = false;
@@ -106,7 +106,7 @@ export class FilterpoComponent implements OnInit, AfterViewInit {
       this.users = res;
       // Assign the data to the data source for the table to render
       this.dataSource = new MatTableDataSource(this.users);
-      this.dataSource.data.forEach(po => {
+      this.dataSource.data.forEach((po: any) => {
         po.overall_limit = (parseFloat(po.overall_limit) + parseFloat(po.overall_limit_2) + parseFloat(po.overall_limit_3)).toString()
       });
       this.dataSource.paginator = this.paginator;

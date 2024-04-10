@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableModule } from '@angular/material/table';
 import { AuthService } from 'src/app/auth.service';
 import { GetdataService } from '../../getdata.service';
 import { Location } from '@angular/common';
@@ -66,7 +66,7 @@ export class ActiveComponent implements OnInit, AfterViewInit {
       this.users = res;
       // Assign the data to the data source for the table to render
       this.dataSource = new MatTableDataSource(this.users);
-      this.dataSource.data.forEach(po => {
+      this.dataSource.data.forEach((po: any) => {
         po.overall_limit = (parseFloat(po.overall_limit) + parseFloat(po.overall_limit_2) + parseFloat(po.overall_limit_3)).toString()
       });
       this.dataSource.paginator = this.paginator;
