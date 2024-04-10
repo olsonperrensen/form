@@ -38,7 +38,7 @@ const CCEMAILS = new Map<string, any>();
   id="cc1"
   (change)="store($event)"
   aria-label="Recipient's username" aria-describedby="basic-addon2">
-  <span class="input-group-text" id="basic-addon2">@sbdinc.com</span>
+  <span class="input-group-text" id="basic-addon2">&#64;sbdinc.com</span>
 </div>
 <div class="input-group mb-3 cc2group">
   <input type="text" 
@@ -47,7 +47,7 @@ const CCEMAILS = new Map<string, any>();
   id='cc2'
   (change)="store($event)"
   aria-label="Recipient's username" aria-describedby="basic-addon2">
-  <span class="input-group-text" id="basic-addon2">@sbdinc.com</span>
+  <span class="input-group-text" id="basic-addon2">&#64;sbdinc.com</span>
 </div>
 		</div>
 		<div class="modal-footer">
