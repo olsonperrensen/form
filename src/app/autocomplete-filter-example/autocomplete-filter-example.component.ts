@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, NgForm } from '@angular/forms';
+import { UntypedFormControl, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as a from 'angular-animations';
@@ -148,21 +148,21 @@ export class AutocompleteFilterExampleComponent implements OnInit {
   split2 = false;
   split3 = false;
 
-  myControl = new FormControl();
-  myControl2 = new FormControl();
-  myControl3 = new FormControl();
-  myControl3_2 = new FormControl();
-  myControl3_3 = new FormControl();
-  myControl4 = new FormControl();
-  myControl5 = new FormControl();
-  myControl55 = new FormControl();
-  myControl6 = new FormControl();
-  myControl8 = new FormControl();
-  myControl9 = new FormControl();
-  myControl9_2 = new FormControl();
-  myControl9_3 = new FormControl();
-  myControl10 = new FormControl();
-  myControlsplitn = new FormControl();
+  myControl = new UntypedFormControl();
+  myControl2 = new UntypedFormControl();
+  myControl3 = new UntypedFormControl();
+  myControl3_2 = new UntypedFormControl();
+  myControl3_3 = new UntypedFormControl();
+  myControl4 = new UntypedFormControl();
+  myControl5 = new UntypedFormControl();
+  myControl55 = new UntypedFormControl();
+  myControl6 = new UntypedFormControl();
+  myControl8 = new UntypedFormControl();
+  myControl9 = new UntypedFormControl();
+  myControl9_2 = new UntypedFormControl();
+  myControl9_3 = new UntypedFormControl();
+  myControl10 = new UntypedFormControl();
+  myControlsplitn = new UntypedFormControl();
 
   options2!: string[];
   options3: string[] = ["DeWALT – LENOX – BOSTITCH", "STANLEY", "FACOM"];

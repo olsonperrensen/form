@@ -4,7 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from 'src/app/auth.service';
 import { GetdataService } from '../../getdata.service';
-import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -72,7 +72,7 @@ export class FilterpoComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private getData: GetdataService, private location: Location,private authService: AuthService, private _formBuilder: FormBuilder) { }
+  constructor(private getData: GetdataService, private location: Location,private authService: AuthService, private _formBuilder: UntypedFormBuilder) { }
 
   users!: any;
   isArchive = false;

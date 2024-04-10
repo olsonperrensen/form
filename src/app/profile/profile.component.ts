@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import * as a from 'angular-animations';
 import { Location } from '@angular/common';
@@ -15,7 +15,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(private authService: AuthService,
     private location: Location) { }
-  myControl6 = new FormControl();
+  myControl6 = new UntypedFormControl();
   isEditing = false;
   u_worker = this.authService.getLocalStorageCredentials()[1]
   u_land = this.authService.getLocalStorageCredentials()[0]

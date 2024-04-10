@@ -1,5 +1,5 @@
 import { Component, NgModule, OnInit } from '@angular/core';
-import { FormControl, NgModel } from '@angular/forms';
+import { UntypedFormControl, NgModel } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { elementAt, map, startWith } from 'rxjs/operators';
 import { GetdataService } from '../getdata.service';
@@ -30,11 +30,11 @@ export interface SalesRep {
 export class ManageComponent implements OnInit {
   salesRepDetails !: SalesRep[];
   secret = false;
-  myControl1 = new FormControl();
-  myControl2 = new FormControl();
-  myControl3 = new FormControl();
-  myControl4 = new FormControl();
-  myControl5 = new FormControl();
+  myControl1 = new UntypedFormControl();
+  myControl2 = new UntypedFormControl();
+  myControl3 = new UntypedFormControl();
+  myControl4 = new UntypedFormControl();
+  myControl5 = new UntypedFormControl();
   filteredOptions2!: Observable<string[]>;
   filteredOptions3!: Observable<string[]>;
   filteredOptions4!: Observable<string[]>;

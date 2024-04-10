@@ -1,5 +1,5 @@
 import { Component, Input, NgModule, OnInit } from '@angular/core';
-import { FormControl, NgForm, NgModel } from '@angular/forms';
+import { UntypedFormControl, NgForm, NgModel } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { GetdataService } from '../getdata.service';
@@ -91,8 +91,8 @@ export class InvoiceComponent implements OnInit {
   selected_files: File[] = [];
   pdfDoc!: PDFDocument;
 
-  myControl3 = new FormControl();
-  myControl3_multiple = new FormControl();
+  myControl3 = new UntypedFormControl();
+  myControl3_multiple = new UntypedFormControl();
   filteredOptions3!: Observable<string[]>;
   options3 !: string[]
   res !: Res;
