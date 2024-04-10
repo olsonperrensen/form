@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { inject } from '@vercel/analytics';
+import { injectSpeedInsights } from '@vercel/speed-insights/*';
 
 @Component({
   selector: 'ngbd-modal-content',
@@ -32,6 +33,7 @@ export class NgbdModalContent {
 export class AppComponent {
   constructor(private modalService: NgbModal) {
     inject()
+    injectSpeedInsights()
   }
 
   open() {
