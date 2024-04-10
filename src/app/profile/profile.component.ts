@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import * as a from 'angular-animations';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -12,7 +13,8 @@ import * as a from 'angular-animations';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,
+    private location: Location) { }
   myControl6 = new FormControl();
   isEditing = false;
   u_worker = this.authService.getLocalStorageCredentials()[1]
@@ -29,5 +31,8 @@ export class ProfileComponent implements OnInit {
   onUserApply() {
     this.isEditing = !this.isEditing;
     // TO-DO
+  }
+  goBack(): void {
+    this.location.back();
   }
 }

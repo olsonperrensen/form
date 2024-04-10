@@ -7,6 +7,7 @@ import { SendFormsService } from '../send-forms.service';
 import * as a from 'angular-animations'
 import { Router } from '@angular/router';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { Location } from '@angular/common';
 
 export interface SalesRep {
   id: string;
@@ -70,7 +71,7 @@ export class ManageComponent implements OnInit {
   modify_counter = 0;
   clientsRes!: any
 
-  constructor(private getData: GetdataService, private sendForms: SendFormsService, private router: Router) { }
+  constructor(private getData: GetdataService, private location: Location,private sendForms: SendFormsService, private router: Router) { }
 
   ngOnInit(): void {
     this.options2 = [];
@@ -362,5 +363,8 @@ export class ManageComponent implements OnInit {
       this.u_klantnaam = ""
       this.u_new_klantnaam = ""
     }
+  }
+  goBack(): void {
+    this.location.back();
   }
 }

@@ -4,6 +4,14 @@
   width: 100%;
 }
 
+.terug-button {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  border-radius: 50%;
+  z-index: 100;
+}
+
 img {
   width: 316px;
   height: 448px;

@@ -86,6 +86,10 @@ export class GetdataService {
     return this.http.post('https://formemail.herokuapp.com/archive_po', { requested_by: req })
   }
 
+  getFilterPO(req: any,jaar:any,biz:any) {
+    return this.http.post('https://formemail.herokuapp.com/filterpo', { requested_by: req, jaar:jaar,biz:biz })
+  }
+
   getLog() {
     return this.http.get("https://formemail.herokuapp.com/log")
   }
