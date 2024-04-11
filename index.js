@@ -1244,6 +1244,7 @@ app.delete("/salesrep", authenticateToken, async (req, res) => {
 });
 
 app.post("/vendor", upload.single("v_file"), authenticateToken, (req, res) => {
+  // TODO est_annual spend insertion into DB
   let db_id = 0;
   client.query(
     `INSERT INTO VENDOR(
@@ -1304,18 +1305,61 @@ app.post("/vendor", upload.single("v_file"), authenticateToken, (req, res) => {
       ],
       cc: `${sales_man[0]}.${sales_man[1]}@sbdinc.com`,
       subject: `Vendor Aanvraag #${db_id} ${subject_klant[0]}`,
-      html: `
-      <ul>Requested By: ${req.body.v_worker}</ul>
-      <ul>Klant: ${req.body.v_klant}</ul>
-      <ul>Klant adres: ${req.body.v_adres}</ul>
-      <ul>Klant email: ${req.body.v_email}</ul>
-      <ul>Klant GSM: ${req.body.v_gsm}</ul>
-      <ul>Klant BTW Nr.: ${req.body.v_vat}</ul>
-      <ul>Klant Contactpersoon: ${req.body.v_contact}</ul>
-      <ul>Klant Nr.: ${req.body.v_klantnr}</ul>
-      <ul>PDF Bestand: ${req.file.originalname}</ul>
-      <ul>Reason: Level 4 vendor, for customer: ${req.body.v_klant} (${req.body.v_klantnr}), forum contribution</ul>
-      <ul>Special instructions: payment terms- payable 30 days after invoice, for customer: ${req.body.v_klant} (${req.body.v_klantnr}) level4 vendor</ul>`,
+      html: `<div style="background-color: #f8f9fa; padding: 20px;">
+      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333;">
+        <h2 style="color: #007bff;">Request Details</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="font-weight: bold; padding: 10px;">Requested By:</td>
+            <td style="padding: 10px;">${req.body.v_worker}</td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold; padding: 10px;">Customer:</td>
+            <td style="padding: 10px;">${req.body.v_klant}</td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold; padding: 10px;">Customer Address:</td>
+            <td style="padding: 10px;">${req.body.v_adres}</td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold; padding: 10px;">Customer Email:</td>
+            <td style="padding: 10px;">${req.body.v_email}</td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold; padding: 10px;">Customer Phone:</td>
+            <td style="padding: 10px;">${req.body.v_gsm}</td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold; padding: 10px;">Customer VAT No.:</td>
+            <td style="padding: 10px;">${req.body.v_vat}</td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold; padding: 10px;">Estimated Annual Spend:</td>
+            <td style="padding: 10px;">${req.body.v_estimated_annual_spend}</td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold; padding: 10px;">Customer Contact:</td>
+            <td style="padding: 10px;">${req.body.v_contact}</td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold; padding: 10px;">Customer No.:</td>
+            <td style="padding: 10px;">${req.body.v_klantnr}</td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold; padding: 10px;">PDF File:</td>
+            <td style="padding: 10px;">${req.file.originalname}</td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold; padding: 10px;">Reason:</td>
+            <td style="padding: 10px;">Level 4 vendor, for customer: ${req.body.v_klant} (${req.body.v_klantnr}), forum contribution</td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold; padding: 10px;">Special Instructions:</td>
+            <td style="padding: 10px;">payment terms- payable 30 days after invoice, for customer: ${req.body.v_klant} (${req.body.v_klantnr}) level4 vendor</td>
+          </tr>
+        </table>
+      </div>
+    </div>`,
       attachments: [
         {
           // utf-8 string as an attachment
