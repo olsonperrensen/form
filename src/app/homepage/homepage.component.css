@@ -9,7 +9,18 @@
   padding: 20px; /* Increased padding */
   margin: 20% 20px; /* Increased margin */
 }
-
+.welcome-message {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  background-color: white;
+  color: black;
+  border-radius: 16px;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  z-index: 1;
+}
 a {
   text-decoration: none; /* Remove default blue styling */
   color: inherit; /* Inherit text color */
