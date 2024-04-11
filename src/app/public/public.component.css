@@ -47,3 +47,23 @@ input.ng-invalid.ng-touched,
 .invalid {
   border: 1px solid red;
 }
+#myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+	min-height:100%;
+}
+
+/* Optional styling */
+@media (min-aspect-ratio:16/9){
+	#myVideo{
+    height:auto;
+    width :100%;
+	}
+}
+@media (max-aspect-ratio :16/9){
+	#myVideo{
+	height:auto; 
+	width :auto;}
+}
