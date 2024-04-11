@@ -1,26 +1,45 @@
 .example-form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
-  }
-  
-  .example-full-width {
-    width: 100%;
-  }
-  *
-  {
-    text-align: center;
-    margin:0 auto
-  }
-  form
-{   
-    padding: 30px;
-    background: white;
+  min-width: 150px;
+  max-width: 800px;
+  width: 100%;
 }
-.terug-button {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  border-radius: 50%;
-  z-index: 100;
+
+.example-full-width {
+  width: 100%;
+}
+.header-container {
+  background-color: #000;
+  color: #fff;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.header-container h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.header-container p {
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+/* Rest of the CSS */
+
+* {
+  text-align: center;
+  margin: 0 auto;
+}
+
+form {
+  padding: 30px;
+  background: white;
+}
+
+.file-upload-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }

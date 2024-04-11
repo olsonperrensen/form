@@ -1,57 +1,89 @@
-<div  class="container">
-  <div class="row">
-    <div class="col-xs-12">
-      <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="example-form">
-        <h1 class="lead">{{'w3'|translate}}</h1>
-        <div class="container">
-          <p><em style="font-size:xx-small;">{{'w4'|translate}}</em></p>
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Ik ben...</mat-label>
-            <input required matInput placeholder="Ex. Jan Peeters" [(ngModel)]="v_worker" name="v_worker">
-          </mat-form-field>
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Klant</mat-label>
-            <input required matInput placeholder="Ex. MEGAPOOL SOLUTIONS LIMITED BV" [(ngModel)]="v_klant" name="v_klant">
-          </mat-form-field>
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Adres</mat-label>
-            <input required matInput [(ngModel)]="v_adres" name="v_adres" placeholder="Ex. Zandstraat 227B Gent 9000">
-          </mat-form-field>
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>E-mail</mat-label>
-            <input type="email" required matInput [(ngModel)]="v_email" name="v_email" placeholder="Ex. sven.vdb@megapool.com">
-          </mat-form-field>
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Telefoonnr</mat-label>
-            <input min="31000000000" max="352999999999" type="number" required matInput [(ngModel)]="v_gsm" name="v_gsm" placeholder="Ex. 32421775301">
-          </mat-form-field>
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>VAT No.</mat-label>
-            <input required [(ngModel)]="v_vat" name="v_vat" matInput placeholder="Ex. BE0400823011">
-          </mat-form-field>
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Naam contactpersoon</mat-label>
-            <input required [(ngModel)]="v_contact" name="v_contact" matInput placeholder="Ex. Sven Van Den Berg">
-          </mat-form-field>
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Klant Nr.</mat-label>
-            <input min="100000" max="8999999" type="number" required [(ngModel)]="v_klantnr" name="v_klantnr" matInput placeholder="Ex. 1304862">
-          </mat-form-field>
-          <input required #csvInput (change)="onFileSelected($event)" hidden="true" type="file" onclick="this.value=null"
-            accept=".pdf, .jpg, .jpeg, .bmp, .gif, .png, .tiff, .tif" />
-          <button type="button" style="width: 100%" mat-raised-button color="accent"
-            (click)="csvInput.click()">Getekende factuur als PDF uploaden</button>
-          <hr style="margin: 20px">
-          <button [disabled]="!isFormValidWithFile||!f.valid" type="submit" mat-raised-button color="accent">{{'q9'|translate}}</button>
-          <button style="margin-left:9px" [disabled]="!f.valid" type="button" mat-stroked-button color="warn"
-            (click)="onCancel()">{{'q10'|translate}}</button>
-            <pre   *ngIf="isFormInvalid"
-          style="color: red">Gelieve alle velden in te vullen met de juiste gegevens.</pre>
-          <pre   *ngIf="isBezig"
-                style="color: white;background: black;margin-top: 8px;">Bezig / Attendre quelques instants</pre>
-        </div>
-      </form>
-    </div>
+<div class="container">
+  <div class="header-container">
+    <h1>Vendor Registration</h1>
+    <p>Please fill out the following form to register as a vendor.</p>
   </div>
+
+  <form #f="ngForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Business Information</h2>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Company Name</mat-label>
+          <input required matInput [(ngModel)]="v_klant" name="v_klant">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Address</mat-label>
+          <input required matInput [(ngModel)]="v_adres" name="v_adres">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>VAT No.</mat-label>
+          <input required [(ngModel)]="v_vat" name="v_vat" matInput>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <h2>Contact Details</h2>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Email</mat-label>
+          <input type="email" required matInput [(ngModel)]="v_email" name="v_email">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Phone Number</mat-label>
+          <input min="31000000000" max="352999999999" type="number" required matInput [(ngModel)]="v_gsm" name="v_gsm">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Contact Person</mat-label>
+          <input required [(ngModel)]="v_contact" name="v_contact" matInput>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Financial Information</h2>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Estimated Annual Spend</mat-label>
+          <input min="1000" max="90000" type="number" required [(ngModel)]="v_estimated_annual_spend"
+            name="v_estimated_annual_spend" matInput>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Customer No.</mat-label>
+          <input min="100000" max="8999999" type="number" required [(ngModel)]="v_klantnr" name="v_klantnr" matInput>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <h2>Supporting Documents</h2>
+        <div class="file-upload-container">
+          <button type="button" mat-raised-button color="accent" (click)="csvInput.click()">
+            Upload Signed Invoice (PDF)
+          </button>
+          <input required #csvInput (change)="onFileSelected($event)" hidden="true" type="file"
+            onclick="this.value=null" accept=".pdf, .jpg, .jpeg, .bmp, .gif, .png, .tiff, .tif" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <button [disabled]="!isFormValidWithFile||!f.valid" type="submit" mat-raised-button color="accent">
+          Submit
+        </button>
+        <button style="margin-left:9px" [disabled]="!f.valid" type="button" mat-stroked-button color="warn"
+          (click)="onCancel()">
+          Cancel
+        </button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <pre *ngIf="isFormInvalid" style="color: red">
+          Please fill in all fields with the correct information.
+        </pre>
+        <pre *ngIf="isBezig" style="color: white;background: black;margin-top: 8px;">
+          Processing, please wait...
+        </pre>
+      </div>
+    </div>
+  </form>
 </div>
-<app-multi></app-multi>
