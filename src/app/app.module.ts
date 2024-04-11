@@ -1,4 +1,8 @@
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpClientModule,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -33,6 +37,7 @@ import { AuthInterceptor } from './auth.interceptor';
 import { ChangelogComponent } from './changelog/changelog.component';
 import { FilterpoComponent } from './history/filterpo/filterpo.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MultiComponent } from './multi/multi.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -57,7 +62,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ProfileComponent,
     LogComponent,
     ChangelogComponent,
-    FilterpoComponent
+    FilterpoComponent,
+    MultiComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,16 +79,20 @@ export function HttpLoaderFactory(http: HttpClient) {
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
+        deps: [HttpClient],
+      },
     }),
     NgxDropzoneModule,
-    CommonModule
+    CommonModule,
   ],
-  providers: [AuthService,
+  providers: [
+    AuthService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
-    JwtHelperService, AuthGuardService, provideAnimationsAsync()],
-  bootstrap: [AppComponent]
+    JwtHelperService,
+    AuthGuardService,
+    provideAnimationsAsync(),
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

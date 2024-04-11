@@ -1,0 +1,22 @@
+<button mat-fab color="accent" class="terug-button" [matMenuTriggerFor]="menu">
+    <mat-icon>apps</mat-icon>
+</button>
+
+<mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Go Back</span>
+    </button>
+    <button mat-menu-item (click)="toggleDarkMode()">
+        <mat-icon>brightness_4</mat-icon>
+        <span>Toggle Dark Mode</span>
+    </button>
+    <button mat-menu-item (click)="logOut()">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+    </button>
+    <button mat-menu-item (click)="openChatbot()">
+        <mat-icon>chat</mat-icon>
+        <span>Chatbot</span>
+    </button>
+</mat-menu>
