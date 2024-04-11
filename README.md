@@ -1,6 +1,10 @@
-# Form
+# LandingPage
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.6.
+This is a basic landing page with Angular 17.
+
+Based in: https://www.youtube.com/watch?v=O26fDEnAukY
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.3.
 
 ## Development server
 
