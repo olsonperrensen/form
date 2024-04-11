@@ -54,6 +54,33 @@ input.ng-invalid.ng-touched,
   min-width: 100%;
 	min-height:100%;
 }
+.video-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+}
+.video-container video {
+  width:100vw;height:auto;  
+  object-fit :cover;
+  
+  }
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+video::-webkit-media-controls {
+  display: none !important;
+}
+
+video::-webkit-media-controls-enclosure {
+  display: none !important;
+}
 
 /* Optional styling */
 @media (min-aspect-ratio:16/9){
