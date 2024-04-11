@@ -1,54 +1,49 @@
-* {
-    background: white
+.container-fluid {
+  background-color: transparent;
+}
+
+.col-12.col-md-6.col-lg-4 {
+  background-color: white;
 }
 
 .card {
-    border: none;
-    height: 320px
+  border: none;
+  border-radius: 0.5rem;
 }
 
-.forms-inputs {
-    position: relative
+.form-group {
+  position: relative;
 }
 
-.forms-inputs span {
-    position: absolute;
-    top: -18px;
-    left: 10px;
-    background-color: #fff;
-    padding: 5px 10px;
-    font-size: 15px
+.form-group label {
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  background-color: #fff;
+  padding: 0 5px;
+  font-size: 14px;
 }
 
-.forms-inputs input {
-    height: 50px;
-    border: 2px solid #eee
+.form-control {
+  height: 50px;
+  border: 2px solid #eee;
 }
 
-.forms-inputs input:focus {
-    box-shadow: none;
-    outline: none;
-    border: 2px solid #000
+.form-control:focus {
+  box-shadow: none;
+  outline: none;
+  border: 2px solid #000;
 }
 
 .btn {
-    height: 50px
+  height: 50px;
 }
 
-.success-data {
-    display: flex;
-    flex-direction: column
+.small {
+  font-size: 0.875rem;
 }
 
-.bxs-badge-check {
-    font-size: 90px
-}
-.ffs
-{
-    font-size: small;
-    text-align: end;
-}
-input.ng-invalid.ng-touched, .invalid
-{
-    border: 1px solid red;
+input.ng-invalid.ng-touched,
+.invalid {
+  border: 1px solid red;
 }

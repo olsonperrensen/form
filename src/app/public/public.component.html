@@ -1,41 +1,36 @@
-<div class="container-fluid datepicker w-25 p-3">
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="text-center mb-4">
-        <img src="https://www.stanleyblackanddecker.com/themes/custom/stanley_default/logo.svg" alt="Logo"
-          class="img-fluid" style="max-width: 150px;">
+<div class="container-fluid py-5" style="background-color: transparent;">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-6 col-lg-4" style="background-color: white;">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="text-center mb-4">
+            <img src="https://www.stanleyblackanddecker.com/themes/custom/stanley_default/logo.svg" alt="Logo"
+              class="img-fluid" style="max-width: 150px;">
+          </div>
+          <h3 class="text-center mb-4">Welcome back</h3>
+          <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+            <div class="form-group mb-4">
+              <label for="username">Email or username</label>
+              <input type="text" id="username" class="form-control" [(ngModel)]="u_username" name="username"
+                placeholder="Jan.Peeters@domein.com" required>
+            </div>
+            <div class="form-group mb-4">
+              <label for="password">Password</label>
+              <input type="password" id="password" class="form-control" ngModel name="password"
+                placeholder="************" required>
+            </div>
+            <div class="text-center mb-4">
+              <a id="aresetLink" (click)="onRecoverPWD(pwdHelpTxt)" class="btn btn-link text-muted" routerLink="/">{{
+                pwdHelpTxt }}</a>
+            </div>
+            <div class="text-center">
+              <button class="btn btn-dark px-5" [disabled]="!f.valid">Login</button>
+            </div>
+            <p *ngIf="isLoggedIn" class="small text-center mt-3">Logged in. <em>Redirecting...</em></p>
+            <p *ngIf="isInvalid" class="small text-center mt-3">You do not have access. <em>Redirecting...</em></p>
+          </form>
+        </div>
       </div>
-      <h3>
-        Welcome back
-      </h3>
-    </div>
-  </div>
-  <hr>
-  <div class="row">
-    <div class="col-xs-12 form-group">
-      <form #f="ngForm" (ngSubmit)="onSubmit(f)">
-        <div class="forms-inputs mb-4">
-          <span>Email or username</span>
-          <input class="form-control" type="text" [(ngModel)]="u_username" name="username"
-            placeholder="Jan.Peeters@domein.com" required>
-        </div>
-        <div class="forms-inputs mb-4">
-          <span>Password</span>
-          <input class="form-control" type="password" ngModel name="password" placeholder="************" required>
-          <a id="aresetLink" (click)="onRecoverPWD(pwdHelpTxt)" style="color:gray;float:right" routerLink="/">
-            <p class="ffs">{{pwdHelpTxt}}</p>
-          </a>
-        </div>
-        <div class="mb-3">
-          <button class="btn btn-dark w-100" [disabled]="!f.valid">Login</button>
-          <p *ngIf="isLoggedIn" class="ffs">Logged in. <em>Redirecting...</em></p>
-          <p *ngIf="isInvalid" class="ffs">You do not have access. <em>Redirecting...</em></p>
-        </div>
-      </form>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col xs 12">
     </div>
   </div>
 </div>
