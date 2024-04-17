@@ -66,7 +66,7 @@ export class InvoiceService {
         <div>Country: {{ invoice?.company_code }}</div>
         <div>Text: {{ invoice?.short_text }}</div>
         <div>Total: {{ invoice?.overall_limit }}</div>
-        <div>GR: {{ invoice?.gr_execution_date }}</div>
+        <div>GR: {{ invoice?.gr }}</div>
         <div>SBU: {{ invoice?.sbu }}</div>
         <!-- <div>Time since invoice: {{ timeSinceInvoice(invoice?.invoice) }}</div> -->
       </div>
