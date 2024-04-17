@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Injectable,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {
   animate,
@@ -7,14 +13,83 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Location } from '@angular/common';
 import { AuthService } from 'src/app/auth.service';
 import { GetdataService } from 'src/app/getdata.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { UtilsService } from 'src/app/utils.service';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class InvoiceService {
+  constructor(private http: HttpClient) {}
+
+  getInvoice(id: string): Observable<any> {
+    // Fetch invoice data based on the provided ID
+    return this.http.get(
+      `https://as2.ftcdn.net/jpg/02/28/53/67/1024W_F_228536791_oMBqhaWvBcdl4JA4JNtgkqVCS7QT2LPh_NW1.jpg`
+    );
+  }
+}
+
+@Component({
+  selector: 'ngbd-modal-invoice-content',
+  template: `<div class="modal-header">
+      <h4 class="modal-title">Invoice Details</h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="activeModal.dismiss('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <div class="example-element-diagram">
+        <img
+          class="d-block mx-auto"
+          mat-card-image
+          src="assets/invoice-icon.png"
+          alt="Photo of a Shiba Inu"
+        />
+      </div>
+      <div class="example-element-description">
+        <div>ID: {{ invoice?.id }}</div>
+        <div>Requested By: {{ invoice?.requested_by }}</div>
+        <div>Date: {{ invoice?.datum }}</div>
+        <div>Business: {{ invoice?.company }}</div>
+        <div>Country: {{ invoice?.company_code }}</div>
+        <div>Text: {{ invoice?.short_text }}</div>
+        <div>Total: {{ invoice?.overall_limit }}</div>
+        <div>GR: {{ invoice?.gr_execution_date }}</div>
+        <div>SBU: {{ invoice?.sbu }}</div>
+        <!-- <div>Time since invoice: {{ timeSinceInvoice(invoice?.invoice) }}</div> -->
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-dark"
+        (click)="activeModal.close('Close click')"
+      >
+        Close
+      </button>
+    </div>`,
+})
+export class NgbdModalInvoiceContent {
+  invoice: any;
+  timeSinceInvoice!: (invoiceDate: string) => string;
+
+  constructor(
+    public activeModal: NgbActiveModal,
+    public utilsService: UtilsService
+  ) {}
+}
 
 /**
  * @title Table with expandable rows
@@ -54,8 +129,20 @@ export class ActiveComponent implements OnInit, AfterViewInit {
     private getData: GetdataService,
     private authService: AuthService,
     private location: Location,
-    private _liveAnnouncer: LiveAnnouncer
+    private _liveAnnouncer: LiveAnnouncer,
+    private modalService: NgbModal,
+    private invoiceService: InvoiceService,
+    public utilsService: UtilsService
   ) {}
+
+  openInvoiceModal(row: UserData) {
+    const modalRef = this.modalService.open(NgbdModalInvoiceContent);
+    this.invoiceService.getInvoice(row.id).subscribe((invoice) => {
+      modalRef.componentInstance.invoice = invoice;
+      // modalRef.componentInstance.timeSinceInvoice =
+      //   this.utilsService.timeSinceInvoice(row.invoice);
+    });
+  }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -102,37 +189,6 @@ export class ActiveComponent implements OnInit, AfterViewInit {
   expandedElement!: UserData | null;
   goBack(): void {
     this.location.back();
-  }
-  timeSinceInvoice(invoiceDate: string): string {
-    if (invoiceDate === 'Pending') {
-      return invoiceDate;
-    }
-
-    const parts = invoiceDate.split(' ');
-    let dateTimeString = '';
-
-    // Check if the input contains "Sent to AP at"
-    if (parts.includes('Sent')) {
-      // Extract the date and time from the input
-      const dateTimeIndex = parts.indexOf('at') + 1;
-      dateTimeString = parts.slice(dateTimeIndex).join(' ');
-    } else {
-      // Assume the input is just the date
-      dateTimeString = invoiceDate;
-    }
-
-    const invoiceDateTime = new Date(dateTimeString);
-    const currentDateTime = new Date();
-    const timeDiff = currentDateTime.getTime() - invoiceDateTime.getTime();
-
-    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor(
-      (timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
-    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-
-    return `${days} days, ${hours} hrs, ${minutes} mins, ${seconds} secs`;
   }
 
   notifyOverduePayment() {
