@@ -35,6 +35,27 @@ import { MatSort, Sort } from '@angular/material/sort';
   ],
 })
 export class ActiveComponent implements OnInit, AfterViewInit {
+  dummy() {
+    alert('Coming soon. Nothing changed.');
+  }
+  dataSource!: MatTableDataSource<UserData>;
+  users: any;
+  u_worker: any;
+  columnsToDisplay = [
+    'id',
+    'requested_by',
+    'datum',
+    'company',
+    'company_code',
+    'short_text',
+    'overall_limit',
+    'gr_execution_date',
+    'sbu',
+    'status',
+    'gr',
+    'invoice',
+    'betaald',
+  ];
   constructor(
     private getData: GetdataService,
     private authService: AuthService,
@@ -44,14 +65,14 @@ export class ActiveComponent implements OnInit, AfterViewInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
+  ngAfterViewInit() {}
   /** Announce the change in sort state for assistive technology. */
   announceSortChange(sortState: Sort) {
     // This example uses English messages. If your application supports
@@ -64,99 +85,63 @@ export class ActiveComponent implements OnInit, AfterViewInit {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
-  ngOnInit(): void {}
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  columnsToDisplay = ['name', 'weight'];
+  ngOnInit(): void {
+    // FETCH FROM DB
+    this.u_worker = this.authService.getLocalStorageCredentials()[1];
+    this.getData.getPO(this.u_worker.toUpperCase()).subscribe((res) => {
+      this.users = res;
+      // Assign the data to the data source for the table to render
+      this.dataSource = new MatTableDataSource<UserData>(this.users);
+      this.dataSource.data.forEach((po) => {
+        po.overall_limit = (
+          parseFloat(po.overall_limit) +
+          parseFloat(po.overall_limit_2) +
+          parseFloat(po.overall_limit_3)
+        ).toString();
+      });
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+    document.body.style.backgroundImage = "url('./assets/blur.png')";
+  }
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
-  expandedElement!: PeriodicElement | null;
+  expandedElement!: UserData | null;
   goBack(): void {
     this.location.back();
   }
+  timeSinceInvoice(invoiceDate: string): string {
+    const invoiceDateTime = new Date(invoiceDate);
+    const currentDateTime = new Date();
+    const timeDiff = currentDateTime.getTime() - invoiceDateTime.getTime();
+    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+      (timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+    return `${days} days, ${hours} hrs, ${minutes} mins, ${seconds} secs`;
+  }
+
+  notifyOverduePayment() {
+    alert('Coming soon. Nothing changed.');
+  }
 }
 
-export interface PeriodicElement {
-  name: string;
-  weight: number;
-  description: string;
+export interface UserData {
+  id: string;
+  requested_by: string;
+  datum: string;
+  company: string;
+  company_code: string;
+  short_text: string;
+  po_quantity: number;
+  overall_limit: string;
+  overall_limit_2: string;
+  overall_limit_3: string;
+  gr_execution_date: string;
+  sbu: string;
+  status: string;
+  gr: string;
+  invoice: string;
+  betaald: boolean;
 }
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    name: 'Hydrogen',
-    weight: 1.0079,
-
-    description: `Hydrogen is a chemical element with symbol H and atomic number 1. With a standard
-        atomic weight of 1.008, hydrogen is the lightest element on the periodic table.`,
-  },
-  {
-    name: 'Helium',
-    weight: 4.0026,
-
-    description: `Helium is a chemical element with symbol He and atomic number 2. It is a
-        colorless, odorless, tasteless, non-toxic, inert, monatomic gas, the first in the noble gas
-        group in the periodic table. Its boiling point is the lowest among all the elements.`,
-  },
-  {
-    name: 'Lithium',
-    weight: 6.941,
-
-    description: `Lithium is a chemical element with symbol Li and atomic number 3. It is a soft,
-        silvery-white alkali metal. Under standard conditions, it is the lightest metal and the
-        lightest solid element.`,
-  },
-  {
-    name: 'Beryllium',
-    weight: 9.0122,
-
-    description: `Beryllium is a chemical element with symbol Be and atomic number 4. It is a
-        relatively rare element in the universe, usually occurring as a product of the spallation of
-        larger atomic nuclei that have collided with cosmic rays.`,
-  },
-  {
-    name: 'Boron',
-    weight: 10.811,
-
-    description: `Boron is a chemical element with symbol B and atomic number 5. Produced entirely
-        by cosmic ray spallation and supernovae and not by stellar nucleosynthesis, it is a
-        low-abundance element in the Solar system and in the Earth's crust.`,
-  },
-  {
-    name: 'Carbon',
-    weight: 12.0107,
-
-    description: `Carbon is a chemical element with symbol C and atomic number 6. It is nonmetallic
-        and tetravalent—making four electrons available to form covalent chemical bonds. It belongs
-        to group 14 of the periodic table.`,
-  },
-  {
-    name: 'Nitrogen',
-    weight: 14.0067,
-
-    description: `Nitrogen is a chemical element with symbol N and atomic number 7. It was first
-        discovered and isolated by Scottish physician Daniel Rutherford in 1772.`,
-  },
-  {
-    name: 'Oxygen',
-    weight: 15.9994,
-
-    description: `Oxygen is a chemical element with symbol O and atomic number 8. It is a member of
-         the chalcogen group on the periodic table, a highly reactive nonmetal, and an oxidizing
-         agent that readily forms oxides with most elements as well as with other compounds.`,
-  },
-  {
-    name: 'Fluorine',
-    weight: 18.9984,
-
-    description: `Fluorine is a chemical element with symbol F and atomic number 9. It is the
-        lightest halogen and exists as a highly toxic pale yellow diatomic gas at standard
-        conditions.`,
-  },
-  {
-    name: 'Neon',
-    weight: 20.1797,
-
-    description: `Neon is a chemical element with symbol Ne and atomic number 10. It is a noble gas.
-        Neon is a colorless, odorless, inert monatomic gas under standard conditions, with about
-        two-thirds the density of air.`,
-  },
-];
