@@ -46,14 +46,8 @@ export class ActiveComponent implements OnInit, AfterViewInit {
     'requested_by',
     'datum',
     'company',
-    'company_code',
-    'short_text',
     'overall_limit',
-    'gr_execution_date',
-    'sbu',
     'status',
-    'gr',
-    'invoice',
     'betaald',
   ];
   constructor(

@@ -1,10 +1,15 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
-      <mat-form-field>
-        <mat-label>Filter</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
-      </mat-form-field>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <mat-form-field>
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+        </mat-form-field>
+        <button mat-icon-button class="terug-button" (click)="goBack()">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
       <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8" matSort
         (matSortChange)="announceSortChange($event)">
 
@@ -14,7 +19,7 @@
         </ng-container>
 
         <ng-container matColumnDef="requested_by">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>By</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Requested By</th>
           <td mat-cell *matCellDef="let element"> {{element.requested_by}} </td>
         </ng-container>
 
@@ -24,48 +29,18 @@
         </ng-container>
 
         <ng-container matColumnDef="company">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Biz</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Business</th>
           <td mat-cell *matCellDef="let element"> {{element.company}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="company_code">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Land</th>
-          <td mat-cell *matCellDef="let element"> {{element.company_code}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="short_text">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Text</th>
-          <td mat-cell *matCellDef="let element"> {{element.short_text}} </td>
-        </ng-container>
-
         <ng-container matColumnDef="overall_limit">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>SUM</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Total</th>
           <td mat-cell *matCellDef="let element"> {{element.overall_limit}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="gr_execution_date">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>GR</th>
-          <td mat-cell *matCellDef="let element"> {{element.gr_execution_date}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="sbu">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>SBU</th>
-          <td mat-cell *matCellDef="let element"> {{element.sbu}} </td>
         </ng-container>
 
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
           <td mat-cell *matCellDef="let element"> {{element.status}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="gr">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>GR</th>
-          <td mat-cell *matCellDef="let element"> {{element.gr}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="invoice">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Invoice</th>
-          <td mat-cell *matCellDef="let element"> {{element.invoice}} </td>
         </ng-container>
 
         <ng-container matColumnDef="betaald">
@@ -88,21 +63,23 @@
           <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
             <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
               <div class="example-element-diagram">
-                <div class="example-element-name"> {{element.name}} </div>
-                <div class="example-element-weight"> {{element.weight}} </div>
-                <img src="{{element.invoice}}" alt="Invoice" width="200" height="200">
+                <img src="assets/invoice-icon.png" alt="Invoice" width="64" height="64">
               </div>
               <div class="example-element-description">
-                {{element.description}}
+                <div>ID: {{element.id}}</div>
+                <div>Requested By: {{element.requested_by}}</div>
+                <div>Date: {{element.datum}}</div>
+                <div>Business: {{element.company}}</div>
+                <div>Country: {{element.company_code}}</div>
+                <div>Text: {{element.short_text}}</div>
+                <div>Total: {{element.overall_limit}}</div>
+                <div>GR: {{element.gr_execution_date}}</div>
+                <div>SBU: {{element.sbu}}</div>
                 <div>Time since invoice: {{ timeSinceInvoice(element.invoice) }}</div>
-              </div>
-              <div class="example-element-description">
-                {{element.description}}
-                <button (click)="notifyOverduePayment()">Notify Overdue Payment</button>
-              </div>
-              <div class="example-element-description">
-                {{element.description}}
-                <button (click)="dummy()">Cancel PO</button>
+                <div>
+                  <button (click)="notifyOverduePayment()">Notify Overdue Payment</button>
+                  <button (click)="dummy()">Cancel PO</button>
+                </div>
               </div>
             </div>
           </td>
