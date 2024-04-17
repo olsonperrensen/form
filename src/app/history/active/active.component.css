@@ -52,12 +52,20 @@ tr.example-element-row:not(.example-expanded-row):active {
 }
 
 .example-element-diagram {
-  min-width: 80px;
-  border: 2px solid black;
-  padding: 8px;
+  min-width: 128px;
+  border: 2px solid #007bff;
+  padding: 16px;
   font-weight: lighter;
   margin: 8px 0;
-  height: 104px;
+  height: 160px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.example-element-diagram:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.05);
+  transition: all 0.3s ease-in-out;
 }
 
 .example-element-symbol {

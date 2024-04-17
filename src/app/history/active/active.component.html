@@ -63,7 +63,7 @@
           <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
             <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
               <div (click)="openInvoiceModal(element)" class="example-element-diagram">
-                <img src="assets/invoice-icon.png" alt="Invoice" width="64" height="64">
+                <img src="assets/invoice-icon.png" alt="Invoice" width="128" height="128">
               </div>
               <div class="example-element-description">
                 <div>ID: {{element.id}}</div>
