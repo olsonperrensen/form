@@ -75,6 +75,7 @@
                 <div>Total: {{element.overall_limit}}</div>
                 <div>GR: {{element.gr_execution_date}}</div>
                 <div>SBU: {{element.sbu}}</div>
+                <div>Invoice: {{element.invoice}}</div>
                 <div>Time since invoice: {{ timeSinceInvoice(element.invoice) }}</div>
                 <div>
                   <button (click)="notifyOverduePayment()">Notify Overdue Payment</button>
