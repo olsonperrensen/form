@@ -117,7 +117,7 @@ export class NgbdModalContent {
     }
   }
 
-  constructor(public activeModal: NgbActiveModal) {}
+  constructor(public activeModal: NgbActiveModal) { }
 }
 
 @Component({
@@ -134,7 +134,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     private authService: AuthService,
     private modalService: NgbModal,
     private location: Location
-  ) {}
+  ) { }
   open() {
     if (!this.split) {
       const myPromise = new Promise((resolve, reject) => {
@@ -263,6 +263,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     'Arno DeJager',
     'Duncan DeWith',
     'Danielle Penninckx',
+    "Riya Jogani",
   ];
   stanley_employees = [
     'Ken Leysen',
@@ -551,6 +552,9 @@ export class AutocompleteFilterExampleComponent implements OnInit {
           case 'Ludwig Vanhaute':
             this.u_land = 'België / Belgique';
             break;
+          case 'Riya Jogani':
+            this.u_land = 'België / Belgique';
+            break;
           case 'Danielle Penninckx':
             this.u_land = 'België / Belgique';
             break;
@@ -777,10 +781,10 @@ export class AutocompleteFilterExampleComponent implements OnInit {
       this.u_merk == 'DeWALT – LENOX – BOSTITCH'
         ? (pre = 'D~')
         : this.u_merk == 'STANLEY'
-        ? (pre = 'S~')
-        : this.u_merk == 'FACOM'
-        ? (pre = 'F~')
-        : (pre = 'error~');
+          ? (pre = 'S~')
+          : this.u_merk == 'FACOM'
+            ? (pre = 'F~')
+            : (pre = 'error~');
 
       this.myJSONForm = {
         timestamp: dateFormat(now, 'dddd, mmmm dS, yyyy, h:MM:ss TT'),
