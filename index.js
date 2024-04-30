@@ -164,6 +164,7 @@ let managers = [
   [{ NAME: "BERT VANBAEL", MANAGER: "KEN LEYSEN" }],
   [{ NAME: "ROBBY CATTELLION", MANAGER: "KEN LEYSEN" }],
   [{ NAME: "LUDWIG VANHAUTE", MANAGER: "HILDE VERBEEK" }],
+  [{ NAME: 'RIYA JOGANI', MANAGER: 'PIET VERSTRAETE' }],
   [{ NAME: "DANIELLE PENNINCKX", MANAGER: "PIET VERSTRAETE" }],
   [{ NAME: "ERIC NIEUWMANS", MANAGER: "PATRICK DIEPENBACH" }],
 ];
@@ -233,16 +234,13 @@ app.get("/log", authenticateToken, async (req, res) => {
           .split(" ")
           .map((n) => n[0])
           .join("")}\t${row.manager
-          .split(" ")
-          .map((n) => n[0])
-          .join("")}\tPRO\t${sbu}\t${row.datum.split(" ")[0]}\t${
-          row.datum.split(" ")[0].split("/")[0]
-        }\t${row.company.split(" ").at(-1)}\t${row.company}\t${
-          row.short_text
+            .split(" ")
+            .map((n) => n[0])
+            .join("")}\tPRO\t${sbu}\t${row.datum.split(" ")[0]}\t${row.datum.split(" ")[0].split("/")[0]
+        }\t${row.company.split(" ").at(-1)}\t${row.company}\t${row.short_text
         }\tYES\t${String(row.overall_limit).replace(".", ",")}\t${String(
           row.overall_limit
-        ).replace(".", ",")}\t${row.status}\t${row.gr}\t\t\t\t${
-          row.invoice !== "Pending" ? row.invoice.split(" ")[8] : row.invoice
+        ).replace(".", ",")}\t${row.status}\t${row.gr}\t\t\t\t${row.invoice !== "Pending" ? row.invoice.split(" ")[8] : row.invoice
         }\n`
       );
     }
@@ -688,9 +686,8 @@ app.post("/login", async (req, res) => {
     console.log(tmp_credentials);
     console.log(`Decrypted: ${tmp_credentials[3].toUpperCase()}`);
 
-    const queryText = `select id, username, naam, sbu, land from users where username = '${tmp_credentials[3].toUpperCase()}' and password = '${
-      tmp_credentials[7]
-    }'`;
+    const queryText = `select id, username, naam, sbu, land from users where username = '${tmp_credentials[3].toUpperCase()}' and password = '${tmp_credentials[7]
+      }'`;
     const result = await query(queryText);
 
     if (result.rowCount < 1) {
@@ -895,12 +892,10 @@ app.post(
         pmt = "Unspecified. Consult.";
       }
 
-      const updateQuery = `UPDATE po SET invoice = '${
-        req.body.u_fnr
-      } Sent to AP at 
-      ${date.format(new Date(), "YYYY/MM/DD HH:mm:ss")}' WHERE status = '${
-        req.body.u_ID
-      }'`;
+      const updateQuery = `UPDATE po SET invoice = '${req.body.u_fnr
+        } Sent to AP at 
+      ${date.format(new Date(), "YYYY/MM/DD HH:mm:ss")}' WHERE status = '${req.body.u_ID
+        }'`;
 
       await client.query(updateQuery);
 
@@ -1057,9 +1052,8 @@ app.put("/po", authenticateToken, async (req, res) => {
       cc: `students.benelux@sbdinc.com`,
       subject: `PO #${req.body.u_ID} ${po_shortxt} ${tmp_company_po[1]} ${tmp_company_po[2]}`,
       html: `
-      <p class=MsoNormal>PO <b><span style='font-size:13.5pt;font-family:"Arial",sans-serif;color:navy'>${
-        req.body.new_client
-      }<o:p></o:p></span></b></p><p class=MsoNormal><o:p>&nbsp;</o:p></p><p class=MsoNormal><o:p>&nbsp;</o:p></p><p class=MsoNormal><span lang=NL>Met vriendelijke groeten / Bien à vous<o:p></o:p></span></p><p class=MsoNormal><span lang=NL><o:p>&nbsp;</o:p></span></p><p class=MsoNormal><span lang=NL>Students Benelux<o:p></o:p></span></p>
+      <p class=MsoNormal>PO <b><span style='font-size:13.5pt;font-family:"Arial",sans-serif;color:navy'>${req.body.new_client
+        }<o:p></o:p></span></b></p><p class=MsoNormal><o:p>&nbsp;</o:p></p><p class=MsoNormal><o:p>&nbsp;</o:p></p><p class=MsoNormal><span lang=NL>Met vriendelijke groeten / Bien à vous<o:p></o:p></span></p><p class=MsoNormal><span lang=NL><o:p>&nbsp;</o:p></span></p><p class=MsoNormal><span lang=NL>Students Benelux<o:p></o:p></span></p>
       <hr>
       <ul>Requested by: ${po_guy}</ul>
       <ul>Timestamp: ${po_datum}</ul>
