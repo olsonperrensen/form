@@ -167,6 +167,8 @@ let managers = [
   [{ NAME: 'RIYA JOGANI', MANAGER: 'PIET VERSTRAETE' }],
   [{ NAME: "DANIELLE PENNINCKX", MANAGER: "PIET VERSTRAETE" }],
   [{ NAME: "ERIC NIEUWMANS", MANAGER: "PATRICK DIEPENBACH" }],
+  [{ NAME: "FREDERIC VANNIEUWENHOVEN", MANAGER: "JEAN-FRANCOIS FORTON" }],
+  [{ NAME: "BEN LIEKENS", MANAGER: "JEAN-FRANCOIS FORTON" }],
 ];
 let android = [];
 let android_BASE_URL = "https://randomuser.me/api/portraits/";
