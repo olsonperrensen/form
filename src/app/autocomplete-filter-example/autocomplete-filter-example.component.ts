@@ -246,6 +246,8 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     'Ivo Schouten',
     'Eric Nieuwmans',
     'Ludwig Vanhaute',
+    'Frederic Vannieuwenhoven',
+    'Ben Liekens',
   ];
   facom_employees = [
     'Piet Verstraete',
@@ -556,6 +558,12 @@ export class AutocompleteFilterExampleComponent implements OnInit {
             this.u_land = 'België / Belgique';
             break;
           case 'Danielle Penninckx':
+            this.u_land = 'België / Belgique';
+            break;
+          case 'Frederic Vannieuwenhoven':
+            this.u_land = 'België / Belgique';
+            break;
+          case 'Ben Liekens':
             this.u_land = 'België / Belgique';
             break;
           default:
