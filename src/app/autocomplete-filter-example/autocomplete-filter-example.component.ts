@@ -282,6 +282,7 @@ export class AutocompleteFilterExampleComponent implements OnInit {
     'Bert VanBael',
     'Nico Hulshof',
     'Geraud Courouble',
+    'Michael Soenen',
   ];
 
   filteredOptions!: Observable<string[]>;
@@ -416,6 +417,9 @@ export class AutocompleteFilterExampleComponent implements OnInit {
             this.u_land = 'Nederland / Pays Bas';
             break;
           case 'Geraud Courouble':
+            this.u_land = 'België / Belgique';
+            break;
+          case 'Michael Soenen':
             this.u_land = 'België / Belgique';
             break;
           case 'Marcel VandenBerge':
